@@ -1,4 +1,4 @@
-sudo: true
+sudo: required
 language: python
 python:
     - "2.7"
@@ -29,7 +29,7 @@ cache:
 before_install:
     - export NUM_THREADS=4
     - export SCRIPTS=./scripts/travis
-    - export CONDA_DIR="$TOOLS_DIR/miniconda$PYTHON_VERSION"
+    - export CONDA_DIR="$TOOLS_DIR/miniconda"
 
 install:
     - deactivate

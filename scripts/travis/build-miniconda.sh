@@ -2,7 +2,7 @@
 # than using pip for everything).
 export PATH=$CONDA_DIR/bin:$PATH
 
-rm -r $CONDA_DIR
+#rm -rf $CONDA_DIR
 # clear any cached conda (see #3786), this is true for any public repository!
 if [ ! -d $CONDA_DIR ]; then
     if [ "$PYTHON_VERSION" -eq "3" ]; then
