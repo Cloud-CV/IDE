@@ -1,9 +1,7 @@
-language:
-    python
-sudo:
-    false
+sudo: true
+language: python
 python:
-    - '2.7'
+    - "2.7"
 
 
 compiler:
@@ -22,6 +20,7 @@ cache:
     pip: true
     custom_install: true
     apt: true
+    sudo: required
     directories:
     - $TOOLS_DIR/miniconda
     - $TOOLS_DIR/opencv
