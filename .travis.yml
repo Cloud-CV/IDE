@@ -19,12 +19,9 @@ env:
     - WITH_IO = true
 
 cache:
-    pip:
-        true
-    custom_install:
-        true
-    apt:
-        true
+    pip: true
+    custom_install: true
+    apt: true
     directories:
     - $TOOLS_DIR/miniconda
     - $TOOLS_DIR/opencv
