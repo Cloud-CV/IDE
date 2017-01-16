@@ -11,7 +11,7 @@ compiler:
 
 env:
     global:
-    - DJANGO_SETTINGS_MODULE = "ide.settings"
+    - DJANGO_SETTINGS_MODULE="ide.settings"
     # Caffe
     - WITH_CUDA = false
     - WITH_CMAKE = true
@@ -26,47 +26,39 @@ cache:
     apt:
         true
     directories:
-    - $TOOLS_DIR / miniconda
-    - $TOOLS_DIR / opencv
-    - $TOOLS_DIR / caffe
+    - $TOOLS_DIR/miniconda
+    - $TOOLS_DIR/opencv
+    - $TOOLS_DIR/caffe
 
 before_install:
-    - export NUM_THREADS = 4
-    - export SCRIPTS = . / scripts / travis
-    - export CONDA_DIR = "$TOOLS_DIR/miniconda$PYTHON_VERSION"
+    - export NUM_THREADS=4
+    - export SCRIPTS=./scripts/travis
+    - export CONDA_DIR="$TOOLS_DIR/miniconda$PYTHON_VERSION"
 
 install:
     - deactivate
-    - sudo apt - get update
-    - sudo apt - get install - y software - properties - common
-    - bash $SCRIPTS / build - miniconda.sh
+    - sudo apt-get update
+    - sudo apt-get install -y software-properties-common
+    - bash $SCRIPTS/build-miniconda.sh
     - export PATH = "$CONDA_DIR/bin:$PATH"
     - echo $PATH
-    - hash - r
-    - conda config - -set always_yes yes - -set changeps1 no
-    - conda update - q conda
-    - conda info - a
-    - echo $(python - c "import sys; print sys.path")
-    - pip install - -upgrade pip
-    - pip install - r requirements.txt
-    - pip install python - coveralls
+    - hash -r
+    - conda config --set always_yes yes --set changeps1 no
+    - conda update -q conda
+    - conda info -a
+    - echo $(python -c "import sys; print sys.path")
+    - pip install --upgrade pip
+    - pip install -r requirements.txt
+    - pip install python-coveralls
     - pip install flake8
-    - $SCRIPTS / install_caffe.sh
+    - $SCRIPTS/install_caffe.sh
 
 before_script:
-    - export LD_LIBRARY_PATH =$LD_LIBRARY_PATH:
-        /usr / local / lib:
-            /usr / local / cuda / lib64:
-                $CONDA_DIR / lib
-    - export PATH =$CONDA_DIR / bin:
-        $PATH
-    - if ! $WITH_CMAKE
-    then $SCRIPTS / travis_setup_makefile_config.sh
-    fi
-    - $SCRIPTS / travis_setup_and_build_caffe.sh
-    - export PYTHONPATH =$PYTHONPATH:
-        $TOOLS_DIR / caffe / python
-
+  - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib:/usr/local/cuda/lib64:$CONDA_DIR/lib
+  - export PATH=$CONDA_DIR/bin:$PATH
+  - if ! $WITH_CMAKE; then $SCRIPTS/travis_setup_makefile_config.sh; fi
+  - $SCRIPTS/travis_setup_and_build_caffe.sh
+  - export PYTHONPATH=$PYTHONPATH:$TOOLS_DIR/caffe/python
 script:
     - flake8 ./
 
@@ -75,12 +67,10 @@ after_success:
 
 after_failure:
     - rm - rf $CONDA_DIR
-    - rm - rf $TOOLS_DIR / opencv
+    - rm - rf $TOOLS_DIR/opencv
     - echo "failure"
 
 notifications:
     email:
-    on_success:
-        change
-    on_failure:
-        always
+    on_success: change
+    on_failure: always
