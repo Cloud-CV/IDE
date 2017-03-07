@@ -448,6 +448,13 @@ export default {
     learn: true,
   },
   Reshape: {
+    name: 'reshape',
+    color: 'rgb(134, 44, 44)',
+    endpoint: {
+      src: ['RightMiddle'],
+      trg: ['LeftMiddle'],
+    },
+
     params: {
       Height: {
         name: 'Height',
