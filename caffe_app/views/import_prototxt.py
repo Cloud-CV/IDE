@@ -81,6 +81,10 @@ def importPrototxt(request):
             elif(layer.type == 'Input'):
                 params['dim'] = str(map(int,layer.input_param.shape[0].dim))[1:-1]
                 # string '64,1,28,28'
+            elif(layer.type == 'LSTM'):
+                params['num_output'] = layer.recurrent_param.num_output
+                params['weight_filler'] = layer.recurrent_param.weight_filler.type
+                params['bias_filler'] = layer.recurrent_param.bias_filler.type
 
             jsonLayer = {
                 'info': {

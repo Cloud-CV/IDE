@@ -371,4 +371,42 @@ export default {
     },
     learn: false,
   },
+  LSTM: {
+    name: 'lstm',
+    color: 'rgb(1, 116, 121)',
+    endpoint: {
+      src: ['RightMiddle'],
+      trg: ['LeftMiddle'],
+    },
+    params: {
+      num_output: {
+        name: 'No of outputs',
+        value: '',
+        type: 'number',
+        required: true,
+      },
+      weight_filler: {
+        name: 'Weight filler',
+        value: 'xavier',
+        type: 'select',
+        options: ['xavier', 'constant'],
+        required: false,
+      },
+      bias_filler: {
+        name: 'Bias filler',
+        value: 'constant',
+        type: 'select',
+        options: ['xavier', 'constant'],
+        required: false,
+      },
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text',
+      },
+    },
+    learn: true,
+  },
 };
