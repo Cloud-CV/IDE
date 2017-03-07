@@ -371,4 +371,30 @@ export default {
     },
     learn: false,
   },
+  BatchNorm: {
+    name: 'batchnorm',
+    color: 'rgb(31, 218, 45)',
+    endpoint: {
+      src: ['RightMiddle'],
+      trg: ['LeftMiddle'],
+    },
+    params: {
+      use_global_stats: {
+        name: 'Use Global Stats',
+        value: '',
+        type: 'select',
+        options: ['true', 'false'],
+        required: true,
+
+      },
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text',
+      },
+    },
+    learn: true,
+  },
 };
