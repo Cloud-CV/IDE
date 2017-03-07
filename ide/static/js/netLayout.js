@@ -30,8 +30,6 @@ function allocatePosition(layerId, preferredPosition){
   if (!map.hasOwnProperty(preferredPosition[0])) {
     map[preferredPosition[0]] = [];
   }
-  console.log(layerId);
-  console.log(net[layerId]);
   let positionsY = map[preferredPosition[0]];
   if (positionsY.indexOf(preferredPosition[1]) != -1) {
     let temp = preferredPosition[1], i=2;
