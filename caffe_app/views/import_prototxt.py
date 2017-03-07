@@ -85,6 +85,11 @@ def importPrototxt(request):
                 params['num_output'] = layer.recurrent_param.num_output
                 params['weight_filler'] = layer.recurrent_param.weight_filler.type
                 params['bias_filler'] = layer.recurrent_param.bias_filler.type
+            elif(layer.type == 'Embed'):
+                params['bias_term'] = layer.embed_param.bias_term
+                params['input_dim'] = layer.embed_param.input_dim
+                params['num_output'] = layer.embed_param.num_output
+                params['weight_fillter'] = layer.embed_param.weight_filler.type
 
             jsonLayer = {
                 'info': {

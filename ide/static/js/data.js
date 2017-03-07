@@ -409,4 +409,42 @@ export default {
     },
     learn: true,
   },
+  Embed: {
+    name: 'embed',
+    color: 'rgb(23, 212, 90)',
+    endpoint: {
+      src: ['RightMiddle'],
+      trg: ['LeftMiddle'],
+    },
+    params: {
+      num_output: {
+        name: 'No of outputs',
+        value: '',
+        type: 'number',
+        required: true,
+      },
+      weight_filler: {
+        name: 'Weight filler',
+        value: 'xavier',
+        type: 'select',
+        options: ['xavier', 'constant'],
+        required: false,
+      },
+      bias_term: {
+        name: 'Bias Term',
+        value: 'False',
+        type: 'select',
+        options: ['True', 'False'],
+        required: false,
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text',
+      },
+    },
+    learn: true,
+  },
 };
