@@ -28442,6 +28442,36 @@
 	      }
 	    },
 	    learn: false
+	  },
+	  HDF5Data: {
+	    name: 'hdf5data',
+	    color: 'rgb(241, 206, 38)',
+	    endpoint: {
+	      src: ['RightMiddle'],
+	      trg: []
+	    },
+	    params: {
+	      source: {
+	        name: 'HDF5 Data source',
+	        value: '',
+	        type: 'text',
+	        required: true
+	      },
+	      batch_size: {
+	        name: 'Batch size',
+	        value: '',
+	        type: 'number',
+	        required: true
+	      }
+	    },
+	    props: {
+	      name: {
+	        name: 'Name',
+	        value: '',
+	        type: 'text'
+	      }
+	    },
+	    learn: false
 	  }
 	};
 
