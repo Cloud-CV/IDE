@@ -454,7 +454,6 @@ export default {
       src: ['RightMiddle'],
       trg: ['LeftMiddle'],
     },
-
     params: {
       Height: {
         name: 'Height',

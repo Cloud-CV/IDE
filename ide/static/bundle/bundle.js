@@ -28420,7 +28420,6 @@
 	      src: ['RightMiddle'],
 	      trg: ['LeftMiddle']
 	    },
-
 	    params: {
 	      Height: {
 	        name: 'Height',
@@ -29716,7 +29715,6 @@
 	});
 
 	exports.default = function (net) {
-
 	  // map[x] = [y1, y2, y3]
 	  var map = {};
 	  var position = {};
@@ -29725,7 +29723,6 @@
 	  Object.keys(net).forEach(function (layerId) {
 	    processed[layerId] = false;
 	  });
-
 	  function isProcessPossible(layerId) {
 	    var inputs = net[layerId].connection.input;
 	    var i = 0;
@@ -29742,7 +29739,8 @@
 	    if (!map.hasOwnProperty(preferredPosition[0])) {
 	      map[preferredPosition[0]] = [];
 	    }
-
+	    console.log(layerId);
+	    console.log(net[layerId]);
 	    var positionsY = map[preferredPosition[0]];
 	    if (positionsY.indexOf(preferredPosition[1]) != -1) {
 	      var temp = preferredPosition[1],
@@ -29783,7 +29781,7 @@
 
 	  // finding the input layers to start DFS
 	  Object.keys(net).forEach(function (layerId) {
-	    if (net[layerId].info.type === 'Data' || net[layerId].info.type === 'Input') {
+	    if (net[layerId].info.type === 'Data' || net[layerId].info.type === 'Input' || net[layerId].info.type === 'HDF5Data' || net[layerId].info.type === 'Reshape') {
 	      stack.push(layerId);
 	      parentMap[layerId] = null;
 	    }
@@ -29836,7 +29834,6 @@
 
 	    processed[layerId] = true;
 	  }
-
 	  return position;
 	};
 
