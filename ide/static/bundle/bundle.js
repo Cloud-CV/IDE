@@ -28351,7 +28351,6 @@
 	        type: 'select',
 	        options: ['true', 'false'],
 	        required: true
-
 	      }
 	    },
 	    props: {
@@ -28377,7 +28376,6 @@
 	        type: 'select',
 	        options: ['true', 'false'],
 	        required: true
-
 	      }
 	    },
 	    props: {

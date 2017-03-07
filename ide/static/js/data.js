@@ -385,7 +385,6 @@ export default {
         type: 'select',
         options: ['true', 'false'],
         required: true,
-
       },
     },
     props: {
@@ -411,7 +410,6 @@ export default {
         type: 'select',
         options: ['true', 'false'],
         required: true,
-
       },
     },
     props: {
