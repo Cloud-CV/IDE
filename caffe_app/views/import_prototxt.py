@@ -83,6 +83,8 @@ def importPrototxt(request):
                 # string '64,1,28,28'
             elif(layer.type == 'BatchNorm'):
                 params['use_global_stats'] = layer.batch_norm_param.use_global_stats
+            elif(layer.type == 'Scale'):
+                params['bias_term'] = layer.scale_param.bias_term
 
             jsonLayer = {
                 'info': {

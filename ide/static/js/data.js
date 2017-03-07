@@ -397,4 +397,30 @@ export default {
     },
     learn: true,
   },
+  Scale: {
+    name: 'scale',
+    color: 'rgb(243, 75, 214)',
+    endpoint: {
+      src: ['RightMiddle'],
+      trg: ['LeftMiddle'],
+    },
+    params: {
+      bias_term: {
+        name: 'Bias term',
+        value: '',
+        type: 'select',
+        options: ['true', 'false'],
+        required: true,
+
+      },
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text',
+      },
+    },
+    learn: true,
+  },
 };
