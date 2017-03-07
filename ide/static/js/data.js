@@ -447,4 +447,34 @@ export default {
     },
     learn: true,
   },
+  Reshape: {
+    params: {
+      Height: {
+        name: 'Height',
+        value: '',
+        type: 'number',
+        required: true,
+      },
+      Width: {
+        name: 'Width',
+        value: '',
+        type: 'number',
+        required: true,
+      },
+      Channels: {
+        name: 'Channels',
+        value: '',
+        type: 'number',
+        required: true,
+      },
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text',
+      },
+    },
+    learn: false,
+  }
 };
