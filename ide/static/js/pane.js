@@ -22,6 +22,7 @@ function Pane() {
     <li><PaneElement id="Accuracy">Accuracy</PaneElement></li>
     <li><PaneElement id="BatchNorm">BatchNorm</PaneElement></li>
     <li><PaneElement id="Scale">Scale</PaneElement></li>
+    <li><PaneElement id="Eltwise">Eltwise</PaneElement></li>
   </ul>
 </li>
 

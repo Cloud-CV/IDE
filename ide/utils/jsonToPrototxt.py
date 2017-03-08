@@ -370,6 +370,18 @@ def jsonToPrototxt(net,net_name):
                     #*([ns[x] for x in blobNames[layerId]['bottom']] + [ns.label])))
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
+        elif (layerType == 'Eltwise'):
+            eltwise_param = {}
+            if layerParams['operation'] != '':
+                eltwise_param['operation'] = int(layerParams['operation'])
+            for ns in (ns_train,ns_test):
+                caffeLayer = get_iterable(L.Eltwise(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                    eltwise_param=eltwise_param
+                    ))
+                    #*([ns[x] for x in blobNames[layerId]['bottom']] + [ns.label])))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
 
     train = 'name: "' + net_name + '"\n' + str(ns_train.to_proto())
     test = str(ns_test.to_proto())

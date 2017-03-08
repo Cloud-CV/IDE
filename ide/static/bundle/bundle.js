@@ -28386,6 +28386,31 @@
 	      }
 	    },
 	    learn: true
+	  },
+	  Eltwise: {
+	    name: 'elementwise',
+	    color: 'rgb(162, 146, 27)',
+	    endpoint: {
+	      src: ['RightMiddle'],
+	      trg: ['LeftMiddle']
+	    },
+	    params: {
+	      operation: {
+	        name: 'Operation',
+	        value: '',
+	        type: 'select',
+	        options: ['Product', 'Sum', 'Max'],
+	        required: true
+	      }
+	    },
+	    props: {
+	      name: {
+	        name: 'Name',
+	        value: '',
+	        type: 'text'
+	      }
+	    },
+	    learn: true
 	  }
 	};
 
@@ -28954,6 +28979,15 @@
 	          _paneElement2.default,
 	          { id: 'Scale' },
 	          'Scale'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(
+	          _paneElement2.default,
+	          { id: 'Eltwise' },
+	          'Eltwise'
 	        )
 	      )
 	    )

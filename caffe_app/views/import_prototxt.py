@@ -85,6 +85,8 @@ def importPrototxt(request):
                 params['use_global_stats'] = layer.batch_norm_param.use_global_stats
             elif(layer.type == 'Scale'):
                 params['bias_term'] = layer.scale_param.bias_term
+            elif(layer.type == 'Eltwise'):
+                params['operation'] = layer.eltwise_param.operation
 
             jsonLayer = {
                 'info': {
