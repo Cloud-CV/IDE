@@ -100,9 +100,17 @@ def importGraphDef(request):
         for key in temp_d:
             d[key] = temp_d[key]
 
+        # ?? error! (export googlenet graphdef and import again)
+        for key in d.keys():
+            if not len(d[key]['type']):
+                del d[key]
+
         # setting params
         for node in graph.get_operations():
             name = get_layer_name(node.name)
+            # error!
+            if name not in d:
+                continue
             layer = d[name]
 
             if layer['type'][0] == 'Input':
@@ -168,6 +176,7 @@ def importGraphDef(request):
         net = {}
         for key in d:
             net[key] = {
+                    'name': key,
                     'info': {
                         'type': d[key]['type'][0],
                         'phase': None

@@ -7,6 +7,7 @@ import random, string
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from ide.utils.jsonToPrototxt import jsonToPrototxt
+from ide.utils.json_utils import get_inputs
 import tensorflow as tf
 import sys
 sys.path.insert(0, BASE_DIR+'/media/')
@@ -22,6 +23,11 @@ def exportToTensorflow(request):
         net_name = request.POST.get('net_name')
         if net_name == '':
             net_name = 'Net'
+
+        inputs = get_inputs(net)
+        for i in inputs:
+            net[i]['props']['name'] = 'data'
+
         prototxt,input_dim = jsonToPrototxt(net,net_name)
         randomId=datetime.now().strftime('%Y%m%d%H%M%S')+randomword(5)
         with open(BASE_DIR+'/media/'+randomId+'.prototxt', 'w') as f:
@@ -30,7 +36,7 @@ def exportToTensorflow(request):
         os.system('python '+BASE_DIR+'/tensorflow_app/caffe-tensorflow/convert.py '+BASE_DIR+'/media/'+randomId+'.prototxt --code-output-path='+BASE_DIR+'/media/'+randomId+'.py')
 
         # NCHW to NHWC data format
-        input_caffe = map(int,input_dim.split(','))
+        input_caffe = input_dim
         input_tensorflow = []
         for i in [0,2,3,1]:
             input_tensorflow.append(input_caffe[i])
@@ -39,7 +45,8 @@ def exportToTensorflow(request):
         try:
             net = __import__ (str(randomId))
             images = tf.placeholder(tf.float32, input_tensorflow)
-            net = getattr(net, net_name)({'blob0': images})
+            # the name of the first layer should be 'data' !
+            net = getattr(net, net_name)({'data': images})
             graph_def = tf.get_default_graph().as_graph_def(add_shapes=True)
             with open(BASE_DIR+'/media/'+randomId+'.pbtxt', 'w') as f: f.write(str(graph_def))
         except AssertionError:

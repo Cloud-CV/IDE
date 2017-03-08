@@ -49,13 +49,13 @@ def importPrototxt(request):
                     params['offset'] = layer.crop_param.offset[0]
 
             elif(layer.type == 'Convolution'):
-                if len(layer.convolution_param.kernel_size):
+                if len(layer.convolution_param.kernel_size) or (layer.convolution_param.kernel_h and layer.convolution_param.kernel_w):
                     params['kernel_h'] = layer.convolution_param.kernel_h or layer.convolution_param.kernel_size[0]
                     params['kernel_w'] = layer.convolution_param.kernel_w or layer.convolution_param.kernel_size[0]
-                if len(layer.convolution_param.pad):
+                if len(layer.convolution_param.pad) or (layer.convolution_param.pad_h and layer.convolution_param.pad_w):
                     params['pad_h'] = layer.convolution_param.pad_h or layer.convolution_param.pad[0]
                     params['pad_w'] = layer.convolution_param.pad_w or layer.convolution_param.pad[0]
-                if len(layer.convolution_param.stride):
+                if len(layer.convolution_param.stride) or (layer.convolution_param.stride_h and layer.convolution_param.stride_w):
                     params['stride_h'] = layer.convolution_param.stride_h or layer.convolution_param.stride[0]
                     params['stride_w'] = layer.convolution_param.stride_w or layer.convolution_param.stride[0]
                 params['weight_filler'] = layer.convolution_param.weight_filler.type
@@ -93,7 +93,11 @@ def importPrototxt(request):
                 params['stride_w'] = layer.pooling_param.stride_w or layer.pooling_param.stride
                 params['kernel_h'] = layer.pooling_param.kernel_h or layer.pooling_param.kernel_size
                 params['kernel_w'] = layer.pooling_param.kernel_w or layer.pooling_param.kernel_size
-                params['pool'] = layer.pooling_param.pool
+                pool = layer.pooling_param.pool
+                if(pool == 0):
+                    params['pool'] = 'MAX'
+                elif(pool == 1):
+                    params['pool'] = 'AVE'
 
             elif(layer.type == 'InnerProduct'):
                 params['num_output'] = layer.inner_product_param.num_output
@@ -109,6 +113,7 @@ def importPrototxt(request):
                 # string '64,1,28,28'
 
             jsonLayer = {
+                'name': layer.name,
                 'info': {
                     'type': layer.type,
                     'phase': phase
