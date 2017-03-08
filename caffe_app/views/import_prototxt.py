@@ -76,6 +76,12 @@ def importPrototxt(request):
                 params['bias_filler'] = layer.convolution_param.bias_filler.type
                 params['num_output'] = layer.convolution_param.num_output
 
+            elif(layer.type == 'Eltwise'):
+                if layer.eltwise_param.operation:
+                    params['operation'] = layer.eltwise_param.operation
+                else:
+                    params['operation'] = 1
+
             elif(layer.type == 'ReLU'):
                 if(layer.top == layer.bottom):
                     params['inplace'] = True
