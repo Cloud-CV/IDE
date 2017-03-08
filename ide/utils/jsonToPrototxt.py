@@ -40,7 +40,8 @@ def jsonToPrototxt(net,net_name):
 
     # finding the data layer
     for layerId in net:
-        if(net[layerId]['info']['type'] == 'Data' or net[layerId]['info']['type'] == 'Input' or net[layerId]['info']['type'] == 'HDF5Data'):
+        if(net[layerId]['info']['type'] == 'Data' or net[layerId]['info']['type'] == 'Input' 
+            or net[layerId]['info']['type'] == 'HDF5Data'):
             stack.append(layerId)
 
     def changeTopBlobName(layerId, newName):
@@ -384,7 +385,6 @@ def jsonToPrototxt(net,net_name):
                 caffeLayer = get_iterable(L.LSTM(
                     *[ns[x] for x in blobNames[layerId]['bottom']],
                         recurrent_param=recurrent_param))
-                    #*([ns[x] for x in blobNames[layerId]['bottom']] + [ns.label])))
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
@@ -394,7 +394,6 @@ def jsonToPrototxt(net,net_name):
                 caffeLayer = get_iterable(L.Reshape(
                     *[ns[x] for x in blobNames[layerId]['bottom']],
                         reshape_param=reshape_param))
-                    #*([ns[x] for x in blobNames[layerId]['bottom']] + [ns.label])))
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
         
@@ -413,7 +412,6 @@ def jsonToPrototxt(net,net_name):
                             include={
                                 'phase': int(layerPhase)
                             }))
-                        #*([ns[x] for x in blobNames[layerId]['bottom']] + [ns.label])))
                 else:
                     caffeLayer = get_iterable(L.HDF5Data(
                         *[ns[x] for x in blobNames[layerId]['bottom']],
