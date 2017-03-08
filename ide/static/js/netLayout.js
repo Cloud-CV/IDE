@@ -66,7 +66,7 @@ let i = null, layerId = null, parentId =  null, inputLength = null, outputLength
 
 // finding the input layers to start DFS
 Object.keys(net).forEach(layerId => {
-  if (net[layerId].info.type === 'Data' || net[layerId].info.type === 'Input' || net[layerId].info.type === 'HDF5Data' || net[layerId].info.type === 'Reshape') {
+  if (net[layerId].info.type === 'Data' || net[layerId].info.type === 'Input' || net[layerId].info.type === 'HDF5Data') {
     stack.push(layerId);
     parentMap[layerId] = null;
   }

@@ -40,7 +40,7 @@ def jsonToPrototxt(net,net_name):
 
     # finding the data layer
     for layerId in net:
-        if(net[layerId]['info']['type'] == 'Data' or net[layerId]['info']['type'] == 'Input'):
+        if(net[layerId]['info']['type'] == 'Data' or net[layerId]['info']['type'] == 'Input' or net[layerId]['info']['type'] == 'HDF5Data'):
             stack.append(layerId)
 
     def changeTopBlobName(layerId, newName):
@@ -316,6 +316,10 @@ def jsonToPrototxt(net,net_name):
         elif (layerType == 'Dropout'):
             # inplace dropout? caffe-tensorflow do not work
             for ns in (ns_train,ns_test):
+                if 'inplace' in layerParams.keys():
+                    inplace = layerParams['inplace']
+                else:
+                    inplace = False
                 caffeLayer = get_iterable(L.Dropout(
                     *[ns[x] for x in blobNames[layerId]['bottom']],
                     in_place=inplace))
@@ -344,6 +348,79 @@ def jsonToPrototxt(net,net_name):
                     #*([ns[x] for x in blobNames[layerId]['bottom']] + [ns.label])))
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
+        
+        elif (layerType == 'Embed'):
+            for ns in (ns_train,ns_test):
+                print ns.tops
+                caffeLayer = get_iterable(L.Embed(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                        param=[
+                            {
+                                'lr_mult': 1,
+                                'decay_mult': 1
+                            },
+                            {
+                                'lr_mult': 2,
+                                'decay_mult': 0
+                            }
+                        ]))
+                    #*([ns[x] for x in blobNames[layerId]['bottom']] + [ns.label])))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
+        elif (layerType == 'LSTM'):
+            recurrent_param = {}
+            if layerParams['num_output'] != '':
+                recurrent_param['num_output'] = int(layerParams['num_output'])
+            if layerParams['weight_filler'] != '':
+                recurrent_param['weight_filler'] = {
+                    'type': layerParams['weight_filler']
+                }
+            if layerParams['bias_filler'] != '':
+                recurrent_param['bias_filler'] = {
+                    'type': layerParams['bias_filler']
+                }
+            for ns in (ns_train,ns_test):
+                caffeLayer = get_iterable(L.LSTM(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                        recurrent_param=recurrent_param))
+                    #*([ns[x] for x in blobNames[layerId]['bottom']] + [ns.label])))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
+        elif (layerType == 'Reshape'):
+            reshape_param={'shape':{'dim':map(int,layerParams['dim'].split(','))}}
+            for ns in (ns_train,ns_test):
+                caffeLayer = get_iterable(L.Reshape(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                        reshape_param=reshape_param))
+                    #*([ns[x] for x in blobNames[layerId]['bottom']] + [ns.label])))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+        
+        elif (layerType == 'HDF5Data'):
+            layerPhase = layer['info']['phase']
+            hdf5_data_param = {}
+            if layerParams['source'] != '':
+                hdf5_data_param['source'] = layerParams['source']
+            if layerParams['batch_size'] != '':
+                hdf5_data_param['batch_size'] = layerParams['batch_size']
+            for ns in (ns_train,ns_test):
+                if layerPhase is not None:
+                    caffeLayer = get_iterable(L.HDF5Data(
+                        *[ns[x] for x in blobNames[layerId]['bottom']],
+                            hdf5_data_param=hdf5_data_param,
+                            include={
+                                'phase': int(layerPhase)
+                            }))
+                        #*([ns[x] for x in blobNames[layerId]['bottom']] + [ns.label])))
+                else:
+                    caffeLayer = get_iterable(L.HDF5Data(
+                        *[ns[x] for x in blobNames[layerId]['bottom']],
+                            hdf5_data_param=hdf5_data_param))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
 
     train = 'name: "' + net_name + '"\n' + str(ns_train.to_proto())
     test = str(ns_test.to_proto())

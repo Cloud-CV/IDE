@@ -28402,6 +28402,12 @@
 	        type: 'select',
 	        options: ['True', 'False'],
 	        required: false
+	      },
+	      input_dim: {
+	        name: 'Input Dimensions',
+	        value: '',
+	        type: 'number',
+	        required: true
 	      }
 	    },
 	    props: {
@@ -28421,22 +28427,10 @@
 	      trg: ['LeftMiddle']
 	    },
 	    params: {
-	      Height: {
-	        name: 'Height',
+	      dim: {
+	        name: 'Dim',
 	        value: '',
-	        type: 'number',
-	        required: true
-	      },
-	      Width: {
-	        name: 'Width',
-	        value: '',
-	        type: 'number',
-	        required: true
-	      },
-	      Channels: {
-	        name: 'Channels',
-	        value: '',
-	        type: 'number',
+	        type: 'text',
 	        required: true
 	      }
 	    },
@@ -29028,6 +29022,42 @@
 	          _paneElement2.default,
 	          { id: 'Accuracy' },
 	          'Accuracy'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(
+	          _paneElement2.default,
+	          { id: 'HDF5Data' },
+	          'HDF5Data'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(
+	          _paneElement2.default,
+	          { id: 'Reshape' },
+	          'Reshape'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(
+	          _paneElement2.default,
+	          { id: 'Embed' },
+	          'Embed'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(
+	          _paneElement2.default,
+	          { id: 'LSTM' },
+	          'LSTM'
 	        )
 	      )
 	    )
@@ -29779,7 +29809,7 @@
 
 	  // finding the input layers to start DFS
 	  Object.keys(net).forEach(function (layerId) {
-	    if (net[layerId].info.type === 'Data' || net[layerId].info.type === 'Input' || net[layerId].info.type === 'HDF5Data' || net[layerId].info.type === 'Reshape') {
+	    if (net[layerId].info.type === 'Data' || net[layerId].info.type === 'Input' || net[layerId].info.type === 'HDF5Data') {
 	      stack.push(layerId);
 	      parentMap[layerId] = null;
 	    }

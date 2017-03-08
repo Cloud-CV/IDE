@@ -436,6 +436,12 @@ export default {
         type: 'select',
         options: ['True', 'False'],
         required: false,
+      },
+      input_dim: {
+        name: 'Input Dimensions',
+        value: '',
+        type: 'number',
+        required: true,
       }
     },
     props: {
@@ -455,22 +461,10 @@ export default {
       trg: ['LeftMiddle'],
     },
     params: {
-      Height: {
-        name: 'Height',
+      dim: {
+        name: 'Dim',
         value: '',
-        type: 'number',
-        required: true,
-      },
-      Width: {
-        name: 'Width',
-        value: '',
-        type: 'number',
-        required: true,
-      },
-      Channels: {
-        name: 'Channels',
-        value: '',
-        type: 'number',
+        type: 'text',
         required: true,
       },
     },
