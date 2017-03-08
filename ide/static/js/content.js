@@ -156,7 +156,7 @@ class Content extends React.Component {
         delete netData[layerId].state;
       });
 
-      const url = {'caffe': '/caffe/export', 'tensorflow': '/tensorflow/export'}
+      const url = {'caffe': '/caffe/export', 'tensorflow': '/tensorflow/export','keras': '/keras/export'}
       this.setState({ load: true });
       $.ajax({
         url: url[framework],
@@ -188,7 +188,7 @@ class Content extends React.Component {
     this.dismissAllErrors();
     const formData = new FormData();
     formData.append('file', $('#inputFile'+framework)[0].files[0]);
-    const url = {'caffe': '/caffe/import', 'tensorflow': '/tensorflow/import'};
+    const url = {'caffe': '/caffe/import', 'tensorflow': '/tensorflow/import', 'keras': '/keras/import'};
     this.setState({ load: true });
     $.ajax({
       url: url[framework],
@@ -230,8 +230,7 @@ class Content extends React.Component {
         });
         // layer.props = JSON.parse(JSON.stringify(data[type].props));
         layer.props = {};
-        // default name
-        layer.props.name = layerId;
+        layer.props.name = layer.name;
       } else {
         tempError[type] = null;
       }

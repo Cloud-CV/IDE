@@ -11,6 +11,7 @@ This app is presently under active development and we welcome contributions. Ple
 ### Requirements
 1. install [caffe](http://caffe.berkeleyvision.org/installation.html)
 2. install [tensorflow](https://www.tensorflow.org/versions/r0.10/get_started/os_setup.html#pip-installation)
+3. install [keras](https://keras.io/#installation)
 
 ### Build instructions
 1. `git clone https://github.com/Cloud-CV/IDE.git`
@@ -28,6 +29,7 @@ This app is presently under active development and we welcome contributions. Ple
 ### Example
 * Use `example/GoogleNet.pbtxt` for tensorflow import
 * Use `example/GoogleNet.prototxt` for caffe import
+* Use `example/GoogleNet.json` for keras import
 
 ### License
 

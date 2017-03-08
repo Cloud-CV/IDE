@@ -18,6 +18,7 @@ class TopBar extends React.Component {
                   <ul className="dropdown-menu pull-right">
                     <li><a href="#" onClick={() => this.props.exportNet('caffe')}>caffe</a></li>
                     <li><a href="#" onClick={() => this.props.exportNet('tensorflow')}>tensorflow</a></li>
+                    <li><a href="#" onClick={() => this.props.exportNet('keras')}>keras</a></li>
                   </ul>
                 </div>
               </div>
@@ -37,6 +38,12 @@ class TopBar extends React.Component {
                         <a>
                         <label htmlFor="inputFiletensorflow">tensorflow</label>
                         <input id="inputFiletensorflow" type="file" onChange={() => this.props.importNet('tensorflow')}/>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                        <label htmlFor="inputFilekeras">keras</label>
+                        <input id="inputFilekeras" type="file" onChange={() => this.props.importNet('keras')}/>
                         </a>
                     </li>
                   </ul>
