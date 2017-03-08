@@ -354,7 +354,6 @@ def jsonToPrototxt(net,net_name):
                     *[ns[x] for x in blobNames[layerId]['bottom']],
                     batch_norm_param=batch_norm_param
                     ))
-                    #*([ns[x] for x in blobNames[layerId]['bottom']] + [ns.label])))
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
@@ -367,7 +366,6 @@ def jsonToPrototxt(net,net_name):
                     *[ns[x] for x in blobNames[layerId]['bottom']],
                     scale_param=scale_param
                     ))
-                    #*([ns[x] for x in blobNames[layerId]['bottom']] + [ns.label])))
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
         elif (layerType == 'Eltwise'):
@@ -379,7 +377,6 @@ def jsonToPrototxt(net,net_name):
                     *[ns[x] for x in blobNames[layerId]['bottom']],
                     eltwise_param=eltwise_param
                     ))
-                    #*([ns[x] for x in blobNames[layerId]['bottom']] + [ns.label])))
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
