@@ -20,6 +20,8 @@ function Pane() {
     <li><PaneElement id="SoftmaxWithLoss">Softmax With Loss</PaneElement></li>
     <li><PaneElement id="Softmax">Softmax</PaneElement></li>
     <li><PaneElement id="Accuracy">Accuracy</PaneElement></li>
+    <li><PaneElement id="BatchNorm">BatchNorm</PaneElement></li>
+    <li><PaneElement id="Scale">Scale</PaneElement></li>
   </ul>
 </li>
 

@@ -28937,6 +28937,24 @@
 	          { id: 'Accuracy' },
 	          'Accuracy'
 	        )
+	      ),
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(
+	          _paneElement2.default,
+	          { id: 'BatchNorm' },
+	          'BatchNorm'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(
+	          _paneElement2.default,
+	          { id: 'Scale' },
+	          'Scale'
+	        )
 	      )
 	    )
 	  );

@@ -345,6 +345,32 @@ def jsonToPrototxt(net,net_name):
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
+        elif (layerType == 'BatchNorm'):
+            batch_norm_param = {}
+            if layerParams['use_global_stats'] != '':
+                batch_norm_param['use_global_stats'] = layerParams['use_global_stats']
+            for ns in (ns_train,ns_test):
+                caffeLayer = get_iterable(L.BatchNorm(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                    batch_norm_param=batch_norm_param
+                    ))
+                    #*([ns[x] for x in blobNames[layerId]['bottom']] + [ns.label])))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
+        elif (layerType == 'Scale'):
+            scale_param = {}
+            if layerParams['bias_term'] != '':
+                scale_param['bias_term'] = layerParams['bias_term']
+            for ns in (ns_train,ns_test):
+                caffeLayer = get_iterable(L.Scale(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                    scale_param=scale_param
+                    ))
+                    #*([ns[x] for x in blobNames[layerId]['bottom']] + [ns.label])))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
     train = 'name: "' + net_name + '"\n' + str(ns_train.to_proto())
     test = str(ns_test.to_proto())
 
