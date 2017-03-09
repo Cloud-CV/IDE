@@ -28105,6 +28105,80 @@
 	    },
 	    learn: true
 	  },
+	  Deconvolution: {
+	    name: 'deconv',
+	    color: 'rgb(87, 100, 17)',
+	    endpoint: {
+	      src: ['RightMiddle'],
+	      trg: ['LeftMiddle']
+	    },
+	    params: {
+	      num_output: {
+	        name: 'No of outputs',
+	        value: '',
+	        type: 'number',
+	        required: true
+	      },
+	      kernel_h: {
+	        name: 'Kernel height',
+	        value: '',
+	        type: 'number',
+	        required: true
+	      },
+	      kernel_w: {
+	        name: 'Kernel width',
+	        value: '',
+	        type: 'number',
+	        required: true
+	      },
+	      stride_h: {
+	        name: 'Stride height',
+	        value: '',
+	        type: 'number',
+	        required: false
+	      },
+	      stride_w: {
+	        name: 'Stride width',
+	        value: '',
+	        type: 'number',
+	        required: false
+	      },
+	      pad_h: {
+	        name: 'Padding height',
+	        value: '',
+	        type: 'number',
+	        required: false
+	      },
+	      pad_w: {
+	        name: 'Padding width',
+	        value: '',
+	        type: 'number',
+	        required: false
+	      },
+	      weight_filler: {
+	        name: 'Weight filler',
+	        value: 'xavier',
+	        type: 'select',
+	        options: ['xavier', 'constant'],
+	        required: false
+	      },
+	      bias_filler: {
+	        name: 'Bias filler',
+	        value: 'constant',
+	        type: 'select',
+	        options: ['xavier', 'constant'],
+	        required: false
+	      }
+	    },
+	    props: {
+	      name: {
+	        name: 'Name',
+	        value: '',
+	        type: 'text'
+	      }
+	    },
+	    learn: true
+	  },
 	  ReLU: {
 	    name: 'relu',
 	    color: 'rgb(77, 101, 214)',
@@ -28388,30 +28462,30 @@
 	    learn: true
 	  },
 	  Eltwise: {
-	    name: 'elementwise',
-	    color: 'rgb(162, 146, 27)',
+	    name: 'eltwise',
+	    color: 'rgb(255, 146, 100)',
 	    endpoint: {
 	      src: ['RightMiddle'],
-	      trg: ['LeftMiddle']
+	      trg: ['LeftMiddle'],
 	    },
 	    params: {
 	      operation: {
-	        name: 'Operation',
-	        value: '',
+	        name: 'Eltwise method',
+	        value: 'SUM',
 	        type: 'select',
-	        options: ['Product', 'Sum', 'Max'],
-	        required: true
-	      }
+	        options: ['SUM', 'PROD', 'Max'],
+	        required: false,
+	      },
 	    },
 	    props: {
 	      name: {
 	        name: 'Name',
 	        value: '',
-	        type: 'text'
-	      }
+	        type: 'text',
+	      },
 	    },
-	    learn: true
-	  }
+	    learn: false,
+	  },
 	};
 
 /***/ },
@@ -28887,6 +28961,15 @@
 	        null,
 	        _react2.default.createElement(
 	          _paneElement2.default,
+	          { id: 'Deconvolution' },
+	          'Deconvolution'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(
+	          _paneElement2.default,
 	          { id: 'Pooling' },
 	          'Pool'
 	        )
@@ -28925,6 +29008,24 @@
 	          _paneElement2.default,
 	          { id: 'Concat' },
 	          'Concat'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(
+	          _paneElement2.default,
+	          { id: 'Crop' },
+	          'Crop'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(
+	          _paneElement2.default,
+	          { id: 'Eltwise' },
+	          'Eltwise'
 	        )
 	      ),
 	      _react2.default.createElement(
