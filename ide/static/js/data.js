@@ -134,6 +134,80 @@ export default {
     },
     learn: true,
   },
+  Deconvolution: {
+    name: 'deconv',
+    color: 'rgb(87, 100, 17)',
+    endpoint: {
+      src: ['RightMiddle'],
+      trg: ['LeftMiddle'],
+    },
+    params: {
+      num_output: {
+        name: 'No of outputs',
+        value: '',
+        type: 'number',
+        required: true,
+      },
+      kernel_h: {
+        name: 'Kernel height',
+        value: '',
+        type: 'number',
+        required: true,
+      },
+      kernel_w: {
+        name: 'Kernel width',
+        value: '',
+        type: 'number',
+        required: true,
+      },
+      stride_h: {
+        name: 'Stride height',
+        value: '',
+        type: 'number',
+        required: false,
+      },
+      stride_w: {
+        name: 'Stride width',
+        value: '',
+        type: 'number',
+        required: false,
+      },
+      pad_h: {
+        name: 'Padding height',
+        value: '',
+        type: 'number',
+        required: false,
+      },
+      pad_w: {
+        name: 'Padding width',
+        value: '',
+        type: 'number',
+        required: false,
+      },
+      weight_filler: {
+        name: 'Weight filler',
+        value: 'xavier',
+        type: 'select',
+        options: ['xavier', 'constant'],
+        required: false,
+      },
+      bias_filler: {
+        name: 'Bias filler',
+        value: 'constant',
+        type: 'select',
+        options: ['xavier', 'constant'],
+        required: false,
+      },
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text',
+      },
+    },
+    learn: true,
+  },
   ReLU: {
     name: 'relu',
     color: 'rgb(77, 101, 214)',
@@ -301,6 +375,61 @@ export default {
       trg: ['LeftMiddle'],
     },
     params: {
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text',
+      },
+    },
+    learn: false,
+  },
+  Eltwise: {
+    name: 'eltwise',
+    color: 'rgb(255, 146, 100)',
+    endpoint: {
+      src: ['RightMiddle'],
+      trg: ['LeftMiddle'],
+    },
+    params: {
+      operation: {
+        name: 'Eltwise method',
+        value: 'SUM',
+        type: 'select',
+        options: ['SUM', 'PROD', 'Max'],
+        required: false,
+      },
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text',
+      },
+    },
+    learn: false,
+  },
+  Crop: {
+    name: 'crop',
+    color: 'rgb(255, 250, 100)',
+    endpoint: {
+      src: ['RightMiddle'],
+      trg: ['LeftMiddle'],
+    },
+    params: {
+      axis: {
+        name: 'axis',
+        value: '2',
+        type: 'number',
+        required: false,
+      },
+      offset: {
+        name: 'offset',
+        value: '0',
+        type: 'number',
+        required: false,
+      },
     },
     props: {
       name: {
@@ -506,5 +635,80 @@ export default {
       },
     },
     learn: false,
+  },
+  BatchNorm: {
+    name: 'batchnorm',
+    color: 'rgb(31, 218, 45)',
+    endpoint: {
+      src: ['RightMiddle'],
+      trg: ['LeftMiddle'],
+    },
+    params: {
+      use_global_stats: {
+        name: 'Use Global Stats',
+        value: '',
+        type: 'select',
+        options: ['true', 'false'],
+        required: true,
+      },
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text',
+      },
+    },
+    learn: true,
+  },
+  Scale: {
+    name: 'scale',
+    color: 'rgb(243, 75, 214)',
+    endpoint: {
+      src: ['RightMiddle'],
+      trg: ['LeftMiddle'],
+    },
+    params: {
+      bias_term: {
+        name: 'Bias term',
+        value: '',
+        type: 'select',
+        options: ['true', 'false'],
+        required: true,
+      },
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text',
+      },
+    },
+    learn: true,
+  },
+  Eltwise: {
+    name: 'elementwise',
+    color: 'rgb(162, 146, 27)',
+    endpoint: {
+      src: ['RightMiddle'],
+      trg: ['LeftMiddle'],
+    },
+    params: {
+      operation: {
+        name: 'Operation',
+        value: '',
+        type: 'select',
+        options: ['Product', 'Sum', 'Max'],
+        required: true,
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text',
+      },
+    },
+    learn: true,
   },
 };
