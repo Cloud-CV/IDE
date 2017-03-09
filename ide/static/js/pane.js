@@ -23,6 +23,13 @@ function Pane() {
     <li><PaneElement id="SoftmaxWithLoss">Softmax With Loss</PaneElement></li>
     <li><PaneElement id="Softmax">Softmax</PaneElement></li>
     <li><PaneElement id="Accuracy">Accuracy</PaneElement></li>
+    <li><PaneElement id="HDF5Data">HDF5Data</PaneElement></li>
+    <li><PaneElement id="Reshape">Reshape</PaneElement></li>
+    <li><PaneElement id="Embed">Embed</PaneElement></li>
+    <li><PaneElement id="LSTM">LSTM</PaneElement></li>
+    <li><PaneElement id="BatchNorm">BatchNorm</PaneElement></li>
+    <li><PaneElement id="Scale">Scale</PaneElement></li>
+    <li><PaneElement id="Eltwise">Eltwise</PaneElement></li>
   </ul>
 </li>
 

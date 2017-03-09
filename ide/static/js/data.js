@@ -500,4 +500,215 @@ export default {
     },
     learn: false,
   },
+  LSTM: {
+    name: 'lstm',
+    color: 'rgb(1, 116, 121)',
+    endpoint: {
+      src: ['RightMiddle'],
+      trg: ['LeftMiddle'],
+    },
+    params: {
+      num_output: {
+        name: 'No of outputs',
+        value: '',
+        type: 'number',
+        required: true,
+      },
+      weight_filler: {
+        name: 'Weight filler',
+        value: 'xavier',
+        type: 'select',
+        options: ['xavier', 'constant'],
+        required: false,
+      },
+      bias_filler: {
+        name: 'Bias filler',
+        value: 'constant',
+        type: 'select',
+        options: ['xavier', 'constant'],
+        required: false,
+      },
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text',
+      },
+    },
+    learn: true,
+  },
+  Embed: {
+    name: 'embed',
+    color: 'rgb(23, 212, 90)',
+    endpoint: {
+      src: ['RightMiddle'],
+      trg: ['LeftMiddle'],
+    },
+    params: {
+      num_output: {
+        name: 'No of outputs',
+        value: '',
+        type: 'number',
+        required: true,
+      },
+      weight_filler: {
+        name: 'Weight filler',
+        value: 'xavier',
+        type: 'select',
+        options: ['xavier', 'constant'],
+        required: false,
+      },
+      bias_term: {
+        name: 'Bias Term',
+        value: 'False',
+        type: 'select',
+        options: ['True', 'False'],
+        required: false,
+      },
+      input_dim: {
+        name: 'Input Dimensions',
+        value: '',
+        type: 'number',
+        required: true,
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text',
+      },
+    },
+    learn: true,
+  },
+  Reshape: {
+    name: 'reshape',
+    color: 'rgb(134, 44, 44)',
+    endpoint: {
+      src: ['RightMiddle'],
+      trg: ['LeftMiddle'],
+    },
+    params: {
+      dim: {
+        name: 'Dim',
+        value: '',
+        type: 'text',
+        required: true,
+      },
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text',
+      },
+    },
+    learn: false,
+  },
+  HDF5Data: {
+    name: 'hdf5data',
+    color: 'rgb(241, 206, 38)',
+    endpoint: {
+      src: ['RightMiddle'],
+      trg: [],
+    },
+    params: {
+      source: {
+        name: 'HDF5 Data source',
+        value: '',
+        type: 'text',
+        required: true,
+      },
+      batch_size: {
+        name: 'Batch size',
+        value: '',
+        type: 'number',
+        required: true,
+      },
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text',
+      },
+    },
+    learn: false,
+  },
+  BatchNorm: {
+    name: 'batchnorm',
+    color: 'rgb(31, 218, 45)',
+    endpoint: {
+      src: ['RightMiddle'],
+      trg: ['LeftMiddle'],
+    },
+    params: {
+      use_global_stats: {
+        name: 'Use Global Stats',
+        value: '',
+        type: 'select',
+        options: ['true', 'false'],
+        required: true,
+      },
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text',
+      },
+    },
+    learn: true,
+  },
+  Scale: {
+    name: 'scale',
+    color: 'rgb(243, 75, 214)',
+    endpoint: {
+      src: ['RightMiddle'],
+      trg: ['LeftMiddle'],
+    },
+    params: {
+      bias_term: {
+        name: 'Bias term',
+        value: '',
+        type: 'select',
+        options: ['true', 'false'],
+        required: true,
+      },
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text',
+      },
+    },
+    learn: true,
+  },
+  Eltwise: {
+    name: 'elementwise',
+    color: 'rgb(162, 146, 27)',
+    endpoint: {
+      src: ['RightMiddle'],
+      trg: ['LeftMiddle'],
+    },
+    params: {
+      operation: {
+        name: 'Operation',
+        value: '',
+        type: 'select',
+        options: ['Product', 'Sum', 'Max'],
+        required: true,
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text',
+      },
+    },
+    learn: true,
+  },
 };
