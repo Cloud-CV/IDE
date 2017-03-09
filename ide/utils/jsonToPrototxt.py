@@ -172,6 +172,23 @@ def jsonToPrototxt(net,net_name):
                     for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                         ns[key] = value
 
+        elif (layerType == 'Crop'):
+            crop_param={}
+
+            if layerParams['axis'] != '':
+                crop_param['axis'] = int(float(layerParams['axis']))
+            if layerParams['offset'] != '':
+                crop_param['offset'] = int(float(layerParams['offset']))
+
+            for ns in (ns_train,ns_test):
+                caffeLayer = get_iterable(L.Crop(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                    crop_param=crop_param))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
+
+
         elif (layerType == 'Convolution'):
 
             convolution_param={}
@@ -198,6 +215,45 @@ def jsonToPrototxt(net,net_name):
 
             for ns in (ns_train,ns_test):
                 caffeLayer = get_iterable(L.Convolution(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                    convolution_param=convolution_param,
+                    param=[
+                        {
+                            'lr_mult': 1
+                        },
+                        {
+                            'lr_mult': 2
+                        }
+                    ]))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
+        elif (layerType == 'Deconvolution'):
+
+            convolution_param={}
+            if layerParams['kernel_h'] != '':
+                convolution_param['kernel_h'] = int(float(layerParams['kernel_h']))
+            if layerParams['kernel_w'] != '':
+                convolution_param['kernel_w'] = int(float(layerParams['kernel_w']))
+            if layerParams['stride_h'] != '':
+                convolution_param['stride_h'] = int(float(layerParams['stride_h']))
+            if layerParams['stride_w'] != '':
+                convolution_param['stride_w'] = int(float(layerParams['stride_w']))
+            if layerParams['num_output'] != '':
+                convolution_param['num_output'] = int(float(layerParams['num_output']))
+            if layerParams['pad_h'] != '':
+                convolution_param['pad_h'] = int(float(layerParams['pad_h']))
+            if layerParams['pad_w'] != '':
+                convolution_param['pad_w'] = int(float(layerParams['pad_w']))
+            if layerParams['weight_filler'] != '':
+                convolution_param['weight_filler']={}
+                convolution_param['weight_filler']['type'] = layerParams['weight_filler']
+            if layerParams['bias_filler'] != '':
+                convolution_param['bias_filler']={}
+                convolution_param['bias_filler']['type'] = layerParams['bias_filler']
+
+            for ns in (ns_train,ns_test):
+                caffeLayer = get_iterable(L.Deconvolution(
                     *[ns[x] for x in blobNames[layerId]['bottom']],
                     convolution_param=convolution_param,
                     param=[
@@ -339,6 +395,26 @@ def jsonToPrototxt(net,net_name):
                 caffeLayer = get_iterable(L.Concat(
                     *[ns[x] for x in blobNames[layerId]['bottom']],
                     ntop=len(blobNames[layerId]['top'])))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
+        elif (layerType == 'Eltwise'):
+            eltwise_param={}
+            if layerParams['operation'] != '':
+                elt = layerParams['operation']
+                if(elt == 'PROD'):
+                    elt = 0
+                elif(elt == 'SUM'):
+                    elt = 1
+                elif(elt == 'MAX'):
+                    elt = 2
+            else:
+                elt = 1 #Default is sum
+            eltwise_param['operation'] = elt
+            for ns in (ns_train,ns_test):
+                caffeLayer = get_iterable(L.Eltwise(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                    eltwise_param=eltwise_param))
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
