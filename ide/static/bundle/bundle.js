@@ -27222,9 +27222,9 @@
 
 	var _data2 = _interopRequireDefault(_data);
 
-	var _netLayout = __webpack_require__(255);
+	var _netLayout_vertical = __webpack_require__(260);
 
-	var _netLayout2 = _interopRequireDefault(_netLayout);
+	var _netLayout_vertical2 = _interopRequireDefault(_netLayout_vertical);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27492,12 +27492,12 @@
 	      });
 
 	      // initialize the position of layers
-	      var positions = (0, _netLayout2.default)(net);
+	      var positions = (0, _netLayout_vertical2.default)(net);
 	      Object.keys(positions).forEach(function (layerId) {
 	        var layer = net[layerId];
 	        layer.state = {
-	          top: 250 + 50 * positions[layerId][1] + 'px',
-	          left: 20 + 180 * positions[layerId][0] + 'px',
+	          top: 100 + 65 * positions[layerId][1] + 'px',
+	          left: 600 + 80 * positions[layerId][0] + 'px',
 	          class: ''
 	        };
 	      });
@@ -27738,7 +27738,7 @@
 	      instance = (0, _jsplumb2.default)();
 	      instance.bind('connection', this.connectionEvent.bind(this));
 	      instance.bind('connectionDetached', this.detachConnectionEvent.bind(this));
-	      this.mouseState = (0, _panZoom2.default)();
+	      //this.mouseState = panZoom();
 	    }
 	  }, {
 	    key: 'componentDidUpdate',
@@ -27978,7 +27978,7 @@
 	    name: 'data',
 	    color: 'rgb(255, 204, 60)',
 	    endpoint: {
-	      src: ['RightMiddle'],
+	      src: ['Bottom'],
 	      trg: []
 	    },
 	    params: {
@@ -28022,7 +28022,7 @@
 	    color: 'rgb(38, 105, 40)',
 	    endpoint: {
 	      src: [],
-	      trg: ['LeftMiddle']
+	      trg: ['Top']
 	    },
 	    params: {},
 	    props: {
@@ -28038,8 +28038,8 @@
 	    name: 'conv',
 	    color: 'rgb(87, 160, 17)',
 	    endpoint: {
-	      src: ['RightMiddle'],
-	      trg: ['LeftMiddle']
+	      src: ['Bottom'],
+	      trg: ['Top']
 	    },
 	    params: {
 	      num_output: {
@@ -28112,8 +28112,8 @@
 	    name: 'deconv',
 	    color: 'rgb(87, 100, 17)',
 	    endpoint: {
-	      src: ['RightMiddle'],
-	      trg: ['LeftMiddle']
+	      src: ['Bottom'],
+	      trg: ['Top']
 	    },
 	    params: {
 	      num_output: {
@@ -28186,8 +28186,8 @@
 	    name: 'relu',
 	    color: 'rgb(77, 101, 214)',
 	    endpoint: {
-	      src: ['RightMiddle'],
-	      trg: ['LeftMiddle']
+	      src: ['Bottom'],
+	      trg: ['Top']
 	    },
 	    params: {
 	      inplace: {
@@ -28211,7 +28211,7 @@
 	    color: 'rgb(164, 218, 35)',
 	    endpoint: {
 	      src: [],
-	      trg: ['LeftMiddle']
+	      trg: ['Top']
 	    },
 	    params: {},
 	    props: {
@@ -28227,8 +28227,8 @@
 	    name: 'fc',
 	    color: 'rgb(144, 29, 204)',
 	    endpoint: {
-	      src: ['RightMiddle'],
-	      trg: ['LeftMiddle']
+	      src: ['Bottom'],
+	      trg: ['Top']
 	    },
 	    params: {
 	      num_output: {
@@ -28265,8 +28265,8 @@
 	    name: 'pool',
 	    color: 'rgb(228, 50, 50)',
 	    endpoint: {
-	      src: ['RightMiddle'],
-	      trg: ['LeftMiddle']
+	      src: ['Bottom'],
+	      trg: ['Top']
 	    },
 	    params: {
 	      pad_h: {
@@ -28326,8 +28326,8 @@
 	    name: 'dropout',
 	    color: 'rgb(222, 29, 189)',
 	    endpoint: {
-	      src: ['RightMiddle'],
-	      trg: ['LeftMiddle']
+	      src: ['Bottom'],
+	      trg: ['Top']
 	    },
 	    params: {},
 	    props: {
@@ -28343,8 +28343,8 @@
 	    name: 'concat',
 	    color: 'rgb(255, 146, 52)',
 	    endpoint: {
-	      src: ['RightMiddle'],
-	      trg: ['LeftMiddle']
+	      src: ['Bottom'],
+	      trg: ['Top']
 	    },
 	    params: {},
 	    props: {
@@ -28360,8 +28360,8 @@
 	    name: 'eltwise',
 	    color: 'rgb(255, 146, 100)',
 	    endpoint: {
-	      src: ['RightMiddle'],
-	      trg: ['LeftMiddle']
+	      src: ['Bottom'],
+	      trg: ['Top']
 	    },
 	    params: {
 	      operation: {
@@ -28385,8 +28385,8 @@
 	    name: 'crop',
 	    color: 'rgb(255, 250, 100)',
 	    endpoint: {
-	      src: ['RightMiddle'],
-	      trg: ['LeftMiddle']
+	      src: ['Bottom'],
+	      trg: ['Top']
 	    },
 	    params: {
 	      axis: {
@@ -28415,8 +28415,8 @@
 	    name: 'lrn',
 	    color: 'rgb(29, 177, 222)',
 	    endpoint: {
-	      src: ['RightMiddle'],
-	      trg: ['LeftMiddle']
+	      src: ['Bottom'],
+	      trg: ['Top']
 	    },
 	    params: {},
 	    props: {
@@ -28433,7 +28433,7 @@
 	    color: 'rgb(167, 163, 163)',
 	    endpoint: {
 	      src: [],
-	      trg: ['LeftMiddle']
+	      trg: ['Top']
 	    },
 	    params: {},
 	    props: {
@@ -28449,7 +28449,7 @@
 	    name: 'input',
 	    color: 'rgb(255, 204, 60)',
 	    endpoint: {
-	      src: ['RightMiddle'],
+	      src: ['Bottom'],
 	      trg: []
 	    },
 	    params: {
@@ -28473,8 +28473,8 @@
 	    name: 'lstm',
 	    color: 'rgb(1, 116, 121)',
 	    endpoint: {
-	      src: ['RightMiddle'],
-	      trg: ['LeftMiddle']
+	      src: ['Bottom'],
+	      trg: ['Top']
 	    },
 	    params: {
 	      num_output: {
@@ -28511,8 +28511,8 @@
 	    name: 'embed',
 	    color: 'rgb(23, 212, 90)',
 	    endpoint: {
-	      src: ['RightMiddle'],
-	      trg: ['LeftMiddle']
+	      src: ['Bottom'],
+	      trg: ['Top']
 	    },
 	    params: {
 	      num_output: {
@@ -28555,8 +28555,8 @@
 	    name: 'reshape',
 	    color: 'rgb(134, 44, 44)',
 	    endpoint: {
-	      src: ['RightMiddle'],
-	      trg: ['LeftMiddle']
+	      src: ['Bottom'],
+	      trg: ['Top']
 	    },
 	    params: {
 	      dim: {
@@ -28579,7 +28579,7 @@
 	    name: 'hdf5data',
 	    color: 'rgb(241, 206, 38)',
 	    endpoint: {
-	      src: ['RightMiddle'],
+	      src: ['Bottom'],
 	      trg: []
 	    },
 	    params: {
@@ -28609,8 +28609,8 @@
 	    name: 'batchnorm',
 	    color: 'rgb(31, 218, 45)',
 	    endpoint: {
-	      src: ['RightMiddle'],
-	      trg: ['LeftMiddle']
+	      src: ['Bottom'],
+	      trg: ['Top']
 	    },
 	    params: {
 	      use_global_stats: {
@@ -28634,8 +28634,8 @@
 	    name: 'scale',
 	    color: 'rgb(243, 75, 214)',
 	    endpoint: {
-	      src: ['RightMiddle'],
-	      trg: ['LeftMiddle']
+	      src: ['Bottom'],
+	      trg: ['Top']
 	    },
 	    params: {
 	      bias_term: {
@@ -28659,8 +28659,8 @@
 	  name: 'elementwise',
 	  color: 'rgb(162, 146, 27)',
 	  endpoint: {
-	    src: ['RightMiddle'],
-	    trg: ['LeftMiddle']
+	    src: ['Bottom'],
+	    trg: ['Top']
 	  },
 	  params: {
 	    operation: {
@@ -28693,26 +28693,26 @@
 
 	exports.default = function () {
 	  var ArrowConnector = function ArrowConnector(params) {
-	    params = params || { dx: 120, dy: 120 };
+	    params = params || { dx: 20, dy: 20 };
 	    var _super = jsPlumb.Connectors.AbstractConnector.apply(this, arguments);
 	    this.type = "ArrowConnector";
-	    var dx = params.x || 50,
-	        dy = params.y || 50;
+	    var dx = params.x || 20,
+	        dy = params.y || 20;
 
 	    this._compute = function (paintInfo, paintParams) {
 	      var w = paintInfo.w,
 	          h = paintInfo.h;
 
-	      if (paintParams.targetEndpoint.isTarget && paintParams.targetEndpoint.element.attributes['data-type'].nodeValue === 'Concat') {
+	      if (paintParams.targetEndpoint.isTarget && (paintParams.targetEndpoint.element.attributes['data-type'].nodeValue === 'Concat' || paintParams.targetEndpoint.element.attributes['data-type'].nodeValue === 'Eltwise')) {
 	        _super.addSegment(this, "Straight", {
 	          x1: paintInfo.sx,
 	          y1: paintInfo.sy,
-	          x2: paintInfo.tx - dx,
-	          y2: paintInfo.sy
+	          x2: paintInfo.sx,
+	          y2: paintInfo.ty - dy
 	        });
 	        _super.addSegment(this, "Straight", {
-	          x1: paintInfo.tx - dx,
-	          y1: paintInfo.sy,
+	          x1: paintInfo.sx,
+	          y1: paintInfo.ty - dy,
 	          x2: paintInfo.tx,
 	          y2: paintInfo.ty
 	        });
@@ -28720,12 +28720,6 @@
 	        _super.addSegment(this, "Straight", {
 	          x1: paintInfo.sx,
 	          y1: paintInfo.sy,
-	          x2: paintInfo.sx + dx,
-	          y2: paintInfo.ty
-	        });
-	        _super.addSegment(this, "Straight", {
-	          x1: paintInfo.sx + dx,
-	          y1: paintInfo.ty,
 	          x2: paintInfo.tx,
 	          y2: paintInfo.ty
 	        });
@@ -29986,137 +29980,7 @@
 	exports.default = Tabs;
 
 /***/ },
-/* 255 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	exports.default = function (net) {
-	  // map[x] = [y1, y2, y3]
-	  var map = {};
-	  var position = {};
-	  var processed = {};
-
-	  Object.keys(net).forEach(function (layerId) {
-	    processed[layerId] = false;
-	  });
-	  function isProcessPossible(layerId) {
-	    var inputs = net[layerId].connection.input;
-	    var i = 0;
-	    for (i = 0; i < inputs.length; i++) {
-	      if (processed[inputs[i]] === false) {
-	        return false;
-	      }
-	    }
-	    return true;
-	  }
-
-	  // allocatePosition finds the closest position available to preferred position
-	  function allocatePosition(layerId, preferredPosition) {
-	    if (!map.hasOwnProperty(preferredPosition[0])) {
-	      map[preferredPosition[0]] = [];
-	    }
-	    var positionsY = map[preferredPosition[0]];
-	    if (positionsY.indexOf(preferredPosition[1]) != -1) {
-	      var temp = preferredPosition[1],
-	          _i = 2;
-	      while (1) {
-	        if (positionsY.indexOf(temp + _i) === -1) {
-	          // may be avoid overlapping edges
-	          if (map[preferredPosition[0] - 1].indexOf(temp + _i) === -1) {
-	            position[layerId] = [preferredPosition[0], temp + _i];
-	            map[preferredPosition[0]].push(position[layerId][1]);
-	            return;
-	          }
-	        }
-	        if (positionsY.indexOf(temp - _i) === -1) {
-	          // may be avoid overlapping edges
-	          if (map[preferredPosition[0] - 1].indexOf(temp - _i) === -1) {
-	            position[layerId] = [preferredPosition[0], temp - _i];
-	            map[preferredPosition[0]].push(position[layerId][1]);
-	            return;
-	          }
-	        }
-	        _i = _i + 2;
-	      }
-	    } else {
-	      position[layerId] = preferredPosition;
-	      map[preferredPosition[0]].push(position[layerId][1]);
-	      return;
-	    }
-	  }
-
-	  var stack = [];
-	  var parentMap = {};
-	  var i = null,
-	      layerId = null,
-	      parentId = null,
-	      inputLength = null,
-	      outputLength = null;
-
-	  // finding the input layers to start DFS
-	  Object.keys(net).forEach(function (layerId) {
-	    if (net[layerId].info.type === 'Data' || net[layerId].info.type === 'Input' || net[layerId].info.type === 'HDF5Data') {
-	      stack.push(layerId);
-	      parentMap[layerId] = null;
-	    }
-	  });
-
-	  // custom DFS
-	  while (stack.length) {
-	    i = stack.length - 1;
-	    while (isProcessPossible(stack[i]) === false) {
-	      i = i - 1;
-	    }
-	    layerId = stack[i];
-	    stack.splice(i, 1);
-	    parentId = parentMap[layerId];
-	    inputLength = net[layerId].connection.input.length;
-	    if (parentId != null) {
-	      outputLength = net[parentId].connection.output.length;
-	    }
-	    if (parentId === null) {
-	      position[layerId] = [0, 0];
-	    } else if (inputLength === 1 && outputLength === 1) {
-	      allocatePosition(layerId, [position[parentId][0] + 1, position[parentId][1]]);
-	    } else if (inputLength > 1) {
-	      (function () {
-	        // x position = max of inputs + 1
-	        // y position = mean of inputs
-	        var sum = 0,
-	            mean = 0,
-	            max = 0;
-	        net[layerId].connection.input.forEach(function (inputId) {
-	          sum = sum + position[inputId][1];
-	          if (position[inputId][0] > max) {
-	            max = position[inputId][0];
-	          }
-	        });
-	        mean = Math.round(sum / inputLength);
-	        allocatePosition(layerId, [max + 1, mean]);
-	      })();
-	    } else if (inputLength === 1 && outputLength != 1) {
-	      var index = net[parentId].connection.output.indexOf(layerId);
-	      allocatePosition(layerId, [position[parentId][0] + 1, position[parentId][1] + (outputLength - 1) - 2 * index]);
-	    }
-
-	    net[layerId].connection.output.forEach(function (outputId) {
-	      if (stack.indexOf(outputId) === -1) {
-	        stack.push(outputId);
-	        parentMap[outputId] = layerId;
-	      }
-	    });
-
-	    processed[layerId] = true;
-	  }
-	  return position;
-	};
-
-/***/ },
+/* 255 */,
 /* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -30151,7 +30015,7 @@
 
 
 	// module
-	exports.push([module.id, "\n\n#jsplumbContainer {\n  position: absolute;\n  transform-origin: top left;\n}\n\n.topBar{\n\n}\n\nhtml,body,#app,.app{\n  height:100%;\n}\n\n.container-fluid{\n  display: flex;\n  flex-flow: column;\n  height: 100%;\n  padding-bottom: 15px;\n}\n\n.topBarHead{\n  font-size: 30px;\n}\n\n.topBar .btn{\n  margin: 5px;\n  overflow: auto;\n  flex: 0 1 auto;\n}\n\n.content{\n  flex: 1 1 auto;\n  height:100%;\n  display: flex;\n  flex-flow: column;\n  overflow: hidden;\n  position: relative;\n}\n\n.canvas{\n  flex: 1 1 auto;\n  width: 100%;\n  position: relative;\n  overflow: hidden;\n  border: 1px solid #ddd;\n  border-radius: 4px 4px 4px 4px;\n\n  /*background: yellow;*/\n}\n\n.setHead{\n  font-size: 25px;\n  color: green;\n  text-align: center;\n  padding-bottom: 20px;\n  padding-top: 20px;\n}\n\n.dropdown {\n  z-index: 99;\n}\n\n.pane {\n    position: absolute;\n    left:50px;\n    top:25px;\n    z-index: 23;\n}\n\n.setContain{\n  padding-right: 40px;\n}\n\n\n.setparams{\n  position: absolute;\n  background-color: rgba(0,0,0,0.75);\n  height: 80%;\n  width:26%;\n  min-width:335px;\n  max-width: 400px;\n  padding-left: 25px;\n  color: white;\n  overflow: auto;\n  padding-bottom: 50px;\n  top:10%;\n  left:100%;\n  border-top-left-radius: 2em;\n  border-bottom-left-radius: 2em;\n  transition: transform 0.1s;\n  transform: translateX(0px);\n}\n\n.setparamsActive{\n    transform: translateX(-100%);\n}\n\n.layer{\n  font-size: 22px;\n  padding: 10px 25px 10px 25px;\n  text-align: center;\n  position: absolute;\n  z-index: 20;\n  background: #e15e4f;\n  color: white;\n  cursor: pointer;\n}\n\n.selected{\n  box-shadow: 0px 0px 30px #aaa;\n  -o-box-shadow: 0px 0px 30px #aaa;\n  -webkit-box-shadow: 0px 0px 30px #aaa;\n  -moz-box-shadow: 0px 0px 30px #aaa;\n}\n\n.jsplumb-connector {\n  z-index: 21;\n}\n\n.jsplumb-endpoint, .endpointTargetLabel, .endpointSourceLabel {\n  z-index: 20;\n}\n\n.jsplumb-endpoint {\n  cursor: pointer;\n}\n\n.jsplumb-drag {\n  cursor: move;\n}\n\n[draggable] {\n  -moz-user-select: none;\n  -khtml-user-select: none;\n  -webkit-user-select: none;\n  user-select: none;\n  /* Required to make elements draggable in old WebKit */\n  -khtml-user-drag: element;\n  -webkit-user-drag: element;\n}\n\n.jsplumb-connected {\n  /*border: 1px solid black;\n  box-shadow: 0px 0px 5px #aaa;\n  -o-box-shadow: 0px 0px 5px #aaa;\n  -webkit-box-shadow: 0px 0px 5px #aaa;\n  -moz-box-shadow: 0px 0px 5px #aaa;*/\n}\n\n.layer.jsplumb-drag {\n  box-shadow: 0px 0px 30px #aaa;\n  -o-box-shadow: 0px 0px 30px #aaa;\n  -webkit-box-shadow: 0px 0px 30px #aaa;\n  -moz-box-shadow: 0px 0px 30px #aaa;\n}\n\n.jsplumb-endpoint {\n  cursor: pointer;\n}\n\n.error{\n    padding: 3px;\n    width:400px;\n    padding-left: 10px;\n    color: #a94442;\n    background-color: #f2dede;\n    border: 1px solid #ebccd1;\n    z-index: 22;\n    position: absolute;\n    left:500px;\n}\n\n.alert-dismissible .close {\n    position: relative;\n    top: -2px;\n    right: -21px;\n    color: inherit;\n}\nbutton.close {\n    -webkit-appearance: none;\n    padding: 0;\n    cursor: pointer;\n    background: 0 0;\n    border: 0;\n}\n\n.close {\n    float: right;\n    font-size: 21px;\n    font-weight: 700;\n    line-height: 1;\n    color: #000;\n    text-shadow: 0 1px 0 #fff;\n    filter: alpha(opacity=20);\n    opacity: .2;\n}\n\n#pane-dropdown:hover .dropdown-menu {\n    display: block;\n}\n\n/*.nav-pills .dropdown-menu {*/\n.dropdown-menu {\n    margin-top: 0;\n}\n\n.nav-pills>li {\n    margin-right: 30px !important;\n    padding-bottom: 5px;\n}\n\n#addLayerDropdown .btn{\n    border-radius: 0px;\n    border: 1px solid transparent;\n    cursor: move;\n}\n\nbutton\n{\n    border: 0;\n    padding: 0px;\n    margin: 0px;\n    /*font-size: 28px;*/\n    -webkit-appearance: none;\n    outline: none;\n    background: transparent;\n    text-align: center;\n    white-space: nowrap;\n    vertical-align: middle;\n    /*user-select: none;*/\n}\n\ninput[type=\"file\"] {\n    display: none;\n}\n\n.dropdown-menu label{\n    width:100%;\n    font-weight: normal;\n    padding: 0px;\n    margin: 0px;\n}\n\n\n\n/* css loader*/\n.loader:before,\n.loader:after,\n.loader {\n  border-radius: 50%;\n  width: 2.5em;\n  height: 2.5em;\n  -webkit-animation-fill-mode: both;\n  animation-fill-mode: both;\n  -webkit-animation: load7 1.8s infinite ease-in-out;\n  animation: load7 1.8s infinite ease-in-out;\n}\n.loader {\n  color: #bcbcbc;\n  font-size: 10px;\n  position: absolute;\n  right:65px;\n  top:15px;\n  -webkit-transform: translateZ(0);\n  -ms-transform: translateZ(0);\n  transform: translateZ(0);\n  -webkit-animation-delay: -0.16s;\n  animation-delay: -0.16s;\n  transform:scale(0.5);\n}\n.loader:before {\n  left: -3.5em;\n  -webkit-animation-delay: -0.32s;\n  animation-delay: -0.32s;\n}\n.loader:after {\n  left: 3.5em;\n}\n.loader:before,\n.loader:after {\n  content: '';\n  position: absolute;\n  top: 0;\n}\n@-webkit-keyframes load7 {\n  0%,\n  80%,\n  100% {\n    box-shadow: 0 2.5em 0 -1.3em;\n  }\n  40% {\n    box-shadow: 0 2.5em 0 0;\n  }\n}\n@keyframes load7 {\n  0%,\n  80%,\n  100% {\n    box-shadow: 0 2.5em 0 -1.3em;\n  }\n  40% {\n    box-shadow: 0 2.5em 0 0;\n  }\n}\n", ""]);
+	exports.push([module.id, "\n\n#jsplumbContainer {\n  position: absolute;\n  transform-origin: top left;\n}\n\n.topBar{\n\n}\n\nhtml,body,#app,.app{\n  height:100%;\n}\n\n.container-fluid{\n  display: flex;\n  flex-flow: column;\n  height: 100%;\n  padding-bottom: 15px;\n}\n\n.topBarHead{\n  font-size: 30px;\n}\n\n.topBar .btn{\n  margin: 5px;\n  overflow: auto;\n  flex: 0 1 auto;\n}\n\n.content{\n  flex: 1 1 auto;\n  height:100%;\n  display: flex;\n  flex-flow: column;\n  overflow: hidden;\n  position: relative;\n}\n\n.canvas{\n  flex: 1 1 auto;\n  width: 100%;\n  position: relative;\n  overflow: scroll;\n  border: 1px solid #ddd;\n  border-radius: 4px 4px 4px 4px;\n\n  /*background: yellow;*/\n}\n\n.setHead{\n  font-size: 25px;\n  color: green;\n  text-align: center;\n  padding-bottom: 20px;\n  padding-top: 20px;\n}\n\n.dropdown {\n  z-index: 99;\n}\n\n.pane {\n    position: absolute;\n    left:50px;\n    top:25px;\n    z-index: 23;\n}\n\n.setContain{\n  padding-right: 40px;\n}\n\n\n.setparams{\n  position: absolute;\n  background-color: rgba(0,0,0,0.75);\n  height: 80%;\n  width:26%;\n  min-width:335px;\n  max-width: 400px;\n  padding-left: 25px;\n  color: white;\n  overflow: auto;\n  padding-bottom: 50px;\n  top:10%;\n  left:100%;\n  border-top-left-radius: 2em;\n  border-bottom-left-radius: 2em;\n  transition: transform 0.1s;\n  transform: translateX(0px);\n}\n\n.setparamsActive{\n    transform: translateX(-100%);\n}\n\n.layer{\n  font-size: 22px;\n  width: 150px;\n  padding: 5px 0px 5px 0px;\n  text-align: center;\n  position: absolute;\n  z-index: 20;\n  border-radius: 10px;\n  background: #e15e4f;\n  color: white;\n  cursor: pointer;\n}\n\n.selected{\n  box-shadow: 0px 0px 30px #aaa;\n  -o-box-shadow: 0px 0px 30px #aaa;\n  -webkit-box-shadow: 0px 0px 30px #aaa;\n  -moz-box-shadow: 0px 0px 30px #aaa;\n}\n\n.jsplumb-connector {\n  z-index: 21;\n}\n\n.jsplumb-endpoint, .endpointTargetLabel, .endpointSourceLabel {\n  z-index: 20;\n}\n\n.jsplumb-endpoint {\n  cursor: pointer;\n}\n\n.jsplumb-drag {\n  cursor: move;\n}\n\n[draggable] {\n  -moz-user-select: none;\n  -khtml-user-select: none;\n  -webkit-user-select: none;\n  user-select: none;\n  /* Required to make elements draggable in old WebKit */\n  -khtml-user-drag: element;\n  -webkit-user-drag: element;\n}\n\n.jsplumb-connected {\n  /*border: 1px solid black;\n  box-shadow: 0px 0px 5px #aaa;\n  -o-box-shadow: 0px 0px 5px #aaa;\n  -webkit-box-shadow: 0px 0px 5px #aaa;\n  -moz-box-shadow: 0px 0px 5px #aaa;*/\n}\n\n.layer.jsplumb-drag {\n  box-shadow: 0px 0px 30px #aaa;\n  -o-box-shadow: 0px 0px 30px #aaa;\n  -webkit-box-shadow: 0px 0px 30px #aaa;\n  -moz-box-shadow: 0px 0px 30px #aaa;\n}\n\n.jsplumb-endpoint {\n  cursor: pointer;\n}\n\n.error{\n    padding: 3px;\n    width:400px;\n    padding-left: 10px;\n    color: #a94442;\n    background-color: #f2dede;\n    border: 1px solid #ebccd1;\n    z-index: 22;\n    position: absolute;\n    left:500px;\n}\n\n.alert-dismissible .close {\n    position: relative;\n    top: -2px;\n    right: -21px;\n    color: inherit;\n}\nbutton.close {\n    -webkit-appearance: none;\n    padding: 0;\n    cursor: pointer;\n    background: 0 0;\n    border: 0;\n}\n\n.close {\n    float: right;\n    font-size: 21px;\n    font-weight: 700;\n    line-height: 1;\n    color: #000;\n    text-shadow: 0 1px 0 #fff;\n    filter: alpha(opacity=20);\n    opacity: .2;\n}\n\n#pane-dropdown:hover .dropdown-menu {\n    display: block;\n}\n\n/*.nav-pills .dropdown-menu {*/\n.dropdown-menu {\n    margin-top: 0;\n}\n\n.nav-pills>li {\n    margin-right: 30px !important;\n    padding-bottom: 5px;\n}\n\n#addLayerDropdown .btn{\n    border-radius: 0px;\n    border: 1px solid transparent;\n    cursor: move;\n}\n\nbutton\n{\n    border: 0;\n    padding: 0px;\n    margin: 0px;\n    /*font-size: 28px;*/\n    -webkit-appearance: none;\n    outline: none;\n    background: transparent;\n    text-align: center;\n    white-space: nowrap;\n    vertical-align: middle;\n    /*user-select: none;*/\n}\n\ninput[type=\"file\"] {\n    display: none;\n}\n\n.dropdown-menu label{\n    width:100%;\n    font-weight: normal;\n    padding: 0px;\n    margin: 0px;\n}\n\n\n\n/* css loader*/\n.loader:before,\n.loader:after,\n.loader {\n  border-radius: 50%;\n  width: 2.5em;\n  height: 2.5em;\n  -webkit-animation-fill-mode: both;\n  animation-fill-mode: both;\n  -webkit-animation: load7 1.8s infinite ease-in-out;\n  animation: load7 1.8s infinite ease-in-out;\n}\n.loader {\n  color: #bcbcbc;\n  font-size: 10px;\n  position: absolute;\n  right:65px;\n  top:15px;\n  -webkit-transform: translateZ(0);\n  -ms-transform: translateZ(0);\n  transform: translateZ(0);\n  -webkit-animation-delay: -0.16s;\n  animation-delay: -0.16s;\n  transform:scale(0.5);\n}\n.loader:before {\n  left: -3.5em;\n  -webkit-animation-delay: -0.32s;\n  animation-delay: -0.32s;\n}\n.loader:after {\n  left: 3.5em;\n}\n.loader:before,\n.loader:after {\n  content: '';\n  position: absolute;\n  top: 0;\n}\n@-webkit-keyframes load7 {\n  0%,\n  80%,\n  100% {\n    box-shadow: 0 2.5em 0 -1.3em;\n  }\n  40% {\n    box-shadow: 0 2.5em 0 0;\n  }\n}\n@keyframes load7 {\n  0%,\n  80%,\n  100% {\n    box-shadow: 0 2.5em 0 -1.3em;\n  }\n  40% {\n    box-shadow: 0 2.5em 0 0;\n  }\n}\n", ""]);
 
 	// exports
 
@@ -30463,6 +30327,137 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
+
+/***/ },
+/* 260 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	exports.default = function (net) {
+	  // map[x] = [y1, y2, y3]
+	  var map = {};
+	  var position = {};
+	  var processed = {};
+
+	  Object.keys(net).forEach(function (layerId) {
+	    processed[layerId] = false;
+	  });
+	  function isProcessPossible(layerId) {
+	    var inputs = net[layerId].connection.input;
+	    var i = 0;
+	    for (i = 0; i < inputs.length; i++) {
+	      if (processed[inputs[i]] === false) {
+	        return false;
+	      }
+	    }
+	    return true;
+	  }
+
+	  // allocatePosition finds the closest position available to preferred position
+	  function allocatePosition(layerId, preferredPosition) {
+	    if (!map.hasOwnProperty(preferredPosition[1])) {
+	      map[preferredPosition[1]] = [];
+	    }
+	    var positionsX = map[preferredPosition[1]];
+	    if (positionsX.indexOf(preferredPosition[0]) != -1) {
+	      var temp = preferredPosition[0],
+	          _i = 2;
+	      while (1) {
+	        if (positionsX.indexOf(temp + _i) === -1) {
+	          // may be avoid overlapping edges
+	          if (map[preferredPosition[1] - 1].indexOf(temp + _i) === -1) {
+	            position[layerId] = [preferredPosition[1], temp + _i];
+	            map[preferredPosition[1]].push(position[layerId][1]);
+	            return;
+	          }
+	        }
+	        if (positionsY.indexOf(temp - _i) === -1) {
+	          // may be avoid overlapping edges
+	          if (map[preferredPosition[1] - 1].indexOf(temp - _i) === -1) {
+	            position[layerId] = [preferredPosition[1], temp - _i];
+	            map[preferredPosition[1]].push(position[layerId][1]);
+	            return;
+	          }
+	        }
+	        _i = _i + 2;
+	      }
+	    } else {
+	      position[layerId] = preferredPosition;
+	      map[preferredPosition[1]].push(position[layerId][1]);
+	      return;
+	    }
+	  }
+
+	  var stack = [];
+	  var parentMap = {};
+	  var i = null,
+	      layerId = null,
+	      parentId = null,
+	      inputLength = null,
+	      outputLength = null;
+
+	  // finding the input layers to start DFS
+	  Object.keys(net).forEach(function (layerId) {
+	    if (net[layerId].info.type === 'Data' || net[layerId].info.type === 'Input' || net[layerId].info.type === 'HDF5Data') {
+	      stack.push(layerId);
+	      parentMap[layerId] = null;
+	    }
+	  });
+
+	  // custom DFS
+	  while (stack.length) {
+	    i = stack.length - 1;
+	    while (isProcessPossible(stack[i]) === false) {
+	      i = i - 1;
+	    }
+	    layerId = stack[i];
+	    stack.splice(i, 1);
+	    parentId = parentMap[layerId];
+	    inputLength = net[layerId].connection.input.length;
+	    if (parentId != null) {
+	      outputLength = net[parentId].connection.output.length;
+	    }
+	    if (parentId === null) {
+	      position[layerId] = [0, 0];
+	    } else if (inputLength === 1 && outputLength === 1) {
+	      allocatePosition(layerId, [position[parentId][0], position[parentId][1] + 1]);
+	    } else if (inputLength > 1) {
+	      (function () {
+	        // x position = max of inputs + 1
+	        // y position = mean of inputs
+	        var sum = 0,
+	            mean = 0,
+	            max = 0;
+	        net[layerId].connection.input.forEach(function (inputId) {
+	          sum = sum + position[inputId][0];
+	          if (position[inputId][1] > max) {
+	            max = position[inputId][1];
+	          }
+	        });
+	        mean = Math.floor(sum / inputLength);
+	        allocatePosition(layerId, [mean, max + 1]);
+	      })();
+	    } else if (inputLength === 1 && outputLength != 1) {
+	      var index = net[parentId].connection.output.indexOf(layerId);
+	      allocatePosition(layerId, [position[parentId][0] + (outputLength - 1) - 2 * index, position[parentId][1] + 1]);
+	    }
+
+	    net[layerId].connection.output.forEach(function (outputId) {
+	      if (stack.indexOf(outputId) === -1) {
+	        stack.push(outputId);
+	        parentMap[outputId] = layerId;
+	      }
+	    });
+
+	    processed[layerId] = true;
+	  }
+	  return position;
+	};
 
 /***/ }
 /******/ ]);

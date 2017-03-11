@@ -3,7 +3,7 @@ export default {
     name: 'data',
     color: 'rgb(255, 204, 60)',
     endpoint: {
-      src: ['RightMiddle'],
+      src: ['Bottom'],
       trg: [],
     },
     params: {
@@ -47,7 +47,7 @@ export default {
     color: 'rgb(38, 105, 40)',
     endpoint: {
       src: [],
-      trg: ['LeftMiddle'],
+      trg: ['Top'],
     },
     params: {
     },
@@ -64,8 +64,8 @@ export default {
     name: 'conv',
     color: 'rgb(87, 160, 17)',
     endpoint: {
-      src: ['RightMiddle'],
-      trg: ['LeftMiddle'],
+      src: ['Bottom'],
+      trg: ['Top'],
     },
     params: {
       num_output: {
@@ -138,8 +138,8 @@ export default {
     name: 'deconv',
     color: 'rgb(87, 100, 17)',
     endpoint: {
-      src: ['RightMiddle'],
-      trg: ['LeftMiddle'],
+      src: ['Bottom'],
+      trg: ['Top'],
     },
     params: {
       num_output: {
@@ -212,8 +212,8 @@ export default {
     name: 'relu',
     color: 'rgb(77, 101, 214)',
     endpoint: {
-      src: ['RightMiddle'],
-      trg: ['LeftMiddle'],
+      src: ['Bottom'],
+      trg: ['Top'],
     },
     params: {
       inplace: {
@@ -237,7 +237,7 @@ export default {
     color: 'rgb(164, 218, 35)',
     endpoint: {
       src: [],
-      trg: ['LeftMiddle'],
+      trg: ['Top'],
     },
     params: {
     },
@@ -254,8 +254,8 @@ export default {
     name: 'fc',
     color: 'rgb(144, 29, 204)',
     endpoint: {
-      src: ['RightMiddle'],
-      trg: ['LeftMiddle'],
+      src: ['Bottom'],
+      trg: ['Top'],
     },
     params: {
       num_output: {
@@ -292,8 +292,8 @@ export default {
     name: 'pool',
     color: 'rgb(228, 50, 50)',
     endpoint: {
-      src: ['RightMiddle'],
-      trg: ['LeftMiddle'],
+      src: ['Bottom'],
+      trg: ['Top'],
     },
     params: {
       pad_h: {
@@ -353,8 +353,8 @@ export default {
     name: 'dropout',
     color: 'rgb(222, 29, 189)',
     endpoint: {
-      src: ['RightMiddle'],
-      trg: ['LeftMiddle'],
+      src: ['Bottom'],
+      trg: ['Top'],
     },
     params: {
     },
@@ -371,8 +371,8 @@ export default {
     name: 'concat',
     color: 'rgb(255, 146, 52)',
     endpoint: {
-      src: ['RightMiddle'],
-      trg: ['LeftMiddle'],
+      src: ['Bottom'],
+      trg: ['Top'],
     },
     params: {
     },
@@ -389,8 +389,8 @@ export default {
     name: 'eltwise',
     color: 'rgb(255, 146, 100)',
     endpoint: {
-      src: ['RightMiddle'],
-      trg: ['LeftMiddle'],
+      src: ['Bottom'],
+      trg: ['Top'],
     },
     params: {
       operation: {
@@ -414,8 +414,8 @@ export default {
     name: 'crop',
     color: 'rgb(255, 250, 100)',
     endpoint: {
-      src: ['RightMiddle'],
-      trg: ['LeftMiddle'],
+      src: ['Bottom'],
+      trg: ['Top'],
     },
     params: {
       axis: {
@@ -444,8 +444,8 @@ export default {
     name: 'lrn',
     color: 'rgb(29, 177, 222)',
     endpoint: {
-      src: ['RightMiddle'],
-      trg: ['LeftMiddle'],
+      src: ['Bottom'],
+      trg: ['Top'],
     },
     params: {
     },
@@ -463,7 +463,7 @@ export default {
     color: 'rgb(167, 163, 163)',
     endpoint: {
       src: [],
-      trg: ['LeftMiddle'],
+      trg: ['Top'],
     },
     params: {
     },
@@ -480,7 +480,7 @@ export default {
     name: 'input',
     color: 'rgb(255, 204, 60)',
     endpoint: {
-      src: ['RightMiddle'],
+      src: ['Bottom'],
       trg: [],
     },
     params: {
@@ -504,8 +504,8 @@ export default {
     name: 'lstm',
     color: 'rgb(1, 116, 121)',
     endpoint: {
-      src: ['RightMiddle'],
-      trg: ['LeftMiddle'],
+      src: ['Bottom'],
+      trg: ['Top'],
     },
     params: {
       num_output: {
@@ -542,8 +542,8 @@ export default {
     name: 'embed',
     color: 'rgb(23, 212, 90)',
     endpoint: {
-      src: ['RightMiddle'],
-      trg: ['LeftMiddle'],
+      src: ['Bottom'],
+      trg: ['Top'],
     },
     params: {
       num_output: {
@@ -586,8 +586,8 @@ export default {
     name: 'reshape',
     color: 'rgb(134, 44, 44)',
     endpoint: {
-      src: ['RightMiddle'],
-      trg: ['LeftMiddle'],
+      src: ['Bottom'],
+      trg: ['Top'],
     },
     params: {
       dim: {
@@ -610,7 +610,7 @@ export default {
     name: 'hdf5data',
     color: 'rgb(241, 206, 38)',
     endpoint: {
-      src: ['RightMiddle'],
+      src: ['Bottom'],
       trg: [],
     },
     params: {
@@ -640,8 +640,8 @@ export default {
     name: 'batchnorm',
     color: 'rgb(31, 218, 45)',
     endpoint: {
-      src: ['RightMiddle'],
-      trg: ['LeftMiddle'],
+      src: ['Bottom'],
+      trg: ['Top'],
     },
     params: {
       use_global_stats: {
@@ -665,8 +665,8 @@ export default {
     name: 'scale',
     color: 'rgb(243, 75, 214)',
     endpoint: {
-      src: ['RightMiddle'],
-      trg: ['LeftMiddle'],
+      src: ['Bottom'],
+      trg: ['Top'],
     },
     params: {
       bias_term: {
@@ -690,8 +690,8 @@ export default {
     name: 'elementwise',
     color: 'rgb(162, 146, 27)',
     endpoint: {
-      src: ['RightMiddle'],
-      trg: ['LeftMiddle'],
+      src: ['Bottom'],
+      trg: ['Top'],
     },
     params: {
       operation: {

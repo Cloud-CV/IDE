@@ -43,7 +43,7 @@ html,body,#app,.app{
   flex: 1 1 auto;
   width: 100%;
   position: relative;
-  overflow: hidden;
+  overflow: scroll;
   border: 1px solid #ddd;
   border-radius: 4px 4px 4px 4px;
 
@@ -99,10 +99,12 @@ html,body,#app,.app{
 
 .layer{
   font-size: 22px;
-  padding: 10px 25px 10px 25px;
+  width: 150px;
+  padding: 5px 0px 5px 0px;
   text-align: center;
   position: absolute;
   z-index: 20;
+  border-radius: 10px;
   background: #e15e4f;
   color: white;
   cursor: pointer;
