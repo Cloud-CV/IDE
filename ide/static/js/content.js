@@ -5,7 +5,7 @@ import SetParams from './setParams';
 import TopBar from './topBar';
 import Tabs from './tabs';
 import data from './data';
-import netLayout from './netLayout';
+import netLayout from './netLayout_vertical.js';
 
 class Content extends React.Component {
   constructor(props) {
@@ -242,8 +242,8 @@ class Content extends React.Component {
     Object.keys(positions).forEach(layerId => {
       const layer = net[layerId];
       layer.state = {
-        top: `${250 + 50 * positions[layerId][1]}px`,
-        left: `${20 + 180 * positions[layerId][0]}px`,
+        top: `${100 + 65 * positions[layerId][1]}px`,
+        left: `${600 + 80 * positions[layerId][0]}px`,
         class: '',
       };
     });
