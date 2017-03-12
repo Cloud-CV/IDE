@@ -10,7 +10,9 @@ export default function () {
     let w = paintInfo.w,
       h = paintInfo.h;
 
-    if(paintParams.targetEndpoint.isTarget && (paintParams.targetEndpoint.element.attributes['data-type'].nodeValue === 'Concat' || paintParams.targetEndpoint.element.attributes['data-type'].nodeValue === 'Eltwise')){
+    if(paintParams.targetEndpoint.isTarget && 
+      ((paintParams.targetEndpoint.element.attributes['data-type'].nodeValue === 'Concat') ||
+       (paintParams.targetEndpoint.element.attributes['data-type'].nodeValue === 'Eltwise'))){
       _super.addSegment(this, "Straight", {
         x1:paintInfo.sx,
         y1:paintInfo.sy,

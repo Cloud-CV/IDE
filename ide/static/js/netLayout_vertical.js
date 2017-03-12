@@ -1,7 +1,7 @@
 // Assumption: test differs from train in the source of input and
 // some additions of accuracy layer
 
-// designed to work with googleNet.
+// designed to work with  alexNet, vgg, googleNet and resNet.
 // will work with all prototxts which follows our assumption
 // but the UI may not be clean.
 

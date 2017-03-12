@@ -54,6 +54,13 @@ export default function() {
     dragging = false;
   };
 
+
+  window.onkeypress = function(e) {
+    onZoom((e.key == '[') ? current.zoom * 1.2 * 1.2 : current.zoom, e.clientX - panZoom.offsetLeft, e.clientY - panZoom.offsetTop);
+    onZoom((e.key == ']') ? current.zoom / 1.2 / 1.2 : current.zoom, e.clientX - panZoom.offsetLeft, e.clientY - panZoom.offsetTop);
+
+  }
+
   panZoom.ondragstart = function(e) {
     e.preventDefault();
   };
@@ -74,7 +81,7 @@ export default function() {
 
   panZoom.ondblclick = function(e) {
     e.preventDefault();
-    onZoom((e.ctrlKey || e.metaKey) ? current.zoom * 1.7 * 1.7 : current.zoom / 1.7 / 1.7, e.clientX - panZoom.offsetLeft, e.clientY - panZoom.offsetTop);
+    onZoom((e.ctrlKey || e.metaKey) ? current.zoom * 1.2 * 1.2 : current.zoom / 1.2 / 1.2, e.clientX - panZoom.offsetLeft, e.clientY - panZoom.offsetTop);
   };
 
   function onZoom(zoom, cx, cy) {
@@ -93,7 +100,7 @@ export default function() {
     //instance.repaintEverything();
   }
 
-  var mousewheel, lastMouseWheelEventTime = Date.now();
+  /*var mousewheel, lastMouseWheelEventTime = Date.now();
 
   mousewheel = function(e) {
     e.preventDefault();
@@ -105,7 +112,7 @@ export default function() {
 
   if ("onmousewheel" in document) { panZoom.onmousewheel = mousewheel; }
   else { panZoom.addEventListener('wheel', mousewheel, false); }
-
+  */
   function getQueryVariable(id) { var params = window.location.search.substring(1).split("&");  for (var i = 0; i < params.length; i++) { var p = params[i].split("="); if (p[0] == id) { return p[1]; } } return(false); }
 
   return state;

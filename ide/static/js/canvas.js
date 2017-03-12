@@ -20,7 +20,7 @@ class Canvas extends React.Component {
     instance = jsPlumbReady();
     instance.bind('connection', this.connectionEvent.bind(this));
     instance.bind('connectionDetached', this.detachConnectionEvent.bind(this));
-    //this.mouseState = panZoom();
+    this.mouseState = panZoom();
   }
   componentDidUpdate() {
     instance.draggable(jsPlumb.getSelector('.layer'),

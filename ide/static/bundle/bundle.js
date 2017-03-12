@@ -27222,7 +27222,7 @@
 
 	var _data2 = _interopRequireDefault(_data);
 
-	var _netLayout_vertical = __webpack_require__(260);
+	var _netLayout_vertical = __webpack_require__(255);
 
 	var _netLayout_vertical2 = _interopRequireDefault(_netLayout_vertical);
 
@@ -27738,7 +27738,7 @@
 	      instance = (0, _jsplumb2.default)();
 	      instance.bind('connection', this.connectionEvent.bind(this));
 	      instance.bind('connectionDetached', this.detachConnectionEvent.bind(this));
-	      //this.mouseState = panZoom();
+	      this.mouseState = (0, _panZoom2.default)();
 	    }
 	  }, {
 	    key: 'componentDidUpdate',
@@ -29015,6 +29015,11 @@
 	    dragging = false;
 	  };
 
+	  window.onkeypress = function (e) {
+	    onZoom(e.key == '[' ? current.zoom * 1.2 * 1.2 : current.zoom, e.clientX - panZoom.offsetLeft, e.clientY - panZoom.offsetTop);
+	    onZoom(e.key == ']' ? current.zoom / 1.2 / 1.2 : current.zoom, e.clientX - panZoom.offsetLeft, e.clientY - panZoom.offsetTop);
+	  };
+
 	  panZoom.ondragstart = function (e) {
 	    e.preventDefault();
 	  };
@@ -29035,7 +29040,7 @@
 
 	  panZoom.ondblclick = function (e) {
 	    e.preventDefault();
-	    onZoom(e.ctrlKey || e.metaKey ? current.zoom * 1.7 * 1.7 : current.zoom / 1.7 / 1.7, e.clientX - panZoom.offsetLeft, e.clientY - panZoom.offsetTop);
+	    onZoom(e.ctrlKey || e.metaKey ? current.zoom * 1.2 * 1.2 : current.zoom / 1.2 / 1.2, e.clientX - panZoom.offsetLeft, e.clientY - panZoom.offsetTop);
 	  };
 
 	  function onZoom(zoom, cx, cy) {
@@ -29054,23 +29059,16 @@
 	    //instance.repaintEverything();
 	  }
 
-	  var mousewheel,
-	      lastMouseWheelEventTime = Date.now();
-
-	  mousewheel = function mousewheel(e) {
+	  /*var mousewheel, lastMouseWheelEventTime = Date.now();
+	   mousewheel = function(e) {
 	    e.preventDefault();
 	    var delta = e.wheelDeltaY;
-
-	    //onZoom((delta > 0) ? current.zoom / 1.7 : current.zoom * 1.7, e.clientX - panZoom.offsetLeft, e.clientY - panZoom.offsetTop);
-	    onZoom(delta > 0 ? current.zoom / 1.1 : delta < 0 ? current.zoom * 1.1 : current.zoom, e.clientX - panZoom.getBoundingClientRect().left, e.clientY - panZoom.getBoundingClientRect().top);
+	     //onZoom((delta > 0) ? current.zoom / 1.7 : current.zoom * 1.7, e.clientX - panZoom.offsetLeft, e.clientY - panZoom.offsetTop);
+	    onZoom((delta > 0) ? current.zoom / 1.1 : ((delta < 0) ? current.zoom * 1.1 : current.zoom), e.clientX - panZoom.getBoundingClientRect().left, e.clientY - panZoom.getBoundingClientRect().top);
 	  };
-
-	  if ("onmousewheel" in document) {
-	    panZoom.onmousewheel = mousewheel;
-	  } else {
-	    panZoom.addEventListener('wheel', mousewheel, false);
-	  }
-
+	   if ("onmousewheel" in document) { panZoom.onmousewheel = mousewheel; }
+	  else { panZoom.addEventListener('wheel', mousewheel, false); }
+	  */
 	  function getQueryVariable(id) {
 	    var params = window.location.search.substring(1).split("&");for (var i = 0; i < params.length; i++) {
 	      var p = params[i].split("=");if (p[0] == id) {
@@ -29980,7 +29978,137 @@
 	exports.default = Tabs;
 
 /***/ },
-/* 255 */,
+/* 255 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	exports.default = function (net) {
+	  // map[x] = [y1, y2, y3]
+	  var map = {};
+	  var position = {};
+	  var processed = {};
+
+	  Object.keys(net).forEach(function (layerId) {
+	    processed[layerId] = false;
+	  });
+	  function isProcessPossible(layerId) {
+	    var inputs = net[layerId].connection.input;
+	    var i = 0;
+	    for (i = 0; i < inputs.length; i++) {
+	      if (processed[inputs[i]] === false) {
+	        return false;
+	      }
+	    }
+	    return true;
+	  }
+
+	  // allocatePosition finds the closest position available to preferred position
+	  function allocatePosition(layerId, preferredPosition) {
+	    if (!map.hasOwnProperty(preferredPosition[1])) {
+	      map[preferredPosition[1]] = [];
+	    }
+	    var positionsX = map[preferredPosition[1]];
+	    if (positionsX.indexOf(preferredPosition[0]) != -1) {
+	      var temp = preferredPosition[0],
+	          _i = 2;
+	      while (1) {
+	        if (positionsX.indexOf(temp + _i) === -1) {
+	          // may be avoid overlapping edges
+	          if (map[preferredPosition[1] - 1].indexOf(temp + _i) === -1) {
+	            position[layerId] = [preferredPosition[1], temp + _i];
+	            map[preferredPosition[1]].push(position[layerId][1]);
+	            return;
+	          }
+	        }
+	        if (positionsY.indexOf(temp - _i) === -1) {
+	          // may be avoid overlapping edges
+	          if (map[preferredPosition[1] - 1].indexOf(temp - _i) === -1) {
+	            position[layerId] = [preferredPosition[1], temp - _i];
+	            map[preferredPosition[1]].push(position[layerId][1]);
+	            return;
+	          }
+	        }
+	        _i = _i + 2;
+	      }
+	    } else {
+	      position[layerId] = preferredPosition;
+	      map[preferredPosition[1]].push(position[layerId][1]);
+	      return;
+	    }
+	  }
+
+	  var stack = [];
+	  var parentMap = {};
+	  var i = null,
+	      layerId = null,
+	      parentId = null,
+	      inputLength = null,
+	      outputLength = null;
+
+	  // finding the input layers to start DFS
+	  Object.keys(net).forEach(function (layerId) {
+	    if (net[layerId].info.type === 'Data' || net[layerId].info.type === 'Input' || net[layerId].info.type === 'HDF5Data') {
+	      stack.push(layerId);
+	      parentMap[layerId] = null;
+	    }
+	  });
+
+	  // custom DFS
+	  while (stack.length) {
+	    i = stack.length - 1;
+	    while (isProcessPossible(stack[i]) === false) {
+	      i = i - 1;
+	    }
+	    layerId = stack[i];
+	    stack.splice(i, 1);
+	    parentId = parentMap[layerId];
+	    inputLength = net[layerId].connection.input.length;
+	    if (parentId != null) {
+	      outputLength = net[parentId].connection.output.length;
+	    }
+	    if (parentId === null) {
+	      position[layerId] = [0, 0];
+	    } else if (inputLength === 1 && outputLength === 1) {
+	      allocatePosition(layerId, [position[parentId][0], position[parentId][1] + 1]);
+	    } else if (inputLength > 1) {
+	      (function () {
+	        // x position = max of inputs + 1
+	        // y position = mean of inputs
+	        var sum = 0,
+	            mean = 0,
+	            max = 0;
+	        net[layerId].connection.input.forEach(function (inputId) {
+	          sum = sum + position[inputId][0];
+	          if (position[inputId][1] > max) {
+	            max = position[inputId][1];
+	          }
+	        });
+	        mean = Math.floor(sum / inputLength);
+	        allocatePosition(layerId, [mean, max + 1]);
+	      })();
+	    } else if (inputLength === 1 && outputLength != 1) {
+	      var index = net[parentId].connection.output.indexOf(layerId);
+	      allocatePosition(layerId, [position[parentId][0] + (outputLength - 1) - 2 * index, position[parentId][1] + 1]);
+	    }
+
+	    net[layerId].connection.output.forEach(function (outputId) {
+	      if (stack.indexOf(outputId) === -1) {
+	        stack.push(outputId);
+	        parentMap[outputId] = layerId;
+	      }
+	    });
+
+	    processed[layerId] = true;
+	  }
+	  return position;
+	};
+
+/***/ },
 /* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -30327,137 +30455,6 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
-
-/***/ },
-/* 260 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	exports.default = function (net) {
-	  // map[x] = [y1, y2, y3]
-	  var map = {};
-	  var position = {};
-	  var processed = {};
-
-	  Object.keys(net).forEach(function (layerId) {
-	    processed[layerId] = false;
-	  });
-	  function isProcessPossible(layerId) {
-	    var inputs = net[layerId].connection.input;
-	    var i = 0;
-	    for (i = 0; i < inputs.length; i++) {
-	      if (processed[inputs[i]] === false) {
-	        return false;
-	      }
-	    }
-	    return true;
-	  }
-
-	  // allocatePosition finds the closest position available to preferred position
-	  function allocatePosition(layerId, preferredPosition) {
-	    if (!map.hasOwnProperty(preferredPosition[1])) {
-	      map[preferredPosition[1]] = [];
-	    }
-	    var positionsX = map[preferredPosition[1]];
-	    if (positionsX.indexOf(preferredPosition[0]) != -1) {
-	      var temp = preferredPosition[0],
-	          _i = 2;
-	      while (1) {
-	        if (positionsX.indexOf(temp + _i) === -1) {
-	          // may be avoid overlapping edges
-	          if (map[preferredPosition[1] - 1].indexOf(temp + _i) === -1) {
-	            position[layerId] = [preferredPosition[1], temp + _i];
-	            map[preferredPosition[1]].push(position[layerId][1]);
-	            return;
-	          }
-	        }
-	        if (positionsY.indexOf(temp - _i) === -1) {
-	          // may be avoid overlapping edges
-	          if (map[preferredPosition[1] - 1].indexOf(temp - _i) === -1) {
-	            position[layerId] = [preferredPosition[1], temp - _i];
-	            map[preferredPosition[1]].push(position[layerId][1]);
-	            return;
-	          }
-	        }
-	        _i = _i + 2;
-	      }
-	    } else {
-	      position[layerId] = preferredPosition;
-	      map[preferredPosition[1]].push(position[layerId][1]);
-	      return;
-	    }
-	  }
-
-	  var stack = [];
-	  var parentMap = {};
-	  var i = null,
-	      layerId = null,
-	      parentId = null,
-	      inputLength = null,
-	      outputLength = null;
-
-	  // finding the input layers to start DFS
-	  Object.keys(net).forEach(function (layerId) {
-	    if (net[layerId].info.type === 'Data' || net[layerId].info.type === 'Input' || net[layerId].info.type === 'HDF5Data') {
-	      stack.push(layerId);
-	      parentMap[layerId] = null;
-	    }
-	  });
-
-	  // custom DFS
-	  while (stack.length) {
-	    i = stack.length - 1;
-	    while (isProcessPossible(stack[i]) === false) {
-	      i = i - 1;
-	    }
-	    layerId = stack[i];
-	    stack.splice(i, 1);
-	    parentId = parentMap[layerId];
-	    inputLength = net[layerId].connection.input.length;
-	    if (parentId != null) {
-	      outputLength = net[parentId].connection.output.length;
-	    }
-	    if (parentId === null) {
-	      position[layerId] = [0, 0];
-	    } else if (inputLength === 1 && outputLength === 1) {
-	      allocatePosition(layerId, [position[parentId][0], position[parentId][1] + 1]);
-	    } else if (inputLength > 1) {
-	      (function () {
-	        // x position = max of inputs + 1
-	        // y position = mean of inputs
-	        var sum = 0,
-	            mean = 0,
-	            max = 0;
-	        net[layerId].connection.input.forEach(function (inputId) {
-	          sum = sum + position[inputId][0];
-	          if (position[inputId][1] > max) {
-	            max = position[inputId][1];
-	          }
-	        });
-	        mean = Math.floor(sum / inputLength);
-	        allocatePosition(layerId, [mean, max + 1]);
-	      })();
-	    } else if (inputLength === 1 && outputLength != 1) {
-	      var index = net[parentId].connection.output.indexOf(layerId);
-	      allocatePosition(layerId, [position[parentId][0] + (outputLength - 1) - 2 * index, position[parentId][1] + 1]);
-	    }
-
-	    net[layerId].connection.output.forEach(function (outputId) {
-	      if (stack.indexOf(outputId) === -1) {
-	        stack.push(outputId);
-	        parentMap[outputId] = layerId;
-	      }
-	    });
-
-	    processed[layerId] = true;
-	  }
-	  return position;
-	};
 
 /***/ }
 /******/ ]);
