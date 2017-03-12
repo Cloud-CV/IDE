@@ -73,6 +73,22 @@ html,body,#app,.app{
   padding-right: 40px;
 }
 
+.rhTooltip{
+  padding: 0px;
+}
+
+
+.customTooltip {
+  padding: 10px !important;
+  width: 270px;
+  color: white !important;
+  background-color: rgba(0,0,0,0.9) !important;
+  border-radius: 20px;
+}
+
+.customTooltip br {
+display: none;
+}
 
 .setparams{
   position: absolute;
@@ -93,8 +109,29 @@ html,body,#app,.app{
   transform: translateX(0px);
 }
 
+
+
 .setparamsActive{
     transform: translateX(-100%);
+}
+
+#tooltipData.form-group{
+  padding: 0px;
+  margin: 0px;
+}
+.tooltipField{
+  border: none; 
+  color: white;
+  background: transparent;
+  padding: 0px;
+}
+.tooltipLabel{
+  border: none; 
+  color: white;
+  background: transparent;
+  padding-top: 5px;
+  max-width: 140px;
+  font-weight: bold;
 }
 
 .layer{
