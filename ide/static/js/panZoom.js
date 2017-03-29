@@ -20,12 +20,18 @@ export default function() {
   canvas.updateContainerPosition();
   canvas.updateContainerScale();
 
+  panZoom.addEventListener('gestureend', function(e) {
+      if (e.scale < 1.0) {
+          onZoom((e.key == '[') ? current.zoom * 1.2 * 1.2 : current.zoom, e.clientX - panZoom.offsetLeft, e.clientY - panZoom.offsetTop);
+      } else if (e.scale > 1.0) {
+          onZoom((e.key == ']') ? current.zoom / 1.2 / 1.2 : current.zoom, e.clientX - panZoom.offsetLeft, e.clientY - panZoom.offsetTop);
+      }
+  }, false);
 
   function updateTextPosition(e) {
     e.style.left = ($(e).data("x")) / current.zoom + 'px';
     e.style.top = ($(e).data("y")) / current.zoom  + 'px';
   }
-
 
   function newText(x, y, size, text) {
     var tb = document.createElement('div');
@@ -50,9 +56,14 @@ export default function() {
   };
 
   window.onmouseup = function() {
-  //panZoom.onmouseup = function() {
     dragging = false;
   };
+
+
+  window.onkeypress = function(e) {
+    onZoom((e.key == '[') ? current.zoom * 1.2 * 1.2 : current.zoom, e.clientX - panZoom.offsetLeft, e.clientY - panZoom.offsetTop);
+    onZoom((e.key == ']') ? current.zoom / 1.2 / 1.2 : current.zoom, e.clientX - panZoom.offsetLeft, e.clientY - panZoom.offsetTop);
+  }
 
   panZoom.ondragstart = function(e) {
     e.preventDefault();
@@ -68,13 +79,14 @@ export default function() {
       canvas.y += e.pageY - previousMousePosition.y;
       canvas.updateContainerPosition();
       previousMousePosition = { x: e.pageX, y: e.pageY };
-      //instance.repaintEverything();
     }
   };
 
+  panZoom.onT
+
   panZoom.ondblclick = function(e) {
     e.preventDefault();
-    onZoom((e.ctrlKey || e.metaKey) ? current.zoom * 1.7 * 1.7 : current.zoom / 1.7 / 1.7, e.clientX - panZoom.offsetLeft, e.clientY - panZoom.offsetTop);
+    onZoom((e.ctrlKey || e.metaKey) ? current.zoom * 1.2 * 1.2 : current.zoom / 1.2 / 1.2, e.clientX - panZoom.offsetLeft, e.clientY - panZoom.offsetTop);
   };
 
   function onZoom(zoom, cx, cy) {
@@ -85,15 +97,14 @@ export default function() {
     canvas.x = cx - newdx;
     canvas.y = cy - newdy;
     canvas.scale = 1 / zoom;
-    canvas.style.transitionDuration = "0s";
+    canvas.style.transitionDuration = "0.1s";
     canvas.updateContainerPosition();
     canvas.updateContainerScale();
     current.zoom = zoom;
     instance.setZoom(canvas.scale);
-    //instance.repaintEverything();
   }
 
-  var mousewheel, lastMouseWheelEventTime = Date.now();
+  /*var mousewheel, lastMouseWheelEventTime = Date.now();
 
   mousewheel = function(e) {
     e.preventDefault();
@@ -105,7 +116,7 @@ export default function() {
 
   if ("onmousewheel" in document) { panZoom.onmousewheel = mousewheel; }
   else { panZoom.addEventListener('wheel', mousewheel, false); }
-
+  */
   function getQueryVariable(id) { var params = window.location.search.substring(1).split("&");  for (var i = 0; i < params.length; i++) { var p = params[i].split("="); if (p[0] == id) { return p[1]; } } return(false); }
 
   return state;
