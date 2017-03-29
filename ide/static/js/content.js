@@ -232,6 +232,8 @@ class Content extends React.Component {
     // so that the new imported layers will all be mounted again
     const tempError = {};
     const error = [];
+    const height = 0.05*window.innerHeight;
+    const width = 0.45*window.innerWidth;
     this.setState({ net: {}, selectedLayer: null, hoveredLayer: null, nextLayerId: 0, selectedPhase: 0, error: [] });
     Object.keys(net).forEach(layerId => {
       const layer = net[layerId];
@@ -258,8 +260,8 @@ class Content extends React.Component {
     Object.keys(positions).forEach(layerId => {
       const layer = net[layerId];
       layer.state = {
-        top: `${100 + 65 * positions[layerId][1]}px`,
-        left: `${600 + 80 * positions[layerId][0]}px`,
+        top: `${height + 65 * positions[layerId][1]}px`,
+        left: `${width + 80 * positions[layerId][0]}px`,
         class: '',
       };
     });

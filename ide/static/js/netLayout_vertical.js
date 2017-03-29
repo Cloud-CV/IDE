@@ -6,7 +6,6 @@
 // but the UI may not be clean.
 
 export default function(net){
-// map[x] = [y1, y2, y3]
 let map = {};
 let position = {};
 let processed = {};
@@ -14,6 +13,7 @@ let processed = {};
 Object.keys(net).forEach(layerId => {
   processed[layerId] = false;
 });
+
 function isProcessPossible(layerId){
   let inputs = net[layerId].connection.input;
   let i = 0;
@@ -32,7 +32,7 @@ function allocatePosition(layerId, preferredPosition){
   }
   let positionsX = map[preferredPosition[1]];
   if (positionsX.indexOf(preferredPosition[0]) != -1) {
-    let temp = preferredPosition[0], i=2;
+    let temp = preferredPosition[0], i = 2;
     while (1) {
       if(positionsX.indexOf(temp+i) === -1){
         // may be avoid overlapping edges
@@ -90,8 +90,6 @@ while (stack.length) {
   } else if(inputLength === 1 && outputLength === 1){
     allocatePosition(layerId, [position[parentId][0], position[parentId][1]+1]);
   } else if (inputLength > 1){
-    // x position = max of inputs + 1
-    // y position = mean of inputs
     let sum = 0, mean = 0, max = 0;
     net[layerId].connection.input.forEach(inputId => {
       sum = sum + position[inputId][0];

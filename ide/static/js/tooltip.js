@@ -13,7 +13,6 @@ class Tooltip extends React.Component {
       const params = [];
       const props = [];
       const layer = this.props.net[this.props.hoveredLayer];
-      //console.log(layer);
 
       Object.keys(data[layer.info.type].params).forEach(param => {
         params.push(

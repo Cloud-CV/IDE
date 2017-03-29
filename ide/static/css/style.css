@@ -77,7 +77,6 @@ html,body,#app,.app{
   padding: 0px;
 }
 
-
 .customTooltip {
   padding: 10px !important;
   width: 270px;
@@ -109,8 +108,6 @@ display: none;
   transform: translateX(0px);
 }
 
-
-
 .setparamsActive{
     transform: translateX(-100%);
 }
@@ -136,7 +133,7 @@ display: none;
 
 .layer{
   font-size: 22px;
-  width: 150px;
+  width: 130px;
   padding: 5px 0px 5px 0px;
   text-align: center;
   position: absolute;
