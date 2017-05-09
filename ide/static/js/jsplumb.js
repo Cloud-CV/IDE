@@ -104,5 +104,3 @@ jsPlumb.registerConnectorType(ArrowConnector, "ArrowConnector");
 
   return instance;
 }
-
-
