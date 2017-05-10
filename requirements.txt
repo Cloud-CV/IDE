@@ -3,5 +3,7 @@ protobuf>=3.0
 pyaml==15.8.2
 numpy==1.11.0
 scikit-image==0.12.3
-tensorflow==0.9.0
+tensorflow==0.12.0
 django-allauth==0.30.0
+pep8==1.7.0
+flake8==3.0.4
