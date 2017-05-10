@@ -19,6 +19,9 @@ cache:
   before_cache:
     - rm -f $HOME/.cache/pip/log/debug.log
 
+before_install:
+  - sudo apt-get install libblas-dev liblapack-dev libatlas-base-dev gfortran
+
 install:
   - pip install -r requirements.txt
 
