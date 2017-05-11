@@ -23,7 +23,7 @@ before_install:
   - sudo apt-get install libblas-dev liblapack-dev libatlas-base-dev gfortran
 
 install:
-  - pip install -r requirements.txt
+  - pip install -r requirements/dev.txt
 
 script:
   - flake8 ./
