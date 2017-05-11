@@ -90,7 +90,6 @@ def jsonToPrototxt(net, net_name):
         layerParams = layer['params']
         layerType = layer['info']['type']
         layerPhase = layer['info']['phase']
-        # topBlob = blobNames[layerId]['top']
 
         if (layerType == 'Data' or layerType == 'Input'):
 

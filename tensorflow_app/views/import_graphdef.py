@@ -1,10 +1,8 @@
 import tensorflow as tf
 from google.protobuf import text_format
 from tensorflow.core.framework import graph_pb2
-# from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-# import yaml
 import math
 
 # map from operation name(tensorflow) to layer name(caffe)
