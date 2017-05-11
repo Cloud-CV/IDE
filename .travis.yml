@@ -13,7 +13,6 @@ cache:
     - rm -f $HOME/.cache/pip/log/debug.log
 
 install:
-<<<<<<< HEAD
   - pip install -r requirements/dev.txt
   - . $HOME/.nvm/nvm.sh
   - nvm install stable
