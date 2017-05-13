@@ -78,15 +78,15 @@ html,body,#app,.app{
 }
 
 .customTooltip {
-  padding: 10px !important;
+  padding: 10px;
   width: 270px;
-  color: white !important;
+  color: white;
   background-color: rgba(0,0,0,0.9) !important;
   border-radius: 20px;
 }
 
 .customTooltip br {
-display: none;
+  display: none;
 }
 
 .setparams{

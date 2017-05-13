@@ -90,13 +90,16 @@ export default function() {
   }
 
   function getQueryVariable(id) { 
-	var params = window.location.search.substring(1).split("&");  
-	for (var i = 0; i < params.length; i++) {
-		var p = params[i].split("="); 
-		if (p[0] == id) { 
-			return p[1]; } } 
-	return(false); }
+    var params = window.location.search.substring(1).split("&");  
+    for (var i = 0; i < params.length; i++) {
+      var p = params[i].split("="); 
+      if (p[0] == id) { 
+        return p[1]; 
+      } 
+    } 
+    return(false); 
+  }
+  
   return state;
-
 }
 

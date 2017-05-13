@@ -269,6 +269,7 @@ class Content extends React.Component {
     Object.keys(positions).forEach(layerId => {
       const layer = net[layerId];
       layer.state = {
+	// Graph does not centre properly on higher resolution screens
         top: `${height + 65 * positions[layerId][1]}px`,
         left: `${width + 80 * positions[layerId][0]}px`,
         class: ''
