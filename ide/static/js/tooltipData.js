@@ -99,9 +99,9 @@ tooltipData.propTypes = {
   value: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.number,
-    React.PropTypes.bool,
+    React.PropTypes.bool
   ]),
-  disabled: React.PropTypes.bool,
+  disabled: React.PropTypes.bool
 };
 
 export default tooltipData;

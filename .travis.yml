@@ -1,0 +1,27 @@
+sudo: required
+
+language: python
+
+python:
+  - "2.7"
+
+cache:
+  directories:
+    - $HOME/.cache/pip
+
+  before_cache:
+    - rm -f $HOME/.cache/pip/log/debug.log
+
+before_install:
+  - sudo apt-get install libblas-dev liblapack-dev libatlas-base-dev gfortran
+
+install:
+  - pip install -r requirements.txt
+  - . $HOME/.nvm/nvm.sh
+  - nvm install stable
+  - nvm use stable
+  - npm install
+
+script:
+  - flake8 ./
+  - npm run ci

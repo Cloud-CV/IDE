@@ -1,4 +1,3 @@
-/* eslint max-len: ["warn", 80]*/
 import React from 'react';
 import data from './data';
 
@@ -21,7 +20,7 @@ class Layer extends React.Component {
         style={{
           top:this.props.top,
           left:this.props.left,
-          background: data[this.props.type].color,
+          background: data[this.props.type].color
         }}
         data-type={this.props.type}
         onClick={(event) => this.props.click(event, this.props.id)}
@@ -42,7 +41,8 @@ Layer.propTypes = {
   left: React.PropTypes.string.isRequired,
   class: React.PropTypes.string,
   click: React.PropTypes.func,
-  hover: React.PropTypes.func,
+  hover: React.PropTypes.func
 };
 
 export default Layer;
+

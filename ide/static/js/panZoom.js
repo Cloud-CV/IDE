@@ -2,7 +2,7 @@ export default function() {
   "use strict";
 
   var panZoom = document.getElementById('panZoomContainer'),
-    canvas = document.getElementById('jsplumbContainer');
+  canvas = document.getElementById('jsplumbContainer');
 
   if (!canvas) { return; }
 
@@ -27,22 +27,6 @@ export default function() {
           onZoom((e.key == ']') ? current.zoom / 1.2 / 1.2 : current.zoom, e.clientX - panZoom.offsetLeft, e.clientY - panZoom.offsetTop);
       }
   }, false);
-
-  function updateTextPosition(e) {
-    e.style.left = ($(e).data("x")) / current.zoom + 'px';
-    e.style.top = ($(e).data("y")) / current.zoom  + 'px';
-  }
-
-  function newText(x, y, size, text) {
-    var tb = document.createElement('div');
-    tb.className = "text";
-    tb.contentEditable = true;
-    tb.innerHTML = text;
-    $(tb).data("x", x).data("y", y).data("size", size);
-    updateTextPosition(tb);
-    canvas.appendChild(tb);
-    return tb;
-  }
 
   var  dragging = false,
     state = { click: false, pan: false },
@@ -86,7 +70,8 @@ export default function() {
 
   panZoom.ondblclick = function(e) {
     e.preventDefault();
-    onZoom((e.ctrlKey || e.metaKey) ? current.zoom * 1.2 * 1.2 : current.zoom / 1.2 / 1.2, e.clientX - panZoom.offsetLeft, e.clientY - panZoom.offsetTop);
+    onZoom((e.ctrlKey || e.metaKey) ? current.zoom * 1.2 * 1.2 : 
+	current.zoom / 1.2 / 1.2, e.clientX - panZoom.offsetLeft, e.clientY - panZoom.offsetTop);
   };
 
   function onZoom(zoom, cx, cy) {
@@ -104,8 +89,14 @@ export default function() {
     instance.setZoom(canvas.scale);
   }
 
-  function getQueryVariable(id) { var params = window.location.search.substring(1).split("&");  for (var i = 0; i < params.length; i++) { var p = params[i].split("="); if (p[0] == id) { return p[1]; } } return(false); }
-
+  function getQueryVariable(id) { 
+	var params = window.location.search.substring(1).split("&");  
+	for (var i = 0; i < params.length; i++) {
+		var p = params[i].split("="); 
+		if (p[0] == id) { 
+			return p[1]; } } 
+	return(false); }
   return state;
 
-};
+}
+

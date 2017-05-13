@@ -33,7 +33,7 @@ function allocatePosition(layerId, preferredPosition){
   let positionsX = map[preferredPosition[1]];
   if (positionsX.indexOf(preferredPosition[0]) != -1) {
     let temp = preferredPosition[0], i = 2;
-    while (1) {
+    while (1) { // eslint-disable-line
       if(positionsX.indexOf(temp+i) === -1){
         // may be avoid overlapping edges
         if (map[preferredPosition[1] - 1].indexOf(temp + i) === -1) {
@@ -42,7 +42,7 @@ function allocatePosition(layerId, preferredPosition){
           return;
         }
       }
-      if(positionsY.indexOf(temp-i) === -1){
+      if(positionsX.indexOf(temp-i) === -1){
         // may be avoid overlapping edges
         if (map[preferredPosition[1] - 1].indexOf(temp - i) === -1) {
           position[layerId] = [preferredPosition[1], temp - i];

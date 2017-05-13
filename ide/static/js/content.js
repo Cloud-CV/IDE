@@ -1,4 +1,4 @@
-import React from 'react';
+  import React from 'react';
 import Canvas from './canvas';
 import Pane from './pane';
 import SetParams from './setParams';
@@ -20,7 +20,7 @@ class Content extends React.Component {
       rebuildNet: false,
       selectedPhase: 0,
       error: [],
-      load: false,
+      load: false
     };
     this.addNewLayer = this.addNewLayer.bind(this);
     this.changeSelectedLayer = this.changeSelectedLayer.bind(this);
@@ -172,7 +172,7 @@ class Content extends React.Component {
         delete netData[layerId].state;
       });
 
-      const url = {'caffe': '/caffe/export', 'tensorflow': '/tensorflow/export'}
+      const url = {'caffe': '/caffe/export', 'tensorflow': '/tensorflow/export', 'url': '/caffe/export'}
       this.setState({ load: true });
       $.ajax({
         url: url[framework],
@@ -180,10 +180,15 @@ class Content extends React.Component {
         type: 'POST',
         data: {
           net: JSON.stringify(netData),
-          net_name: this.state.net_name,
+          net_name: this.state.net_name
         },
         success : function (response) {
-          if (response.result == 'success') {
+          if (response.result == 'success' && framework == 'url'){
+            var id = response.url.split('/')[2];
+            id = id.split('.')[0];
+            prompt('Your prototxt ID is ',id);
+          }
+          else if (response.result == 'success') {
             const downloadAnchor = document.getElementById('download');
             downloadAnchor.download = response.name;
             downloadAnchor.href = response.url;
@@ -194,17 +199,21 @@ class Content extends React.Component {
           this.setState({ load: false });
         }.bind(this),
         error() {
-          // console.log('failure in exporting');
           this.setState({ load: false });
-        },
+        }
       });
     }
   }
   importNet(framework) {
     this.dismissAllErrors();
+    const url = {'caffe': '/caffe/import', 'tensorflow': '/tensorflow/import', 'url': '/caffe/import'};
     const formData = new FormData();
-    formData.append('file', $('#inputFile'+framework)[0].files[0]);
-    const url = {'caffe': '/caffe/import', 'tensorflow': '/tensorflow/import'};
+    if (framework == 'url'){
+      const id = prompt('Please enter prototxt id ',id);
+      formData.append('proto_id', id);
+    }
+    else
+      formData.append('file', $('#inputFile'+framework)[0].files[0]);
     this.setState({ load: true });
     $.ajax({
       url: url[framework],
@@ -224,7 +233,7 @@ class Content extends React.Component {
       error() {
         // console.log('failure');
         this.setState({ load: false });
-      },
+      }
     });
   }
   initialiseImportedNet(net,net_name) {
@@ -238,7 +247,7 @@ class Content extends React.Component {
     Object.keys(net).forEach(layerId => {
       const layer = net[layerId];
       const type = layer.info.type;
-      const index = +layerId.substring(1);
+      // const index = +layerId.substring(1);
       if (data.hasOwnProperty(type)) {
         // add the missing params with default values
         Object.keys(data[type].params).forEach(param => {
@@ -262,7 +271,7 @@ class Content extends React.Component {
       layer.state = {
         top: `${height + 65 * positions[layerId][1]}px`,
         left: `${width + 80 * positions[layerId][0]}px`,
-        class: '',
+        class: ''
       };
     });
 
@@ -282,7 +291,7 @@ class Content extends React.Component {
         nextLayerId: Object.keys(net).length,
         rebuildNet: true,
         selectedPhase: 0,
-        error: [],
+        error: []
       });
     }
 
@@ -322,7 +331,7 @@ class Content extends React.Component {
     this.setState({
       net,
       selectedLayer: null,
-      rebuildNet: true,
+      rebuildNet: true
     });
   }
   trainOnly() {
@@ -409,3 +418,4 @@ class Content extends React.Component {
 }
 
 export default Content;
+

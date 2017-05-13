@@ -61,6 +61,7 @@ class Tooltip extends React.Component {
 Tooltip.propTypes = {
   hoveredLayer: React.PropTypes.string,
   net: React.PropTypes.object,
+  selectedPhase: React.PropTypes.number
 };
 
 export default Tooltip;

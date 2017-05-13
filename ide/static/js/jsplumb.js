@@ -3,12 +3,9 @@ export default function () {
   params = params || { dx: 20, dy: 20 };
   let _super =  jsPlumb.Connectors.AbstractConnector.apply(this, arguments);
   this.type = "ArrowConnector";
-  let dx = params.x || 20,
-    dy = params.y || 20;
+  let dy = params.y || 20;
 
   this._compute = function(paintInfo, paintParams) {
-    let w = paintInfo.w,
-      h = paintInfo.h;
 
     if(paintParams.targetEndpoint.isTarget && 
       ((paintParams.targetEndpoint.element.attributes['data-type'].nodeValue === 'Concat') ||
@@ -46,23 +43,23 @@ jsPlumb.registerConnectorType(ArrowConnector, "ArrowConnector");
           visible: true,
           id: 'ARROW',
           width: 10,
-          length: 10,
-        },
-      ],
+          length: 10
+        }
+      ]
     ],
-    Container: 'canvas',
+    Container: 'canvas'
   });
 
   const connectorPaintStyle = {
     lineWidth: 2,
-    strokeStyle: 'black',
+    strokeStyle: 'black'
   };
 
   const sourceEndpoint = {
     endpoint: 'Dot',
     paintStyle: {
       fillStyle: '#c5c5bf',
-      radius: 5,
+      radius: 5
     },
     isSource: true,
     connector: [
@@ -70,17 +67,17 @@ jsPlumb.registerConnectorType(ArrowConnector, "ArrowConnector");
     ],
     connectorStyle: connectorPaintStyle,
     maxConnections: -1,
-    dragOptions: {},
+    dragOptions: {}
   };
 
   const targetEndpoint = {
     endpoint: 'Dot',
     paintStyle: {
       fillStyle: '#c5c5bf',
-      radius: 5,
+      radius: 5
     },
     maxConnections: -1,
-    isTarget: true,
+    isTarget: true
   };
 
 
@@ -100,5 +97,4 @@ jsPlumb.registerConnectorType(ArrowConnector, "ArrowConnector");
 
   return instance;
 }
-
 
