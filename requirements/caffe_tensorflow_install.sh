@@ -13,10 +13,11 @@ echo "Downloading caffe"
 cd
 mkdir caffe
 cd caffe
-wget https://github.com/BVLC/caffe/archive/master.zip
-unzip -o master.zip
-rm master.zip*
-cd caffe-master
+wget https://github.com/BVLC/caffe/archive/25391bf9e0552740af8253c6d6fd484297889a49.zip
+unzip -o 25391bf9e0552740af8253c6d6fd484297889a49.zip
+rm 25391bf9e0552740af8253c6d6fd484297889a49.zip
+mv caffe-25391bf9e0552740af8253c6d6fd484297889a49 caffe
+cd caffe
 
 #Install caffe
 echo "Installing caffe"
