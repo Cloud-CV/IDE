@@ -17,7 +17,7 @@ Object.keys(net).forEach(layerId => {
 function isProcessPossible(layerId){
   let inputs = net[layerId].connection.input;
   let i = 0;
-  for(i = 0; i < inputs.length; i++){
+  for (i = 0; i < inputs.length; i++){
     if (processed[inputs[i]] === false) {
       return false;
     }

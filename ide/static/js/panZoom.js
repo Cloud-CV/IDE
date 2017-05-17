@@ -66,8 +66,6 @@ export default function() {
     }
   };
 
-  panZoom.onT
-
   panZoom.ondblclick = function(e) {
     e.preventDefault();
     onZoom((e.ctrlKey || e.metaKey) ? current.zoom * 1.2 * 1.2 : 
