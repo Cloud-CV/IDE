@@ -22,9 +22,9 @@ export default function() {
 
   panZoom.addEventListener('gestureend', function(e) {
       if (e.scale < 1.0) {
-          onZoom((e.key == '[') ? current.zoom * 1.2 * 1.2 : current.zoom, e.clientX - panZoom.offsetLeft, e.clientY - panZoom.offsetTop);
+          onZoom(current.zoom * 1.2 * 1.2, e.clientX - panZoom.offsetLeft, e.clientY - panZoom.offsetTop);
       } else if (e.scale > 1.0) {
-          onZoom((e.key == ']') ? current.zoom / 1.2 / 1.2 : current.zoom, e.clientX - panZoom.offsetLeft, e.clientY - panZoom.offsetTop);
+          onZoom(current.zoom / 1.2 / 1.2, e.clientX - panZoom.offsetLeft, e.clientY - panZoom.offsetTop);
       }
   }, false);
 
