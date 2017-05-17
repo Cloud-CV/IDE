@@ -4,7 +4,7 @@ Thank you for your interest in contributing to Fabrik! Here are a few pointers a
 
 ### Setting things up
 
-To set up the development environment, follow the instructions in README.
+To set up the development environment, follow the instructions in [README](https://github.com/Cloud-CV/Fabrik/blob/master/README.md).
 
 ### Finding something to work on
 
@@ -30,7 +30,7 @@ Our central development branch is master. Coding is done on feature branches bas
 2. Commit and push code to your branch:
 
     - Commits should be self-contained and contain a descriptive commit message.
-    - Please make sure your code is well-formatted and adheres to PEP8 conventions (for Python) and the `.eslint` located in the repository(for JavaScript).
+    - Please make sure your code is well-formatted and adheres to PEP8 conventions (for Python) and the `.eslint` located in the repository (for JavaScript).
     - Please ensure that your code is well tested.
     - We highly encourage to use `flake8` to follow the PEP8 styling. Run the following command before creating the pull request:
 	```
@@ -50,7 +50,7 @@ Our central development branch is master. Coding is done on feature branches bas
 
 3. Once the code is pushed, create a pull request:
 
-    - On your Github fork, select your branch and click “New pull request”. Select “master” as the base branch and your branch in the “compare” dropdown.
+    - On your Github fork, select your branch and click “New pull request”. Select your target branch (for example “master”) as the base branch and your branch in the “compare” dropdown.
 If the code is mergeable (you get a message saying “Able to merge”), go ahead and create the pull request.
     - Check back after some time to see if the Travis checks have passed, if not you should click on “Details” link on your PR thread at the right of “The Travis CI build failed”, which will take you to the dashboard for your PR. You will see what failed / stalled, and will need to resolve them.
     - If your checks have passed, your PR will be assigned a reviewer who will review your code and provide comments. Please address each review comment by pushing new commits to the same branch (the PR will automatically update, so you don’t need to submit a new one). Once you are done, comment below each review comment marking it as “Done”. Feel free to use the thread to have a discussion about comments that you don’t understand completely or don’t agree with.
