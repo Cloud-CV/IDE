@@ -5,7 +5,9 @@ class Layer extends React.Component {
   componentDidMount() {
     instance.addLayerEndpoints(this.props.id,
       data[this.props.type].endpoint.src,
-      data[this.props.type].endpoint.trg
+      data[this.props.type].endpoint.trg,
+      data[this.props.type].endpoint.typeSrc,
+      data[this.props.type].endpoint.typeTrg
     );
   }
   componentWillUnmount() {

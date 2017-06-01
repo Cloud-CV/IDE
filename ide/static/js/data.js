@@ -4,7 +4,9 @@ export default {
     color: 'rgb(255, 204, 60)',
     endpoint: {
       src: ['Bottom'],
-      trg: []
+      trg: [],
+      typeSrc: 'Dot',
+      typeTrg: 'Dot'
     },
     params: {
       source: {
@@ -47,7 +49,10 @@ export default {
     color: 'rgb(38, 105, 40)',
     endpoint: {
       src: [],
-      trg: ['Top']
+      trg: ['Top'],
+      typeSrc: 'Dot',
+      typeTrg: 'Dot'
+
     },
     params: {
     },
@@ -65,7 +70,10 @@ export default {
     color: 'rgb(87, 160, 17)',
     endpoint: {
       src: ['Bottom'],
-      trg: ['Top']
+      trg: ['Top'],
+      typeSrc: 'Blank',
+      typeTrg: 'Dot'
+
     },
     params: {
       num_output: {
@@ -139,7 +147,10 @@ export default {
     color: 'rgb(87, 100, 17)',
     endpoint: {
       src: ['Bottom'],
-      trg: ['Top']
+      trg: ['Top'],
+      typeSrc: 'Dot',
+      typeTrg: 'Dot'
+
     },
     params: {
       num_output: {
@@ -213,7 +224,10 @@ export default {
     color: 'rgb(77, 101, 214)',
     endpoint: {
       src: ['Bottom'],
-      trg: ['Top']
+      trg: ['Top'],
+      typeSrc: 'Blank',
+      typeTrg: 'Blank'
+
     },
     params: {
       inplace: {
@@ -237,7 +251,10 @@ export default {
     color: 'rgb(164, 218, 35)',
     endpoint: {
       src: [],
-      trg: ['Top']
+      trg: ['Top'],
+      typeSrc: 'Dot',
+      typeTrg: 'Dot'
+
     },
     params: {
     },
@@ -255,7 +272,10 @@ export default {
     color: 'rgb(144, 29, 204)',
     endpoint: {
       src: ['Bottom'],
-      trg: ['Top']
+      trg: ['Top'],
+      typeSrc: 'Blank',
+      typeTrg: 'Dot'
+
     },
     params: {
       num_output: {
@@ -293,7 +313,10 @@ export default {
     color: 'rgb(228, 50, 50)',
     endpoint: {
       src: ['Bottom'],
-      trg: ['Top']
+      trg: ['Top'],
+      typeSrc: 'Dot',
+      typeTrg: 'Dot'
+
     },
     params: {
       pad_h: {
@@ -354,7 +377,10 @@ export default {
     color: 'rgb(222, 29, 189)',
     endpoint: {
       src: ['Bottom'],
-      trg: ['Top']
+      trg: ['Top'],
+      typeSrc: 'Blank',
+      typeTrg: 'Blank'
+
     },
     params: {
       inplace: {
@@ -378,7 +404,10 @@ export default {
     color: 'rgb(255, 146, 52)',
     endpoint: {
       src: ['Bottom'],
-      trg: ['Top']
+      trg: ['Top'],
+      typeSrc: 'Dot',
+      typeTrg: 'Dot'
+
     },
     params: {
     },
@@ -396,7 +425,10 @@ export default {
     color: 'rgb(255, 146, 100)',
     endpoint: {
       src: ['Bottom'],
-      trg: ['Top']
+      trg: ['Top'],
+      typeSrc: 'Dot',
+      typeTrg: 'Dot'
+
     },
     params: {
       operation: {
@@ -421,7 +453,10 @@ export default {
     color: 'rgb(255, 250, 100)',
     endpoint: {
       src: ['Bottom'],
-      trg: ['Top']
+      trg: ['Top'],
+      typeSrc: 'Dot',
+      typeTrg: 'Dot'
+
     },
     params: {
       axis: {
@@ -451,7 +486,10 @@ export default {
     color: 'rgb(29, 177, 222)',
     endpoint: {
       src: ['Bottom'],
-      trg: ['Top']
+      trg: ['Top'],
+      typeSrc: 'Blank',
+      typeTrg: 'Blank'
+
     },
     params: {
     },
@@ -469,7 +507,10 @@ export default {
     color: 'rgb(167, 163, 163)',
     endpoint: {
       src: [],
-      trg: ['Top']
+      trg: ['Top'],
+      typeSrc: 'Dot',
+      typeTrg: 'Dot'
+
     },
     params: {
     },
@@ -487,7 +528,10 @@ export default {
     color: 'rgb(255, 204, 60)',
     endpoint: {
       src: ['Bottom'],
-      trg: []
+      trg: [],
+      typeSrc: 'Dot',
+      typeTrg: 'Dot'
+
     },
     params: {
       dim: {
@@ -511,7 +555,10 @@ export default {
     color: 'rgb(1, 116, 121)',
     endpoint: {
       src: ['Bottom'],
-      trg: ['Top']
+      trg: ['Top'],
+      typeSrc: 'Dot',
+      typeTrg: 'Dot'
+
     },
     params: {
       num_output: {
@@ -549,7 +596,10 @@ export default {
     color: 'rgb(23, 212, 90)',
     endpoint: {
       src: ['Bottom'],
-      trg: ['Top']
+      trg: ['Top'],
+      typeSrc: 'Dot',
+      typeTrg: 'Dot'
+
     },
     params: {
       num_output: {
@@ -593,7 +643,10 @@ export default {
     color: 'rgb(134, 44, 44)',
     endpoint: {
       src: ['Bottom'],
-      trg: ['Top']
+      trg: ['Top'],
+      typeSrc: 'Dot',
+      typeTrg: 'Dot'
+
     },
     params: {
       dim: {
@@ -617,7 +670,10 @@ export default {
     color: 'rgb(241, 206, 38)',
     endpoint: {
       src: ['Bottom'],
-      trg: []
+      trg: [],
+      typeSrc: 'Dot',
+      typeTrg: 'Dot'
+
     },
     params: {
       source: {
@@ -647,7 +703,10 @@ export default {
     color: 'rgb(31, 218, 45)',
     endpoint: {
       src: ['Bottom'],
-      trg: ['Top']
+      trg: ['Top'],
+      typeSrc: 'Blank',
+      typeTrg: 'Blank'
+
     },
     params: {
       use_global_stats: {
@@ -672,7 +731,10 @@ export default {
     color: 'rgb(243, 75, 214)',
     endpoint: {
       src: ['Bottom'],
-      trg: ['Top']
+      trg: ['Top'],
+      typeSrc: 'Blank',
+      typeTrg: 'Blank'
+
     },
     params: {
       bias_term: {
