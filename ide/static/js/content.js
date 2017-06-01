@@ -376,9 +376,9 @@ class Content extends React.Component {
           <div className="pane">
             <ul className="nav nav-pills">
               <Pane />
-              <li style={{paddingTop:'4px'}}>
+              {/* <li style={{paddingTop:'4px'}}>
                 <button><span className="glyphicon glyphicon-cog" style={{fontSize:'24px'}}></span></button>
-              </li>
+              </li> --> */}
               <Tabs selectedPhase={this.state.selectedPhase} changeNetPhase={this.changeNetPhase} />
             </ul>
           </div>
