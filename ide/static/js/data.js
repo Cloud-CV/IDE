@@ -426,7 +426,7 @@ export default {
     endpoint: {
       src: ['Bottom'],
       trg: ['Top'],
-      typeSrc: 'Dot',
+      typeSrc: 'Blank',
       typeTrg: 'Dot'
 
     },

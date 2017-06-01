@@ -28141,6 +28141,8 @@
 	                  uuids: [inputId + '-s0', outputId + '-t0'],
 	                  editable: true
 	                });
+	                /* The following code is to identify layers that are part of a group
+	                and modify their border radius */
 	                if (_jquery2.default.inArray(net[outputId].info.type, combined_layers) != -1) {
 	                  if (_jquery2.default.inArray(net[inputId].info.type, combined_layers) == -1) {
 	                    (0, _jquery2.default)('#' + inputId).css('border-radius', '10px 10px 0px 0px');
@@ -28817,7 +28819,7 @@
 	    endpoint: {
 	      src: ['Bottom'],
 	      trg: ['Top'],
-	      typeSrc: 'Dot',
+	      typeSrc: 'Blank',
 	      typeTrg: 'Dot'
 
 	    },
