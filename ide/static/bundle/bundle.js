@@ -27852,11 +27852,26 @@
 
 	      // initialize the position of layers
 	      var positions = (0, _netLayout_vertical2.default)(net);
+	      // Layers which are not used alone
+	      var combined_layers = ['ReLU', 'LRN', 'BatchNorm', 'Dropout', 'Scale'];
 	      Object.keys(positions).forEach(function (layerId) {
 	        var layer = net[layerId];
+	        // Checking if the layer is one of the combined ones
+	        // and deciding vertical spacing accordingly
+	        if ($.inArray(layer.info.type, combined_layers) != -1) {
+	          var y_space = 8;
+	        } else {
+	          y_space = 40;
+	        }
+	        var prev_top = 0;
+	        // Finding the position of the last connected layer
+	        if (net[layer.connection.input[0]] != undefined) {
+	          var top_str = net[layer.connection.input[Math.floor(layer.connection.input.length / 2)]].state.top;
+	          prev_top = parseInt(top_str.substring(0, top_str.length - 2));
+	        }
+	        // Graph does not centre properly on higher resolution screens
 	        layer.state = {
-	          // Graph does not centre properly on higher resolution screens
-	          top: height + 65 * positions[layerId][1] + 'px',
+	          top: height + prev_top + y_space + 'px',
 	          left: width + 80 * positions[layerId][0] + 'px',
 	          class: ''
 	        };
