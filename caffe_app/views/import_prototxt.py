@@ -203,6 +203,11 @@ def importPrototxt(request):
                 if(layer.top == layer.bottom):
                     params['inplace'] = True
 
+            elif(layer.type == 'Threshold'):
+                if(layer.top == layer.bottom):
+                    params['inplace'] = True
+                params['threshold'] = layer.threshold_param.threshold
+
             elif(layer.type == 'Scale'):
                 params['bias_term'] = layer.scale_param.bias_term
 

@@ -840,6 +840,36 @@ export default {
     },
     learn: false
   },
+  Threshold: {
+    name: 'threshold',
+    color: '#009688',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      inplace: {
+        name: 'Inplace operation',
+        value: true,
+        type: 'checkbox',
+        required: false
+      },
+      threshold: {
+        name: 'threshold',
+        value: 0,
+        type: 'float',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   Scale: {
     name: 'scale',
     color: '#009688',
