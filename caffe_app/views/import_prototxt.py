@@ -165,6 +165,10 @@ def importPrototxt(request):
                     params['inplace'] = True
                 params['alpha'] = layer.elu_param.alpha
 
+            elif(layer.type == 'Sigmoid'):
+                if(layer.top == layer.bottom):
+                    params['inplace'] = True
+
             elif(layer.type == 'Scale'):
                 params['bias_term'] = layer.scale_param.bias_term
 
