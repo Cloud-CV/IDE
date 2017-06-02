@@ -435,9 +435,20 @@ def jsonToPrototxt(net, net_name):
             prelu_param = {}
             prelu_param['channel_shared'] = layerParams['channel_shared']
             for ns in (ns_train, ns_test):
-                caffeLayer = get_iterable(L.ReLU(
+                caffeLayer = get_iterable(L.PReLU(
                     *[ns[x] for x in blobNames[layerId]['bottom']],
                     in_place=inplace, prelu_param=prelu_param))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
+        elif (layerType == 'ELU'):
+            inplace = layerParams['inplace']
+            elu_param = {}
+            elu_param['alpha'] = layerParams['alpha']
+            for ns in (ns_train, ns_test):
+                caffeLayer = get_iterable(L.ELU(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                    in_place=inplace, elu_param=elu_param))
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 

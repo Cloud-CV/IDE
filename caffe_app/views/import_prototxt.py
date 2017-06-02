@@ -160,6 +160,11 @@ def importPrototxt(request):
                     params['inplace'] = True
                 params['channel_shared'] = layer.prelu_param.channel_shared
 
+            elif(layer.type == 'ELU'):
+                if(layer.top == layer.bottom):
+                    params['inplace'] = True
+                params['alpha'] = layer.elu_param.alpha
+
             elif(layer.type == 'Scale'):
                 params['bias_term'] = layer.scale_param.bias_term
 

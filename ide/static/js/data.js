@@ -588,6 +588,36 @@ export default {
     },
     learn: false
   },
+  ELU: {
+    name: 'elu',
+    color: '#009688',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      inplace: {
+        name: 'Inplace operation',
+        value: true,
+        type: 'checkbox',
+        required: false
+      },
+      alpha: {
+        name: 'Alpha',
+        value: 1,
+        type: 'float',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   Scale: {
     name: 'scale',
     color: '#009688',
