@@ -586,7 +586,7 @@ export default {
         type: 'text'
       }
     },
-    learn: false
+    learn: true
   },
   ELU: {
     name: 'elu',
@@ -620,6 +620,30 @@ export default {
   },
   Sigmoid: {
     name: 'sigmoid',
+    color: '#009688',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      inplace: {
+        name: 'Inplace operation',
+        value: true,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
+  TanH: {
+    name: 'tanh',
     color: '#009688',
     endpoint: {
       src: ['Bottom'],

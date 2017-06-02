@@ -450,6 +450,15 @@ def jsonToPrototxt(net, net_name):
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
+        elif (layerType == 'TanH'):
+            inplace = layerParams['inplace']
+            for ns in (ns_train, ns_test):
+                caffeLayer = get_iterable(L.TanH(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                    in_place=inplace))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
         elif (layerType == 'ELU'):
             inplace = layerParams['inplace']
             elu_param = {}
