@@ -267,10 +267,11 @@ def jsonToPrototxt(net, net_name):
 
         elif (layerType == 'ReLU'):
             inplace = layerParams['inplace']
+            negative_slope = layerParams['negative_slope']
             for ns in (ns_train, ns_test):
                 caffeLayer = get_iterable(L.ReLU(
                     *[ns[x] for x in blobNames[layerId]['bottom']],
-                    in_place=inplace))
+                    in_place=inplace, negative_slope=negative_slope))
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 

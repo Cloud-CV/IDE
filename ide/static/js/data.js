@@ -541,6 +541,12 @@ export default {
         value: true,
         type: 'checkbox',
         required: false
+      },
+      negative_slope: {
+        name: 'Negative slope',
+        value: 0,
+        type: 'number',
+        required: false
       }
     },
     props: {

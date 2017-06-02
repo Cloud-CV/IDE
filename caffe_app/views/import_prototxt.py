@@ -142,6 +142,7 @@ def importPrototxt(request):
             elif(layer.type == 'ReLU'):
                 if(layer.top == layer.bottom):
                     params['inplace'] = True
+                params['negative_slope'] = layer.relu_param.negative_slope
 
             elif(layer.type == 'Embed'):
                 params['bias_term'] = layer.embed_param.bias_term
