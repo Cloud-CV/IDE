@@ -816,6 +816,30 @@ export default {
     },
     learn: false
   },
+  BNLL: {
+    name: 'bnll',
+    color: '#009688',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      inplace: {
+        name: 'Inplace operation',
+        value: true,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   Scale: {
     name: 'scale',
     color: '#009688',
