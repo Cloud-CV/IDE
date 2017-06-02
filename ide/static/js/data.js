@@ -746,7 +746,7 @@ export default {
         type: 'checkbox',
         required: false
       },
-      power: {
+      base: {
         name: 'Base',
         value: -1.0,
         type: 'float',

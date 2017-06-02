@@ -90,7 +90,7 @@ def jsonToPrototxt(net, net_name):
         layerParams = layer['params']
         layerType = layer['info']['type']
         layerPhase = layer['info']['phase']
-
+        print layerType
         # ********** Data Layers **********
         if (layerType == 'Data' or layerType == 'Input'):
 
@@ -493,11 +493,12 @@ def jsonToPrototxt(net, net_name):
                     ns[key] = value
 
         elif (layerType == 'Exp'):
+            print layerParams
             exp_param = {}
             inplace = layerParams['inplace']
-            power_param['base'] = layerParams['base']
-            power_param['scale'] = layerParams['scale']
-            power_param['shift'] = layerParams['shift']
+            exp_param['base'] = layerParams['base']
+            exp_param['scale'] = layerParams['scale']
+            exp_param['shift'] = layerParams['shift']
             for ns in (ns_train, ns_test):
                 caffeLayer = get_iterable(L.Exp(
                     *[ns[x] for x in blobNames[layerId]['bottom']],

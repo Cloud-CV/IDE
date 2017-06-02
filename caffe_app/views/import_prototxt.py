@@ -44,6 +44,7 @@ def importPrototxt(request):
                 phase = None
 
             params = {}
+
             # ********** Data Layers **********
             if(layer.type == 'Data'):
                 params['source'] = layer.data_param.source
@@ -187,9 +188,9 @@ def importPrototxt(request):
             elif(layer.type == 'Exp'):
                 if(layer.top == layer.bottom):
                     params['inplace'] = True
-                params['base'] = layer.power_param.power
-                params['scale'] = layer.power_param.scale
-                params['shift'] = layer.power_param.shift
+                params['base'] = layer.exp_param.base
+                params['scale'] = layer.exp_param.scale
+                params['shift'] = layer.exp_param.shift
 
             elif(layer.type == 'Scale'):
                 params['bias_term'] = layer.scale_param.bias_term
