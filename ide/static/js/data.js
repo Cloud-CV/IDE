@@ -870,6 +870,43 @@ export default {
     },
     learn: false
   },
+  Bias: {
+    name: 'bias',
+    color: '#009688',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      axis: {
+        name: 'Axis',
+        value: 1,
+        type: 'number',
+        required: false
+      },
+      num_axes: {
+        name: 'Number of Axis',
+        value: 1,
+        type: 'number',
+        required: false
+      },
+      filler: {
+        name: 'Bias filler',
+        value: 'constant',
+        type: 'select',
+        options: ['xavier', 'constant'],
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: true
+  },
   Scale: {
     name: 'scale',
     color: '#009688',

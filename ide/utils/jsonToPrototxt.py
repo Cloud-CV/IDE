@@ -537,6 +537,20 @@ def jsonToPrototxt(net, net_name):
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
+        elif (layerType == 'Bias'):
+            bias_param = {}
+            bias_param['axis'] = layerParams['axis']
+            bias_param['num_axes'] = layerParams['num_axes']
+            bias_param['filler'] = {}
+            bias_param['filler']['type'] = layerParams['filler']
+            for ns in (ns_train, ns_test):
+                caffeLayer = get_iterable(L.Bias(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                    bias_param=bias_param
+                    ))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
         elif (layerType == 'Scale'):
             scale_param = {}
             if layerParams['bias_term'] != '':

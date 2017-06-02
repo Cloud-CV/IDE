@@ -208,6 +208,11 @@ def importPrototxt(request):
                     params['inplace'] = True
                 params['threshold'] = layer.threshold_param.threshold
 
+            elif(layer.type == 'Bias'):
+                params['axis'] = layer.bias_param.axis
+                params['num_axes'] = layer.bias_param.num_axes
+                params['filler'] = layer.bias_param.filler.type
+
             elif(layer.type == 'Scale'):
                 params['bias_term'] = layer.scale_param.bias_term
 
