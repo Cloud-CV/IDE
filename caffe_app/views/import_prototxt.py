@@ -173,6 +173,10 @@ def importPrototxt(request):
                 if(layer.top == layer.bottom):
                     params['inplace'] = True
 
+            elif(layer.type == 'AbsVal'):
+                if(layer.top == layer.bottom):
+                    params['inplace'] = True
+
             elif(layer.type == 'Scale'):
                 params['bias_term'] = layer.scale_param.bias_term
 

@@ -441,6 +441,17 @@ def jsonToPrototxt(net, net_name):
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
+        elif (layerType == 'ELU'):
+            inplace = layerParams['inplace']
+            elu_param = {}
+            elu_param['alpha'] = layerParams['alpha']
+            for ns in (ns_train, ns_test):
+                caffeLayer = get_iterable(L.ELU(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                    in_place=inplace, elu_param=elu_param))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
         elif (layerType == 'Sigmoid'):
             inplace = layerParams['inplace']
             for ns in (ns_train, ns_test):
@@ -459,14 +470,12 @@ def jsonToPrototxt(net, net_name):
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
-        elif (layerType == 'ELU'):
+        elif (layerType == 'AbsVal'):
             inplace = layerParams['inplace']
-            elu_param = {}
-            elu_param['alpha'] = layerParams['alpha']
             for ns in (ns_train, ns_test):
-                caffeLayer = get_iterable(L.ELU(
+                caffeLayer = get_iterable(L.AbsVal(
                     *[ns[x] for x in blobNames[layerId]['bottom']],
-                    in_place=inplace, elu_param=elu_param))
+                    in_place=inplace))
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
