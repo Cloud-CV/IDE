@@ -155,6 +155,11 @@ def importPrototxt(request):
                     params['inplace'] = True
                 params['negative_slope'] = layer.relu_param.negative_slope
 
+            elif(layer.type == 'PReLU'):
+                if(layer.top == layer.bottom):
+                    params['inplace'] = True
+                params['channel_shared'] = layer.prelu_param.channel_shared
+
             elif(layer.type == 'Scale'):
                 params['bias_term'] = layer.scale_param.bias_term
 

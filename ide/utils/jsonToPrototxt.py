@@ -421,11 +421,23 @@ def jsonToPrototxt(net, net_name):
         # ********** Activation/Neuron Layers **********
         elif (layerType == 'ReLU'):
             inplace = layerParams['inplace']
-            negative_slope = layerParams['negative_slope']
+            relu_param = {}
+            relu_param['negative_slope'] = layerParams['negative_slope']
             for ns in (ns_train, ns_test):
                 caffeLayer = get_iterable(L.ReLU(
                     *[ns[x] for x in blobNames[layerId]['bottom']],
-                    in_place=inplace, negative_slope=negative_slope))
+                    in_place=inplace, relu_param=relu_param))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
+        elif (layerType == 'PReLU'):
+            inplace = layerParams['inplace']
+            prelu_param = {}
+            prelu_param['channel_shared'] = layerParams['channel_shared']
+            for ns in (ns_train, ns_test):
+                caffeLayer = get_iterable(L.ReLU(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                    in_place=inplace, prelu_param=prelu_param))
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
