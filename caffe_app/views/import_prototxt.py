@@ -44,18 +44,22 @@ def importPrototxt(request):
                 phase = None
 
             params = {}
+            # ********** Data Layers ********** 
             if(layer.type == 'Data'):
                 params['source'] = layer.data_param.source
                 params['batch_size'] = layer.data_param.batch_size
                 params['backend'] = layer.data_param.backend
                 params['scale'] = layer.transform_param.scale
 
-            elif(layer.type == 'Crop'):
-                if layer.crop_param.axis:
-                    params['axis'] = layer.crop_param.axis
-                if len(layer.crop_param.offset):
-                    params['offset'] = layer.crop_param.offset[0]
-
+            elif(layer.type == 'Input'):
+                params['dim'] = str(map(int, layer.input_param.shape[0].dim))[1:-1]
+                # string '64,1,28,28'
+            
+            elif(layer.type == 'HDF5Data'):
+                params['source'] = layer.hdf5_data_param.source
+                params['batch_size'] = layer.hdf5_data_param.batch_size 
+                
+            # ********** Vision Layers ********** 
             elif(layer.type == 'Convolution'):
                 if len(layer.convolution_param.kernel_size):
                     params['kernel_h'] = layer.convolution_param.kernel_size[0]
@@ -79,6 +83,21 @@ def importPrototxt(request):
                 params['weight_filler'] = layer.convolution_param.weight_filler.type
                 params['bias_filler'] = layer.convolution_param.bias_filler.type
                 params['num_output'] = layer.convolution_param.num_output
+
+            elif(layer.type == 'Pooling'):
+                params['pad_h'] = layer.pooling_param.pad_h or layer.pooling_param.pad
+                params['pad_w'] = layer.pooling_param.pad_w or layer.pooling_param.pad
+                params['stride_h'] = layer.pooling_param.stride_h or layer.pooling_param.stride
+                params['stride_w'] = layer.pooling_param.stride_w or layer.pooling_param.stride
+                params['kernel_h'] = layer.pooling_param.kernel_h or layer.pooling_param.kernel_size
+                params['kernel_w'] = layer.pooling_param.kernel_w or layer.pooling_param.kernel_size
+                params['pool'] = layer.pooling_param.pool
+
+            elif(layer.type == 'Crop'):
+                if layer.crop_param.axis:
+                    params['axis'] = layer.crop_param.axis
+                if len(layer.crop_param.offset):
+                    params['offset'] = layer.crop_param.offset[0]      
 
             elif(layer.type == 'Deconvolution'):
                 if len(layer.convolution_param.kernel_size):
@@ -104,48 +123,25 @@ def importPrototxt(request):
                 params['bias_filler'] = layer.convolution_param.bias_filler.type
                 params['num_output'] = layer.convolution_param.num_output
 
-            elif(layer.type == 'ReLU'):
-                if(layer.top == layer.bottom):
-                    params['inplace'] = True
+            # ********** Recurrent Layers ********** 
+            elif(layer.type == 'LSTM'):
+                params['num_output'] = layer.recurrent_param.num_output
+                params['weight_filler'] = layer.recurrent_param.weight_filler.type
+                params['bias_filler'] = layer.recurrent_param.bias_filler.type
 
-            elif(layer.type == 'Dropout'):
-                if(layer.top == layer.bottom):
-                    params['inplace'] = True
-
-            elif(layer.type == 'Eltwise'):
-                if layer.eltwise_param.operation:
-                    params['operation'] = layer.eltwise_param.operation
-                else:
-                    params['operation'] = 1
-
-            elif(layer.type == 'Pooling'):
-                params['pad_h'] = layer.pooling_param.pad_h or layer.pooling_param.pad
-                params['pad_w'] = layer.pooling_param.pad_w or layer.pooling_param.pad
-                params['stride_h'] = layer.pooling_param.stride_h or layer.pooling_param.stride
-                params['stride_w'] = layer.pooling_param.stride_w or layer.pooling_param.stride
-                params['kernel_h'] = layer.pooling_param.kernel_h or layer.pooling_param.kernel_size
-                params['kernel_w'] = layer.pooling_param.kernel_w or layer.pooling_param.kernel_size
-                params['pool'] = layer.pooling_param.pool
-
+            # ********** Common Layers ********** 
             elif(layer.type == 'InnerProduct'):
                 params['num_output'] = layer.inner_product_param.num_output
                 params['weight_filler'] = layer.inner_product_param.weight_filler.type
                 params['bias_filler'] = layer.inner_product_param.bias_filler.type
 
-            elif(layer.type == 'SoftmaxWithLoss'):
-                pass
+            elif(layer.type == 'Dropout'):
+                if(layer.top == layer.bottom):
+                    params['inplace'] = True
 
-            elif(layer.type == 'Accuracy'):
-                pass
-
-            elif(layer.type == 'Input'):
-                params['dim'] = str(map(int, layer.input_param.shape[0].dim))[1:-1]
-                # string '64,1,28,28'
-
-            elif(layer.type == 'LSTM'):
-                params['num_output'] = layer.recurrent_param.num_output
-                params['weight_filler'] = layer.recurrent_param.weight_filler.type
-                params['bias_filler'] = layer.recurrent_param.bias_filler.type
+            elif(layer.type == 'ReLU'):
+                if(layer.top == layer.bottom):
+                    params['inplace'] = True
 
             elif(layer.type == 'Embed'):
                 params['bias_term'] = layer.embed_param.bias_term
@@ -153,18 +149,31 @@ def importPrototxt(request):
                 params['num_output'] = layer.embed_param.num_output
                 params['weight_filler'] = layer.embed_param.weight_filler.type
 
+            # ********** Normalisation Layers ********** 
+            elif(layer.type == 'BatchNorm'):
+                params['use_global_stats'] = layer.batch_norm_param.use_global_stats
+
+            # ********** Activation/Neuron Layers ********** 
+            elif(layer.type == 'Scale'):
+                params['bias_term'] = layer.scale_param.bias_term
+
+            # ********** Utility Layers ********** 
             elif(layer.type == 'Reshape'):
                 params['dim'] = str(map(int, layer.reshape_param.shape.dim))[1:-1]
 
-            elif(layer.type == 'HDF5Data'):
-                params['source'] = layer.hdf5_data_param.source
-                params['batch_size'] = layer.hdf5_data_param.batch_size
-            elif(layer.type == 'BatchNorm'):
-                params['use_global_stats'] = layer.batch_norm_param.use_global_stats
-            elif(layer.type == 'Scale'):
-                params['bias_term'] = layer.scale_param.bias_term
             elif(layer.type == 'Eltwise'):
-                params['operation'] = layer.eltwise_param.operation
+                if layer.eltwise_param.operation:
+                    params['operation'] = layer.eltwise_param.operation
+                else:
+                    params['operation'] = 1
+
+            # ********** Loss Layers ********** 
+
+            elif(layer.type == 'SoftmaxWithLoss'):
+                pass
+            
+            elif(layer.type == 'Accuracy'):
+                pass
 
             jsonLayer = {
                 'info': {
