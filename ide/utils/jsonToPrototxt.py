@@ -479,6 +479,19 @@ def jsonToPrototxt(net, net_name):
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
+        elif (layerType == 'Power'):
+            power_param = {}
+            inplace = layerParams['inplace']
+            power_param['power'] = layerParams['power']
+            power_param['scale'] = layerParams['scale']
+            power_param['shift'] = layerParams['shift']
+            for ns in (ns_train, ns_test):
+                caffeLayer = get_iterable(L.Power(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                    in_place=inplace, power_param=power_param))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
         elif (layerType == 'Scale'):
             scale_param = {}
             if layerParams['bias_term'] != '':

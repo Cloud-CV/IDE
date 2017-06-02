@@ -690,6 +690,48 @@ export default {
     },
     learn: false
   },
+  Power: {
+    name: 'power',
+    color: '#009688',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      inplace: {
+        name: 'Inplace operation',
+        value: true,
+        type: 'checkbox',
+        required: false
+      },
+      power: {
+        name: 'Power',
+        value: 1.0,
+        type: 'float',
+        required: false
+      },
+      scale: {
+        name: 'Scale',
+        value: 1.0,
+        type: 'float',
+        required: false
+      },
+      shift: {
+        name: 'Shift',
+        value: 0.0,
+        type: 'float',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   Scale: {
     name: 'scale',
     color: '#009688',
