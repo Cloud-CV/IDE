@@ -139,11 +139,6 @@ def importPrototxt(request):
                 if(layer.top == layer.bottom):
                     params['inplace'] = True
 
-            elif(layer.type == 'ReLU'):
-                if(layer.top == layer.bottom):
-                    params['inplace'] = True
-                params['negative_slope'] = layer.relu_param.negative_slope
-
             elif(layer.type == 'Embed'):
                 params['bias_term'] = layer.embed_param.bias_term
                 params['input_dim'] = layer.embed_param.input_dim
@@ -155,6 +150,11 @@ def importPrototxt(request):
                 params['use_global_stats'] = layer.batch_norm_param.use_global_stats
 
             # ********** Activation/Neuron Layers **********
+            elif(layer.type == 'ReLU'):
+                if(layer.top == layer.bottom):
+                    params['inplace'] = True
+                params['negative_slope'] = layer.relu_param.negative_slope
+
             elif(layer.type == 'Scale'):
                 params['bias_term'] = layer.scale_param.bias_term
 
