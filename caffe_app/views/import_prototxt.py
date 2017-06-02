@@ -192,6 +192,13 @@ def importPrototxt(request):
                 params['scale'] = layer.exp_param.scale
                 params['shift'] = layer.exp_param.shift
 
+            elif(layer.type == 'Log'):
+                if(layer.top == layer.bottom):
+                    params['inplace'] = True
+                params['base'] = layer.log_param.base
+                params['scale'] = layer.log_param.scale
+                params['shift'] = layer.log_param.shift
+
             elif(layer.type == 'Scale'):
                 params['bias_term'] = layer.scale_param.bias_term
 
