@@ -44,7 +44,7 @@ def importPrototxt(request):
                 phase = None
 
             params = {}
-            # ********** Data Layers ********** 
+            # ********** Data Layers **********
             if(layer.type == 'Data'):
                 params['source'] = layer.data_param.source
                 params['batch_size'] = layer.data_param.batch_size
@@ -54,12 +54,12 @@ def importPrototxt(request):
             elif(layer.type == 'Input'):
                 params['dim'] = str(map(int, layer.input_param.shape[0].dim))[1:-1]
                 # string '64,1,28,28'
-            
+
             elif(layer.type == 'HDF5Data'):
                 params['source'] = layer.hdf5_data_param.source
-                params['batch_size'] = layer.hdf5_data_param.batch_size 
-                
-            # ********** Vision Layers ********** 
+                params['batch_size'] = layer.hdf5_data_param.batch_size
+
+            # ********** Vision Layers **********
             elif(layer.type == 'Convolution'):
                 if len(layer.convolution_param.kernel_size):
                     params['kernel_h'] = layer.convolution_param.kernel_size[0]
@@ -97,7 +97,7 @@ def importPrototxt(request):
                 if layer.crop_param.axis:
                     params['axis'] = layer.crop_param.axis
                 if len(layer.crop_param.offset):
-                    params['offset'] = layer.crop_param.offset[0]      
+                    params['offset'] = layer.crop_param.offset[0]
 
             elif(layer.type == 'Deconvolution'):
                 if len(layer.convolution_param.kernel_size):
@@ -123,13 +123,13 @@ def importPrototxt(request):
                 params['bias_filler'] = layer.convolution_param.bias_filler.type
                 params['num_output'] = layer.convolution_param.num_output
 
-            # ********** Recurrent Layers ********** 
+            # ********** Recurrent Layers **********
             elif(layer.type == 'LSTM'):
                 params['num_output'] = layer.recurrent_param.num_output
                 params['weight_filler'] = layer.recurrent_param.weight_filler.type
                 params['bias_filler'] = layer.recurrent_param.bias_filler.type
 
-            # ********** Common Layers ********** 
+            # ********** Common Layers **********
             elif(layer.type == 'InnerProduct'):
                 params['num_output'] = layer.inner_product_param.num_output
                 params['weight_filler'] = layer.inner_product_param.weight_filler.type
@@ -149,15 +149,15 @@ def importPrototxt(request):
                 params['num_output'] = layer.embed_param.num_output
                 params['weight_filler'] = layer.embed_param.weight_filler.type
 
-            # ********** Normalisation Layers ********** 
+            # ********** Normalisation Layers **********
             elif(layer.type == 'BatchNorm'):
                 params['use_global_stats'] = layer.batch_norm_param.use_global_stats
 
-            # ********** Activation/Neuron Layers ********** 
+            # ********** Activation/Neuron Layers **********
             elif(layer.type == 'Scale'):
                 params['bias_term'] = layer.scale_param.bias_term
 
-            # ********** Utility Layers ********** 
+            # ********** Utility Layers **********
             elif(layer.type == 'Reshape'):
                 params['dim'] = str(map(int, layer.reshape_param.shape.dim))[1:-1]
 
@@ -167,11 +167,11 @@ def importPrototxt(request):
                 else:
                     params['operation'] = 1
 
-            # ********** Loss Layers ********** 
+            # ********** Loss Layers **********
 
             elif(layer.type == 'SoftmaxWithLoss'):
                 pass
-            
+
             elif(layer.type == 'Accuracy'):
                 pass
 
