@@ -1243,6 +1243,43 @@ export default {
     },
     learn: true
   },
+  Reduction: {
+    name: 'reduction',
+    color: '#03a9f4',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      operation: {
+        name: 'Reduction operation',
+        value: 'SUM',
+        type: 'select',
+        options: ['SUM', 'ASUM', 'SUMSQ', 'MEAN'],
+        required: false
+      },
+      axis: {
+        name: 'Axis',
+        value: 0,
+        type: 'number',
+        required: false
+      },
+      coeff: {
+        name: 'Coefficient',
+        value: 1.0,
+        type: 'float',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   Softmax: {
     name: 'softmax',
     color: '#03a9f4',

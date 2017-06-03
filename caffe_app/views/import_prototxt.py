@@ -261,6 +261,14 @@ def importPrototxt(request):
             elif(layer.type == 'Parameter'):
                 params['shape'] = str(map(int, layer.parameter_param.shape))[1:-1]
 
+            elif(layer.type == 'Reduction'):
+                if layer.reduction_param.operation:
+                    params['operation'] = layer.reduction_param.operation
+                else:
+                    params['operation'] = 1
+                params['axis'] = layer.reduction_param.axis
+                params['coeff'] = layer.reduction_param.coeff
+
             # ********** Loss Layers **********
 
             elif(layer.type == 'SoftmaxWithLoss'):

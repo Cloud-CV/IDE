@@ -682,6 +682,25 @@ def jsonToPrototxt(net, net_name):
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
+        elif (layerType == 'Reduction'):
+            reduction_param = {}
+            if(layerParams['operation'] == 'SUM'):
+                reduction_param['operation'] = 1
+            elif(layerParams['operation'] == 'ASUM'):
+                reduction_param['operation'] = 2
+            elif(layerParams['operation'] == 'SUMSQ'):
+                reduction_param['operation'] = 3
+            elif(layerParams['operation'] == 'MEAN'):
+                reduction_param['operation'] = 4
+            reduction_param['axis'] = layerParams['axis']
+            reduction_param['coeff'] = layerParams['coeff']
+            for ns in (ns_train, ns_test):
+                caffeLayer = get_iterable(L.Reduction(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                    reduction_param=reduction_param))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
         elif (layerType == 'Softmax'):
             for ns in (ns_train, ns_test):
                 caffeLayer = get_iterable(L.Softmax(
