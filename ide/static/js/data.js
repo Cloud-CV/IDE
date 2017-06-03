@@ -1355,13 +1355,19 @@ export default {
   },
   /* ********** Loss Layers ********** */
   SoftmaxWithLoss: {
-    name: 'loss',
+    name: 'softmax loss',
     color: '#f44336',
     endpoint: {
       src: [],
       trg: ['Top']
     },
     params: {
+      axis: {
+        name: 'Axis',
+        value: 1,
+        type: 'number',
+        required: false
+      }
     },
     props: {
       name: {

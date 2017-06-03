@@ -731,17 +731,16 @@ def jsonToPrototxt(net, net_name):
 
         # ********** Loss Layers **********
         elif (layerType == 'SoftmaxWithLoss'):
-            pass
+            softmax_param = {'axis': layerParams['axis']}
             for ns in (ns_train, ns_test):
                 caffeLayer = get_iterable(L.SoftmaxWithLoss(  # try L['SoftmaxWithLoss']
-                    *([ns[x] for x in blobNames[layerId]['bottom']])))
+                    *([ns[x] for x in blobNames[layerId]['bottom']]),
+                    softmax_param=softmax_param))
                 # *([ns[x] for x in blobNames[layerId]['bottom']] + [ns.label])))
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
         elif (layerType == 'Accuracy'):
-            pass
-
             if layerPhase is not None:
                 caffeLayer = get_iterable(L.Accuracy(
                     *([ns[x] for x in blobNames[layerId]['bottom']]),
