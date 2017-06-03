@@ -159,6 +159,13 @@ def importPrototxt(request):
                 else:
                     params['norm_region'] = 0
 
+            elif(layer.type == 'MVN'):
+                if(layer.top == layer.bottom):
+                    params['inplace'] = True
+                params['normalize_variance'] = layer.mvn_param.normalize_variance
+                params['across_channels'] = layer.mvn_param.across_channels
+                params['eps'] = layer.mvn_param.eps
+
             elif(layer.type == 'BatchNorm'):
                 if(layer.top == layer.bottom):
                     params['inplace'] = True

@@ -484,49 +484,6 @@ export default {
     learn: true
   },
   /* ********** Normalisation Layers ********** */
-  BatchNorm: {
-    name: 'batchnorm',
-    color: '#ffeb3b',
-    endpoint: {
-      src: ['Bottom'],
-      trg: ['Top']
-    },
-    params: {
-      inplace: {
-        name: 'Inplace operation',
-        value: true,
-        type: 'checkbox',
-        required: false
-      },
-      use_global_stats: {
-        name: 'Use Global Stats',
-        value: '',
-        type: 'select',
-        options: ['true', 'false'],
-        required: true
-      },
-      moving_average_fraction: {
-        name: 'Moving Avg. Fraction',
-        value: 0.999,
-        type: 'float',
-        required: false
-      },
-      eps: {
-        name: 'Epsilon',
-        value: 1e-5,
-        type: 'float',
-        required: false
-      }
-    },
-    props: {
-      name: {
-        name: 'Name',
-        value: '',
-        type: 'text'
-      }
-    },
-    learn: true
-  },
   LRN: {
     name: 'lrn',
     color: '#ffeb3b',
@@ -581,6 +538,93 @@ export default {
       }
     },
     learn: false
+  },
+  MVN: {
+    name: 'mvn',
+    color: '#ffeb3b',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      inplace: {
+        name: 'Inplace operation',
+        value: true,
+        type: 'checkbox',
+        required: false
+      },
+      normalize_variance: {
+        name: 'Normalize Variance',
+        value: true,
+        type: 'select',
+        options: ['true', 'false'],
+        required: false
+      },
+      across_channels: {
+        name: 'Across Channels',
+        value: false,
+        type: 'select',
+        options: ['true', 'false'],
+        required: false
+      },
+      eps: {
+        name: 'Epsilon',
+        value: 1e-9,
+        type: 'float',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: true
+  },
+  BatchNorm: {
+    name: 'batchnorm',
+    color: '#ffeb3b',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      inplace: {
+        name: 'Inplace operation',
+        value: true,
+        type: 'checkbox',
+        required: false
+      },
+      use_global_stats: {
+        name: 'Use Global Stats',
+        value: '',
+        type: 'select',
+        options: ['true', 'false'],
+        required: true
+      },
+      moving_average_fraction: {
+        name: 'Moving Avg. Fraction',
+        value: 0.999,
+        type: 'float',
+        required: false
+      },
+      eps: {
+        name: 'Epsilon',
+        value: 1e-5,
+        type: 'float',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: true
   },
   /* ********** Activation/Neuron Layers ********** */
   ReLU: {

@@ -416,6 +416,20 @@ def jsonToPrototxt(net, net_name):
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
+        elif (layerType == 'MVN'):
+            inplace = layerParams['inplace']
+            mvn_param = {}
+            mvn_param['normalize_variance'] = layerParams['normalize_variance']
+            mvn_param['across_channels'] = layerParams['across_channels']
+            # JS converts 1e-9 to string
+            mvn_param['eps'] = float(layerParams['eps'])
+            for ns in (ns_train, ns_test):
+                caffeLayer = get_iterable(L.MVN(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                    mvn_param=mvn_param, in_place=inplace))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
         elif (layerType == 'BatchNorm'):
             inplace = layerParams['inplace']
             batch_norm_param = {}
