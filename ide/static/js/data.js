@@ -1280,6 +1280,24 @@ export default {
     },
     learn: false
   },
+  Silence: {
+    name: 'silence',
+    color: '#03a9f4',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   Softmax: {
     name: 'softmax',
     color: '#03a9f4',
