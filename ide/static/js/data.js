@@ -1446,7 +1446,7 @@ export default {
   },
   HingeLoss: {
     name: 'hinge loss',
-    color: '#03a9f4',
+    color: '#f44336',
     endpoint: {
       src: ['Bottom'],
       trg: ['Top']
@@ -1505,6 +1505,37 @@ export default {
         name: 'Axis',
         value: 1,
         type: 'number',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
+  ContrastiveLoss: {
+    name: 'contrastive loss',
+    color: '#f44336',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      legacy_version: {
+        name: 'Legacy',
+        value: false,
+        type: 'select',
+        options: ['true', 'false'],
+        required: false
+      },
+      margin: {
+        name: 'Margin',
+        value: 1.0,
+        type: 'float',
         required: false
       }
     },

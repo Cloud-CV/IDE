@@ -289,6 +289,10 @@ def importPrototxt(request):
                 params['top_k'] = layer.accuracy_param.top_k
                 params['axis'] = layer.accuracy_param.axis
 
+            elif(layer.type == 'ContrastiveLoss'):
+                params['margin'] = layer.contrastive_loss_param.margin
+                params['legacy_version'] = layer.contrastive_loss_param.legacy_version
+
             jsonLayer = {
                 'info': {
                     'type': layer.type,

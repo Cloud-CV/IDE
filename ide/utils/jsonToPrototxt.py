@@ -808,6 +808,17 @@ def jsonToPrototxt(net, net_name):
                     for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                         ns[key] = value
 
+        elif (layerType == 'ContrastiveLoss'):
+            contrastive_loss_param = {}
+            contrastive_loss_param['margin'] = layerParams['margin']
+            contrastive_loss_param['legacy_version'] = layerParams['legacy_version']
+            for ns in (ns_train, ns_test):
+                caffeLayer = get_iterable(L.ContrastiveLoss(
+                  *[ns[x] for x in blobNames[layerId]['bottom']],
+                  contrastive_loss_param=contrastive_loss_param))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
     train = 'name: "' + net_name + '"\n' + str(ns_train.to_proto())
     test = str(ns_test.to_proto())
 
