@@ -240,6 +240,10 @@ def importPrototxt(request):
                 params['bias_term'] = layer.scale_param.bias_term
 
             # ********** Utility Layers **********
+            elif(layer.type == 'Flatten'):
+                params['axis'] = layer.flatten_param.axis
+                params['end_axis'] = layer.flatten_param.end_axis
+
             elif(layer.type == 'Reshape'):
                 params['dim'] = str(map(int, layer.reshape_param.shape.dim))[1:-1]
 

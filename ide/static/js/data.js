@@ -1032,6 +1032,36 @@ export default {
     learn: true
   },
   /* ********** Utility Layers ********** */
+  Flatten: {
+    name: 'flatten',
+    color: '#03a9f4',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      axis: {
+        name: 'Axis',
+        value: 1,
+        type: 'number',
+        required: false
+      },
+      end_axis: {
+        name: 'End Axis',
+        value: -1,
+        type: 'number',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   Reshape: {
     name: 'reshape',
     color: '#03a9f4',

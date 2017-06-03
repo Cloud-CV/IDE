@@ -590,6 +590,17 @@ def jsonToPrototxt(net, net_name):
                     ns[key] = value
 
         # ********** Utility Layers **********
+        elif (layerType == 'Flatten'):
+            flatten_param = {}
+            flatten_param['axis'] = layerParams['axis']
+            flatten_param['end_axis'] = layerParams['end_axis']
+            for ns in (ns_train, ns_test):
+                caffeLayer = get_iterable(L.Flatten(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                    flatten_param=flatten_param))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
         elif (layerType == 'Reshape'):
             reshape_param = {'shape': {'dim': map(int, layerParams['dim'].split(','))}}
             for ns in (ns_train, ns_test):
