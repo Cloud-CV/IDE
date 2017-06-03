@@ -275,7 +275,6 @@ def importPrototxt(request):
                 params['axis'] = layer.argmax_param.axis
 
             # ********** Loss Layers **********
-
             elif(layer.type == 'SoftmaxWithLoss'):
                 params['axis'] = layer.softmax_param.axis
 

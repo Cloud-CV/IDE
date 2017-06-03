@@ -730,6 +730,13 @@ def jsonToPrototxt(net, net_name):
                     ns[key] = value
 
         # ********** Loss Layers **********
+        elif (layerType == 'MultinomialLogisticLoss'):
+            for ns in (ns_train, ns_test):
+                caffeLayer = get_iterable(L.MultinomialLogisticLoss(
+                  *[ns[x] for x in blobNames[layerId]['bottom']]))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
         elif (layerType == 'SoftmaxWithLoss'):
             softmax_param = {'axis': layerParams['axis']}
             for ns in (ns_train, ns_test):
