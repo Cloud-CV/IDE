@@ -160,7 +160,11 @@ def importPrototxt(request):
                     params['norm_region'] = 0
 
             elif(layer.type == 'BatchNorm'):
+                if(layer.top == layer.bottom):
+                    params['inplace'] = True
                 params['use_global_stats'] = layer.batch_norm_param.use_global_stats
+                params['moving_average_fraction'] = layer.batch_norm_param.moving_average_fraction
+                params['eps'] = layer.batch_norm_param.eps
 
             # ********** Activation/Neuron Layers **********
             elif(layer.type == 'ReLU'):

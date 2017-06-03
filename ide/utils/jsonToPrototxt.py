@@ -417,14 +417,15 @@ def jsonToPrototxt(net, net_name):
                     ns[key] = value
 
         elif (layerType == 'BatchNorm'):
+            inplace = layerParams['inplace']
             batch_norm_param = {}
-            if layerParams['use_global_stats'] != '':
-                batch_norm_param['use_global_stats'] = layerParams['use_global_stats']
+            batch_norm_param['use_global_stats'] = layerParams['use_global_stats']
+            batch_norm_param['moving_average_fraction'] = layerParams['moving_average_fraction']
+            batch_norm_param['eps'] = layerParams['eps']
             for ns in (ns_train, ns_test):
                 caffeLayer = get_iterable(L.BatchNorm(
                     *[ns[x] for x in blobNames[layerId]['bottom']],
-                    batch_norm_param=batch_norm_param
-                    ))
+                    batch_norm_param=batch_norm_param, in_place=inplace))
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 

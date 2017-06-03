@@ -492,12 +492,30 @@ export default {
       trg: ['Top']
     },
     params: {
+      inplace: {
+        name: 'Inplace operation',
+        value: true,
+        type: 'checkbox',
+        required: false
+      },
       use_global_stats: {
         name: 'Use Global Stats',
         value: '',
         type: 'select',
         options: ['true', 'false'],
         required: true
+      },
+      moving_average_fraction: {
+        name: 'Moving Avg. Fraction',
+        value: 0.999,
+        type: 'float',
+        required: false
+      },
+      eps: {
+        name: 'Epsilon',
+        value: 1e-5,
+        type: 'float',
+        required: false
       }
     },
     props: {
