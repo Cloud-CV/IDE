@@ -517,6 +517,43 @@ export default {
       trg: ['Top']
     },
     params: {
+      inplace: {
+        name: 'Inplace operation',
+        value: true,
+        type: 'checkbox',
+        required: false
+      },
+      local_size: {
+        name: 'Local Size',
+        value: 5,
+        type: 'number',
+        required: false
+      },
+      alpha: {
+        name: 'Alpha',
+        value: 1.0,
+        type: 'float',
+        required: false
+      },
+      beta: {
+        name: 'Beta',
+        value: 0.75,
+        type: 'float',
+        required: false
+      },
+      k: {
+        name: 'K',
+        value: 1.0,
+        type: 'float',
+        required: false
+      },
+      norm_region: {
+        name: 'Norm Region',
+        value: 'ACROSS_CHANNELS',
+        type: 'select',
+        options: ['ACROSS_CHANNELS', 'WITHIN_CHANNEL'],
+        required: false
+      }
     },
     props: {
       name: {

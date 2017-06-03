@@ -147,6 +147,18 @@ def importPrototxt(request):
                 params['weight_filler'] = layer.embed_param.weight_filler.type
 
             # ********** Normalisation Layers **********
+            elif(layer.type == 'LRN'):
+                if(layer.top == layer.bottom):
+                    params['inplace'] = True
+                params['local_size'] = layer.lrn_param.local_size
+                params['alpha'] = layer.lrn_param.alpha
+                params['beta'] = layer.lrn_param.beta
+                params['k'] = layer.lrn_param.k
+                if layer.lrn_param.norm_region:
+                    params['norm_region'] = layer.lrn_param.norm_region
+                else:
+                    params['norm_region'] = 0
+
             elif(layer.type == 'BatchNorm'):
                 params['use_global_stats'] = layer.batch_norm_param.use_global_stats
 

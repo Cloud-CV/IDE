@@ -399,9 +399,20 @@ def jsonToPrototxt(net, net_name):
 
         # ********** Normalisation Layers **********
         elif (layerType == 'LRN'):
+            inplace = layerParams['inplace']
+            lrn_param = {}
+            lrn_param['local_size'] = layerParams['local_size']
+            lrn_param['alpha'] = layerParams['alpha']
+            lrn_param['beta'] = layerParams['beta']
+            lrn_param['k'] = layerParams['k']
+            if(layerParams['norm_region'] == 'ACROSS_CHANNELS'):
+                lrn_param['norm_region'] = 0
+            else:
+                lrn_param['norm_region'] = 1
             for ns in (ns_train, ns_test):
                 caffeLayer = get_iterable(L.LRN(
-                    *[ns[x] for x in blobNames[layerId]['bottom']]))
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                    lrn_param=lrn_param, in_place=inplace))
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
