@@ -1372,6 +1372,36 @@ export default {
     },
     learn: false
   },
+  InfogainLoss: {
+    name: 'infogain loss',
+    color: '#f44336',
+    endpoint: {
+      src: [],
+      trg: ['Top']
+    },
+    params: {
+      source: {
+        name: 'source',
+        value: '',
+        type: 'text',
+        required: true
+      },
+      axis: {
+        name: 'Axis',
+        value: 1,
+        type: 'number',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   SoftmaxWithLoss: {
     name: 'softmax loss',
     color: '#f44336',

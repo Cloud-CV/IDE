@@ -737,6 +737,17 @@ def jsonToPrototxt(net, net_name):
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
+        elif (layerType == 'InfogainLoss'):
+            infogain_loss_param = {}
+            infogain_loss_param['source'] = layerParams['source']
+            infogain_loss_param['axis'] = layerParams['axis']
+            for ns in (ns_train, ns_test):
+                caffeLayer = get_iterable(L.MultinomialLogisticLoss(
+                  *[ns[x] for x in blobNames[layerId]['bottom']],
+                  infogain_loss_param=infogain_loss_param))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
         elif (layerType == 'SoftmaxWithLoss'):
             softmax_param = {'axis': layerParams['axis']}
             for ns in (ns_train, ns_test):
