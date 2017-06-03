@@ -1104,6 +1104,24 @@ export default {
     },
     learn: false
   },
+  Split: {
+    name: 'Split',
+    color: '#03a9f4',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   Concat: {
     name: 'concat',
     color: '#03a9f4',

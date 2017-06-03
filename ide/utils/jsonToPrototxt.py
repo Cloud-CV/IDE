@@ -617,6 +617,13 @@ def jsonToPrototxt(net, net_name):
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
+        elif (layerType == 'Split'):
+            for ns in (ns_train, ns_test):
+                caffeLayer = get_iterable(L.Split(
+                    *[ns[x] for x in blobNames[layerId]['bottom']]))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
         elif (layerType == 'Concat'):
             for ns in (ns_train, ns_test):
                 caffeLayer = get_iterable(L.Concat(
