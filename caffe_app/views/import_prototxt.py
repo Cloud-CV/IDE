@@ -247,6 +247,11 @@ def importPrototxt(request):
             elif(layer.type == 'Reshape'):
                 params['dim'] = str(map(int, layer.reshape_param.shape.dim))[1:-1]
 
+            elif(layer.type == 'Slice'):
+                params['slice_point'] = str(map(int, layer.slice_param.slice_point))[1:-1]
+                params['axis'] = layer.slice_param.axis
+                params['slice_dim'] = layer.slice_param.slice_dim
+
             elif(layer.type == 'Eltwise'):
                 if layer.eltwise_param.operation:
                     params['operation'] = layer.eltwise_param.operation

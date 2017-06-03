@@ -1140,6 +1140,42 @@ export default {
     },
     learn: false
   },
+  Slice: {
+    name: 'slice',
+    color: '#03a9f4',
+    endpoint: {
+      src: ['Bottom'],
+      trg : ['Top']
+    },
+    params: {
+      slice_point: {
+        name: 'Slice Point',
+        value: '',
+        type: 'text',
+        required: true
+      },
+      axis: {
+        name: 'Axis',
+        value: 1,
+        type: 'number',
+        required: false
+      },
+      slice_dim: {
+        name: 'Slice Dim',
+        value: 1,
+        type: 'number',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   Eltwise: {
     name: 'eltwise',
     color: '#03a9f4',
