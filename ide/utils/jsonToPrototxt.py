@@ -774,6 +774,13 @@ def jsonToPrototxt(net, net_name):
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
+        elif (layerType == 'SigmoidCrossEntropyLoss'):
+            for ns in (ns_train, ns_test):
+                caffeLayer = get_iterable(L.SigmoidCrossEntropyLoss(
+                  *[ns[x] for x in blobNames[layerId]['bottom']]))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
         elif (layerType == 'Accuracy'):
             accuracy_param = {}
             accuracy_param['top_k'] = layerParams['top_k']
