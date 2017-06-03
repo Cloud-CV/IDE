@@ -709,6 +709,18 @@ def jsonToPrototxt(net, net_name):
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
+        elif (layerType == 'ArgMax'):
+            argmax_param = {}
+            argmax_param['out_max_val'] = layerParams['out_max_val']
+            argmax_param['top_k'] = layerParams['top_k']
+            argmax_param['axis'] = layerParams['axis']
+            for ns in (ns_train, ns_test):
+                caffeLayer = get_iterable(L.ArgMax(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                    argmax_param=argmax_param))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
         elif (layerType == 'Softmax'):
             for ns in (ns_train, ns_test):
                 caffeLayer = get_iterable(L.Softmax(

@@ -1298,6 +1298,43 @@ export default {
     },
     learn: false
   },
+  ArgMax: {
+    name: 'argmax',
+    color: '#03a9f4',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      out_max_val: {
+        name: 'Output Max Value',
+        value: false,
+        type: 'select',
+        options: ['true', 'false'],
+        required: false
+      },
+      top_k: {
+        name: 'Top-K',
+        value: 1,
+        type: 'number',
+        required: false
+      },
+      axis: {
+        name: 'Axis',
+        value: 0,
+        type: 'number',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   Softmax: {
     name: 'softmax',
     color: '#03a9f4',

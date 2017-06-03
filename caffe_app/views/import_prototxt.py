@@ -269,6 +269,11 @@ def importPrototxt(request):
                 params['axis'] = layer.reduction_param.axis
                 params['coeff'] = layer.reduction_param.coeff
 
+            elif(layer.type == 'ArgMax'):
+                params['out_max_val'] = layer.argmax_param.out_max_val
+                params['top_k'] = layer.argmax_param.top_k
+                params['axis'] = layer.argmax_param.axis
+
             # ********** Loss Layers **********
 
             elif(layer.type == 'SoftmaxWithLoss'):
