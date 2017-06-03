@@ -1176,6 +1176,24 @@ export default {
     },
     learn: false
   },
+  Filter: {
+    name: 'filter',
+    color: '#03a9f4',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   Eltwise: {
     name: 'eltwise',
     color: '#03a9f4',

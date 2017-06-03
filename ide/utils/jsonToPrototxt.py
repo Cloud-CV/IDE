@@ -644,6 +644,14 @@ def jsonToPrototxt(net, net_name):
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
+        elif (layerType == 'Filter'):
+            for ns in (ns_train, ns_test):
+                caffeLayer = get_iterable(L.Filter(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                    ntop=len(blobNames[layerId]['top'])))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
         elif (layerType == 'Eltwise'):
             eltwise_param = {}
             if layerParams['operation'] != '':
