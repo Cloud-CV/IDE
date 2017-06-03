@@ -1426,6 +1426,24 @@ export default {
     },
     learn: false
   },
+  EuclideanLoss: {
+    name: 'euclidean loss',
+    color: '#f44336',
+    endpoint: {
+      src: [],
+      trg: ['Top']
+    },
+    params: {
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   Accuracy: {
     name: 'acc',
     color: '#f44336',
