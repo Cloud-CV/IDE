@@ -644,14 +644,6 @@ def jsonToPrototxt(net, net_name):
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
-        elif (layerType == 'Filter'):
-            for ns in (ns_train, ns_test):
-                caffeLayer = get_iterable(L.Filter(
-                    *[ns[x] for x in blobNames[layerId]['bottom']],
-                    ntop=len(blobNames[layerId]['top'])))
-                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
-                    ns[key] = value
-
         elif (layerType == 'Eltwise'):
             eltwise_param = {}
             if layerParams['operation'] != '':
@@ -669,6 +661,24 @@ def jsonToPrototxt(net, net_name):
                 caffeLayer = get_iterable(L.Eltwise(
                     *[ns[x] for x in blobNames[layerId]['bottom']],
                     eltwise_param=eltwise_param))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
+        elif (layerType == 'Filter'):
+            for ns in (ns_train, ns_test):
+                caffeLayer = get_iterable(L.Filter(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                    ntop=len(blobNames[layerId]['top'])))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
+        elif (layerType == 'Parameter'):
+            parameter_param = {}
+            parameter_param['shape'] = map(int, layerParams['shape'].split(','))
+            for ns in (ns_train, ns_test):
+                caffeLayer = get_iterable(L.Parameter(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                    parameter_param=parameter_param))
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 

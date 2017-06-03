@@ -1176,24 +1176,6 @@ export default {
     },
     learn: false
   },
-  Filter: {
-    name: 'filter',
-    color: '#03a9f4',
-    endpoint: {
-      src: ['Bottom'],
-      trg: ['Top']
-    },
-    params: {
-    },
-    props: {
-      name: {
-        name: 'Name',
-        value: '',
-        type: 'text'
-      }
-    },
-    learn: false
-  },
   Eltwise: {
     name: 'eltwise',
     color: '#03a9f4',
@@ -1218,6 +1200,48 @@ export default {
       }
     },
     learn: false
+  },
+  Filter: {
+    name: 'filter',
+    color: '#03a9f4',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
+  Parameter: {
+    name: 'parameter',
+    color: '#03a9f4',
+    endpoint: {
+      src: ['Bottom'],
+      trg : ['Top']
+    },
+    params: {
+      shape: {
+        name: 'Shape',
+        value: '',
+        type: 'text',
+        required: true
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: true
   },
   Softmax: {
     name: 'softmax',
