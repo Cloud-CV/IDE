@@ -1386,6 +1386,18 @@ export default {
       trg: ['Top']
     },
     params: {
+      top_k: {
+        name: 'Top-K',
+        value: 1,
+        type: 'number',
+        required: false
+      },
+      axis: {
+        name: 'Axis',
+        value: 1,
+        type: 'number',
+        required: false
+      }
     },
     props: {
       name: {

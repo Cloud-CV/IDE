@@ -741,9 +741,13 @@ def jsonToPrototxt(net, net_name):
                     ns[key] = value
 
         elif (layerType == 'Accuracy'):
+            accuracy_param = {}
+            accuracy_param['top_k'] = layerParams['top_k']
+            accuracy_param['axis'] = layerParams['axis']
             if layerPhase is not None:
                 caffeLayer = get_iterable(L.Accuracy(
                     *([ns[x] for x in blobNames[layerId]['bottom']]),
+                    accuracy_param=accuracy_param,
                     # *([ns[x] for x in blobNames[layerId]['bottom']] + [ns.label]),
                     include={
                         'phase': int(layerPhase)
@@ -757,7 +761,8 @@ def jsonToPrototxt(net, net_name):
             else:
                 for ns in (ns_train, ns_test):
                     caffeLayer = get_iterable(L.Accuracy(
-                        *([ns[x] for x in blobNames[layerId]['bottom']])))
+                        *([ns[x] for x in blobNames[layerId]['bottom']]),
+                        accuracy_param=accuracy_param))
                     # *([ns[x] for x in blobNames[layerId]['bottom']] + [ns.label])))
                     for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                         ns[key] = value

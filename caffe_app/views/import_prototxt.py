@@ -280,7 +280,8 @@ def importPrototxt(request):
                 params['axis'] = layer.softmax_param.axis
 
             elif(layer.type == 'Accuracy'):
-                pass
+                params['top_k'] = layer.accuracy_param.top_k
+                params['axis'] = layer.accuracy_param.axis
 
             jsonLayer = {
                 'info': {
