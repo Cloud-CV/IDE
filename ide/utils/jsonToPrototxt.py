@@ -765,6 +765,15 @@ def jsonToPrototxt(net, net_name):
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
+        elif (layerType == 'HingeLoss'):
+            hinge_loss_param = {'norm': layerParams['norm']}
+            for ns in (ns_train, ns_test):
+                caffeLayer = get_iterable(L.HingeLoss(
+                  *[ns[x] for x in blobNames[layerId]['bottom']],
+                  hinge_loss_param=hinge_loss_param))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
         elif (layerType == 'Accuracy'):
             accuracy_param = {}
             accuracy_param['top_k'] = layerParams['top_k']

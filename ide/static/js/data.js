@@ -1444,6 +1444,31 @@ export default {
     },
     learn: false
   },
+  HingeLoss: {
+    name: 'hinge loss',
+    color: '#03a9f4',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      norm: {
+        name: 'Norm',
+        value: 'L1',
+        type: 'select',
+        options: ['L1', 'L2'],
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   Accuracy: {
     name: 'acc',
     color: '#f44336',

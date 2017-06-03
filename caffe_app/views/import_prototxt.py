@@ -282,6 +282,9 @@ def importPrototxt(request):
             elif(layer.type == 'SoftmaxWithLoss'):
                 params['axis'] = layer.softmax_param.axis
 
+            elif(layer.type == 'HingeLoss'):
+                params['norm'] = layer.hinge_loss_param.norm
+
             elif(layer.type == 'Accuracy'):
                 params['top_k'] = layer.accuracy_param.top_k
                 params['axis'] = layer.accuracy_param.axis
