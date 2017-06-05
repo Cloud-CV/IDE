@@ -129,17 +129,13 @@ def importPrototxt(request):
                 params['num_output'] = layer.convolution_param.num_output
 
             # ********** Recurrent Layers **********
-            elif(layer.type == 'Recurrent'):
+            elif(layer.type == 'Recurrent' or layer.type == 'RNN' or
+                 layer.type == 'LSTM'):
                 params['num_output'] = layer.recurrent_param.num_output
                 params['weight_filler'] = layer.recurrent_param.weight_filler.type
                 params['bias_filler'] = layer.recurrent_param.bias_filler.type
                 params['debug_info'] = layer.recurrent_param.debug_info
                 params['expose_hidden'] = layer.recurrent_param.expose_hidden
-
-            elif(layer.type == 'LSTM'):
-                params['num_output'] = layer.recurrent_param.num_output
-                params['weight_filler'] = layer.recurrent_param.weight_filler.type
-                params['bias_filler'] = layer.recurrent_param.bias_filler.type
 
             # ********** Common Layers **********
             elif(layer.type == 'InnerProduct'):

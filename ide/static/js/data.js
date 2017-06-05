@@ -421,6 +421,58 @@ export default {
     },
     learn: true
   },
+  RNN: {
+    name: 'rnn',
+    color: '#3f51b5',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      num_output: {
+        name: 'No of outputs',
+        value: '',
+        type: 'number',
+        required: true
+      },
+      weight_filler: {
+        name: 'Weight filler',
+        value: 'xavier',
+        type: 'select',
+        options: ['xavier', 'constant'],
+        required: false
+      },
+      bias_filler: {
+        name: 'Bias filler',
+        value: 'constant',
+        type: 'select',
+        options: ['xavier', 'constant'],
+        required: false
+      },
+      debug_info: {
+        name: 'Degug',
+        value: 'False',
+        type: 'select',
+        options: ['True', 'False'],
+        required: false
+      },
+      expose_hidden: {
+        name: 'Expose Hidden',
+        value: 'False',
+        type: 'select',
+        options: ['True', 'False'],
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: true
+  },
   LSTM: {
     name: 'lstm',
     color: '#3f51b5',
@@ -447,6 +499,20 @@ export default {
         value: 'constant',
         type: 'select',
         options: ['xavier', 'constant'],
+        required: false
+      },
+      debug_info: {
+        name: 'Degug',
+        value: 'False',
+        type: 'select',
+        options: ['True', 'False'],
+        required: false
+      },
+      expose_hidden: {
+        name: 'Expose Hidden',
+        value: 'False',
+        type: 'select',
+        options: ['True', 'False'],
         required: false
       }
     },
