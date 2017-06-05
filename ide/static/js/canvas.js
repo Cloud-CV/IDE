@@ -51,7 +51,7 @@ class Canvas extends React.Component {
                 if ($.inArray(net[inputId].info.type, combined_layers) == -1){
                   $('#'+inputId).css('border-radius', '10px 10px 0px 0px') 
                 }
-                else if ($.inArray(net[inputId].info.type, combined_layers) != -1){
+                else {
                   $('#'+inputId).css('border-radius', '0px 0px 0px 0px') 
                 }
               }

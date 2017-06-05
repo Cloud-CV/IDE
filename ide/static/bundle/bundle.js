@@ -27561,6 +27561,10 @@
 
 	var _netLayout_vertical2 = _interopRequireDefault(_netLayout_vertical);
 
+	var _jquery = __webpack_require__(253);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27759,7 +27763,7 @@
 
 	        var url = { 'caffe': '/caffe/export', 'tensorflow': '/tensorflow/export', 'url': '/caffe/export' };
 	        this.setState({ load: true });
-	        $.ajax({
+	        _jquery2.default.ajax({
 	          url: url[framework],
 	          dataType: 'json',
 	          type: 'POST',
@@ -27797,9 +27801,9 @@
 	      if (framework == 'url') {
 	        var id = prompt('Please enter prototxt id ', id);
 	        formData.append('proto_id', id);
-	      } else formData.append('file', $('#inputFile' + framework)[0].files[0]);
+	      } else formData.append('file', (0, _jquery2.default)('#inputFile' + framework)[0].files[0]);
 	      this.setState({ load: true });
-	      $.ajax({
+	      _jquery2.default.ajax({
 	        url: url[framework],
 	        dataType: 'json',
 	        type: 'POST',
@@ -27849,7 +27853,7 @@
 	          tempError[type] = null;
 	        }
 	      });
-
+	      console.log(height);
 	      // initialize the position of layers
 	      var positions = (0, _netLayout_vertical2.default)(net);
 	      // Layers which are not used alone
@@ -27858,12 +27862,13 @@
 	        var layer = net[layerId];
 	        // Checking if the layer is one of the combined ones
 	        // and deciding vertical spacing accordingly
-	        if ($.inArray(layer.info.type, combined_layers) != -1) {
-	          var y_space = 8;
+	        if (_jquery2.default.inArray(layer.info.type, combined_layers) != -1) {
+	          var y_space = 0;
 	        } else {
 	          y_space = 40;
 	        }
 	        var prev_top = 0;
+
 	        // Finding the position of the last connected layer
 	        if (net[layer.connection.input[0]] != undefined) {
 	          var top_str = net[layer.connection.input[Math.floor(layer.connection.input.length / 2)]].state.top;
@@ -27871,7 +27876,7 @@
 	        }
 	        // Graph does not centre properly on higher resolution screens
 	        layer.state = {
-	          top: height + prev_top + y_space + 'px',
+	          top: height + prev_top + y_space + Math.ceil(41 - height) + 'px',
 	          left: width + 80 * positions[layerId][0] + 'px',
 	          class: ''
 	        };
@@ -28146,7 +28151,7 @@
 	                if (_jquery2.default.inArray(net[outputId].info.type, combined_layers) != -1) {
 	                  if (_jquery2.default.inArray(net[inputId].info.type, combined_layers) == -1) {
 	                    (0, _jquery2.default)('#' + inputId).css('border-radius', '10px 10px 0px 0px');
-	                  } else if (_jquery2.default.inArray(net[inputId].info.type, combined_layers) != -1) {
+	                  } else {
 	                    (0, _jquery2.default)('#' + inputId).css('border-radius', '0px 0px 0px 0px');
 	                  }
 	                } else {

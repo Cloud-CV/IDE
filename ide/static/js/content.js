@@ -7,6 +7,7 @@ import TopBar from './topBar';
 import Tabs from './tabs';
 import data from './data';
 import netLayout from './netLayout_vertical';
+import $ from 'jquery';
 
 class Content extends React.Component {
   constructor(props) {
@@ -263,7 +264,7 @@ class Content extends React.Component {
         tempError[type] = null;
       }
     });
-
+    console.log(height);
     // initialize the position of layers
     let positions = netLayout(net);
     // Layers which are not used alone
@@ -273,12 +274,13 @@ class Content extends React.Component {
       // Checking if the layer is one of the combined ones
       // and deciding vertical spacing accordingly
       if ($.inArray(layer.info.type, combined_layers) != -1){
-        var y_space = 8;
+        var y_space = 0;
       }
       else {
         y_space = 40;
       }
       var prev_top = 0;
+
       // Finding the position of the last connected layer
       if (net[layer.connection.input[0]] != undefined){
         let top_str = net[layer.connection.input[Math.floor(layer.connection.input.length/2)]].state.top;
@@ -286,7 +288,7 @@ class Content extends React.Component {
       }
       // Graph does not centre properly on higher resolution screens
       layer.state = {
-          top: `${height + prev_top + y_space}px`,
+          top: `${height + prev_top + y_space + Math.ceil(41-height)}px`,
           left: `${width + 80 * positions[layerId][0]}px`,
           class: ''
       };
