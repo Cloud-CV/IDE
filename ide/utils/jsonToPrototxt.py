@@ -324,6 +324,20 @@ def jsonToPrototxt(net, net_name):
                     ns[key] = value
 
         # ********** Recurrent Layers **********
+        elif (layerType == 'Recurrent'):
+            recurrent_param = {}
+            recurrent_param['num_output'] = int(layerParams['num_output'])
+            recurrent_param['weight_filler'] = {'type': layerParams['weight_filler']}
+            recurrent_param['bias_filler'] = {'type': layerParams['bias_filler']}
+            recurrent_param['debug_info'] = layerParams['debug_info']
+            recurrent_param['expose_hidden'] = layerParams['expose_hidden']
+            for ns in (ns_train, ns_test):
+                caffeLayer = get_iterable(L.Recurrent(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                    recurrent_param=recurrent_param))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
+
         elif (layerType == 'LSTM'):
             recurrent_param = {}
             if layerParams['num_output'] != '':
