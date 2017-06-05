@@ -7,7 +7,6 @@ import TopBar from './topBar';
 import Tabs from './tabs';
 import data from './data';
 import netLayout from './netLayout_vertical';
-import $ from 'jquery';
 
 class Content extends React.Component {
   constructor(props) {
@@ -264,7 +263,6 @@ class Content extends React.Component {
         tempError[type] = null;
       }
     });
-    console.log(height);
     // initialize the position of layers
     let positions = netLayout(net);
     // Layers which are not used alone
