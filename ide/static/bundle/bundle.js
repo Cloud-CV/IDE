@@ -28400,9 +28400,7 @@
 	    color: 'rgb(255, 204, 60)',
 	    endpoint: {
 	      src: ['Bottom'],
-	      trg: [],
-	      typeSrc: 'Dot',
-	      typeTrg: 'Dot'
+	      trg: []
 	    },
 	    params: {
 	      source: {
@@ -28445,9 +28443,7 @@
 	    color: 'rgb(38, 105, 40)',
 	    endpoint: {
 	      src: [],
-	      trg: ['Top'],
-	      typeSrc: 'Dot',
-	      typeTrg: 'Dot'
+	      trg: ['Top']
 
 	    },
 	    params: {},
@@ -28465,9 +28461,7 @@
 	    color: 'rgb(87, 160, 17)',
 	    endpoint: {
 	      src: ['Bottom'],
-	      trg: ['Top'],
-	      typeSrc: 'Blank',
-	      typeTrg: 'Dot'
+	      trg: ['Top']
 
 	    },
 	    params: {
@@ -28542,9 +28536,7 @@
 	    color: 'rgb(87, 100, 17)',
 	    endpoint: {
 	      src: ['Bottom'],
-	      trg: ['Top'],
-	      typeSrc: 'Dot',
-	      typeTrg: 'Dot'
+	      trg: ['Top']
 
 	    },
 	    params: {
@@ -28619,9 +28611,7 @@
 	    color: 'rgb(77, 101, 214)',
 	    endpoint: {
 	      src: ['Bottom'],
-	      trg: ['Top'],
-	      typeSrc: 'Blank',
-	      typeTrg: 'Blank'
+	      trg: ['Top']
 
 	    },
 	    params: {
@@ -28646,9 +28636,7 @@
 	    color: 'rgb(164, 218, 35)',
 	    endpoint: {
 	      src: [],
-	      trg: ['Top'],
-	      typeSrc: 'Dot',
-	      typeTrg: 'Dot'
+	      trg: ['Top']
 
 	    },
 	    params: {},
@@ -28666,9 +28654,7 @@
 	    color: 'rgb(144, 29, 204)',
 	    endpoint: {
 	      src: ['Bottom'],
-	      trg: ['Top'],
-	      typeSrc: 'Blank',
-	      typeTrg: 'Dot'
+	      trg: ['Top']
 
 	    },
 	    params: {
@@ -28707,9 +28693,7 @@
 	    color: 'rgb(228, 50, 50)',
 	    endpoint: {
 	      src: ['Bottom'],
-	      trg: ['Top'],
-	      typeSrc: 'Dot',
-	      typeTrg: 'Dot'
+	      trg: ['Top']
 
 	    },
 	    params: {
@@ -28771,9 +28755,7 @@
 	    color: 'rgb(222, 29, 189)',
 	    endpoint: {
 	      src: ['Bottom'],
-	      trg: ['Top'],
-	      typeSrc: 'Blank',
-	      typeTrg: 'Blank'
+	      trg: ['Top']
 
 	    },
 	    params: {
@@ -28798,9 +28780,7 @@
 	    color: 'rgb(255, 146, 52)',
 	    endpoint: {
 	      src: ['Bottom'],
-	      trg: ['Top'],
-	      typeSrc: 'Dot',
-	      typeTrg: 'Dot'
+	      trg: ['Top']
 
 	    },
 	    params: {},
@@ -28818,9 +28798,7 @@
 	    color: 'rgb(255, 146, 100)',
 	    endpoint: {
 	      src: ['Bottom'],
-	      trg: ['Top'],
-	      typeSrc: 'Blank',
-	      typeTrg: 'Dot'
+	      trg: ['Top']
 
 	    },
 	    params: {
@@ -28846,9 +28824,7 @@
 	    color: 'rgb(255, 250, 100)',
 	    endpoint: {
 	      src: ['Bottom'],
-	      trg: ['Top'],
-	      typeSrc: 'Dot',
-	      typeTrg: 'Dot'
+	      trg: ['Top']
 
 	    },
 	    params: {
@@ -28879,9 +28855,7 @@
 	    color: 'rgb(29, 177, 222)',
 	    endpoint: {
 	      src: ['Bottom'],
-	      trg: ['Top'],
-	      typeSrc: 'Blank',
-	      typeTrg: 'Blank'
+	      trg: ['Top']
 
 	    },
 	    params: {},
@@ -28899,9 +28873,7 @@
 	    color: 'rgb(167, 163, 163)',
 	    endpoint: {
 	      src: [],
-	      trg: ['Top'],
-	      typeSrc: 'Dot',
-	      typeTrg: 'Dot'
+	      trg: ['Top']
 
 	    },
 	    params: {},
@@ -28919,9 +28891,7 @@
 	    color: 'rgb(255, 204, 60)',
 	    endpoint: {
 	      src: ['Bottom'],
-	      trg: [],
-	      typeSrc: 'Dot',
-	      typeTrg: 'Dot'
+	      trg: []
 
 	    },
 	    params: {
@@ -28946,9 +28916,7 @@
 	    color: 'rgb(1, 116, 121)',
 	    endpoint: {
 	      src: ['Bottom'],
-	      trg: ['Top'],
-	      typeSrc: 'Dot',
-	      typeTrg: 'Dot'
+	      trg: ['Top']
 
 	    },
 	    params: {
@@ -28987,9 +28955,7 @@
 	    color: 'rgb(23, 212, 90)',
 	    endpoint: {
 	      src: ['Bottom'],
-	      trg: ['Top'],
-	      typeSrc: 'Dot',
-	      typeTrg: 'Dot'
+	      trg: ['Top']
 
 	    },
 	    params: {
@@ -29034,9 +29000,7 @@
 	    color: 'rgb(134, 44, 44)',
 	    endpoint: {
 	      src: ['Bottom'],
-	      trg: ['Top'],
-	      typeSrc: 'Dot',
-	      typeTrg: 'Dot'
+	      trg: ['Top']
 
 	    },
 	    params: {
@@ -29061,9 +29025,7 @@
 	    color: 'rgb(241, 206, 38)',
 	    endpoint: {
 	      src: ['Bottom'],
-	      trg: [],
-	      typeSrc: 'Dot',
-	      typeTrg: 'Dot'
+	      trg: []
 
 	    },
 	    params: {
@@ -29094,9 +29056,7 @@
 	    color: 'rgb(31, 218, 45)',
 	    endpoint: {
 	      src: ['Bottom'],
-	      trg: ['Top'],
-	      typeSrc: 'Blank',
-	      typeTrg: 'Blank'
+	      trg: ['Top']
 
 	    },
 	    params: {
@@ -29122,9 +29082,7 @@
 	    color: 'rgb(243, 75, 214)',
 	    endpoint: {
 	      src: ['Bottom'],
-	      trg: ['Top'],
-	      typeSrc: 'Blank',
-	      typeTrg: 'Blank'
+	      trg: ['Top']
 
 	    },
 	    params: {
@@ -29221,15 +29179,6 @@
 	    dragOptions: {}
 	  };
 
-	  var sourceEndpointBlank = {
-	    endpoint: 'Blank',
-	    isSource: true,
-	    connector: ['ArrowConnector'],
-	    connectorStyle: connectorPaintStyle,
-	    maxConnections: -1,
-	    dragOptions: {}
-	  };
-
 	  var targetEndpointDot = {
 	    endpoint: 'Dot',
 	    paintStyle: {
@@ -29240,26 +29189,18 @@
 	    isTarget: true
 	  };
 
-	  var targetEndpointBlank = {
-	    endpoint: 'Blank',
-	    maxConnections: -1,
-	    isTarget: true
-	  };
-
-	  instance.addLayerEndpoints = function addLayerEndpoints(toId, sourceAnchors, targetAnchors, endpointTypeSrc, endpointTypeTrg) {
+	  instance.addLayerEndpoints = function addLayerEndpoints(toId, sourceAnchors, targetAnchors) {
 	    var i = void 0;
 	    var sourceUUID = void 0;
 	    var targetUUID = void 0;
-	    var targetEnd = { 'Dot': targetEndpointDot, 'Blank': targetEndpointBlank };
-	    var sourceEnd = { 'Dot': sourceEndpointDot, 'Blank': sourceEndpointBlank };
 	    for (i = 0; i < sourceAnchors.length; i++) {
 	      sourceUUID = toId + '-s' + i;
 
-	      instance.addEndpoint(toId, sourceEnd[endpointTypeSrc], { anchor: sourceAnchors[i], uuid: sourceUUID });
+	      instance.addEndpoint(toId, sourceEndpointDot, { anchor: sourceAnchors[i], uuid: sourceUUID });
 	    }
 	    for (i = 0; i < targetAnchors.length; i++) {
 	      targetUUID = toId + '-t' + i;
-	      instance.addEndpoint(toId, targetEnd[endpointTypeTrg], { anchor: targetAnchors[i], uuid: targetUUID });
+	      instance.addEndpoint(toId, targetEndpointDot, { anchor: targetAnchors[i], uuid: targetUUID });
 	    }
 	  };
 
@@ -29306,7 +29247,7 @@
 	  _createClass(Layer, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      instance.addLayerEndpoints(this.props.id, _data2.default[this.props.type].endpoint.src, _data2.default[this.props.type].endpoint.trg, _data2.default[this.props.type].endpoint.typeSrc, _data2.default[this.props.type].endpoint.typeTrg);
+	      instance.addLayerEndpoints(this.props.id, _data2.default[this.props.type].endpoint.src, _data2.default[this.props.type].endpoint.trg);
 	    }
 	  }, {
 	    key: 'componentWillUnmount',

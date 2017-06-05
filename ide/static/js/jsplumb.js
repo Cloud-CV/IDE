@@ -70,17 +70,6 @@ jsPlumb.registerConnectorType(ArrowConnector, "ArrowConnector");
     dragOptions: {}
   };
 
-  const sourceEndpointBlank = {
-    endpoint: 'Blank',
-    isSource: true,
-    connector: [
-      'ArrowConnector'
-    ],
-    connectorStyle: connectorPaintStyle,
-    maxConnections: -1,
-    dragOptions: {}
-  };
-
   const targetEndpointDot = {
     endpoint: 'Dot',
     paintStyle: {
@@ -91,26 +80,18 @@ jsPlumb.registerConnectorType(ArrowConnector, "ArrowConnector");
     isTarget: true
   };
 
-  const targetEndpointBlank = {
-    endpoint: 'Blank',
-    maxConnections: -1,
-    isTarget: true
-  };
-
-  instance.addLayerEndpoints = function addLayerEndpoints(toId, sourceAnchors, targetAnchors, endpointTypeSrc, endpointTypeTrg) {
+  instance.addLayerEndpoints = function addLayerEndpoints(toId, sourceAnchors, targetAnchors) {
     let i;
     let sourceUUID;
     let targetUUID;
-    var targetEnd = {'Dot': targetEndpointDot, 'Blank': targetEndpointBlank};
-    var sourceEnd = {'Dot': sourceEndpointDot, 'Blank': sourceEndpointBlank};
     for (i = 0; i < sourceAnchors.length; i++) {
       sourceUUID = `${toId}-s${i}`;
 
-      instance.addEndpoint(toId, sourceEnd[endpointTypeSrc], { anchor: sourceAnchors[i], uuid: sourceUUID });
+      instance.addEndpoint(toId, sourceEndpointDot, { anchor: sourceAnchors[i], uuid: sourceUUID });
     }
     for (i = 0; i < targetAnchors.length; i++) {
       targetUUID = `${toId}-t${i}`;
-      instance.addEndpoint(toId, targetEnd[endpointTypeTrg], { anchor: targetAnchors[i], uuid: targetUUID });
+      instance.addEndpoint(toId, targetEndpointDot, { anchor: targetAnchors[i], uuid: targetUUID });
     }
   }
 
