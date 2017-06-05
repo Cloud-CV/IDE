@@ -94,6 +94,10 @@ def importPrototxt(request):
                 params['kernel_w'] = layer.pooling_param.kernel_w or layer.pooling_param.kernel_size
                 params['pool'] = layer.pooling_param.pool
 
+            elif(layer.type == 'SPP'):
+                params['pool'] = layer.spp_param.pool
+                params['pyramid_height'] = layer.spp_param.pyramid_height
+
             elif(layer.type == 'Crop'):
                 if layer.crop_param.axis:
                     params['axis'] = layer.crop_param.axis

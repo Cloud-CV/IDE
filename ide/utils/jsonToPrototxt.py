@@ -196,7 +196,6 @@ def jsonToPrototxt(net, net_name):
 
         # ********** Vision Layers **********
         elif (layerType == 'Convolution'):
-
             convolution_param = {}
             if layerParams['kernel_h'] != '':
                 convolution_param['kernel_h'] = int(float(layerParams['kernel_h']))
@@ -218,7 +217,6 @@ def jsonToPrototxt(net, net_name):
             if layerParams['bias_filler'] != '':
                 convolution_param['bias_filler'] = {}
                 convolution_param['bias_filler']['type'] = layerParams['bias_filler']
-
             for ns in (ns_train, ns_test):
                 caffeLayer = get_iterable(L.Convolution(
                     *[ns[x] for x in blobNames[layerId]['bottom']],
@@ -235,7 +233,6 @@ def jsonToPrototxt(net, net_name):
                     ns[key] = value
 
         elif (layerType == 'Pooling'):
-
             pooling_param = {}
             if layerParams['kernel_h'] != '':
                 pooling_param['kernel_h'] = int(float(layerParams['kernel_h']))
@@ -258,7 +255,6 @@ def jsonToPrototxt(net, net_name):
                 elif(pool == 'STOCHASTIC'):
                     pool = 2
                 pooling_param['pool'] = pool
-
             for ns in (ns_train, ns_test):
                 caffeLayer = get_iterable(L.Pooling(
                     *[ns[x] for x in blobNames[layerId]['bottom']],
@@ -268,12 +264,10 @@ def jsonToPrototxt(net, net_name):
 
         elif (layerType == 'Crop'):
             crop_param = {}
-
             if layerParams['axis'] != '':
                 crop_param['axis'] = int(float(layerParams['axis']))
             if layerParams['offset'] != '':
                 crop_param['offset'] = int(float(layerParams['offset']))
-
             for ns in (ns_train, ns_test):
                 caffeLayer = get_iterable(L.Crop(
                     *[ns[x] for x in blobNames[layerId]['bottom']],
@@ -281,8 +275,18 @@ def jsonToPrototxt(net, net_name):
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
-        elif (layerType == 'Deconvolution'):
+        elif (layerType == 'SPP'):
+            spp_param = {}
+            spp_param['pool'] = layerParams['pool']
+            spp_param['pyramid_height'] = layerParams['pyramid_height']
+            for ns in (ns_train, ns_test):
+                caffeLayer = get_iterable(L.SPP(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                    spp_param=spp_param))
+                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                    ns[key] = value
 
+        elif (layerType == 'Deconvolution'):
             convolution_param = {}
             if layerParams['kernel_h'] != '':
                 convolution_param['kernel_h'] = int(float(layerParams['kernel_h']))
@@ -304,7 +308,6 @@ def jsonToPrototxt(net, net_name):
             if layerParams['bias_filler'] != '':
                 convolution_param['bias_filler'] = {}
                 convolution_param['bias_filler']['type'] = layerParams['bias_filler']
-
             for ns in (ns_train, ns_test):
                 caffeLayer = get_iterable(L.Deconvolution(
                     *[ns[x] for x in blobNames[layerId]['bottom']],
@@ -342,7 +345,6 @@ def jsonToPrototxt(net, net_name):
 
         # ********** Common Layers **********
         elif (layerType == 'InnerProduct'):
-
             inner_product_param = {}
             if layerParams['num_output'] != '':
                 inner_product_param['num_output'] = int(float(layerParams['num_output']))
@@ -352,7 +354,6 @@ def jsonToPrototxt(net, net_name):
             if layerParams['bias_filler'] != '':
                 inner_product_param['bias_filler'] = {}
                 inner_product_param['bias_filler']['type'] = layerParams['bias_filler']
-
             for ns in (ns_train, ns_test):
                 caffeLayer = get_iterable(L.InnerProduct(
                     *[ns[x] for x in blobNames[layerId]['bottom']],

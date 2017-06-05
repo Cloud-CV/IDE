@@ -263,6 +263,37 @@ export default {
     },
     learn: false
   },
+  SPP: {
+    name: 'spp',
+    color: '#3f51b5',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      pool: {
+        name: 'Pooling method',
+        value: 'MAX',
+        type: 'select',
+        options: ['MAX', 'AVE', 'STOCHASTIC'],
+        required: false
+      },
+      pyramid_height: {
+        name: 'Pyramid Height',
+        value: '',
+        type: 'number',
+        required: true
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   Deconvolution: {
     name: 'deconv',
     color: '#3f51b5',
