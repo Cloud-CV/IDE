@@ -168,7 +168,6 @@ def jsonToPrototxt(net, net_name):
                         ns[key] = value
 
         elif (layerType == 'HDF5Data'):
-            layerPhase = layer['info']['phase']
             hdf5_data_param = {}
             hdf5_data_param['source'] = layerParams['source']
             hdf5_data_param['batch_size'] = layerParams['batch_size']
@@ -193,7 +192,6 @@ def jsonToPrototxt(net, net_name):
                         ns[key] = value
 
         elif (layerType == 'HDF5Output'):
-            layerPhase = layer['info']['phase']
             hdf5_output_param = {'file_name': layerParams['file_name']}
             if layerPhase is not None:
                 caffeLayer = get_iterable(L.HDF5Output(
@@ -282,6 +280,30 @@ def jsonToPrototxt(net, net_name):
                 for ns in (ns_train, ns_test):
                     caffeLayer = get_iterable(L.MemoryData(
                         memory_data_param=memory_data_param))
+                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                        ns[key] = value
+
+        elif (layerType == 'DummyData'):
+            # Adding a default size
+            dummy_data_param = {}
+            dummy_data_param['shape'] = {'dim': map(int, layerParams['dim'].split(','))}
+            dummy_data_param['data_filler'] = {'type': layerParams['type']}
+            if layerPhase is not None:
+                caffeLayer = get_iterable(L.DummyData(
+                    dummy_data_param=dummy_data_param,
+                    include={
+                        'phase': int(layerPhase)
+                    }))
+                if int(layerPhase) == 0:
+                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                        ns_train[key] = value
+                elif int(layerPhase) == 1:
+                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                        ns_test[key] = value
+            else:
+                for ns in (ns_train, ns_test):
+                    caffeLayer = get_iterable(L.DummyData(
+                        dummy_data_param=dummy_data_param))
                     for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                         ns[key] = value
 

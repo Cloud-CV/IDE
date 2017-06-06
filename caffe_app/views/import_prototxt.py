@@ -104,6 +104,10 @@ def importPrototxt(request):
                 params['height'] = layer.memory_data_param.height
                 params['width'] = layer.memory_data_param.width
 
+            elif(layer.type == 'DummyData'):
+                params['dim'] = str(map(int, layer.dummy_data_param.shape[0].dim))[1:-1]
+                params['type'] = str(layer.dummy_data_param.data_filler[0].type)
+
             # ********** Vision Layers **********
             elif(layer.type == 'Convolution'):
                 if len(layer.convolution_param.kernel_size):

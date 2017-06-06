@@ -398,6 +398,7 @@ export default {
     },
     learn: false
   },
+
   MemoryData: {
     name: 'memory data',
     color: '#673ab7',
@@ -428,6 +429,36 @@ export default {
         name: 'Width',
         value: '',
         type: 'number',
+        required: true
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
+  DummyData: {
+    name: 'dummy data',
+    color: '#673ab7',
+    endpoint: {
+      src: ['Bottom'],
+      trg: []
+    },
+    params: {
+      dim: {
+        name: 'Dim',
+        value: '',
+        type: 'text',
+        required: true
+      },
+      type: {
+        name: 'Data Filler Type',
+        value: '',
+        type: 'text',
         required: true
       }
     },
