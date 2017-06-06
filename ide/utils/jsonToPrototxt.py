@@ -83,6 +83,7 @@ def jsonToPrototxt(net, net_name):
 
     ns_train = caffe.NetSpec()
     ns_test = caffe.NetSpec()
+    hasTransformParam = ['ImageData', 'Data', 'WindowData']
 
     for layerId in processOrder:
 
@@ -91,6 +92,18 @@ def jsonToPrototxt(net, net_name):
         layerType = layer['info']['type']
         layerPhase = layer['info']['phase']
         # ********** Data Layers **********
+        if (layerType in hasTransformParam):
+            transform_param = {}
+            transform_param['scale'] = layerParams['scale']
+            transform_param['mirror'] = layerParams['mirror']
+            transform_param['crop_size'] = layerParams['crop_size']
+            transform_param['force_color'] = layerParams['force_color']
+            transform_param['force_gray'] = layerParams['force_gray']
+            if 'mean_value' in layerParams:
+                transform_param['mean_value'] = map(int, layerParams['mean_value'].split(','))
+            if 'mean_file' in layerParams:
+                transform_param['mean_file'] = layerParams['mean_file']
+
         if (layerType == 'Input'):
             # Adding a default size
             if 'dim' not in layerParams:

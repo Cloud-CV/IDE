@@ -22,15 +22,66 @@ export default {
       },
       backend: {
         name: 'Backend',
-        value: 'LMDB',
+        value: 'LEVELDB',
         type: 'select',
         options: ['LMDB', 'LEVELDB'],
-        required: true
+        required: false
+      },
+      rand_skip: {
+        name: 'Random Skip',
+        value: 0,
+        type: 'number',
+        required: false
+      },
+      prefetch: {
+        name: 'Prefetch',
+        value: 4,
+        type: 'number',
+        required: false
       },
       scale: {
         name: 'Scale',
-        value: '',
+        value: 1.0,
         type: 'float',
+        required: false
+      },
+      mirror: {
+        name: 'Mirror',
+        value: 'False',
+        type: 'select',
+        options: ['True', 'False'],
+        required: false
+      },
+      crop_size: {
+        name: 'Crop Size',
+        value: 0,
+        type: 'number',
+        required: false
+      },
+      mean_file: {
+        name: 'Mean File',
+        value: '',
+        type: 'text',
+        required: false
+      },
+      mean_value: {
+        name: 'Mean Value',
+        value: '',
+        type: 'text',
+        required: false
+      },
+      force_color: {
+        name: 'Force Color',
+        value: 'False',
+        type: 'select',
+        options: ['True', 'False'],
+        required: false
+      },
+      force_gray: {
+        name: 'Force Gray',
+        value: 'False',
+        type: 'select',
+        options: ['True', 'False'],
         required: false
       }
     },

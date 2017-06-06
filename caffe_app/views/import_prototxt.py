@@ -33,6 +33,7 @@ def importPrototxt(request):
         i = 0
         blobMap = {}
         net_name = caffe_net.name
+        hasTransformParam = ['ImageData', 'Data', 'WindowData']
         for layer in caffe_net.layer:
             id = "l" + str(i)
             input = []
@@ -46,11 +47,23 @@ def importPrototxt(request):
             params = {}
 
             # ********** Data Layers **********
+            if (layer.type in hasTransformParam):
+                params['scale'] = layer.transform_param.scale
+                params['mirror'] = layer.transform_param.mirror
+                params['crop_size'] = layer.transform_param.crop_size
+                if (layer.transform_param.mean_file != ''):
+                    params['mean_file'] = layer.transform_param.mean_file
+                elif (layer.transform_param.mean_value):
+                    params['mean_value'] = str(map(int, layer.transform_param.mean_value))[1:-1]
+                params['force_color'] = layer.transform_param.force_color
+                params['force_gray'] = layer.transform_param.force_gray
+
             if(layer.type == 'Data'):
                 params['source'] = layer.data_param.source
                 params['batch_size'] = layer.data_param.batch_size
                 params['backend'] = layer.data_param.backend
-                params['scale'] = layer.transform_param.scale
+                params['random_skip'] = layer.data_param.random_skip
+                params['prefetch'] = layer.data_param.prefetch
 
             elif(layer.type == 'Input'):
                 params['dim'] = str(map(int, layer.input_param.shape[0].dim))[1:-1]
