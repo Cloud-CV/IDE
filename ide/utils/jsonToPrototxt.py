@@ -192,6 +192,30 @@ def jsonToPrototxt(net, net_name):
                     for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                         ns[key] = value
 
+        elif (layerType == 'HDF5Output'):
+            layerPhase = layer['info']['phase']
+            hdf5_output_param = {'file_name': layerParams['file_name']}
+            if layerPhase is not None:
+                caffeLayer = get_iterable(L.HDF5Output(
+                    *[ns[x] for x in blobNames[layerId]['bottom']],
+                    hdf5_output_param=hdf5_output_param,
+                    include={
+                        'phase': int(layerPhase)
+                    }))
+                if int(layerPhase) == 0:
+                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                        ns_train[key] = value
+                elif int(layerPhase) == 1:
+                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                        ns_test[key] = value
+            else:
+                for ns in (ns_train, ns_test):
+                    caffeLayer = get_iterable(L.HDF5Output(
+                        *[ns[x] for x in blobNames[layerId]['bottom']],
+                        hdf5_output_param=hdf5_output_param))
+                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                        ns[key] = value
+
         elif (layerType == 'Input'):
             # Adding a default size
             if 'dim' not in layerParams:

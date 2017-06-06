@@ -235,6 +235,30 @@ export default {
     },
     learn: false
   },
+  HDF5Output: {
+    name: 'hdf5output',
+    color: '#673ab7',
+    endpoint: {
+      src: [],
+      trg: ['Top']
+    },
+    params: {
+      file_name: {
+        name: 'Output Filename',
+        value: '',
+        type: 'text',
+        required: true
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   Input: {
     name: 'input',
     color: '#673ab7',
