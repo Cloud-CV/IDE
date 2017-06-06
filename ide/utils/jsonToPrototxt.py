@@ -228,6 +228,38 @@ def jsonToPrototxt(net, net_name):
                     for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                         ns[key] = value
 
+        elif (layerType == 'WindowData'):
+            window_data_param = {}
+            window_data_param['source'] = layerParams['source']
+            window_data_param['batch_size'] = layerParams['batch_size']
+            window_data_param['fg_threshold'] = layerParams['fg_threshold']
+            window_data_param['bg_threshold'] = layerParams['bg_threshold']
+            window_data_param['fg_fraction'] = layerParams['fg_fraction']
+            window_data_param['context_pad'] = layerParams['context_pad']
+            window_data_param['crop_mode'] = layerParams['crop_mode']
+            window_data_param['cache_images'] = layerParams['cache_images']
+            window_data_param['root_folder'] = layerParams['root_folder']
+            if layerPhase is not None:
+                caffeLayer = get_iterable(L.WindowData(
+                    transform_param=transform_param,
+                    window_data_param=window_data_param,
+                    include={
+                        'phase': int(layerPhase)
+                    }))
+                if int(layerPhase) == 0:
+                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                        ns_train[key] = value
+                elif int(layerPhase) == 1:
+                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                        ns_test[key] = value
+            else:
+                for ns in (ns_train, ns_test):
+                    caffeLayer = get_iterable(L.WindowData(
+                        transform_param=transform_param,
+                        window_data_param=window_data_param))
+                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                        ns[key] = value
+
         # ********** Vision Layers **********
         elif (layerType == 'Convolution'):
             convolution_param = {}

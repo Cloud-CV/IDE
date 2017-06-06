@@ -87,6 +87,17 @@ def importPrototxt(request):
             elif(layer.type == 'Input'):
                 params['dim'] = str(map(int, layer.input_param.shape[0].dim))[1:-1]
 
+            elif(layer.type == 'WindowData'):
+                params['source'] = layer.window_data_param.source
+                params['batch_size'] = layer.window_data_param.batch_size
+                params['fg_threshold'] = layer.window_data_param.fg_threshold
+                params['bg_threshold'] = layer.window_data_param.bg_threshold
+                params['fg_fraction'] = layer.window_data_param.fg_fraction
+                params['context_pad'] = layer.window_data_param.context_pad
+                params['crop_mode'] = layer.window_data_param.crop_mode
+                params['cache_images'] = layer.window_data_param.cache_images
+                params['root_folder'] = layer.window_data_param.root_folder
+
             # ********** Vision Layers **********
             elif(layer.type == 'Convolution'):
                 if len(layer.convolution_param.kernel_size):
