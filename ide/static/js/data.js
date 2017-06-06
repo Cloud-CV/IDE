@@ -47,9 +47,8 @@ export default {
       },
       mirror: {
         name: 'Mirror',
-        value: 'False',
-        type: 'select',
-        options: ['True', 'False'],
+        value: false,
+        type: 'checkbox',
         required: false
       },
       crop_size: {
@@ -72,16 +71,14 @@ export default {
       },
       force_color: {
         name: 'Force Color',
-        value: 'False',
-        type: 'select',
-        options: ['True', 'False'],
+        value: false,
+        type: 'checkbox',
         required: false
       },
       force_gray: {
         name: 'Force Gray',
-        value: 'False',
-        type: 'select',
-        options: ['True', 'False'],
+        value: false,
+        type: 'checkbox',
         required: false
       }
     },
@@ -450,16 +447,14 @@ export default {
       },
       debug_info: {
         name: 'Degug',
-        value: 'False',
-        type: 'select',
-        options: ['True', 'False'],
+        value: false,
+        type: 'checkbox',
         required: false
       },
       expose_hidden: {
         name: 'Expose Hidden',
-        value: 'False',
-        type: 'select',
-        options: ['True', 'False'],
+        value: false,
+        type: 'checkbox',
         required: false
       }
     },
@@ -502,16 +497,14 @@ export default {
       },
       debug_info: {
         name: 'Degug',
-        value: 'False',
-        type: 'select',
-        options: ['True', 'False'],
+        value: false,
+        type: 'checkbox',
         required: false
       },
       expose_hidden: {
         name: 'Expose Hidden',
-        value: 'False',
-        type: 'select',
-        options: ['True', 'False'],
+        value: false,
+        type: 'checkbox',
         required: false
       }
     },
@@ -554,16 +547,14 @@ export default {
       },
       debug_info: {
         name: 'Degug',
-        value: 'False',
-        type: 'select',
-        options: ['True', 'False'],
+        value: false,
+        type: 'checkbox',
         required: false
       },
       expose_hidden: {
         name: 'Expose Hidden',
-        value: 'False',
-        type: 'select',
-        options: ['True', 'False'],
+        value: false,
+        type: 'checkbox',
         required: false
       }
     },
@@ -662,9 +653,8 @@ export default {
       },
       bias_term: {
         name: 'Bias Term',
-        value: 'False',
-        type: 'select',
-        options: ['True', 'False'],
+        value: false,
+        type: 'checkbox',
         required: false
       },
       input_dim: {
@@ -755,16 +745,14 @@ export default {
       },
       normalize_variance: {
         name: 'Normalize Variance',
-        value: true,
-        type: 'select',
-        options: ['true', 'false'],
+        value: false,
+        type: 'checkbox',
         required: false
       },
       across_channels: {
         name: 'Across Channels',
         value: false,
-        type: 'select',
-        options: ['true', 'false'],
+        type: 'checkbox',
         required: false
       },
       eps: {
@@ -799,9 +787,8 @@ export default {
       },
       use_global_stats: {
         name: 'Use Global Stats',
-        value: '',
-        type: 'select',
-        options: ['true', 'false'],
+        value: false,
+        type: 'checkbox',
         required: true
       },
       moving_average_fraction: {
@@ -1216,9 +1203,8 @@ export default {
     params: {
       bias_term: {
         name: 'Bias term',
-        value: '',
-        type: 'select',
-        options: ['true', 'false'],
+        value: true,
+        type: 'checkbox',
         required: true
       }
     },
@@ -1509,8 +1495,7 @@ export default {
       out_max_val: {
         name: 'Output Max Value',
         value: false,
-        type: 'select',
-        options: ['true', 'false'],
+        type: 'checkbox',
         required: false
       },
       top_k: {
@@ -1728,8 +1713,7 @@ export default {
       legacy_version: {
         name: 'Legacy',
         value: false,
-        type: 'select',
-        options: ['true', 'false'],
+        type: 'checkbox',
         required: false
       },
       margin: {
