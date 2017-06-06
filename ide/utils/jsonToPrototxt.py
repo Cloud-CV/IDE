@@ -99,101 +99,40 @@ def jsonToPrototxt(net, net_name):
             transform_param['crop_size'] = layerParams['crop_size']
             transform_param['force_color'] = layerParams['force_color']
             transform_param['force_gray'] = layerParams['force_gray']
-            if 'mean_value' in layerParams:
+            if (layerParams['mean_value'] != ''):
                 transform_param['mean_value'] = map(int, layerParams['mean_value'].split(','))
-            if 'mean_file' in layerParams:
+            elif (layerParams['mean_file'] != ''):
                 transform_param['mean_file'] = layerParams['mean_file']
 
-        if (layerType == 'Input'):
-            # Adding a default size
-            if 'dim' not in layerParams:
-                layerParams['dim'] = '10,3,224,224'
-            input_param = {'shape': {'dim': map(int, layerParams['dim'].split(','))}}
-
-            for ns in (ns_train, ns_test):
-                    caffeLayer = get_iterable(L.Input(
-                        input_param=input_param))
-                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
-                        ns[key] = value
-
-        elif (layerType == 'Data'):
-
-            # This is temporary
-            # Has to be improved later
-            # If we have data layer then it is converted to input layer with some default dimensions
-            '''
+        if (layerType == 'Data'):
             data_param = {}
-            if layerParams['source'] != '':
-                data_param['source'] = layerParams['source']
-                # hardcoding mnsit dataset -change this later
-                if layerPhase is not None:
-                    if int(layerPhase) == 0:
-                        data_param['source'] = 'examples/mnist/mnist_train_lmdb'
-                    elif int(layerPhase) == 1:
-                        data_param['source'] = 'examples/mnist/mnist_test_lmdb'
-            if layerParams['batch_size'] != '':
-                data_param['batch_size'] = int(float(layerParams['batch_size']))
-            if layerParams['backend'] != '':
-                backend = layerParams['backend']
-                if(backend == 'LEVELDB'):
-                    backend = 0
-                elif(backend == 'LMDB'):
-                    backend = 1
-                data_param['backend'] = backend
-            transform_param = {}
-            if layerParams['scale'] != '':
-                transform_param['scale'] = float(layerParams['scale'])
+            data_param['source'] = layerParams['source']
+            data_param['batch_size'] = layerParams['batch_size']
+            data_param['backend'] = layerParams['backend']
+            if (data_param['backend'] == 'LEVELDB'):
+                data_param['backend'] = 0
+            elif (data_param['backend'] == 'LMDB'):
+                data_param['backend'] = 1
+            data_param['rand_skip'] = layerParams['rand_skip']
+            data_param['prefetch'] = layerParams['prefetch']
             if layerPhase is not None:
                 caffeLayer = get_iterable(L.Data(
-                    ntop=1,
                     transform_param=transform_param,
                     data_param=data_param,
                     include={
                         'phase': int(layerPhase)
                     }))
                 if int(layerPhase) == 0:
-                    #for key, value in zip(blobNames[layerId]['top'] + ['label'], caffeLayer):
                     for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                         ns_train[key] = value
                 elif int(layerPhase) == 1:
-                    #for key, value in zip(blobNames[layerId]['top'] + ['label'], caffeLayer):
-                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
-                        ns_test[key] = value
-            else:
-                for ns in (ns_train,ns_test):
-                    caffeLayer = get_iterable(L.Data(
-                        ntop=2,
-                        transform_param=transform_param,
-                        data_param=data_param))
-                    #for key, value in zip(blobNames[layerId]['top'] + ['label'], caffeLayer):
-                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
-                        ns[key] = value
-            '''
-
-            if 'dim' not in layerParams:
-                layerParams['dim'] = '10,3,224,224'
-
-            input_dim = layerParams['dim']
-
-            if layerPhase is not None:
-                caffeLayer = get_iterable(L.Input(
-                    input_param={'shape': {'dim': map(int, layerParams['dim'].split(','))}},
-                    include={
-                        'phase': int(layerPhase)
-                    }))
-                if int(layerPhase) == 0:
-                    # for key, value in zip(blobNames[layerId]['top'] + ['label'], caffeLayer):
-                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
-                        ns_train[key] = value
-                elif int(layerPhase) == 1:
-                    # for key, value in zip(blobNames[layerId]['top'] + ['label'], caffeLayer):
                     for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                         ns_test[key] = value
             else:
                 for ns in (ns_train, ns_test):
-                    caffeLayer = get_iterable(L.Input(
-                        input_param={'shape': {'dim': map(int, layerParams['dim'].split(','))}}))
-                    # for key, value in zip(blobNames[layerId]['top'] + ['label'], caffeLayer):
+                    caffeLayer = get_iterable(L.Data(
+                        transform_param=transform_param,
+                        data_param=data_param))
                     for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                         ns[key] = value
 
@@ -218,6 +157,18 @@ def jsonToPrototxt(net, net_name):
                         hdf5_data_param=hdf5_data_param))
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
+
+        elif (layerType == 'Input'):
+            # Adding a default size
+            if 'dim' not in layerParams:
+                layerParams['dim'] = '10,3,224,224'
+            input_param = {'shape': {'dim': map(int, layerParams['dim'].split(','))}}
+
+            for ns in (ns_train, ns_test):
+                    caffeLayer = get_iterable(L.Input(
+                        input_param=input_param))
+                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                        ns[key] = value
 
         # ********** Vision Layers **********
         elif (layerType == 'Convolution'):

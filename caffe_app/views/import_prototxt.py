@@ -62,15 +62,15 @@ def importPrototxt(request):
                 params['source'] = layer.data_param.source
                 params['batch_size'] = layer.data_param.batch_size
                 params['backend'] = layer.data_param.backend
-                params['random_skip'] = layer.data_param.random_skip
+                params['rand_skip'] = layer.data_param.rand_skip
                 params['prefetch'] = layer.data_param.prefetch
-
-            elif(layer.type == 'Input'):
-                params['dim'] = str(map(int, layer.input_param.shape[0].dim))[1:-1]
 
             elif(layer.type == 'HDF5Data'):
                 params['source'] = layer.hdf5_data_param.source
                 params['batch_size'] = layer.hdf5_data_param.batch_size
+
+            elif(layer.type == 'Input'):
+                params['dim'] = str(map(int, layer.input_param.shape[0].dim))[1:-1]
 
             # ********** Vision Layers **********
             elif(layer.type == 'Convolution'):
