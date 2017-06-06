@@ -68,6 +68,7 @@ def importPrototxt(request):
             elif(layer.type == 'HDF5Data'):
                 params['source'] = layer.hdf5_data_param.source
                 params['batch_size'] = layer.hdf5_data_param.batch_size
+                params['shuffle'] = layer.hdf5_data_param.shuffle
 
             elif(layer.type == 'Input'):
                 params['dim'] = str(map(int, layer.input_param.shape[0].dim))[1:-1]

@@ -139,24 +139,27 @@ def jsonToPrototxt(net, net_name):
         elif (layerType == 'HDF5Data'):
             layerPhase = layer['info']['phase']
             hdf5_data_param = {}
-            if layerParams['source'] != '':
-                hdf5_data_param['source'] = layerParams['source']
-            if layerParams['batch_size'] != '':
-                hdf5_data_param['batch_size'] = layerParams['batch_size']
-            for ns in (ns_train, ns_test):
-                if layerPhase is not None:
+            hdf5_data_param['source'] = layerParams['source']
+            hdf5_data_param['batch_size'] = layerParams['batch_size']
+            hdf5_data_param['shuffle'] = layerParams['shuffle']
+            if layerPhase is not None:
+                caffeLayer = get_iterable(L.HDF5Data(
+                    hdf5_data_param=hdf5_data_param,
+                    include={
+                        'phase': int(layerPhase)
+                    }))
+                if int(layerPhase) == 0:
+                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                        ns_train[key] = value
+                elif int(layerPhase) == 1:
+                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                        ns_test[key] = value
+            else:
+                for ns in (ns_train, ns_test):
                     caffeLayer = get_iterable(L.HDF5Data(
-                        *[ns[x] for x in blobNames[layerId]['bottom']],
-                        hdf5_data_param=hdf5_data_param,
-                        include={
-                                'phase': int(layerPhase)
-                        }))
-                else:
-                    caffeLayer = get_iterable(L.HDF5Data(
-                        *[ns[x] for x in blobNames[layerId]['bottom']],
                         hdf5_data_param=hdf5_data_param))
-                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
-                    ns[key] = value
+                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                        ns[key] = value
 
         elif (layerType == 'Input'):
             # Adding a default size

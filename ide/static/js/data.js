@@ -110,6 +110,12 @@ export default {
         value: '',
         type: 'number',
         required: true
+      },
+      shuffle: {
+        name: 'Shuffle',
+        value: false,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
