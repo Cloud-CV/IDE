@@ -54,7 +54,6 @@ def importPrototxt(request):
 
             elif(layer.type == 'Input'):
                 params['dim'] = str(map(int, layer.input_param.shape[0].dim))[1:-1]
-                # string '64,1,28,28'
 
             elif(layer.type == 'HDF5Data'):
                 params['source'] = layer.hdf5_data_param.source

@@ -91,7 +91,19 @@ def jsonToPrototxt(net, net_name):
         layerType = layer['info']['type']
         layerPhase = layer['info']['phase']
         # ********** Data Layers **********
-        if (layerType == 'Data' or layerType == 'Input'):
+        if (layerType == 'Input'):
+            # Adding a default size
+            if 'dim' not in layerParams:
+                layerParams['dim'] = '10,3,224,224'
+            input_param = {'shape': {'dim': map(int, layerParams['dim'].split(','))}}
+
+            for ns in (ns_train, ns_test):
+                    caffeLayer = get_iterable(L.Input(
+                        input_param=input_param))
+                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                        ns[key] = value
+
+        elif (layerType == 'Data'):
 
             # This is temporary
             # Has to be improved later
