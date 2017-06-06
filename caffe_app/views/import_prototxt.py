@@ -98,6 +98,12 @@ def importPrototxt(request):
                 params['cache_images'] = layer.window_data_param.cache_images
                 params['root_folder'] = layer.window_data_param.root_folder
 
+            elif(layer.type == 'MemoryData'):
+                params['batch_size'] = layer.memory_data_param.batch_size
+                params['channels'] = layer.memory_data_param.channels
+                params['height'] = layer.memory_data_param.height
+                params['width'] = layer.memory_data_param.width
+
             # ********** Vision Layers **********
             elif(layer.type == 'Convolution'):
                 if len(layer.convolution_param.kernel_size):

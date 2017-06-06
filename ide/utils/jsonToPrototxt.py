@@ -260,6 +260,31 @@ def jsonToPrototxt(net, net_name):
                     for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                         ns[key] = value
 
+        elif (layerType == 'MemoryData'):
+            memory_data_param = {}
+            memory_data_param['batch_size'] = layerParams['batch_size']
+            memory_data_param['channels'] = layerParams['channels']
+            memory_data_param['height'] = layerParams['height']
+            memory_data_param['width'] = layerParams['width']
+            if layerPhase is not None:
+                caffeLayer = get_iterable(L.MemoryData(
+                    memory_data_param=memory_data_param,
+                    include={
+                        'phase': int(layerPhase)
+                    }))
+                if int(layerPhase) == 0:
+                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                        ns_train[key] = value
+                elif int(layerPhase) == 1:
+                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                        ns_test[key] = value
+            else:
+                for ns in (ns_train, ns_test):
+                    caffeLayer = get_iterable(L.MemoryData(
+                        memory_data_param=memory_data_param))
+                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                        ns[key] = value
+
         # ********** Vision Layers **********
         elif (layerType == 'Convolution'):
             convolution_param = {}

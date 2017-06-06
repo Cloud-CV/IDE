@@ -398,6 +398,48 @@ export default {
     },
     learn: false
   },
+  MemoryData: {
+    name: 'memory data',
+    color: '#673ab7',
+    endpoint: {
+      src: ['Bottom'],
+      trg: []
+    },
+    params: {
+      batch_size: {
+        name: 'Batch Size',
+        value: '',
+        type: 'number',
+        required: true
+      },
+      channels: {
+        name: 'Channels',
+        value: '',
+        type: 'number',
+        required: true
+      },
+      height: {
+        name: 'Height',
+        value: '',
+        type: 'number',
+        required: true
+      },
+      width: {
+        name: 'Width',
+        value: '',
+        type: 'number',
+        required: true
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   /* ********** Vision Layers ********** */
   Convolution: {
     name: 'conv',
