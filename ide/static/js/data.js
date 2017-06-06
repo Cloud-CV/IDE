@@ -1,5 +1,113 @@
 export default {
   /* ********** Data Layers ********** */
+  ImageData: {
+    name: 'image data',
+    color: '#673ab7',
+    endpoint: {
+      src: ['Bottom'],
+      trg: []
+    },
+    params: {
+      source: {
+        name: 'Data source',
+        value: '',
+        type: 'text',
+        required: true
+      },
+      batch_size: {
+        name: 'Batch size',
+        value: '',
+        type: 'number',
+        required: true
+      },
+      rand_skip: {
+        name: 'Random Skip',
+        value: 0,
+        type: 'number',
+        required: false
+      },
+      shuffle: {
+        name: 'Shuffle',
+        value: false,
+        type: 'checkbox',
+        required: false
+      },
+      new_height: {
+        name: 'New Height',
+        value: 0,
+        type: 'number',
+        required: false
+      },
+      new_width: {
+        name: 'New Width',
+        value: 0,
+        type: 'number',
+        required: false
+      },
+      is_color: {
+        name: 'Is Color',
+        value: true,
+        type: 'checkbox',
+        required: false
+      },
+      root_folder: {
+        name: 'Root Folder',
+        value: '',
+        type: 'text',
+        required: false
+      },
+      scale: {
+        name: 'Scale',
+        value: 1.0,
+        type: 'float',
+        required: false
+      },
+      mirror: {
+        name: 'Mirror',
+        value: false,
+        type: 'checkbox',
+        required: false
+      },
+      crop_size: {
+        name: 'Crop Size',
+        value: 0,
+        type: 'number',
+        required: false
+      },
+      mean_file: {
+        name: 'Mean File',
+        value: '',
+        type: 'text',
+        required: false
+      },
+      mean_value: {
+        name: 'Mean Value',
+        value: '',
+        type: 'text',
+        required: false
+      },
+      force_color: {
+        name: 'Force Color',
+        value: false,
+        type: 'checkbox',
+        required: false
+      },
+      force_gray: {
+        name: 'Force Gray',
+        value: false,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   Data: {
     name: 'data',
     color: '#673ab7',

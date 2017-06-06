@@ -40,9 +40,9 @@ def jsonToPrototxt(net, net_name):
         return True
 
     # finding the data layer
+    dataLayers = ['ImageData', 'Data', 'HDF5Data', 'Input', 'WindowData', 'MemoryData', 'DummyData']
     for layerId in net:
-        if(net[layerId]['info']['type'] == 'Data' or net[layerId]['info']['type'] == 'Input'
-                or net[layerId]['info']['type'] == 'HDF5Data'):
+        if(net[layerId]['info']['type'] in dataLayers):
             stack.append(layerId)
 
     def changeTopBlobName(layerId, newName):
@@ -104,7 +104,38 @@ def jsonToPrototxt(net, net_name):
             elif (layerParams['mean_file'] != ''):
                 transform_param['mean_file'] = layerParams['mean_file']
 
-        if (layerType == 'Data'):
+        if (layerType == 'ImageData'):
+            image_data_param = {}
+            image_data_param['source'] = layerParams['source']
+            image_data_param['batch_size'] = layerParams['batch_size']
+            image_data_param['rand_skip'] = layerParams['rand_skip']
+            image_data_param['shuffle'] = layerParams['shuffle']
+            image_data_param['new_height'] = layerParams['new_height']
+            image_data_param['new_width'] = layerParams['new_width']
+            image_data_param['is_color'] = layerParams['is_color']
+            image_data_param['root_folder'] = layerParams['root_folder']
+            if layerPhase is not None:
+                caffeLayer = get_iterable(L.ImageData(
+                    transform_param=transform_param,
+                    image_data_param=image_data_param,
+                    include={
+                        'phase': int(layerPhase)
+                    }))
+                if int(layerPhase) == 0:
+                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                        ns_train[key] = value
+                elif int(layerPhase) == 1:
+                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                        ns_test[key] = value
+            else:
+                for ns in (ns_train, ns_test):
+                    caffeLayer = get_iterable(L.ImageData(
+                        transform_param=transform_param,
+                        image_data_param=image_data_param))
+                    for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+                        ns[key] = value
+
+        elif (layerType == 'Data'):
             data_param = {}
             data_param['source'] = layerParams['source']
             data_param['batch_size'] = layerParams['batch_size']

@@ -58,7 +58,18 @@ def importPrototxt(request):
                 params['force_color'] = layer.transform_param.force_color
                 params['force_gray'] = layer.transform_param.force_gray
 
-            if(layer.type == 'Data'):
+            if(layer.type == 'ImageData'):
+                params['source'] = layer.image_data_param.source
+                params['batch_size'] = layer.image_data_param.batch_size
+                params['rand_skip'] = layer.image_data_param.rand_skip
+                params['shuffle'] = layer.image_data_param.shuffle
+                params['new_height'] = layer.image_data_param.new_height
+                params['new_width'] = layer.image_data_param.new_width
+                params['is_color'] = layer.image_data_param.is_color
+                params['root_folder'] = layer.image_data_param.root_folder
+                print params
+
+            elif(layer.type == 'Data'):
                 params['source'] = layer.data_param.source
                 params['batch_size'] = layer.data_param.batch_size
                 params['backend'] = layer.data_param.backend
