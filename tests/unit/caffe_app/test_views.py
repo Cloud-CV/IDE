@@ -238,3 +238,61 @@ class DeconvolutionLayerTest(unittest.TestCase):
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'deconvolution_test.prototxt'))
         self.assertEqual(response['result'], 'success')
+
+
+# ********** Recurrent Layers Test **********
+class RecurrentLayerTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_details(self):
+        top = L.Recurrent(recurrent_param=dict(num_output=128, debug_info=False, 
+                          expose_hidden=False, weight_filler={'type': 'xavier'}, 
+                          bias_filler={'type': 'constant'}))
+        with open(os.path.join(
+                  settings.BASE_DIR, 'media', 'recurrent_test.prototxt'), 'w') as f:
+            f.write(str(to_proto(top)))
+        sample_file = open(os.path.join(
+            settings.BASE_DIR, 'media', 'recurrent_test.prototxt'), 'r')
+        response = self.client.post(reverse('caffe-import'), {'file': sample_file})
+        response = json.loads(response.content)
+        os.remove(os.path.join(settings.BASE_DIR, 'media', 'recurrent_test.prototxt'))
+        self.assertEqual(response['result'], 'success')
+
+
+class RNNLayerTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_details(self):
+        top = L.RNN(recurrent_param=dict(num_output=128, debug_info=False,
+                    expose_hidden=False, weight_filler={'type': 'xavier'},
+                    bias_filler={'type': 'constant'}))
+        with open(os.path.join(
+                  settings.BASE_DIR, 'media', 'rnn_test.prototxt'), 'w') as f:
+            f.write(str(to_proto(top)))
+        sample_file = open(os.path.join(
+            settings.BASE_DIR, 'media', 'rnn_test.prototxt'), 'r')
+        response = self.client.post(reverse('caffe-import'), {'file': sample_file})
+        response = json.loads(response.content)
+        os.remove(os.path.join(settings.BASE_DIR, 'media', 'rnn_test.prototxt'))
+        self.assertEqual(response['result'], 'success')
+
+
+class LSTMLayerTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_details(self):
+        top = L.LSTM(recurrent_param=dict(num_output=128, debug_info=False,
+                     expose_hidden=False, weight_filler={'type': 'xavier'},
+                     bias_filler={'type': 'constant'}))
+        with open(os.path.join(
+                  settings.BASE_DIR, 'media', 'lstm_test.prototxt'), 'w') as f:
+            f.write(str(to_proto(top)))
+        sample_file = open(os.path.join(
+            settings.BASE_DIR, 'media', 'lstm_test.prototxt'), 'r')
+        response = self.client.post(reverse('caffe-import'), {'file': sample_file})
+        response = json.loads(response.content)
+        os.remove(os.path.join(settings.BASE_DIR, 'media', 'lstm_test.prototxt'))
+        self.assertEqual(response['result'], 'success')
