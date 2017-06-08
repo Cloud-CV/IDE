@@ -279,20 +279,55 @@ class RNNLayerTest(unittest.TestCase):
         self.assertEqual(response['result'], 'success')
 
 
-class LSTMLayerTest(unittest.TestCase):
+# ********** Common Layers Test **********
+class InnerProductLayerTest(unittest.TestCase):
     def setUp(self):
         self.client = Client()
 
     def test_details(self):
-        top = L.LSTM(recurrent_param=dict(num_output=128, debug_info=False,
-                     expose_hidden=False, weight_filler={'type': 'xavier'},
-                     bias_filler={'type': 'constant'}))
+        top = L.InnerProduct(num_output=128, weight_filler={'type': 'xavier'},
+                             bias_filler={'type': 'constant'})
         with open(os.path.join(
-                  settings.BASE_DIR, 'media', 'lstm_test.prototxt'), 'w') as f:
+                  settings.BASE_DIR, 'media', 'inner_product_test.prototxt'), 'w') as f:
             f.write(str(to_proto(top)))
         sample_file = open(os.path.join(
-            settings.BASE_DIR, 'media', 'lstm_test.prototxt'), 'r')
+            settings.BASE_DIR, 'media', 'inner_product_test.prototxt'), 'r')
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
-        os.remove(os.path.join(settings.BASE_DIR, 'media', 'lstm_test.prototxt'))
+        os.remove(os.path.join(settings.BASE_DIR, 'media', 'inner_product_test.prototxt'))
+        self.assertEqual(response['result'], 'success')
+
+
+class DropoutLayerTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_details(self):
+        top = L.Dropout()
+        with open(os.path.join(
+                  settings.BASE_DIR, 'media', 'dropout_test.prototxt'), 'w') as f:
+            f.write(str(to_proto(top)))
+        sample_file = open(os.path.join(
+            settings.BASE_DIR, 'media', 'dropout_test.prototxt'), 'r')
+        response = self.client.post(reverse('caffe-import'), {'file': sample_file})
+        response = json.loads(response.content)
+        os.remove(os.path.join(settings.BASE_DIR, 'media', 'dropout_test.prototxt'))
+        self.assertEqual(response['result'], 'success')
+
+
+class EmbedLayerTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_details(self):
+        top = L.Embed(num_output=128, input_dim=2, bias_term=False,
+                      weight_filler={'type': 'xavier'})
+        with open(os.path.join(
+                  settings.BASE_DIR, 'media', 'embed_test.prototxt'), 'w') as f:
+            f.write(str(to_proto(top)))
+        sample_file = open(os.path.join(
+            settings.BASE_DIR, 'media', 'embed_test.prototxt'), 'r')
+        response = self.client.post(reverse('caffe-import'), {'file': sample_file})
+        response = json.loads(response.content)
+        os.remove(os.path.join(settings.BASE_DIR, 'media', 'embed_test.prototxt'))
         self.assertEqual(response['result'], 'success')
