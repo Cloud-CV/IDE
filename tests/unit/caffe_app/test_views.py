@@ -246,8 +246,8 @@ class RecurrentLayerTest(unittest.TestCase):
         self.client = Client()
 
     def test_details(self):
-        top = L.Recurrent(recurrent_param=dict(num_output=128, debug_info=False, 
-                          expose_hidden=False, weight_filler={'type': 'xavier'}, 
+        top = L.Recurrent(recurrent_param=dict(num_output=128, debug_info=False,
+                          expose_hidden=False, weight_filler={'type': 'xavier'},
                           bias_filler={'type': 'constant'}))
         with open(os.path.join(
                   settings.BASE_DIR, 'media', 'recurrent_test.prototxt'), 'w') as f:
@@ -330,4 +330,56 @@ class EmbedLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'embed_test.prototxt'))
+        self.assertEqual(response['result'], 'success')
+
+
+# ********** Normalisation Layers Test **********
+class LRNLayerTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_details(self):
+        top = L.LRN(local_size=5, alpha=1, beta=0.75, k=1, norm_region=1)
+        with open(os.path.join(
+                  settings.BASE_DIR, 'media', 'lrn_test.prototxt'), 'w') as f:
+            f.write(str(to_proto(top)))
+        sample_file = open(os.path.join(
+            settings.BASE_DIR, 'media', 'lrn_test.prototxt'), 'r')
+        response = self.client.post(reverse('caffe-import'), {'file': sample_file})
+        response = json.loads(response.content)
+        os.remove(os.path.join(settings.BASE_DIR, 'media', 'lrn_test.prototxt'))
+        self.assertEqual(response['result'], 'success')
+
+
+class MVNLayerTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_details(self):
+        top = L.MVN(normalize_variance=True, eps=1e-9, across_channels=False)
+        with open(os.path.join(
+                  settings.BASE_DIR, 'media', 'mvn_test.prototxt'), 'w') as f:
+            f.write(str(to_proto(top)))
+        sample_file = open(os.path.join(
+            settings.BASE_DIR, 'media', 'mvn_test.prototxt'), 'r')
+        response = self.client.post(reverse('caffe-import'), {'file': sample_file})
+        response = json.loads(response.content)
+        os.remove(os.path.join(settings.BASE_DIR, 'media', 'mvn_test.prototxt'))
+        self.assertEqual(response['result'], 'success')
+
+
+class BatchNormLayerTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_details(self):
+        top = L.BatchNorm(use_global_stats=True, moving_average_fraction=0.999, eps=1e-5)
+        with open(os.path.join(
+                  settings.BASE_DIR, 'media', 'bn_test.prototxt'), 'w') as f:
+            f.write(str(to_proto(top)))
+        sample_file = open(os.path.join(
+            settings.BASE_DIR, 'media', 'bn_test.prototxt'), 'r')
+        response = self.client.post(reverse('caffe-import'), {'file': sample_file})
+        response = json.loads(response.content)
+        os.remove(os.path.join(settings.BASE_DIR, 'media', 'bn_test.prototxt'))
         self.assertEqual(response['result'], 'success')
