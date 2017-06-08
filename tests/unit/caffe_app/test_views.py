@@ -157,3 +157,84 @@ class DummyDataLayerTest(unittest.TestCase):
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'dummy_data_test.prototxt'))
         self.assertEqual(response['result'], 'success')
+
+
+# ********** Vision Layers Test **********
+class ConvolutionLayerTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_details(self):
+        top = L.Convolution(kernel_size=3, pad=1, stride=1, num_output=128,
+                            weight_filler={'type': 'xavier'}, bias_filler={'type': 'constant'})
+        with open(os.path.join(settings.BASE_DIR, 'media', 'convolution_test.prototxt'), 'w') as f:
+            f.write(str(to_proto(top)))
+        sample_file = open(os.path.join(
+            settings.BASE_DIR, 'media', 'convolution_test.prototxt'), 'r')
+        response = self.client.post(reverse('caffe-import'), {'file': sample_file})
+        response = json.loads(response.content)
+        os.remove(os.path.join(settings.BASE_DIR, 'media', 'convolution_test.prototxt'))
+        self.assertEqual(response['result'], 'success')
+
+
+class PoolingLayerTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_details(self):
+        top = L.Pooling(kernel_size=2, pad=0, stride=2, pool=1)
+        with open(os.path.join(settings.BASE_DIR, 'media', 'pooling_test.prototxt'), 'w') as f:
+            f.write(str(to_proto(top)))
+        sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'pooling_test.prototxt'), 'r')
+        response = self.client.post(reverse('caffe-import'), {'file': sample_file})
+        response = json.loads(response.content)
+        os.remove(os.path.join(settings.BASE_DIR, 'media', 'pooling_test.prototxt'))
+        self.assertEqual(response['result'], 'success')
+
+
+class SPPLayerTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_details(self):
+        top = L.SPP(pyramid_height=2, pool=1)
+        with open(os.path.join(settings.BASE_DIR, 'media', 'spp_test.prototxt'), 'w') as f:
+            f.write(str(to_proto(top)))
+        sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'spp_test.prototxt'), 'r')
+        response = self.client.post(reverse('caffe-import'), {'file': sample_file})
+        response = json.loads(response.content)
+        os.remove(os.path.join(settings.BASE_DIR, 'media', 'spp_test.prototxt'))
+        self.assertEqual(response['result'], 'success')
+
+
+class CropLayerTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_details(self):
+        top = L.Crop(axis=2, offset=2)
+        with open(os.path.join(settings.BASE_DIR, 'media', 'crop_test.prototxt'), 'w') as f:
+            f.write(str(to_proto(top)))
+        sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'crop_test.prototxt'), 'r')
+        response = self.client.post(reverse('caffe-import'), {'file': sample_file})
+        response = json.loads(response.content)
+        os.remove(os.path.join(settings.BASE_DIR, 'media', 'crop_test.prototxt'))
+        self.assertEqual(response['result'], 'success')
+
+
+class DeconvolutionLayerTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_details(self):
+        top = L.Deconvolution(convolution_param=dict(kernel_size=3, pad=1, stride=1, num_output=128,
+                              weight_filler={'type': 'xavier'}, bias_filler={'type': 'constant'}))
+        with open(os.path.join(
+                  settings.BASE_DIR, 'media', 'deconvolution_test.prototxt'), 'w') as f:
+            f.write(str(to_proto(top)))
+        sample_file = open(os.path.join(
+            settings.BASE_DIR, 'media', 'deconvolution_test.prototxt'), 'r')
+        response = self.client.post(reverse('caffe-import'), {'file': sample_file})
+        response = json.loads(response.content)
+        os.remove(os.path.join(settings.BASE_DIR, 'media', 'deconvolution_test.prototxt'))
+        self.assertEqual(response['result'], 'success')
