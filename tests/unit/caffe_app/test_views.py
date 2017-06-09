@@ -619,21 +619,6 @@ class SplitLayerTest(unittest.TestCase):
         self.assertEqual(response['result'], 'success')
 
 
-class SplitLayerTest(unittest.TestCase):
-    def setUp(self):
-        self.client = Client()
-
-    def test_details(self):
-        top = L.Split()
-        with open(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'), 'w') as f:
-            f.write(str(to_proto(top)))
-        sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'), 'r')
-        response = self.client.post(reverse('caffe-import'), {'file': sample_file})
-        response = json.loads(response.content)
-        os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
-        self.assertEqual(response['result'], 'success')
-
-
 class ConcatLayerTest(unittest.TestCase):
     def setUp(self):
         self.client = Client()
