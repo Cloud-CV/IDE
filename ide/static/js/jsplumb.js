@@ -1,22 +1,24 @@
 export default function () {
   let ArrowConnector = function(params) {
-  params = params || { dx: 120, dy: 120 };
+  params = params || { dx: 20, dy: 20 };
   let _super =  jsPlumb.Connectors.AbstractConnector.apply(this, arguments);
   this.type = "ArrowConnector";
-  let dx = params.x || 50
+  let dy = params.y || 20;
 
   this._compute = function(paintInfo, paintParams) {
-   
-    if(paintParams.targetEndpoint.isTarget && paintParams.targetEndpoint.element.attributes['data-type'].nodeValue === 'Concat'){
+
+    if(paintParams.targetEndpoint.isTarget && 
+      ((paintParams.targetEndpoint.element.attributes['data-type'].nodeValue === 'Concat') ||
+       (paintParams.targetEndpoint.element.attributes['data-type'].nodeValue === 'Eltwise'))){
       _super.addSegment(this, "Straight", {
         x1:paintInfo.sx,
         y1:paintInfo.sy,
-        x2:paintInfo.tx - dx,
-        y2:paintInfo.sy
+        x2:paintInfo.sx,
+        y2:paintInfo.ty - dy
       });
       _super.addSegment(this, "Straight", {
-        x1:paintInfo.tx - dx,
-        y1:paintInfo.sy,
+        x1:paintInfo.sx,
+        y1:paintInfo.ty - dy,
         x2:paintInfo.tx,
         y2:paintInfo.ty
       });
@@ -24,12 +26,6 @@ export default function () {
       _super.addSegment(this, "Straight", {
         x1:paintInfo.sx,
         y1:paintInfo.sy,
-        x2:paintInfo.sx + dx,
-        y2:paintInfo.ty
-      });
-      _super.addSegment(this, "Straight", {
-        x1:paintInfo.sx + dx,
-        y1:paintInfo.ty,
         x2:paintInfo.tx,
         y2:paintInfo.ty
       });
@@ -59,7 +55,7 @@ jsPlumb.registerConnectorType(ArrowConnector, "ArrowConnector");
     strokeStyle: 'black'
   };
 
-  const sourceEndpoint = {
+  const sourceEndpointDot = {
     endpoint: 'Dot',
     paintStyle: {
       fillStyle: '#c5c5bf',
@@ -74,7 +70,7 @@ jsPlumb.registerConnectorType(ArrowConnector, "ArrowConnector");
     dragOptions: {}
   };
 
-  const targetEndpoint = {
+  const targetEndpointDot = {
     endpoint: 'Dot',
     paintStyle: {
       fillStyle: '#c5c5bf',
@@ -84,18 +80,18 @@ jsPlumb.registerConnectorType(ArrowConnector, "ArrowConnector");
     isTarget: true
   };
 
-
   instance.addLayerEndpoints = function addLayerEndpoints(toId, sourceAnchors, targetAnchors) {
     let i;
     let sourceUUID;
     let targetUUID;
     for (i = 0; i < sourceAnchors.length; i++) {
       sourceUUID = `${toId}-s${i}`;
-      instance.addEndpoint(toId, sourceEndpoint, { anchor: sourceAnchors[i], uuid: sourceUUID });
+
+      instance.addEndpoint(toId, sourceEndpointDot, { anchor: sourceAnchors[i], uuid: sourceUUID });
     }
     for (i = 0; i < targetAnchors.length; i++) {
       targetUUID = `${toId}-t${i}`;
-      instance.addEndpoint(toId, targetEndpoint, { anchor: targetAnchors[i], uuid: targetUUID });
+      instance.addEndpoint(toId, targetEndpointDot, { anchor: targetAnchors[i], uuid: targetUUID });
     }
   }
 

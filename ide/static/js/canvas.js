@@ -3,7 +3,8 @@ import data from './data';
 import jsPlumbReady from './jsplumb';
 import Layer from './layer';
 import Error from './error';
-import panZoom from './panZoom'
+import panZoom from './panZoom';
+import $ from 'jquery'
 
 class Canvas extends React.Component {
   constructor(props) {
@@ -12,8 +13,10 @@ class Canvas extends React.Component {
     this.drop = this.drop.bind(this);
     this.clickCanvas = this.clickCanvas.bind(this);
     this.clickLayerEvent = this.clickLayerEvent.bind(this);
+    this.hoverLayerEvent = this.hoverLayerEvent.bind(this);
     // whether a layer was clicked or dragged
     this.clickOrDraggedLayer = 0;
+    this.hover = 0;
     this.mouseState = null;
   }
   componentDidMount() {
@@ -31,6 +34,7 @@ class Canvas extends React.Component {
     );
     if (this.props.rebuildNet) {
       const net = this.props.net;
+      let combined_layers = ['ReLU', 'LRN', 'BatchNorm', 'Dropout', 'Scale'];
       Object.keys(net).forEach(inputId => {
         const layer = net[inputId];
         if ((layer.info.phase === this.props.selectedPhase) || (layer.info.phase === null)) {
@@ -41,6 +45,21 @@ class Canvas extends React.Component {
                 uuids: [`${inputId}-s0`, `${outputId}-t0`],
                 editable: true
               });
+              /* The following code is to identify layers that are part of a group
+              and modify their border radius */
+              if ($.inArray(net[outputId].info.type, combined_layers) != -1){
+                if ($.inArray(net[inputId].info.type, combined_layers) == -1){
+                  $('#'+inputId).css('border-radius', '10px 10px 0px 0px') 
+                }
+                else {
+                  $('#'+inputId).css('border-radius', '0px 0px 0px 0px') 
+                }
+              }
+              else {
+                if ($.inArray(net[inputId].info.type, combined_layers) != -1){
+                  $('#'+inputId).css('border-radius', '0px 0px 10px 10px') 
+                }
+              }
             }
           });
         }
@@ -57,6 +76,14 @@ class Canvas extends React.Component {
       this.props.changeSelectedLayer(layerId); // clicked
     } else if (this.clickOrDraggedLayer === 1) {
       this.clickOrDraggedLayer = 0; // dragged
+    }
+    event.stopPropagation();
+  }
+  hoverLayerEvent(event, layerId) { // happens when layer is hovered
+    if (this.hover === 0) {
+      this.props.changeHoveredLayer(layerId);
+    } else if (this.hover === 1) {
+      this.hover = 0;
     }
     event.stopPropagation();
   }
@@ -81,16 +108,36 @@ class Canvas extends React.Component {
   }
   connectionEvent(connInfo, originalEvent) {
     if (originalEvent != null) { // user manually makes a connection
+      /* Added check for cyclic graphs, the custom BFS finds all parents
+      of the source node and then checks to see if the target matches 
+      any parent*/
+      var parents = [];
+      var stack = [connInfo.connection.sourceId];
+      var targetIsParent = false;
       const srcId = connInfo.connection.sourceId;
       const trgId = connInfo.connection.targetId;
       const layerSrc = this.props.net[srcId];
       const layerTrg = this.props.net[trgId];
+      while (stack.length!=0){
+        for(var i=0; i<this.props.net[stack[0]].connection.input.length; i++){
+          stack.push(this.props.net[stack[0]].connection.input[i]);
+        }
+        parents.push(stack.shift());
+      }
+      for (i=0; i<parents.length; i++)
+        if (parents[i] == trgId){
+          targetIsParent = true;
+          break;
+        }
+      if (targetIsParent == true || srcId==trgId)
+        this.props.addError(`Error: cyclic graphs are not allowed`);
+      else{
+        layerSrc.connection.output.push(trgId);
+        this.props.modifyLayer(layerSrc, srcId);
 
-      layerSrc.connection.output.push(trgId);
-      this.props.modifyLayer(layerSrc, srcId);
-
-      layerTrg.connection.input.push(srcId);
-      this.props.modifyLayer(layerTrg, trgId);
+        layerTrg.connection.input.push(srcId);
+        this.props.modifyLayer(layerTrg, trgId);
+      }
     }
   }
   detachConnectionEvent(connInfo, originalEvent) {
@@ -165,6 +212,7 @@ class Canvas extends React.Component {
             top={layer.state.top}
             left={layer.state.left}
             click={this.clickLayerEvent}
+            hover={this.hoverLayerEvent}
           />
         );
       }
@@ -210,6 +258,7 @@ Canvas.propTypes = {
   modifyLayer: React.PropTypes.func,
   addNewLayer: React.PropTypes.func,
   changeSelectedLayer: React.PropTypes.func,
+  changeHoveredLayer: React.PropTypes.func,
   rebuildNet: React.PropTypes.bool,
   changeNetStatus: React.PropTypes.func,
   addError: React.PropTypes.func,
