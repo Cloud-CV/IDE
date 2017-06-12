@@ -36,6 +36,7 @@ class ImageDataLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 13)
         self.assertEqual(response['result'], 'success')
 
 
@@ -55,6 +56,7 @@ class DataLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 10)
         self.assertEqual(response['result'], 'success')
 
 
@@ -70,6 +72,7 @@ class HDF5DataLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 3)
         self.assertEqual(response['result'], 'success')
 
 
@@ -85,6 +88,7 @@ class HDF5OutputLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 1)
         self.assertEqual(response['result'], 'success')
 
 
@@ -100,6 +104,7 @@ class InputLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 1)
         self.assertEqual(response['result'], 'success')
 
 
@@ -121,6 +126,7 @@ class WindowDataLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 14)
         self.assertEqual(response['result'], 'success')
 
 
@@ -136,6 +142,7 @@ class MemoryDataLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 4)
         self.assertEqual(response['result'], 'success')
 
 
@@ -152,6 +159,7 @@ class DummyDataLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 1)
         self.assertEqual(response['result'], 'success')
 
 
@@ -169,6 +177,7 @@ class ConvolutionLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 6)
         self.assertEqual(response['result'], 'success')
 
 
@@ -184,6 +193,7 @@ class PoolingLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 4)
         self.assertEqual(response['result'], 'success')
 
 
@@ -199,6 +209,7 @@ class SPPLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 2)
         self.assertEqual(response['result'], 'success')
 
 
@@ -214,6 +225,7 @@ class CropLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 2)
         self.assertEqual(response['result'], 'success')
 
 
@@ -230,6 +242,7 @@ class DeconvolutionLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 6)
         self.assertEqual(response['result'], 'success')
 
 
@@ -248,6 +261,7 @@ class RecurrentLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 5)
         self.assertEqual(response['result'], 'success')
 
 
@@ -265,6 +279,25 @@ class RNNLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 5)
+        self.assertEqual(response['result'], 'success')
+
+
+class LSTMLayerTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_details(self):
+        top = L.LSTM(recurrent_param=dict(num_output=128, debug_info=False,
+                     expose_hidden=False, weight_filler={'type': 'xavier'},
+                     bias_filler={'type': 'constant'}))
+        with open(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'), 'w') as f:
+            f.write(str(to_proto(top)))
+        sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'), 'r')
+        response = self.client.post(reverse('caffe-import'), {'file': sample_file})
+        response = json.loads(response.content)
+        os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 5)
         self.assertEqual(response['result'], 'success')
 
 
@@ -282,6 +315,7 @@ class InnerProductLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 3)
         self.assertEqual(response['result'], 'success')
 
 
@@ -313,6 +347,7 @@ class EmbedLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 4)
         self.assertEqual(response['result'], 'success')
 
 
@@ -329,6 +364,7 @@ class LRNLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 5)
         self.assertEqual(response['result'], 'success')
 
 
@@ -344,6 +380,7 @@ class MVNLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 3)
         self.assertEqual(response['result'], 'success')
 
 
@@ -359,6 +396,7 @@ class BatchNormLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 3)
         self.assertEqual(response['result'], 'success')
 
 
@@ -375,6 +413,7 @@ class ReLULayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 1)
         self.assertEqual(response['result'], 'success')
 
 
@@ -390,6 +429,7 @@ class PReLULayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 1)
         self.assertEqual(response['result'], 'success')
 
 
@@ -405,6 +445,7 @@ class ELULayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 1)
         self.assertEqual(response['result'], 'success')
 
 
@@ -465,6 +506,7 @@ class PowerLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 3)
         self.assertEqual(response['result'], 'success')
 
 
@@ -480,6 +522,7 @@ class ExpLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 3)
         self.assertEqual(response['result'], 'success')
 
 
@@ -495,6 +538,7 @@ class LogLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 3)
         self.assertEqual(response['result'], 'success')
 
 
@@ -525,6 +569,7 @@ class ThresholdLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 1)
         self.assertEqual(response['result'], 'success')
 
 
@@ -540,6 +585,7 @@ class BiasLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 3)
         self.assertEqual(response['result'], 'success')
 
 
@@ -555,6 +601,7 @@ class ScaleLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 1)
         self.assertEqual(response['result'], 'success')
 
 
@@ -571,6 +618,7 @@ class FlattenLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 2)
         self.assertEqual(response['result'], 'success')
 
 
@@ -586,6 +634,7 @@ class ReshapeLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 1)
         self.assertEqual(response['result'], 'success')
 
 
@@ -646,6 +695,7 @@ class SliceLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 3)
         self.assertEqual(response['result'], 'success')
 
 
@@ -661,6 +711,7 @@ class EltwiseLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 1)
         self.assertEqual(response['result'], 'success')
 
 
@@ -691,6 +742,7 @@ class ParameterLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 1)
         self.assertEqual(response['result'], 'success')
 
 
@@ -706,6 +758,7 @@ class ReductionLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 3)
         self.assertEqual(response['result'], 'success')
 
 
@@ -736,6 +789,7 @@ class ArgMaxLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 3)
         self.assertEqual(response['result'], 'success')
 
 
@@ -782,6 +836,7 @@ class InfogainLossLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 2)
         self.assertEqual(response['result'], 'success')
 
 
@@ -797,6 +852,7 @@ class SoftmaxWithLossLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 1)
         self.assertEqual(response['result'], 'success')
 
 
@@ -827,6 +883,7 @@ class HingeLossLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 1)
         self.assertEqual(response['result'], 'success')
 
 
@@ -857,6 +914,7 @@ class AccuracyLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 2)
         self.assertEqual(response['result'], 'success')
 
 
@@ -872,4 +930,5 @@ class ContrastiveLossLayerTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-import'), {'file': sample_file})
         response = json.loads(response.content)
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
+        self.assertTrue(len(response['net']['l0']['params']) >= 2)
         self.assertEqual(response['result'], 'success')
