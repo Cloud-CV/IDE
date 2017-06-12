@@ -2069,5 +2069,24 @@ export default {
       }
     },
     learn: false
+  },
+  /* ********** Python Layer ********** */
+  Python: {
+    name: 'python',
+    color: '#f44336',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
   }
 };

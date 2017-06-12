@@ -69,6 +69,12 @@ let i = null, layerId = null, parentId =  null, inputLength = null, outputLength
 const dataLayers = ['ImageData', 'Data', 'HDF5Data', 'Input', 'WindowData', 'MemoryData', 'DummyData'];
 // finding the input layers to start DFS
 Object.keys(net).forEach(layerId => {
+  if (net[layerId].info.type == 'Python'){
+    if (net[layerId].params.endPoint == "1, 0"){
+      stack.push(layerId);
+      parentMap[layerId] = null;
+    }
+  }
   if (dataLayers.includes(net[layerId].info.type)) {
     stack.push(layerId);
     parentMap[layerId] = null;
