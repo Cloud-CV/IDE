@@ -1694,6 +1694,7 @@ export default {
     endpoint: {
       src: ['Bottom'],
       trg: ['Top']
+
     },
     params: {
       operation: {
@@ -1719,6 +1720,7 @@ export default {
     endpoint: {
       src: ['Bottom'],
       trg: ['Top']
+
     },
     params: {
     },
@@ -1761,6 +1763,7 @@ export default {
     endpoint: {
       src: ['Bottom'],
       trg: ['Top']
+
     },
     params: {
       operation: {
@@ -1798,6 +1801,7 @@ export default {
     endpoint: {
       src: ['Bottom'],
       trg: ['Top']
+
     },
     params: {
     },
@@ -1816,6 +1820,7 @@ export default {
     endpoint: {
       src: ['Bottom'],
       trg: ['Top']
+
     },
     params: {
       out_max_val: {
@@ -1852,6 +1857,7 @@ export default {
     endpoint: {
       src: [],
       trg: ['Top']
+
     },
     params: {
     },
@@ -1871,6 +1877,7 @@ export default {
     endpoint: {
       src: [],
       trg: ['Top']
+
     },
     params: {
     },
@@ -1919,6 +1926,7 @@ export default {
     endpoint: {
       src: [],
       trg: ['Top']
+
     },
     params: {
       axis: {
@@ -1943,6 +1951,7 @@ export default {
     endpoint: {
       src: [],
       trg: ['Top']
+
     },
     params: {
     },
@@ -1961,6 +1970,7 @@ export default {
     endpoint: {
       src: ['Bottom'],
       trg: ['Top']
+
     },
     params: {
       norm: {
@@ -2004,6 +2014,7 @@ export default {
     endpoint: {
       src: [],
       trg: ['Top']
+
     },
     params: {
       top_k: {
@@ -2034,6 +2045,7 @@ export default {
     endpoint: {
       src: ['Bottom'],
       trg: ['Top']
+
     },
     params: {
       legacy_version: {
