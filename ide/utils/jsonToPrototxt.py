@@ -43,8 +43,13 @@ def jsonToPrototxt(net, net_name):
     dataLayers = ['ImageData', 'Data', 'HDF5Data', 'Input', 'WindowData', 'MemoryData', 'DummyData']
     for layerId in net:
         if (net[layerId]['info']['type'] == 'Python'):
-            if (net[layerId]['params']['endPoint'] == "1, 0"):
-                stack.append(layerId)
+            if ('endPoint' not in net[layerId]['params'].keys()):
+                net[layerId]['params']['dragDrop'] = True
+                if (not net[layerId]['connection']['input']):
+                    stack.append(layerId)
+            else:
+                if (net[layerId]['params']['endPoint'] == "1, 0"):
+                    stack.append(layerId)
         if(net[layerId]['info']['type'] in dataLayers):
             stack.append(layerId)
 
@@ -962,7 +967,7 @@ def jsonToPrototxt(net, net_name):
         # ********** Python Layer **********
         elif (layerType == 'Python'):
             # Parameters not to be included in param_str
-            notParamStr = ['module', 'layer', 'endPoint', 'loss_weight']
+            notParamStr = ['module', 'layer', 'endPoint', 'loss_weight', 'dragDrop', 'param_str']
             hasParamStr = False
             python_param = {}
             python_param['module'] = layerParams['module']
@@ -976,6 +981,8 @@ def jsonToPrototxt(net, net_name):
                         python_param['param_str'][param] = map(int, layerParams[param].split(','))
                     else:
                         python_param['param_str'][param] = layerParams[param]
+            if 'dragDrop' in layerParams.keys():
+                python_param['param_str'] = layerParams['param_str']
             if (hasParamStr):
                 python_param['param_str'] = str(python_param['param_str'])
             if 'loss_weight' in layerParams:

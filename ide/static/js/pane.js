@@ -69,7 +69,8 @@ function Pane() {
         <li><PaneElement id="Accuracy">Accuracy</PaneElement></li>
         <li><PaneElement id="SoftmaxWithLoss">Softmax With Loss</PaneElement></li>
       </ul>
-    </li>    
+    </li>
+    <li><PaneElement id="Python">Python</PaneElement></li>    
   </ul>
 </li>
 

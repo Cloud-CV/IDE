@@ -2079,6 +2079,24 @@ export default {
       trg: ['Top']
     },
     params: {
+      layer: {
+        name: 'Layer',
+        value: '',
+        type: 'text',
+        required: true
+      },
+      module: {
+        name: 'Module',
+        value: '',
+        type: 'text',
+        required: true
+      },
+      param_str: {
+        name: 'param_str',
+        value: '',
+        type: 'text',
+        required: true
+      }
     },
     props: {
       name: {
