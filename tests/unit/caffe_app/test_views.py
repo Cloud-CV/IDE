@@ -1,6 +1,7 @@
 import json
 import os
 import unittest
+
 from caffe import layers as L, params as P, to_proto
 from django.conf import settings
 from django.core.urlresolvers import reverse
