@@ -23,8 +23,8 @@ install:
   - npm install
 
 before_script:
-  - export PYTHONPATH=$PYTHONPATH:$/home/travis/caffe/caffe/python
-
+  - export PYTHONPATH=$PYTHONPATH:$(HOME)/caffe/caffe/python
+  - echo $PYTHONPATH
 script:
   - flake8 ./
   - npm run ci
