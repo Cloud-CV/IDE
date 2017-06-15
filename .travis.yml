@@ -15,7 +15,7 @@ cache:
 install:
   - pip install -r requirements/dev.txt
   - . $HOME/.nvm/nvm.sh
-  - sudo requirements/caffe_tensorflow_install.sh
+  - sh requirements/caffe_tensorflow_install.sh
   - nvm install stable
   - nvm use stable
   - npm install
