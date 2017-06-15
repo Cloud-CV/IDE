@@ -22,3 +22,7 @@ install:
 script:
   - flake8 ./
   - npm run ci
+  - coverage run --source=. manage.py test
+
+after_success:
+  - coveralls
