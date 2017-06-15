@@ -21,6 +21,9 @@ install:
   - nvm use stable
   - npm install
 
+before_script:
+  - export PYTHONPATH=$PYTHONPATH:$/home/travis/caffe/caffe/python
+
 script:
   - flake8 ./
   - npm run ci
