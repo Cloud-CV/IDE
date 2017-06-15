@@ -30,7 +30,7 @@ CPU_ONLY=1 USE_OPENCV=0 make pycaffe -j2
 
 echo "export PYTHONPATH=$(pwd)/python:$PYTHONPATH" > ~/.bash_profile
 source ~/.bash_profile
-
+echo $PYTHONPATH
 echo "#################### Caffe Install Complete! ####################"
 
 echo "Installing Tensorflow dependencies"
