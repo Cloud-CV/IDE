@@ -32,7 +32,6 @@ if [ ! -d $HOME/caffe/caffe ]; then
 		echo "export PYTHONPATH=$(pwd)/python:$PYTHONPATH" > ~/.bash_profile
 		source ~/.bash_profile
 		export PYTHONPATH=$(pwd)/python
-		echo $PYTHONPATH
 fi
 echo "#################### Caffe Install Complete! ####################"
 
