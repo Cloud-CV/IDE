@@ -1,13 +1,11 @@
 import json
 import os
 import unittest
-import yaml
 
 from caffe import layers as L, params as P, to_proto
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.test import Client
-from ide.utils.jsonToPrototxt import jsonToPrototxt
 
 
 class ImportPrototxtTest(unittest.TestCase):
