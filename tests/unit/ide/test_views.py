@@ -812,6 +812,7 @@ class FilterLayerTest(unittest.TestCase):
         self.assertEqual(net['l1']['info']['type'], 'Filter')
 
 
+# This layer is currently not supported as there is no bottom blob
 '''class ParameterLayerTest(unittest.TestCase):
     def setUp(self):
         self.client = Client()
