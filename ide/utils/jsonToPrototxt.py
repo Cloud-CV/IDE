@@ -977,8 +977,12 @@ def jsonToPrototxt(net, net_name):
                     hasParamStr = True
                     if 'param_str' not in python_param.keys():
                         python_param['param_str'] = {}
-                    if isinstance(layerParams[param], str) and ',' in layerParams[param]:
-                        python_param['param_str'][param] = map(int, layerParams[param].split(','))
+                    if isinstance(layerParams[param], str):
+                        try:
+                            python_param['param_str'][param] = map(int,
+                                                                   layerParams[param].split(','))
+                        except:
+                            python_param['param_str'][param] = layerParams[param]
                     else:
                         python_param['param_str'][param] = layerParams[param]
             if 'dragDrop' in layerParams.keys():

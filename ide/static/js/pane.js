@@ -70,7 +70,7 @@ function Pane() {
         <li><PaneElement id="SoftmaxWithLoss">Softmax With Loss</PaneElement></li>
       </ul>
     </li>
-    <li><PaneElement id="Python">Python</PaneElement></li>    
+    <li><PaneElement id="python-dropdown">Python</PaneElement></li>    
   </ul>
 </li>
 

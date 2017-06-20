@@ -358,6 +358,9 @@ def importPrototxt(request):
                     params.update(eval(layer.python_param.param_str))
                 if (layer.loss_weight):
                     params['loss_weight'] = layer.loss_weight[0]
+                ''' If its a loss layer ('1,0'), there will be no source endpoint, if
+                its a data layer ('0,1') there will be no target endpoint, otherwise there
+                will be both endpoints ('1,1')'''
                 if (not layer.bottom):
                     params['endPoint'] = '1, 0'
                 elif ('loss' in layer.name.lower()):
