@@ -206,7 +206,7 @@ class Content extends React.Component {
   }
   importNet(framework) {
     this.dismissAllErrors();
-    const url = {'caffe': '/caffe/import', 'tensorflow': '/tensorflow/import', 'url': '/caffe/import'};
+    const url = {'caffe': '/caffe/import', 'keras': '/keras/import', 'tensorflow': '/tensorflow/import', 'url': '/caffe/import'};
     const formData = new FormData();
     if (framework == 'url'){
       const id = prompt('Please enter prototxt id ',id);

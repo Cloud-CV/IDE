@@ -525,15 +525,13 @@ export default {
       weight_filler: {
         name: 'Weight filler',
         value: 'xavier',
-        type: 'select',
-        options: ['xavier', 'constant'],
+        type: 'text',
         required: false
       },
       bias_filler: {
         name: 'Bias filler',
         value: 'constant',
-        type: 'select',
-        options: ['xavier', 'constant'],
+        type: 'text',
         required: false
       }
     },
@@ -721,15 +719,13 @@ export default {
       weight_filler: {
         name: 'Weight filler',
         value: 'xavier',
-        type: 'select',
-        options: ['xavier', 'constant'],
+        type: 'text',
         required: false
       },
       bias_filler: {
         name: 'Bias filler',
         value: 'constant',
-        type: 'select',
-        options: ['xavier', 'constant'],
+        type: 'text',
         required: false
       }
     },
@@ -760,15 +756,13 @@ export default {
       weight_filler: {
         name: 'Weight filler',
         value: 'xavier',
-        type: 'select',
-        options: ['xavier', 'constant'],
+        type: 'text',
         required: false
       },
       bias_filler: {
         name: 'Bias filler',
         value: 'constant',
-        type: 'select',
-        options: ['xavier', 'constant'],
+        type: 'text',
         required: false
       },
       debug_info: {
@@ -810,15 +804,13 @@ export default {
       weight_filler: {
         name: 'Weight filler',
         value: 'xavier',
-        type: 'select',
-        options: ['xavier', 'constant'],
+        type: 'text',
         required: false
       },
       bias_filler: {
         name: 'Bias filler',
         value: 'constant',
-        type: 'select',
-        options: ['xavier', 'constant'],
+        type: 'text',
         required: false
       },
       debug_info: {
@@ -860,15 +852,13 @@ export default {
       weight_filler: {
         name: 'Weight filler',
         value: 'xavier',
-        type: 'select',
-        options: ['xavier', 'constant'],
+        type: 'text',
         required: false
       },
       bias_filler: {
         name: 'Bias filler',
         value: 'constant',
-        type: 'select',
-        options: ['xavier', 'constant'],
+        type: 'text',
         required: false
       },
       debug_info: {
@@ -911,15 +901,13 @@ export default {
       weight_filler: {
         name: 'Weight filler',
         value: 'xavier',
-        type: 'select',
-        options: ['xavier', 'constant'],
+        type: 'text',
         required: false
       },
       bias_filler: {
         name: 'Bias filler',
         value: 'constant',
-        type: 'select',
-        options: ['xavier', 'constant'],
+        type: 'text',
         required: false
       }
     },
@@ -973,8 +961,7 @@ export default {
       weight_filler: {
         name: 'Weight filler',
         value: 'xavier',
-        type: 'select',
-        options: ['xavier', 'constant'],
+        type: 'text',
         required: false
       },
       bias_term: {
@@ -1505,8 +1492,7 @@ export default {
       filler: {
         name: 'Bias filler',
         value: 'constant',
-        type: 'select',
-        options: ['xavier', 'constant'],
+        type: 'text',
         required: false
       }
     },
