@@ -61,9 +61,42 @@ def Activation(layer):
         'tanh': 'TanH',
         'sigmoid': 'Sigmoid'
     }
+    if (layer['class_name'] == 'Activation'):
+        return jsonLayer(activationMap[layer['config']['activation']], {}, layer)
+    else:
+        tempLayer = {}
+        tempLayer['inbound_nodes'] = [[[layer['name']+layer['class_name']]]]
+        return jsonLayer(activationMap[layer['config']['activation']], {}, tempLayer)
+
+
+def Eltwise(layer):
+    eltwiseMap = {
+        'Add': 1,
+        'Multiply': 0,
+        'Maximum': 2
+    }
+    params = {'operation': eltwiseMap[layer['class_name']]}
+    return jsonLayer('Eltwise', params, layer)
+
+
+def Scale(layer):
     tempLayer = {}
+    params = {'bias_term': layer['config']['center']}
     tempLayer['inbound_nodes'] = [[[layer['name']+layer['class_name']]]]
-    return jsonLayer(activationMap[layer['config']['activation']], {}, tempLayer)
+    return jsonLayer('Scale', params, tempLayer)
+
+
+def Padding(layer):
+    pad = layer['config']['padding']
+    params = {'pad_h': pad[0][0], 'pad_w': pad[1][0]}
+    return jsonLayer('Pad', params, layer)
+
+
+def BatchNorm(layer):
+    params = {}
+    params['eps'] = layer['config']['epsilon']
+    params['moving_average_fraction'] = layer['config']['momentum']
+    return jsonLayer('BatchNorm', params, layer)
 
 
 def get_padding(k_w, k_h, s_w, s_h, pad_type):
