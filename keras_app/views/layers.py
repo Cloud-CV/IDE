@@ -23,19 +23,30 @@ def Convolution(layer):
     return jsonLayer('Convolution', params, layer)
 
 
-def Pooling(layer):
+def Pooling(layer, shape=None):
     params = {}
     poolMap = {
         'MaxPooling2D': 0,
-        'AveragePooling2D': 1
+        'AveragePooling2D': 1,
+        'GlobalAveragePooling2D': 1
     }
-    params['kernel_w'] = layer['config']['pool_size'][0]
-    params['kernel_h'] = layer['config']['pool_size'][1]
-    params['stride_w'] = layer['config']['strides'][0]
-    params['stride_h'] = layer['config']['strides'][1]
-    params['pad_w'], params['pad_h'] = get_padding(params['kernel_w'], params['kernel_h'],
-                                                   params['stride_w'], params['stride_h'],
-                                                   layer['config']['padding'].lower())
+    # For GAP
+    if (shape is not None):
+        params['kernel_w'] = shape[2]
+        params['kernel_h'] = shape[1]
+        params['stride_w'] = shape[2]
+        params['stride_h'] = shape[1]
+        params['pad_w'], params['pad_h'] = get_padding(params['kernel_w'], params['kernel_h'],
+                                                       params['stride_w'], params['stride_h'],
+                                                       'valid')
+    else: 
+        params['kernel_w'] = layer['config']['pool_size'][0]
+        params['kernel_h'] = layer['config']['pool_size'][1]
+        params['stride_w'] = layer['config']['strides'][0]
+        params['stride_h'] = layer['config']['strides'][1]
+        params['pad_w'], params['pad_h'] = get_padding(params['kernel_w'], params['kernel_h'],
+                                                       params['stride_w'], params['stride_h'],
+                                                       layer['config']['padding'].lower())
     params['pool'] = poolMap[layer['class_name']]
     return jsonLayer('Pooling', params, layer)
 
@@ -43,6 +54,10 @@ def Pooling(layer):
 def Flatten(layer):
     params = {}
     return jsonLayer('Flatten', params, layer)
+
+
+def Concat(layer):
+    return jsonLayer('Concat', {}, layer)
 
 
 def Dense(layer):

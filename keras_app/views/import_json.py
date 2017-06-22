@@ -3,7 +3,8 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from layers import Input, Convolution, Activation, Pooling, Dense, Flatten, Padding, BatchNorm,\
- Scale, Eltwise
+ Scale, Eltwise, Concat
+from keras.models import model_from_json
 
 
 @csrf_exempt
@@ -19,6 +20,7 @@ def importJson(request):
         except Exception:
             return JsonResponse({'result': 'error', 'error': 'Invalid JSON'})
 
+    keras_model = model_from_json(json.dumps(model)).layers
     if (model['class_name'] == 'Sequential'):
         net_name = ''
         model = model['config']
@@ -39,13 +41,14 @@ def importJson(request):
         'BatchNormalization': BatchNorm,
         'Activation': Activation,
         'Add': Eltwise,
-
+        'Concatenate': Concat,
+        'GlobalAveragePooling2D': Pooling
     }
 
     hasActivation = ['Conv2D', 'Dense']
 
     net = {}
-    for layer in model:
+    for idx, layer in enumerate(model):
         name = ''
         if (layer['class_name'] in layer_map):
             # This extra logic is to handle connections if the layer has an Activation
@@ -61,6 +64,10 @@ def importJson(request):
                 net[layer['name']] = Scale(layer)
                 net[layer['name']+layer['class_name']]['connection']['output'].append(layer['name'])
                 name = layer['name']+layer['class_name']
+            elif (layer['class_name'] == 'GlobalAveragePooling2D'):
+                net[layer['name']] = \
+                    layer_map[layer['class_name']](layer, keras_model[idx].input_shape)
+                name = layer['name']
             else:
                 net[layer['name']] = layer_map[layer['class_name']](layer)
                 name = layer['name']
