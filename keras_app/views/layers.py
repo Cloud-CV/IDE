@@ -39,7 +39,7 @@ def Pooling(layer, shape=None):
         params['pad_w'], params['pad_h'] = get_padding(params['kernel_w'], params['kernel_h'],
                                                        params['stride_w'], params['stride_h'],
                                                        'valid')
-    else: 
+    else:
         params['kernel_w'] = layer['config']['pool_size'][0]
         params['kernel_h'] = layer['config']['pool_size'][1]
         params['stride_w'] = layer['config']['strides'][0]
