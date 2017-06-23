@@ -101,6 +101,15 @@ def Activation(layer):
         return jsonLayer(activationMap[layer.activation.func_name], {}, tempLayer)
 
 
+def LeakyReLU(layer):
+    params = {'negative_slope': layer.alpha.tolist()}
+    return jsonLayer('ReLU', params, layer)
+
+
+def PReLU(layer):
+    return jsonLayer('PReLU', {}, layer)
+
+
 def Scale(layer):
     tempLayer = {}
     params = {'bias_term': layer.center}
