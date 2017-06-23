@@ -3,7 +3,7 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from layers import Input, Convolution, Activation, Pooling, Dense, Flatten, Padding, BatchNorm,\
- Scale, Eltwise, Concat
+ Scale, Eltwise, Concat, Deconvolution, Reshape
 from keras.models import model_from_json
 
 
@@ -31,6 +31,7 @@ def importJson(request):
     layer_map = {
         'InputLayer': Input,
         'Conv2D': Convolution,
+        'Conv2DTranspose': Deconvolution,
         'relu': Activation,
         'softmax': Activation,
         'MaxPooling2D': Pooling,
@@ -42,10 +43,11 @@ def importJson(request):
         'Activation': Activation,
         'Add': Eltwise,
         'Concatenate': Concat,
-        'GlobalAveragePooling2D': Pooling
+        'GlobalAveragePooling2D': Pooling,
+        'Reshape': Reshape
     }
 
-    hasActivation = ['Conv2D', 'Dense']
+    hasActivation = ['Conv2D', 'Conv2DTranspose', 'Dense']
 
     net = {}
     for idx, layer in enumerate(model):

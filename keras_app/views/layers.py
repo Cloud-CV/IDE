@@ -4,7 +4,10 @@ import math
 def Input(layer):
     params = {}
     shape = layer['config']['batch_input_shape']
-    params['dim'] = str([1, shape[3], shape[1], shape[2]])[1:-1]
+    if (len(shape) == 2):
+        params['dim'] = str([1, shape[1]])[1:-1]
+    else:
+        params['dim'] = str([1, shape[3], shape[1], shape[2]])[1:-1]
     return jsonLayer('Input', params, layer)
 
 
@@ -21,6 +24,21 @@ def Convolution(layer):
     params['bias_filler'] = layer['config']['bias_initializer']['class_name']
     params['num_output'] = layer['config']['filters']
     return jsonLayer('Convolution', params, layer)
+
+
+def Deconvolution(layer):
+    params = {}
+    params['kernel_w'] = layer['config']['kernel_size'][0]
+    params['kernel_h'] = layer['config']['kernel_size'][1]
+    params['stride_w'] = layer['config']['strides'][0]
+    params['stride_h'] = layer['config']['strides'][1]
+    params['pad_w'], params['pad_h'] = get_padding(params['kernel_w'], params['kernel_h'],
+                                                   params['stride_w'], params['stride_h'],
+                                                   layer['config']['padding'].lower())
+    params['weight_filler'] = layer['config']['kernel_initializer']['class_name']
+    params['bias_filler'] = layer['config']['bias_initializer']['class_name']
+    params['num_output'] = layer['config']['filters']
+    return jsonLayer('Deconvolution', params, layer)
 
 
 def Pooling(layer, shape=None):
@@ -54,6 +72,13 @@ def Pooling(layer, shape=None):
 def Flatten(layer):
     params = {}
     return jsonLayer('Flatten', params, layer)
+
+
+def Reshape(layer):
+    params = {}
+    shape = layer['config']['target_shape']
+    params['dim'] = str([1, shape[2], shape[0], shape[1]])[1:-1]
+    return jsonLayer('Reshape', params, layer)
 
 
 def Concat(layer):
