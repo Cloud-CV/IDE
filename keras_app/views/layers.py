@@ -76,6 +76,27 @@ def Dropout(layer):
     return jsonLayer('Dropout', {}, layer)
 
 
+def Embed(layer):
+    params = {}
+    params['input_dim'] = layer.input_dim
+    params['num_output'] = layer.output_dim
+    params['weight_filler'] = layer.embeddings_initializer.__class__.__name__
+    return jsonLayer('Embed', params, layer)
+
+
+# ********** Recurrent Layers **********
+def Recurrent(layer):
+    recurrentMap = {
+        'SimpleRNN': 'RNN',
+        'LSTM': 'LSTM'
+    }
+    params = {}
+    params['num_output'] = layer.units
+    params['weight_filler'] = layer.kernel_initializer.__class__.__name__
+    params['bias_filler'] = layer.bias_initializer.__class__.__name__
+    return jsonLayer(recurrentMap[layer.__class__.__name__], params, layer)
+
+
 # ********** Normalisation Layers **********
 def BatchNorm(layer):
     params = {}

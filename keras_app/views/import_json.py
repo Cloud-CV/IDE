@@ -2,8 +2,8 @@ import json
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from layers import Input, Convolution, Deconvolution, Pooling, Dense, Dropout, BatchNorm,\
-    Activation, LeakyReLU, PReLU, Scale, Flatten, Reshape, Concat, Eltwise, Padding
+from layers import Input, Convolution, Deconvolution, Pooling, Dense, Dropout, Embed, Recurrent,\
+    BatchNorm, Activation, LeakyReLU, PReLU, Scale, Flatten, Reshape, Concat, Eltwise, Padding
 from keras.models import model_from_json, Sequential
 
 
@@ -32,6 +32,9 @@ def importJson(request):
         'GlobalAveragePooling2D': Pooling,
         'Dense': Dense,
         'Dropout': Dropout,
+        'Embedding': Embed,
+        'SimpleRNN': Recurrent,
+        'LSTM': Recurrent,
         'BatchNormalization': BatchNorm,
         'Activation': Activation,
         'relu': Activation,
