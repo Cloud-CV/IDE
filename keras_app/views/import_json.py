@@ -79,9 +79,9 @@ def importJson(request):
         if (net[node]['info']['type'] == 'Pad'):
             net[net[node]['connection']['output'][0]]['connection']['input'] = \
                 net[node]['connection']['input']
-            net[net[node]['connection']['output'][0]]['params']['pad_w'] = \
+            net[net[node]['connection']['output'][0]]['params']['pad_w'] += \
                 net[node]['params']['pad_w']
-            net[net[node]['connection']['output'][0]]['params']['pad_h'] = \
+            net[net[node]['connection']['output'][0]]['params']['pad_h'] += \
                 net[node]['params']['pad_h']
             net[net[node]['connection']['input'][0]]['connection']['output'] = \
                 net[node]['connection']['output']

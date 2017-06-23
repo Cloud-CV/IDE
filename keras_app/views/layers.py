@@ -1,6 +1,3 @@
-import math
-
-
 def Input(layer):
     params = {}
     shape = layer.batch_input_shape
@@ -17,6 +14,7 @@ def Convolution(layer):
     params['stride_w'], params['stride_h'] = layer.strides
     params['pad_w'], params['pad_h'] = get_padding(params['kernel_w'], params['kernel_h'],
                                                    params['stride_w'], params['stride_h'],
+                                                   layer.input_shape, layer.output_shape,
                                                    layer.padding.lower())
     params['weight_filler'] = layer.kernel_initializer.__class__.__name__
     params['bias_filler'] = layer.bias_initializer.__class__.__name__
@@ -30,6 +28,7 @@ def Deconvolution(layer):
     params['stride_w'], params['stride_h'] = layer.strides
     params['pad_w'], params['pad_h'] = get_padding(params['kernel_w'], params['kernel_h'],
                                                    params['stride_w'], params['stride_h'],
+                                                   layer.input_shape, layer.output_shape,
                                                    layer.padding.lower())
     params['weight_filler'] = layer.kernel_initializer.__class__.__name__
     params['bias_filler'] = layer.bias_initializer.__class__.__name__
@@ -55,6 +54,7 @@ def Pooling(layer):
         padding = layer.padding.lower()
     params['pad_w'], params['pad_h'] = get_padding(params['kernel_w'], params['kernel_h'],
                                                    params['stride_w'], params['stride_h'],
+                                                   layer.input_shape, layer.output_shape,
                                                    padding)
     params['pool'] = poolMap[layer.__class__.__name__]
     return jsonLayer('Pooling', params, layer)
@@ -133,14 +133,15 @@ def BatchNorm(layer):
     return jsonLayer('BatchNorm', params, layer)
 
 
-def get_padding(k_w, k_h, s_w, s_h, pad_type):
+# padding logic following
+# https://github.com/Yangqing/caffe2/blob/master/caffe2/proto/caffe2_legacy.proto
+def get_padding(k_w, k_h, s_w, s_h, input_shape, output_shape, pad_type):
     if (pad_type == 'valid'):
         return [0, 0]
     else:
-        if (s_w != 1 or s_h != 1):
-            raise Exception('Cannot calculate padding for stride '+str((s_w, s_h)))
-        else:
-            return (math.ceil((k_w-1)/2), math.ceil((k_h-1)/2))
+        pad_h = ((output_shape[1]-1)*s_h + k_h - input_shape[1])/2
+        pad_w = ((output_shape[2]-1)*s_w + k_w - input_shape[2])/2
+        return (pad_h, pad_w)
 
 
 def jsonLayer(type, params, layer):
