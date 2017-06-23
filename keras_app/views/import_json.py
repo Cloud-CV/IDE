@@ -2,8 +2,8 @@ import json
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from layers import Input, Convolution, Activation, Pooling, Dense, Flatten, Padding, BatchNorm,\
- Scale, Eltwise, Concat, Deconvolution, Reshape, Dropout
+from layers import Input, Convolution, Deconvolution, Pooling, Dense, Dropout, BatchNorm,\
+    Activation, Scale, Flatten, Reshape, Concat, Eltwise, Padding
 from keras.models import model_from_json, Sequential
 
 
@@ -26,20 +26,26 @@ def importJson(request):
         'InputLayer': Input,
         'Conv2D': Convolution,
         'Conv2DTranspose': Deconvolution,
-        'relu': Activation,
-        'softmax': Activation,
         'MaxPooling2D': Pooling,
+        'GlobalMaxPooling2D': Pooling,
         'AveragePooling2D': Pooling,
-        'Flatten': Flatten,
+        'GlobalAveragePooling2D': Pooling,
         'Dense': Dense,
-        'ZeroPadding2D': Padding,
+        'Dropout': Dropout,
         'BatchNormalization': BatchNorm,
         'Activation': Activation,
-        'Add': Eltwise,
-        'Concatenate': Concat,
-        'GlobalAveragePooling2D': Pooling,
+        'relu': Activation,
+        'softmax': Activation,
+        'elu': Activation,
+        'tanh': Activation,
+        'sigmoid': Activation,
+        'Flatten': Flatten,
         'Reshape': Reshape,
-        'Dropout': Dropout
+        'Concatenate': Concat,
+        'Add': Eltwise,
+        'Multiply': Eltwise,
+        'Maximum': Eltwise,
+        'ZeroPadding2D': Padding,
     }
 
     hasActivation = ['Conv2D', 'Conv2DTranspose', 'Dense']

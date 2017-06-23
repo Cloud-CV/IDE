@@ -1,3 +1,4 @@
+# ********** Data Layers **********
 def Input(layer):
     params = {}
     shape = layer.batch_input_shape
@@ -8,6 +9,7 @@ def Input(layer):
     return jsonLayer('Input', params, layer)
 
 
+# ********** Vision Layers **********
 def Convolution(layer):
     params = {}
     params['kernel_w'], params['kernel_h'] = layer.kernel_size
@@ -40,10 +42,11 @@ def Pooling(layer):
     params = {}
     poolMap = {
         'MaxPooling2D': 0,
+        'GlobalMaxPooling2D': 0,
         'AveragePooling2D': 1,
         'GlobalAveragePooling2D': 1
     }
-    if (layer.__class__.__name__ == 'GlobalAveragePooling2D'):
+    if (layer.__class__.__name__ in ['GlobalAveragePooling2D', 'GlobalMaxPooling2D']):
         input_shape = layer.input_shape
         params['kernel_w'] = params['stride_w'] = input_shape[2]
         params['kernel_h'] = params['stride_h'] = input_shape[1]
@@ -60,25 +63,7 @@ def Pooling(layer):
     return jsonLayer('Pooling', params, layer)
 
 
-def Flatten(layer):
-    return jsonLayer('Flatten', {}, layer)
-
-
-def Dropout(layer):
-    return jsonLayer('Dropout', {}, layer)
-
-
-def Reshape(layer):
-    params = {}
-    shape = layer.target_shape
-    params['dim'] = str([1, shape[2], shape[0], shape[1]])[1:-1]
-    return jsonLayer('Reshape', params, layer)
-
-
-def Concat(layer):
-    return jsonLayer('Concat', {}, layer)
-
-
+# ********** Common Layers **********
 def Dense(layer):
     params = {}
     params['weight_filler'] = layer.kernel_initializer.__class__.__name__
@@ -87,6 +72,19 @@ def Dense(layer):
     return jsonLayer('InnerProduct', params, layer)
 
 
+def Dropout(layer):
+    return jsonLayer('Dropout', {}, layer)
+
+
+# ********** Normalisation Layers **********
+def BatchNorm(layer):
+    params = {}
+    params['eps'] = layer.epsilon
+    params['moving_average_fraction'] = layer.momentum
+    return jsonLayer('BatchNorm', params, layer)
+
+
+# ********** Activation/Neuron Layers **********
 def Activation(layer):
     activationMap = {
         'softmax': 'Softmax',
@@ -103,6 +101,29 @@ def Activation(layer):
         return jsonLayer(activationMap[layer.activation.func_name], {}, tempLayer)
 
 
+def Scale(layer):
+    tempLayer = {}
+    params = {'bias_term': layer.center}
+    tempLayer['inbound_nodes'] = [[[layer.name+layer.__class__.__name__]]]
+    return jsonLayer('Scale', params, tempLayer)
+
+
+# ********** Utility Layers **********
+def Flatten(layer):
+    return jsonLayer('Flatten', {}, layer)
+
+
+def Reshape(layer):
+    params = {}
+    shape = layer.target_shape
+    params['dim'] = str([1, shape[2], shape[0], shape[1]])[1:-1]
+    return jsonLayer('Reshape', params, layer)
+
+
+def Concat(layer):
+    return jsonLayer('Concat', {}, layer)
+
+
 def Eltwise(layer):
     eltwiseMap = {
         'Add': 1,
@@ -113,25 +134,13 @@ def Eltwise(layer):
     return jsonLayer('Eltwise', params, layer)
 
 
-def Scale(layer):
-    tempLayer = {}
-    params = {'bias_term': layer.center}
-    tempLayer['inbound_nodes'] = [[[layer.name+layer.__class__.__name__]]]
-    return jsonLayer('Scale', params, tempLayer)
-
-
 def Padding(layer):
     pad = layer.padding
     params = {'pad_h': pad[0][0], 'pad_w': pad[1][0]}
     return jsonLayer('Pad', params, layer)
 
 
-def BatchNorm(layer):
-    params = {}
-    params['eps'] = layer.epsilon
-    params['moving_average_fraction'] = layer.momentum
-    return jsonLayer('BatchNorm', params, layer)
-
+# ********** Helper functions **********
 
 # padding logic following
 # https://github.com/Yangqing/caffe2/blob/master/caffe2/proto/caffe2_legacy.proto
