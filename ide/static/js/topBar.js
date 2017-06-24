@@ -31,13 +31,13 @@ class TopBar extends React.Component {
                     <li>
                         <a>
                         <label htmlFor="inputFilecaffe">caffe</label>
-                        <input id="inputFilecaffe" type="file" onChange={() => this.props.importNet('caffe')}/>
+                        <input id="inputFilecaffe" type="file" accept=".prototxt" onChange={() => this.props.importNet('caffe')}/>
                         </a>
                     </li>
                     <li>
                         <a>
                         <label htmlFor="inputFiletensorflow">tensorflow</label>
-                        <input id="inputFiletensorflow" type="file" onChange={() => this.props.importNet('tensorflow')}/>
+                        <input id="inputFiletensorflow" type="file" accept=".pbtxt" onChange={() => this.props.importNet('tensorflow')}/>
                         </a>
                     </li>
                     <li><a href="#" onClick={() => this.props.importNet('url')}>url</a></li>
