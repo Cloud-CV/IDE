@@ -45,7 +45,7 @@ def convolution(layer, layer_in, layerId):
         p_h, p_w = layer['params']['pad_h'], layer['params']['pad_w']
         out[layerId + 'Pad'] = ZeroPadding2D(padding=(p_h, p_w))(layer_in)
         padding = 'valid'
-        layer_in = out[layerId + 'Pad']
+        layer_in = [out[layerId + 'Pad']]
     out[layerId] = Conv2D(filters, [k_h, k_w], strides=(s_h, s_w), padding=padding,
                           kernel_initializer=kernel_initializer, bias_initializer=bias_initializer)(
                           *layer_in)
@@ -81,7 +81,7 @@ def dense(layer, layer_in, layerId):
     out = {}
     if (len(layer['shape']['input']) > 1):
         out[layerId + 'Flatten'] = Flatten()(*layer_in)
-        layer_in = out[layerId + 'Flatten']
+        layer_in = [out[layerId + 'Flatten']]
     units = layer['params']['num_output']
     if (layer['params']['weight_filler'] in fillerMap):
         kernel_initializer = fillerMap[layer['params']['weight_filler']]
