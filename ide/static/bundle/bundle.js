@@ -27760,7 +27760,7 @@
 	          delete netData[layerId].state;
 	        });
 
-	        var url = { 'caffe': '/caffe/export', 'tensorflow': '/tensorflow/export', 'url': '/caffe/export' };
+	        var url = { 'caffe': '/caffe/export', 'keras': '/keras/export', 'tensorflow': '/tensorflow/export', 'url': '/caffe/export' };
 	        this.setState({ load: true });
 	        $.ajax({
 	          url: url[framework],
@@ -28943,25 +28943,25 @@
 	      },
 	      stride_h: {
 	        name: 'Stride height',
-	        value: '',
+	        value: 1,
 	        type: 'number',
 	        required: false
 	      },
 	      stride_w: {
 	        name: 'Stride width',
-	        value: '',
+	        value: 1,
 	        type: 'number',
 	        required: false
 	      },
 	      pad_h: {
 	        name: 'Padding height',
-	        value: '',
+	        value: 0,
 	        type: 'number',
 	        required: false
 	      },
 	      pad_w: {
 	        name: 'Padding width',
-	        value: '',
+	        value: 0,
 	        type: 'number',
 	        required: false
 	      },
@@ -28999,13 +28999,13 @@
 	    params: {
 	      pad_h: {
 	        name: 'Padding height',
-	        value: '',
+	        value: 0,
 	        type: 'number',
 	        required: false
 	      },
 	      pad_w: {
 	        name: 'Padding width',
-	        value: '',
+	        value: 0,
 	        type: 'number',
 	        required: false
 	      },
@@ -29023,13 +29023,13 @@
 	      },
 	      stride_h: {
 	        name: 'Stride height',
-	        value: '',
+	        value: 1,
 	        type: 'number',
 	        required: false
 	      },
 	      stride_w: {
 	        name: 'Stride width',
-	        value: '',
+	        value: 1,
 	        type: 'number',
 	        required: false
 	      },
@@ -29139,25 +29139,25 @@
 	      },
 	      stride_h: {
 	        name: 'Stride height',
-	        value: '',
+	        value: 1,
 	        type: 'number',
 	        required: false
 	      },
 	      stride_w: {
 	        name: 'Stride width',
-	        value: '',
+	        value: 1,
 	        type: 'number',
 	        required: false
 	      },
 	      pad_h: {
 	        name: 'Padding height',
-	        value: '',
+	        value: 0,
 	        type: 'number',
 	        required: false
 	      },
 	      pad_w: {
 	        name: 'Padding width',
-	        value: '',
+	        value: 0,
 	        type: 'number',
 	        required: false
 	      },
@@ -43689,6 +43689,17 @@
 	                            return _this2.props.exportNet('caffe');
 	                          } },
 	                        "caffe"
+	                      )
+	                    ),
+	                    _react2.default.createElement(
+	                      "li",
+	                      null,
+	                      _react2.default.createElement(
+	                        "a",
+	                        { href: "#", onClick: function onClick() {
+	                            return _this2.props.exportNet('keras');
+	                          } },
+	                        "keras"
 	                      )
 	                    ),
 	                    _react2.default.createElement(

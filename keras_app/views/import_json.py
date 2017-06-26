@@ -2,8 +2,9 @@ import json
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from layers import Input, Convolution, Deconvolution, Pooling, Dense, Dropout, Embed, Recurrent,\
-    BatchNorm, Activation, LeakyReLU, PReLU, Scale, Flatten, Reshape, Concat, Eltwise, Padding
+from layers_import import Input, Convolution, Deconvolution, Pooling, Dense, Dropout, Embed,\
+    Recurrent, BatchNorm, Activation, LeakyReLU, PReLU, Scale, Flatten, Reshape, Concat, Eltwise,\
+    Padding
 from keras.models import model_from_json, Sequential
 
 
