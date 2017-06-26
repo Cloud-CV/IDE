@@ -37,7 +37,7 @@ class TopBar extends React.Component {
                     <li>
                         <a>
                         <label htmlFor="inputFilekeras">keras</label>
-                        <input id="inputFilekeras" type="file" onChange={() => this.props.importNet('keras')}/>
+                        <input id="inputFilekeras" type="file" accept=".json" onChange={() => this.props.importNet('keras')}/>
                         </a>
                     </li>
                     <li>
