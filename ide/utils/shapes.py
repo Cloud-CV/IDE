@@ -5,13 +5,13 @@ def data(layer):
     Input = []
     if (layer['info']['type'] in ['ImageData', 'Data', 'WindowData']):
         if ('crop_size' in layer['params']):
-            Output = [layer['params']['crop_size']]*2
+            Output = [3] + [layer['params']['crop_size']]*2
         elif ('new_height' in layer['params'] and 'new_width' in layer['params']):
-            Output = [layer['params']['new_height'], layer['params']['new_width']]
+            Output = [3, layer['params']['new_height'], layer['params']['new_width']]
     elif (layer['info']['type'] in ['Input', 'DummyData']):
-        Output = map(int, layer['params']['dim'].split(','))[2:]
+        Output = map(int, layer['params']['dim'].split(','))[1:]
     elif (layer['info']['type'] == 'MemoryData'):
-        Output = [layer['params']['height'], layer['params']['width']]
+        Output = [3, layer['params']['height'], layer['params']['width']]
     else:
         raise Exception('Cannot determine shape of ' + layer['info']['type'] + 'layer.')
     return Input, Output
@@ -22,7 +22,7 @@ def identity(layer):
 
 
 def filter(layer):
-    i_h, i_w = layer['shape']['input']
+    _, i_h, i_w = layer['shape']['input']
     k_h, k_w = layer['params']['kernel_h'], layer['params']['kernel_w']
     s_h, s_w = layer['params']['stride_h'], layer['params']['stride_w']
     p_h, p_w = layer['params']['pad_h'], layer['params']['pad_w']
@@ -32,11 +32,22 @@ def filter(layer):
     else:
         o_h = int((i_h + 2 * p_h - k_h) / float(s_h) + 1)
         o_w = int((i_w + 2 * p_w - k_w) / float(s_w) + 1)
-    return [o_h, o_w]
+    if (layer['info']['type'] == 'Pooling'):
+        num_out = layer['shape']['input'][0]
+    else:
+        num_out = layer['params']['num_output']
+    return [num_out, o_h, o_w]
 
 
 def output(layer):
     return [layer['params']['num_output']]
+
+
+def flatten(layer):
+    out = 1
+    for i in layer['shape']['input']:
+        out *= i
+    return [out]
 
 
 def reshape(layer):
@@ -77,6 +88,9 @@ def get_shapes(net):
 
         elif(net[layerId]['info']['type'] in ['InnerProduct', 'Recurrent', 'RNN', 'LSTM', 'Embed']):
             net[layerId]['shape']['output'] = output(net[layerId])
+
+        elif(net[layerId]['info']['type'] == 'Flatten'):
+            net[layerId]['shape']['output'] = flatten(net[layerId])
 
         elif(net[layerId]['info']['type'] == 'Reshape'):
             net[layerId]['shape']['output'] = reshape(net[layerId])
