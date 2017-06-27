@@ -5,7 +5,7 @@ from keras.layers import Conv2D, Conv2DTranspose, ZeroPadding2D
 from keras.layers import MaxPooling2D, AveragePooling2D
 from keras.layers import SimpleRNN, LSTM
 from keras.layers import Embedding
-from keras.layers import add, multiply, maximum, Concatenate
+from keras.layers import add, multiply, maximum, concatenate
 from keras.layers.advanced_activations import LeakyReLU, PReLU
 from keras.layers import BatchNormalization
 from keras.layers import Input
@@ -43,7 +43,7 @@ def convolution(layer, layer_in, layerId):
     filters = layer['params']['num_output']
     if (padding == 'custom'):
         p_h, p_w = layer['params']['pad_h'], layer['params']['pad_w']
-        out[layerId + 'Pad'] = ZeroPadding2D(padding=(p_h, p_w))(layer_in)
+        out[layerId + 'Pad'] = ZeroPadding2D(padding=(p_h, p_w))(*layer_in)
         padding = 'valid'
         layer_in = [out[layerId + 'Pad']]
     out[layerId] = Conv2D(filters, [k_h, k_w], strides=(s_h, s_w), padding=padding,
@@ -163,7 +163,7 @@ def reshape(layer, layer_in, layerId):
 
 
 def concat(layer, layer_in, layerId):
-    out = {layerId: None}
+    out = {layerId: concatenate(layer_in)}
     return out
 
 
@@ -190,7 +190,6 @@ def get_padding(layer):
         _, o_h, o_w = layer['shape']['output']
     k_h, k_w = layer['params']['kernel_h'], layer['params']['kernel_w']
     s_h, s_w = layer['params']['stride_h'], layer['params']['stride_w']
-    p_h, p_w = layer['params']['pad_h'], layer['params']['pad_w']
     s_o_h = np.ceil(i_h / float(s_h))
     s_o_w = np.ceil(i_w / float(s_w))
     if (o_h == s_o_h) and (o_w == s_o_w):
