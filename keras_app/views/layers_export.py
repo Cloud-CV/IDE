@@ -53,7 +53,28 @@ def convolution(layer, layer_in, layerId):
 
 
 def deconvolution(layer, layer_in, layerId):
-    out = {layerId: None}
+    out = {}
+    print layer_in
+    padding = get_padding(layer)
+    k_h, k_w = layer['params']['kernel_h'], layer['params']['kernel_w']
+    s_h, s_w = layer['params']['stride_h'], layer['params']['stride_w']
+    if (layer['params']['weight_filler'] in fillerMap):
+        kernel_initializer = fillerMap[layer['params']['weight_filler']]
+    else:
+        kernel_initializer = layer['params']['weight_filler']
+    if (layer['params']['bias_filler'] in fillerMap):
+        bias_initializer = fillerMap[layer['params']['bias_filler']]
+    else:
+        bias_initializer = layer['params']['bias_filler']
+    filters = layer['params']['num_output']
+    if (padding == 'custom'):
+        p_h, p_w = layer['params']['pad_h'], layer['params']['pad_w']
+        out[layerId + 'Pad'] = ZeroPadding2D(padding=(p_h, p_w))(*layer_in)
+        padding = 'valid'
+        layer_in = [out[layerId + 'Pad']]
+    out[layerId] = Conv2DTranspose(filters, [k_h, k_w], strides=(s_h, s_w), padding=padding,
+                                   kernel_initializer=kernel_initializer,
+                                   bias_initializer=bias_initializer)(*layer_in)
     return out
 
 
@@ -158,7 +179,8 @@ def flatten(layer, layer_in, layerId):
 
 
 def reshape(layer, layer_in, layerId):
-    out = {layerId: None}
+    shape = map(int, layer['params']['dim'].split(','))
+    out = {layerId: Reshape(shape[2:]+shape[1:2])(*layer_in)}
     return out
 
 
