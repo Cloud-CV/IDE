@@ -123,7 +123,13 @@ def dropout(layer, layer_in, layerId):
 
 
 def embed(layer, layer_in, layerId):
-    out = {layerId: None}
+    out = {}
+    if (layer['params']['weight_filler'] in fillerMap):
+        embeddings_initializer = fillerMap[layer['params']['weight_filler']]
+    else:
+        embeddings_initializer = layer['params']['weight_filler']
+    out[layerId] = Embedding(layer['params']['input_dim'], layer['params']['num_output'],
+                             embeddings_initializer=embeddings_initializer)(*layer_in)
     return out
 
 
