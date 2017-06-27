@@ -135,7 +135,22 @@ def embed(layer, layer_in, layerId):
 
 # ********** Recurrent Layers **********
 def recurrent(layer, layer_in, layerId):
-    out = {layerId: None}
+    out = {}
+    recurrentMap = {
+        'RNN': SimpleRNN,
+        'LSTM': LSTM
+    }
+    units = layer['params']['num_output']
+    if (layer['params']['weight_filler'] in fillerMap):
+        kernel_initializer = fillerMap[layer['params']['weight_filler']]
+    else:
+        kernel_initializer = layer['params']['weight_filler']
+    if (layer['params']['bias_filler'] in fillerMap):
+        bias_initializer = fillerMap[layer['params']['bias_filler']]
+    else:
+        bias_initializer = layer['params']['bias_filler']
+    out[layerId] = recurrentMap[layer['info']['type']](units, kernel_initializer=kernel_initializer,
+                                                       bias_initializer=bias_initializer)(*layer_in)
     return out
 
 

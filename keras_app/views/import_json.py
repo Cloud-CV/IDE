@@ -60,6 +60,9 @@ def importJson(request):
     # Add dummy input layer if sequential model
     if (isinstance(model, Sequential)):
         input_layer = model.layers[0].inbound_nodes[0].inbound_layers[0]
+        # If embedding is the first layer, the input has shape (None, None)
+        if (model.layers[0].__class__.__name__ == 'Embedding'):
+            input_layer.batch_input_shape = (None, model.layers[0].input_dim)
         net[input_layer.name] = Input(input_layer)
     for idx, layer in enumerate(model.layers):
         name = ''
