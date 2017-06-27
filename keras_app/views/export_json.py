@@ -53,6 +53,7 @@ def exportJson(request):
             'Flatten': flatten,
             'Reshape': reshape,
             'Softmax': activation,
+            'Scale': ''
         }
 
         stack = []
@@ -62,6 +63,13 @@ def exportJson(request):
         processedLayer = {}
         inputLayerId = None
         outputLayerId = None
+
+        def isProcessPossible(layerId):
+            inputs = net[layerId]['connection']['input']
+            for layerId in inputs:
+                if processedLayer[layerId] is False:
+                    return False
+            return True
 
         # Finding the data layer
         for layerId in net:
@@ -80,14 +88,30 @@ def exportJson(request):
                     net[layerId]['info']['type'] == 'Accuracy'):
                 pass
             elif (net[layerId]['info']['type'] in layer_map):
-                layerId = stack[0]
+                i = len(stack) - 1
+                while isProcessPossible(stack[i]) is False:
+                    i = i - 1
+
+                layerId = stack[i]
                 stack.remove(layerId)
-                layer_in = [net_out[inputId] for inputId in net[layerId]['connection']['input']]
-                net_out.update(layer_map[net[layerId]['info']['type']](net[layerId],
-                                                                       layer_in, layerId))
+                if (net[layerId]['info']['type'] != 'Scale'):
+                    layer_in = [net_out[inputId] for inputId in net[layerId]['connection']['input']]
+                # Need to check if next layer is Scale
+                if (net[layerId]['info']['type'] == 'BatchNorm'):
+                    type = net[net[layerId]['connection']['output'][0]]['info']['type']
+                    idNext = net[layerId]['connection']['output'][0]
+                    net_out.update(layer_map[net[layerId]['info']['type']](net[layerId], layer_in,
+                                                                           layerId, type, idNext))
+                elif (net[layerId]['info']['type'] == 'Scale'):
+                    type = net[net[layerId]['connection']['input'][0]]['info']['type']
+                    if (type != 'BatchNorm'):
+                        return JsonResponse({'result': 'error', 'error': 'Cannot convert ' +
+                                            net[layerId]['info']['type'] + ' to Keras'})
+                else:
+                    net_out.update(layer_map[net[layerId]['info']['type']](net[layerId],
+                                                                           layer_in, layerId))
                 for outputId in net[layerId]['connection']['output']:
-                    if (not processedLayer[outputId]):
-                        net[outputId]['shape']['input'] = net[layerId]['shape']['output']
+                    if outputId not in stack:
                         stack.append(outputId)
                 processedLayer[layerId] = True
             else:

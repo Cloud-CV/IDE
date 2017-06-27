@@ -5,7 +5,7 @@ from keras.layers import Conv2D, Conv2DTranspose, ZeroPadding2D
 from keras.layers import MaxPooling2D, AveragePooling2D
 from keras.layers import SimpleRNN, LSTM
 from keras.layers import Embedding
-from keras.layers import Add, Multiply, Maximum, Concatenate
+from keras.layers import add, multiply, maximum, Concatenate
 from keras.layers.advanced_activations import LeakyReLU, PReLU
 from keras.layers import BatchNormalization
 from keras.layers import Input
@@ -113,8 +113,15 @@ def recurrent(layer, layer_in, layerId):
 
 
 # ********** Normalisation Layers **********
-def batchNorm(layer, layer_in, layerId):
-    out = {layerId: None}
+def batchNorm(layer, layer_in, layerId, type, idNext):
+    out = {}
+    momentum = layer['params']['moving_average_fraction']
+    eps = layer['params']['eps']
+    if (type == 'Scale'):
+        out[idNext] = BatchNormalization(center=True, scale=True, momentum=momentum,
+                                         epsilon=eps)(*layer_in)
+    else:
+        out[layerId] = BatchNormalization(momentum=momentum, epsilon=eps)(*layer_in)
     return out
 
 
@@ -161,7 +168,14 @@ def concat(layer, layer_in, layerId):
 
 
 def eltwise(layer, layer_in, layerId):
-    out = {layerId: None}
+    out = {}
+    if (layer['params']['operation'] == 0):
+        # This input reverse is to handle visualization
+        out[layerId] = multiply(layer_in[::-1])
+    elif (layer['params']['operation'] == 1):
+        out[layerId] = add(layer_in[::-1])
+    else:
+        out[layerId] = maximum(layer_in[::-1])
     return out
 
 
@@ -183,6 +197,6 @@ def get_padding(layer):
         return 'same'
     v_o_h = np.ceil((i_h - k_h + 1.0) / float(s_h))
     v_o_w = np.ceil((i_w - k_w + 1.0) / float(s_w))
-    if (i_h == v_o_h) and (i_w == v_o_w):
+    if (o_h == v_o_h) and (o_w == v_o_w):
         return 'valid'
     return 'custom'
