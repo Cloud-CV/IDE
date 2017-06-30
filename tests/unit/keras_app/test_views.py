@@ -67,7 +67,7 @@ class InputImportTest(unittest.TestCase):
         sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'r')
         response = self.client.post(reverse('keras-import'), {'file': sample_file})
         response = json.loads(response.content)
-        layerId = response['net'].keys()
+        layerId = sorted(response['net'].keys())
         self.assertEqual(response['result'], 'success')
         self.assertGreaterEqual(len(response['net'][layerId[0]]['params']), 1)
 
@@ -88,10 +88,10 @@ class ConvolutionImportTest(unittest.TestCase):
         sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'r')
         response = self.client.post(reverse('keras-import'), {'file': sample_file})
         response = json.loads(response.content)
-        layerId = response['net'].keys()
+        layerId = sorted(response['net'].keys())
         self.assertEqual(response['result'], 'success')
-        self.assertGreaterEqual(len(response['net'][layerId[2]]['params']), 9)
-        self.assertEqual(response['net'][layerId[1]]['info']['type'], 'ReLU')
+        self.assertGreaterEqual(len(response['net'][layerId[1]]['params']), 9)
+        self.assertEqual(response['net'][layerId[0]]['info']['type'], 'ReLU')
 
 
 class DeconvolutionImportTest(unittest.TestCase):
@@ -109,10 +109,10 @@ class DeconvolutionImportTest(unittest.TestCase):
         sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'r')
         response = self.client.post(reverse('keras-import'), {'file': sample_file})
         response = json.loads(response.content)
-        layerId = response['net'].keys()
+        layerId = sorted(response['net'].keys())
         self.assertEqual(response['result'], 'success')
-        self.assertGreaterEqual(len(response['net'][layerId[1]]['params']), 9)
-        self.assertEqual(response['net'][layerId[0]]['info']['type'], 'ReLU')
+        self.assertGreaterEqual(len(response['net'][layerId[0]]['params']), 9)
+        self.assertEqual(response['net'][layerId[2]]['info']['type'], 'ReLU')
 
 
 class PoolingImportTest(unittest.TestCase):
@@ -130,10 +130,10 @@ class PoolingImportTest(unittest.TestCase):
         sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'r')
         response = self.client.post(reverse('keras-import'), {'file': sample_file})
         response = json.loads(response.content)
-        layerId = response['net'].keys()
+        layerId = sorted(response['net'].keys())
         self.assertEqual(response['result'], 'success')
         self.assertGreaterEqual(len(response['net'][layerId[0]]['params']), 7)
-        self.assertGreaterEqual(len(response['net'][layerId[1]]['params']), 7)
+        self.assertGreaterEqual(len(response['net'][layerId[2]]['params']), 7)
 
 
 # ********** Common Layers **********
@@ -155,13 +155,13 @@ class DenseImportTest(unittest.TestCase):
         sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'r')
         response = self.client.post(reverse('keras-import'), {'file': sample_file})
         response = json.loads(response.content)
-        layerId = response['net'].keys()
+        layerId = sorted(response['net'].keys())
         self.assertEqual(response['result'], 'success')
         self.assertGreaterEqual(len(response['net'][layerId[0]]['params']), 3)
-        self.assertEqual(response['net'][layerId[1]]['info']['type'], 'Flatten')
-        self.assertEqual(response['net'][layerId[2]]['info']['type'], 'PReLU')
-        self.assertEqual(response['net'][layerId[4]]['info']['type'], 'Reshape')
-        self.assertEqual(response['net'][layerId[5]]['info']['type'], 'Dropout')
+        self.assertEqual(response['net'][layerId[2]]['info']['type'], 'Flatten')
+        self.assertEqual(response['net'][layerId[4]]['info']['type'], 'PReLU')
+        self.assertEqual(response['net'][layerId[5]]['info']['type'], 'Reshape')
+        self.assertEqual(response['net'][layerId[1]]['info']['type'], 'Dropout')
 
 
 class EmbeddingImportTest(unittest.TestCase):
@@ -178,9 +178,9 @@ class EmbeddingImportTest(unittest.TestCase):
         sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'r')
         response = self.client.post(reverse('keras-import'), {'file': sample_file})
         response = json.loads(response.content)
-        layerId = response['net'].keys()
+        layerId = sorted(response['net'].keys())
         self.assertEqual(response['result'], 'success')
-        self.assertGreaterEqual(len(response['net'][layerId[1]]['params']), 3)
+        self.assertGreaterEqual(len(response['net'][layerId[0]]['params']), 3)
 
 
 # ********** Recurrent Layers **********
@@ -200,10 +200,10 @@ class RecurrentImportTest(unittest.TestCase):
         sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'r')
         response = self.client.post(reverse('keras-import'), {'file': sample_file})
         response = json.loads(response.content)
-        layerId = response['net'].keys()
+        layerId = sorted(response['net'].keys())
         self.assertEqual(response['result'], 'success')
-        self.assertGreaterEqual(len(response['net'][layerId[0]]['params']), 3)
-        self.assertGreaterEqual(len(response['net'][layerId[0]]['params']), 3)
+        self.assertGreaterEqual(len(response['net'][layerId[2]]['params']), 3)
+        self.assertGreaterEqual(len(response['net'][layerId[3]]['params']), 3)
 
 
 # ********** Normalisation Layers **********
@@ -221,10 +221,10 @@ class BatchNormImportTest(unittest.TestCase):
         sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'r')
         response = self.client.post(reverse('keras-import'), {'file': sample_file})
         response = json.loads(response.content)
-        layerId = response['net'].keys()
+        layerId = sorted(response['net'].keys())
         self.assertEqual(response['result'], 'success')
         self.assertEqual(response['net'][layerId[0]]['info']['type'], 'Scale')
-        self.assertEqual(response['net'][layerId[2]]['info']['type'], 'BatchNorm')
+        self.assertEqual(response['net'][layerId[1]]['info']['type'], 'BatchNorm')
 
 
 # ********** Utility Layers **********
@@ -243,7 +243,7 @@ class PaddingImportTest(unittest.TestCase):
         sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'r')
         response = self.client.post(reverse('keras-import'), {'file': sample_file})
         response = json.loads(response.content)
-        layerId = response['net'].keys()
+        layerId = sorted(response['net'].keys())
         self.assertEqual(response['result'], 'success')
         self.assertEqual(response['net'][layerId[0]]['params']['pad_h'], 3)
 
@@ -263,7 +263,7 @@ class EltwiseImportTest(unittest.TestCase):
         sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'r')
         response = self.client.post(reverse('keras-import'), {'file': sample_file})
         response = json.loads(response.content)
-        layerId = response['net'].keys()
+        layerId = sorted(response['net'].keys())
         self.assertEqual(response['result'], 'success')
         self.assertEqual(response['net'][layerId[0]]['params']['operation'], 1)
 
@@ -283,9 +283,9 @@ class ConcatImportTest(unittest.TestCase):
         sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'r')
         response = self.client.post(reverse('keras-import'), {'file': sample_file})
         response = json.loads(response.content)
-        layerId = response['net'].keys()
+        layerId = sorted(response['net'].keys())
         self.assertEqual(response['result'], 'success')
-        self.assertEqual(response['net'][layerId[2]]['info']['type'], 'Concat')
+        self.assertEqual(response['net'][layerId[0]]['info']['type'], 'Concat')
 
 
 # ********** Export json tests **********
