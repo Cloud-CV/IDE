@@ -96,7 +96,7 @@ def get_shapes(net):
             net[layerId]['shape']['output'] = reshape(net[layerId])
 
         elif(net[layerId]['info']['type'] in ['SPP', 'Crop']):
-            raise NotImplementedError
+            raise Exception('Cannot determine shape of ' + net[layerId]['info']['type'] + 'layer.')
 
         else:
             net[layerId]['shape']['output'] = identity(net[layerId])

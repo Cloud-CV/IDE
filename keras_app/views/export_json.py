@@ -2,6 +2,7 @@ import json
 import os
 import random
 import string
+import sys
 import yaml
 
 from datetime import datetime
@@ -25,7 +26,10 @@ def exportJson(request):
         net_name = request.POST.get('net_name')
         if net_name == '':
             net_name = 'Net'
-        net = get_shapes(net)
+        try:
+            net = get_shapes(net)
+        except:
+            return JsonResponse({'result': 'error', 'error': str(sys.exc_info()[1])})
 
         layer_map = {
             'ImageData': data,
