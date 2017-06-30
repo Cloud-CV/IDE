@@ -973,11 +973,11 @@ class ShapeCalculationTest(unittest.TestCase):
         self.client = Client()
 
     def test_shapes(self):
-        with open(os.path.join(settings.BASE_DIR, 'example', 'vgg16.json'), 'r') as f:
+        with open(os.path.join(settings.BASE_DIR, 'example/keras', 'vgg16.json'), 'r') as f:
             response = self.client.post(reverse('keras-import'), {'file': f})
         response = json.loads(response.content)
         net = get_shapes(response['net'])
-        with open(os.path.join(settings.BASE_DIR, 'example', 'vgg16.json'), 'r') as f:
+        with open(os.path.join(settings.BASE_DIR, 'example/keras', 'vgg16.json'), 'r') as f:
             model = model_from_json(json.dumps(json.load(f)))
         for layer in model.layers:
             self.assertEqual(list(layer.output_shape[::-1][:-1]),
