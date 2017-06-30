@@ -17,4 +17,3 @@ class UploadTest(unittest.TestCase):
         response = self.client.post(reverse('tf-import'), {'file': sample_file})
         response = json.loads(response.content)
         self.assertEqual(response['result'], 'success')
-
