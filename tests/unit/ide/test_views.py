@@ -1000,4 +1000,3 @@ class ShapeCalculationTest(unittest.TestCase):
         for layer in model.layers:
             self.assertEqual(list(layer.output_shape[::-1][:-1]),
                              net[layer.name]['shape']['output'])
-
