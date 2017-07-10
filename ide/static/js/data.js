@@ -552,35 +552,35 @@ export default {
          'he_normal', 'he_uniform'],
         required: false
       },
-      kernel_regularizer: {
+      kernel_regularizer: { // Only Keras
         name: 'Kernel regularizer',
         value: 'None',
         type: 'select',
         options: ['None', 'l1', 'l2', 'l1_l2'],
         required: false
       },
-      bias_regularizer: {
+      bias_regularizer: { // Only Keras
         name: 'Bias regularizer',
         value: 'None',
         type: 'select',
         options: ['None', 'l1', 'l2', 'l1_l2'],
         required: false
       },
-      activity_regularizer: {
+      activity_regularizer: { // Only Keras
         name: 'Activity regularizer',
         value: 'None',
         type: 'select',
         options: ['None', 'l1', 'l2', 'l1_l2'],
         required: false
       },
-      kernel_constraint: {
+      kernel_constraint: { // Only Keras
         name: 'Kernel constraint',
         value: 'None',
         type: 'select',
         options: ['None', 'max_norm', 'non_neg', 'unit_norm'],
         required: false
       },
-      bias_constraint: {
+      bias_constraint: { // Only Keras
         name: 'Bias constraint',
         value: 'None',
         type: 'select',
