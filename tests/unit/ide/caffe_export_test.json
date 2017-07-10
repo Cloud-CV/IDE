@@ -153,13 +153,16 @@
         "params": {
             "bias_filler": "constant", 
             "kernel_h": 3, 
-            "kernel_w": 3, 
+            "kernel_w": 3,
+            "dilation_h": 1,
+            "dilation_w": 1, 
             "num_output": 128, 
             "pad_h": 1, 
             "pad_w": 1, 
             "stride_h": 1, 
             "stride_w": 1, 
-            "weight_filler": "xavier"
+            "weight_filler": "xavier",
+            "use_bias": true
         }
     }, 
     "Crop": {
@@ -215,13 +218,16 @@
         "params": {
             "bias_filler": "constant", 
             "kernel_h": 3, 
-            "kernel_w": 3, 
+            "kernel_w": 3,
+            "dilation_h": 1,
+            "dilation_w": 1, 
             "num_output": 128, 
             "pad_h": 1, 
             "pad_w": 1, 
             "stride_h": 1, 
             "stride_w": 1, 
-            "weight_filler": "xavier"
+            "weight_filler": "xavier",
+            "use_bias": true
         }
     }, 
     "Dropout": {

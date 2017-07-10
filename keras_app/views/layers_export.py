@@ -24,6 +24,7 @@ regularizerMap = {
     'l1': regularizers.l1(),
     'l2': regularizers.l2(),
     'l1_l2': regularizers.l1_l2(),
+    'L1L2': regularizers.l1_l2(),
     'None': None
 }
 
@@ -31,6 +32,9 @@ constraintMap = {
     'max_norm': 'max_norm',
     'non_neg': 'non_neg',
     'unit_norm': 'unit_norm',
+    'MaxNorm': 'max_norm',
+    'NonNeg': 'non_neg',
+    'UnitNorm': 'unit_norm',
     'None': None
 }
 
