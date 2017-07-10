@@ -128,9 +128,13 @@ def importPrototxt(request):
                         or layer.convolution_param.stride[0]
                     params['stride_w'] = layer.convolution_param.stride_w \
                         or layer.convolution_param.stride[0]
+                if len(layer.convolution_param.dilation):
+                    params['dilation_h'] = layer.convolution_param.dilation[0]
+                    params['dilation_w'] = layer.convolution_param.dilation[0]
                 params['weight_filler'] = layer.convolution_param.weight_filler.type
                 params['bias_filler'] = layer.convolution_param.bias_filler.type
                 params['num_output'] = layer.convolution_param.num_output
+                params['use_bias'] = layer.convolution_param.bias_term
 
             elif(layer.type == 'Pooling'):
                 params['pad_h'] = layer.pooling_param.pad_h or layer.pooling_param.pad

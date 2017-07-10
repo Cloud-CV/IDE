@@ -14,6 +14,7 @@ def Convolution(layer):
     params = {}
     params['kernel_h'], params['kernel_w'] = layer.kernel_size
     params['stride_h'], params['stride_w'] = layer.strides
+    params['dilation_h'], params['dilation_w'] = layer.dilation_rate
     params['pad_h'], params['pad_w'] = get_padding(params['kernel_w'], params['kernel_h'],
                                                    params['stride_w'], params['stride_h'],
                                                    layer.input_shape, layer.output_shape,
@@ -21,6 +22,17 @@ def Convolution(layer):
     params['weight_filler'] = layer.kernel_initializer.__class__.__name__
     params['bias_filler'] = layer.bias_initializer.__class__.__name__
     params['num_output'] = layer.filters
+    if (layer.kernel_regularizer):
+        params['kernel_regularizer'] = layer.kernel_regularizer.__class__.__name__
+    if (layer.bias_regularizer):
+        params['bias_regularizer'] = layer.bias_regularizer.__class__.__name__
+    if (layer.activity_regularizer):
+        params['activity_regularizer'] = layer.activity_regularizer.__class__.__name__
+    if (layer.kernel_constraint):
+        params['kernel_constraint'] = layer.kernel_constraint.__class__.__name__
+    if (layer.bias_constraint):
+        params['bias_constraint'] = layer.bias_constraint.__class__.__name__
+    params['use_bias'] = layer.use_bias
     return jsonLayer('Convolution', params, layer)
 
 
