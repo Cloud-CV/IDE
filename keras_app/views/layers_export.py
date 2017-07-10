@@ -186,8 +186,30 @@ def recurrent(layer, layer_in, layerId):
         bias_initializer = fillerMap[layer['params']['bias_filler']]
     else:
         bias_initializer = layer['params']['bias_filler']
+    recurrent_initializer = layer['params']['recurrent_initializer']
+    kernel_regularizer = regularizerMap[layer['params']['kernel_regularizer']]
+    recurrent_regularizer = regularizerMap[layer['params']['recurrent_regularizer']]
+    bias_regularizer = regularizerMap[layer['params']['bias_regularizer']]
+    activity_regularizer = regularizerMap[layer['params']['activity_regularizer']]
+    kernel_constraint = constraintMap[layer['params']['kernel_constraint']]
+    recurrent_constraint = constraintMap[layer['params']['recurrent_constraint']]
+    bias_constraint = constraintMap[layer['params']['bias_constraint']]
+    use_bias = layer['params']['use_bias']
+    dropout = layer['params']['dropout']
+    recurrent_dropout = layer['params']['recurrent_dropout']
     out[layerId] = recurrentMap[layer['info']['type']](units, kernel_initializer=kernel_initializer,
-                                                       bias_initializer=bias_initializer)(*layer_in)
+                                                       bias_initializer=bias_initializer,
+                                                       recurrent_initializer=recurrent_initializer,
+                                                       kernel_regularizer=kernel_regularizer,
+                                                       recurrent_regularizer=recurrent_regularizer,
+                                                       bias_regularizer=bias_regularizer,
+                                                       activity_regularizer=activity_regularizer,
+                                                       kernel_constraint=kernel_constraint,
+                                                       recurrent_constraint=recurrent_constraint,
+                                                       bias_constraint=bias_constraint,
+                                                       use_bias=use_bias, dropout=dropout,
+                                                       recurrent_dropout=recurrent_dropout)(
+                                                       *layer_in)
     return out
 
 

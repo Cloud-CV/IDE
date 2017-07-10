@@ -117,7 +117,25 @@ def Recurrent(layer):
     params = {}
     params['num_output'] = layer.units
     params['weight_filler'] = layer.kernel_initializer.__class__.__name__
+    params['recurrent_initializer'] = layer.recurrent_initializer.__class__.__name__
     params['bias_filler'] = layer.bias_initializer.__class__.__name__
+    if (layer.kernel_regularizer):
+        params['kernel_regularizer'] = layer.kernel_regularizer.__class__.__name__
+    if (layer.recurrent_regularizer):
+        params['recurrent_regularizer'] = layer.recurrent_regularizer.__class__.__name__
+    if (layer.bias_regularizer):
+        params['bias_regularizer'] = layer.bias_regularizer.__class__.__name__
+    if (layer.activity_regularizer):
+        params['activity_regularizer'] = layer.activity_regularizer.__class__.__name__
+    if (layer.kernel_constraint):
+        params['kernel_constraint'] = layer.kernel_constraint.__class__.__name__
+    if (layer.recurrent_constraint):
+        params['recurrent_constraint'] = layer.recurrent_constraint.__class__.__name__
+    if (layer.bias_constraint):
+        params['bias_constraint'] = layer.bias_constraint.__class__.__name__
+    params['use_bias'] = layer.use_bias
+    params['dropout'] = layer.dropout
+    params['recurrent_dropout'] = layer.recurrent_dropout
     return jsonLayer(recurrentMap[layer.__class__.__name__], params, layer)
 
 
