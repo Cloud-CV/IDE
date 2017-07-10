@@ -83,6 +83,7 @@ def deconvolution(layer, layer_in, layerId):
     padding = get_padding(layer)
     k_h, k_w = layer['params']['kernel_h'], layer['params']['kernel_w']
     s_h, s_w = layer['params']['stride_h'], layer['params']['stride_w']
+    d_h, d_w = layer['params']['dilation_h'], layer['params']['dilation_w']
     if (layer['params']['weight_filler'] in fillerMap):
         kernel_initializer = fillerMap[layer['params']['weight_filler']]
     else:
@@ -97,9 +98,20 @@ def deconvolution(layer, layer_in, layerId):
         out[layerId + 'Pad'] = ZeroPadding2D(padding=(p_h, p_w))(*layer_in)
         padding = 'valid'
         layer_in = [out[layerId + 'Pad']]
+    kernel_regularizer = regularizerMap[layer['params']['kernel_regularizer']]
+    bias_regularizer = regularizerMap[layer['params']['bias_regularizer']]
+    activity_regularizer = regularizerMap[layer['params']['activity_regularizer']]
+    kernel_constraint = constraintMap[layer['params']['kernel_constraint']]
+    bias_constraint = constraintMap[layer['params']['bias_constraint']]
+    use_bias = layer['params']['use_bias']
     out[layerId] = Conv2DTranspose(filters, [k_h, k_w], strides=(s_h, s_w), padding=padding,
-                                   kernel_initializer=kernel_initializer,
-                                   bias_initializer=bias_initializer)(*layer_in)
+                                   dilation_rate=(d_h, d_w), kernel_initializer=kernel_initializer,
+                                   bias_initializer=bias_initializer,
+                                   kernel_regularizer=kernel_regularizer,
+                                   bias_regularizer=bias_regularizer,
+                                   activity_regularizer=activity_regularizer, use_bias=use_bias,
+                                   bias_constraint=bias_constraint,
+                                   kernel_constraint=kernel_constraint)(*layer_in)
     return out
 
 

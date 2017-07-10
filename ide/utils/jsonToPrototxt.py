@@ -466,6 +466,8 @@ def jsonToPrototxt(net, net_name):
                         fillerMap[layerParams['bias_filler']]
                 except:
                     convolution_param['bias_filler']['type'] = layerParams['bias_filler']
+            convolution_param['dilation'] = layerParams['dilation_h']
+            convolution_param['bias_term'] = layerParams['use_bias']
             for ns in (ns_train, ns_test):
                 caffeLayer = get_iterable(L.Deconvolution(
                     *[ns[x] for x in blobNames[layerId]['bottom']],

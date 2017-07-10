@@ -774,19 +774,75 @@ export default {
         value: 0,
         type: 'number',
         required: false
+      },dilation_h: {
+        name: 'Dilation height',
+        value: 1,
+        type: 'number',
+        required: false
+      },
+      dilation_w: {
+        name: 'Dilation width',
+        value: 1,
+        type: 'number',
+        required: false
       },
       weight_filler: {
         name: 'Weight filler',
         value: 'constant',
         type: 'select',
-        options: ['constant', 'gaussian', 'positive_unitball', 'uniform', 'xavier', 'msra', 'bilinear'],
+        options: ['constant', 'gaussian', 'positive_unitball', 'uniform', 'xavier', 'msra', 'bilinear', 'Zeros', 'Ones', 'Constant', 'RandomNormal',
+         'RandomUniform', 'TruncatedNormal', 'VarianceScaling', 'Orthogonal', 'Identity', 'lecun_uniform', 'glorot_normal', 'glorot_uniform',
+         'he_normal', 'he_uniform'],
         required: false
       },
       bias_filler: {
         name: 'Bias filler',
         value: 'constant',
         type: 'select',
-        options: ['constant', 'gaussian', 'positive_unitball', 'uniform', 'xavier', 'msra', 'bilinear'],
+        options: ['constant', 'gaussian', 'positive_unitball', 'uniform', 'xavier', 'msra', 'bilinear', 'Zeros', 'Ones', 'Constant', 'RandomNormal',
+         'RandomUniform', 'TruncatedNormal', 'VarianceScaling', 'Orthogonal', 'Identity', 'lecun_uniform', 'glorot_normal', 'glorot_uniform',
+         'he_normal', 'he_uniform'],
+        required: false
+      },
+      kernel_regularizer: { // Only Keras
+        name: 'Kernel regularizer',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'l1', 'l2', 'l1_l2'],
+        required: false
+      },
+      bias_regularizer: { // Only Keras
+        name: 'Bias regularizer',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'l1', 'l2', 'l1_l2'],
+        required: false
+      },
+      activity_regularizer: { // Only Keras
+        name: 'Activity regularizer',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'l1', 'l2', 'l1_l2'],
+        required: false
+      },
+      kernel_constraint: { // Only Keras
+        name: 'Kernel constraint',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'max_norm', 'non_neg', 'unit_norm'],
+        required: false
+      },
+      bias_constraint: { // Only Keras
+        name: 'Bias constraint',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'max_norm', 'non_neg', 'unit_norm'],
+        required: false
+      },
+      use_bias: {
+        name: 'Use bias term',
+        value: true,
+        type: 'checkbox',
         required: false
       }
     },
