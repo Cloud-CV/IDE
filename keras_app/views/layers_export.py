@@ -153,7 +153,16 @@ def dense(layer, layer_in, layerId):
         bias_initializer = fillerMap[layer['params']['bias_filler']]
     else:
         bias_initializer = layer['params']['bias_filler']
+    kernel_regularizer = regularizerMap[layer['params']['kernel_regularizer']]
+    bias_regularizer = regularizerMap[layer['params']['bias_regularizer']]
+    activity_regularizer = regularizerMap[layer['params']['activity_regularizer']]
+    kernel_constraint = constraintMap[layer['params']['kernel_constraint']]
+    bias_constraint = constraintMap[layer['params']['bias_constraint']]
+    use_bias = layer['params']['use_bias']
     out[layerId] = Dense(units=units, kernel_initializer=kernel_initializer,
+                         kernel_regularizer=kernel_regularizer, bias_regularizer=bias_regularizer,
+                         activity_regularizer=activity_regularizer, bias_constraint=bias_constraint,
+                         kernel_constraint=kernel_constraint, use_bias=use_bias,
                          bias_initializer=bias_initializer)(*layer_in)
     return out
 
@@ -169,8 +178,18 @@ def embed(layer, layer_in, layerId):
         embeddings_initializer = fillerMap[layer['params']['weight_filler']]
     else:
         embeddings_initializer = layer['params']['weight_filler']
+    embeddings_regularizer = regularizerMap[layer['params']['embeddings_regularizer']]
+    embeddings_constraint = constraintMap[layer['params']['embeddings_constraint']]
+    mask_zero = layer['params']['mask_zero']
+    if (layer['params']['input_length']):
+        input_length = layer['params']['input_length']
+    else:
+        input_length = None
     out[layerId] = Embedding(layer['params']['input_dim'], layer['params']['num_output'],
-                             embeddings_initializer=embeddings_initializer)(*layer_in)
+                             embeddings_initializer=embeddings_initializer,
+                             embeddings_regularizer=embeddings_regularizer,
+                             embeddings_constraint=embeddings_constraint,
+                             mask_zero=mask_zero, input_length=input_length)(*layer_in)
     return out
 
 
@@ -218,15 +237,45 @@ def recurrent(layer, layer_in, layerId):
 
 
 # ********** Normalisation Layers **********
-def batchNorm(layer, layer_in, layerId, type, idNext):
+def batchNorm(layer, layer_in, layerId, idNext, nextLayer,):
     out = {}
     momentum = layer['params']['moving_average_fraction']
     eps = layer['params']['eps']
-    if (type == 'Scale'):
-        out[idNext] = BatchNormalization(center=True, scale=True, momentum=momentum,
-                                         epsilon=eps)(*layer_in)
+    if (eps < 1e-5):
+        eps = 0.0001
+    moving_mean_initializer = layer['params']['moving_mean_initializer']
+    moving_variance_initializer = layer['params']['moving_variance_initializer']
+    if (nextLayer['info']['type'] == 'Scale'):
+        axis = nextLayer['params']['axis']
+        center = nextLayer['params']['bias_term']
+        scale = nextLayer['params']['scale']
+        if (nextLayer['params']['filler'] in fillerMap):
+            gamma_initializer = fillerMap[nextLayer['params']['filler']]
+        else:
+            gamma_initializer = nextLayer['params']['filler']
+        if (nextLayer['params']['bias_filler'] in fillerMap):
+            beta_initializer = fillerMap[nextLayer['params']['bias_filler']]
+        else:
+            beta_initializer = nextLayer['params']['bias_filler']
+        gamma_regularizer = regularizerMap[nextLayer['params']['gamma_regularizer']]
+        beta_regularizer = regularizerMap[nextLayer['params']['beta_regularizer']]
+        gamma_constraint = constraintMap[nextLayer['params']['gamma_constraint']]
+        beta_constraint = constraintMap[nextLayer['params']['beta_constraint']]
+        out[idNext] = BatchNormalization(axis=axis, momentum=momentum, epsilon=eps,
+                                         moving_mean_initializer=moving_mean_initializer,
+                                         moving_variance_initializer=moving_variance_initializer,
+                                         center=center, scale=scale,
+                                         gamma_initializer=gamma_initializer,
+                                         beta_initializer=beta_initializer,
+                                         gamma_regularizer=gamma_regularizer,
+                                         beta_regularizer=beta_regularizer,
+                                         gamma_constraint=gamma_constraint,
+                                         beta_constraint=beta_constraint)(*layer_in)
     else:
-        out[layerId] = BatchNormalization(momentum=momentum, epsilon=eps)(*layer_in)
+        out[layerId] = BatchNormalization(momentum=momentum, epsilon=eps,
+                                          moving_mean_initializer=moving_mean_initializer,
+                                          moving_variance_initializer=moving_variance_initializer,
+                                          scale=False, center=False)(*layer_in)
     return out
 
 

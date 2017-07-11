@@ -39,8 +39,9 @@ class ExportJsonTest(unittest.TestCase):
     def test_keras_export(self):
         img_input = Input((224, 224, 3))
         model = Conv2D(64, (3, 3), padding='same', dilation_rate=1, use_bias=True,
-                       kernel_regularizer=regularizers.l1(), bias_regularizer='l1', activity_regularizer='l1',
-                       kernel_constraint='max_norm', bias_constraint='max_norm')(img_input)
+                       kernel_regularizer=regularizers.l1(), bias_regularizer='l1',
+                       activity_regularizer='l1', kernel_constraint='max_norm',
+                       bias_constraint='max_norm')(img_input)
         model = Model(img_input, model)
         json_string = Model.to_json(model)
         with open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'w') as out:
@@ -469,11 +470,11 @@ class BatchNormExportTest(unittest.TestCase):
         response = json.load(tests)
         tests.close()
         net = yaml.safe_load(json.dumps(response['net']))
-        net = {'l0': net['Input'], 'l1': net['BatchNorm']}
+        net = {'l0': net['Input'], 'l1': net['BatchNorm'], 'l2': net['Scale']}
         net['l0']['connection']['output'].append('l1')
         inp = data(net['l0'], '', 'l0')['l0']
-        net = batchNorm(net['l1'], [inp], 'l1', '', '')
-        model = Model(inp, net['l1'])
+        net = batchNorm(net['l1'], [inp], 'l1', 'l2', net['l2'])
+        model = Model(inp, net['l2'])
         self.assertEqual(model.layers[1].__class__.__name__, 'BatchNormalization')
 
 

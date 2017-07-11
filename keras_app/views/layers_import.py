@@ -93,6 +93,17 @@ def Dense(layer):
     params['weight_filler'] = layer.kernel_initializer.__class__.__name__
     params['bias_filler'] = layer.bias_initializer.__class__.__name__
     params['num_output'] = layer.units
+    if (layer.kernel_regularizer):
+        params['kernel_regularizer'] = layer.kernel_regularizer.__class__.__name__
+    if (layer.bias_regularizer):
+        params['bias_regularizer'] = layer.bias_regularizer.__class__.__name__
+    if (layer.activity_regularizer):
+        params['activity_regularizer'] = layer.activity_regularizer.__class__.__name__
+    if (layer.kernel_constraint):
+        params['kernel_constraint'] = layer.kernel_constraint.__class__.__name__
+    if (layer.bias_constraint):
+        params['bias_constraint'] = layer.bias_constraint.__class__.__name__
+    params['use_bias'] = layer.use_bias
     return jsonLayer('InnerProduct', params, layer)
 
 
@@ -105,6 +116,13 @@ def Embed(layer):
     params['input_dim'] = layer.input_dim
     params['num_output'] = layer.output_dim
     params['weight_filler'] = layer.embeddings_initializer.__class__.__name__
+    if (layer.embeddings_regularizer):
+        params['embeddings_regularizer'] = layer.embeddings_regularizer.__class__.__name__
+    if (layer.embeddings_constraint):
+        params['embeddings_constraint'] = layer.embeddings_constraint.__class__.__name__
+    if (layer.input_length):
+        params['input_length'] = layer.input_length
+    params['mask_zero'] = layer.mask_zero
     return jsonLayer('Embed', params, layer)
 
 
@@ -144,6 +162,8 @@ def BatchNorm(layer):
     params = {}
     params['eps'] = layer.epsilon
     params['moving_average_fraction'] = layer.momentum
+    params['moving_mean_initializer'] = layer.moving_mean_initializer.__class__.__name__
+    params['moving_variance_initializer'] = layer.moving_variance_initializer.__class__.__name__
     return jsonLayer('BatchNorm', params, layer)
 
 
@@ -179,7 +199,21 @@ def ELU(layer):
 
 def Scale(layer):
     tempLayer = {}
+    params = {}
+    params['axis'] = layer.axis
+    params['bias_term'] = layer.center
+    params['scale'] = layer.scale
+    params['filler'] = layer.gamma_initializer.__class__.__name__
+    params['bias_filler'] = layer.beta_initializer.__class__.__name__
     params = {'bias_term': layer.center}
+    if (layer.beta_regularizer):
+        params['beta_regularizer'] = layer.beta_regularizer.__class__.__name__
+    if (layer.gamma_regularizer):
+        params['gamma_regularizer'] = layer.gamma_regularizer.__class__.__name__
+    if (layer.beta_constraint):
+        params['beta_constraint'] = layer.beta_constraint.__class__.__name__
+    if (layer.gamma_constraint):
+        params['gamma_constraint'] = layer.gamma_constraint.__class__.__name__
     tempLayer['inbound_nodes'] = [[[layer.name+layer.__class__.__name__]]]
     return jsonLayer('Scale', params, tempLayer)
 

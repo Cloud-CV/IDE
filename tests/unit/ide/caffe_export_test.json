@@ -305,7 +305,8 @@
             "bias_term": false, 
             "input_dim": 2, 
             "num_output": 128, 
-            "weight_filler": "xavier"
+            "weight_filler": "xavier",
+            "bias_filler": "constant"
         }
     }, 
     "EuclideanLoss": {
@@ -469,7 +470,8 @@
         "params": {
             "bias_filler": "constant", 
             "num_output": 128, 
-            "weight_filler": "xavier"
+            "weight_filler": "xavier",
+            "use_bias": false
         }
     }, 
     "Input": {
@@ -777,7 +779,11 @@
             "type": "Scale"
         }, 
         "params": {
-            "bias_term": false
+            "bias_term": true,
+            "axis": 1,
+            "num_axes": 1,
+            "filler": "xavier",
+            "bias_filler": "constant"
         }
     }, 
     "Sigmoid": {
