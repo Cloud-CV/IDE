@@ -242,7 +242,7 @@ def batchNorm(layer, layer_in, layerId, idNext, nextLayer,):
     momentum = layer['params']['moving_average_fraction']
     eps = layer['params']['eps']
     if (eps < 1e-5):
-        eps = 0.0001 # In Keras the max epsilon allowed in 1e-5
+        eps = 0.0001  # In Keras the max epsilon allowed in 1e-5
     moving_mean_initializer = layer['params']['moving_mean_initializer']
     moving_variance_initializer = layer['params']['moving_variance_initializer']
     if (nextLayer['info']['type'] == 'Scale'):
