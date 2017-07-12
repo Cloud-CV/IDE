@@ -1,7 +1,7 @@
 import numpy as np
 
 from keras.layers import Dense, Activation, Dropout, Flatten, Reshape
-from keras.layers import Conv2D, Conv2DTranspose, ZeroPadding2D
+from keras.layers import Conv1D, Conv2D, Conv3D, Conv2DTranspose, ZeroPadding2D
 from keras.layers import MaxPooling2D, AveragePooling2D
 from keras.layers import SimpleRNN, LSTM
 from keras.layers import Embedding
@@ -47,11 +47,19 @@ def data(layer, layer_in, layerId):
 
 # ********** Vision Layers **********
 def convolution(layer, layer_in, layerId):
+    convMap = {
+        '1D': Conv1D,
+        '2D': Conv2D,
+        '3D': Conv3D
+    }
     out = {}
     padding = get_padding(layer)
-    k_h, k_w = layer['params']['kernel_h'], layer['params']['kernel_w']
-    s_h, s_w = layer['params']['stride_h'], layer['params']['stride_w']
-    d_h, d_w = layer['params']['dilation_h'], layer['params']['dilation_w']
+    k_h, k_w, k_d = layer['params']['kernel_h'], layer['params']['kernel_w'],\
+        layer['params']['kernel_d']
+    s_h, s_w, s_d = layer['params']['stride_h'], layer['params']['stride_w'],\
+        layer['params']['stride_d']
+    d_h, d_w, d_d = layer['params']['dilation_h'], layer['params']['dilation_w'],\
+        layer['params']['dilation_d']
     if (layer['params']['weight_filler'] in fillerMap):
         kernel_initializer = fillerMap[layer['params']['weight_filler']]
     else:
@@ -72,13 +80,28 @@ def convolution(layer, layer_in, layerId):
     kernel_constraint = constraintMap[layer['params']['kernel_constraint']]
     bias_constraint = constraintMap[layer['params']['bias_constraint']]
     use_bias = layer['params']['use_bias']
-    out[layerId] = Conv2D(filters, [k_h, k_w], strides=(s_h, s_w), padding=padding,
-                          dilation_rate=(d_h, d_w), kernel_initializer=kernel_initializer,
-                          bias_initializer=bias_initializer, kernel_regularizer=kernel_regularizer,
-                          bias_regularizer=bias_regularizer,
-                          activity_regularizer=activity_regularizer, use_bias=use_bias,
-                          bias_constraint=bias_constraint, kernel_constraint=kernel_constraint)(
-                          *layer_in)
+    layer_type = layer['params']['layer_type']
+    if (layer_type == '1D'):
+        strides = s_w
+        kernel = k_w
+        dilation_rate = d_h
+    elif (layer_type == '2D'):
+        strides = (s_h, s_w)
+        kernel = (k_h, k_w)
+        dilation_rate = (d_h, d_w)
+    else:
+        strides = (s_h, s_w, s_d)
+        kernel = (k_h, k_w, k_d)
+        dilation_rate = (d_h, d_w, d_d)
+    out[layerId] = convMap[layer_type](filters, kernel, strides=strides, padding=padding,
+                                       dilation_rate=dilation_rate,
+                                       kernel_initializer=kernel_initializer,
+                                       bias_initializer=bias_initializer,
+                                       kernel_regularizer=kernel_regularizer,
+                                       bias_regularizer=bias_regularizer,
+                                       activity_regularizer=activity_regularizer, use_bias=use_bias,
+                                       bias_constraint=bias_constraint,
+                                       kernel_constraint=kernel_constraint)(*layer_in)
     return out
 
 
@@ -336,16 +359,46 @@ def get_padding(layer):
         _, i_h, i_w = layer['shape']['output']
         _, o_h, o_w = layer['shape']['input']
     else:
-        _, i_h, i_w = layer['shape']['input']
-        _, o_h, o_w = layer['shape']['output']
-    k_h, k_w = layer['params']['kernel_h'], layer['params']['kernel_w']
-    s_h, s_w = layer['params']['stride_h'], layer['params']['stride_w']
-    s_o_h = np.ceil(i_h / float(s_h))
-    s_o_w = np.ceil(i_w / float(s_w))
-    if (o_h == s_o_h) and (o_w == s_o_w):
-        return 'same'
-    v_o_h = np.ceil((i_h - k_h + 1.0) / float(s_h))
-    v_o_w = np.ceil((i_w - k_w + 1.0) / float(s_w))
-    if (o_h == v_o_h) and (o_w == v_o_w):
-        return 'valid'
-    return 'custom'
+        if (layer['params']['layer_type'] == '1D'):
+            i_w = layer['shape']['input'][0]
+            o_w = layer['shape']['output'][1]
+        elif (layer['params']['layer_type'] == '2D'):
+            _, i_h, i_w = layer['shape']['input']
+            _, o_h, o_w = layer['shape']['output']
+        else:
+            _, i_h, i_w, i_d = layer['shape']['input']
+            _, o_h, o_w, o_d = layer['shape']['output']
+    k_h, k_w, k_d = layer['params']['kernel_h'], layer['params']['kernel_w'],\
+        layer['params']['kernel_d']
+    s_h, s_w, s_d = layer['params']['stride_h'], layer['params']['stride_w'],\
+        layer['params']['stride_d']
+    if (layer['params']['layer_type'] == '1D'):
+        s_o_w = np.ceil(i_w / float(s_w))
+        if (o_w == s_o_w):
+            return 'same'
+        v_o_w = np.ceil((i_w - k_w + 1.0) / float(s_w))
+        if (o_w == v_o_w):
+            return 'valid'
+        return 'custom'
+    elif (layer['params']['layer_type'] == '2D'):
+        s_o_h = np.ceil(i_h / float(s_h))
+        s_o_w = np.ceil(i_w / float(s_w))
+        if (o_h == s_o_h) and (o_w == s_o_w):
+            return 'same'
+        v_o_h = np.ceil((i_h - k_h + 1.0) / float(s_h))
+        v_o_w = np.ceil((i_w - k_w + 1.0) / float(s_w))
+        if (o_h == v_o_h) and (o_w == v_o_w):
+            return 'valid'
+        return 'custom'
+    else:
+        s_o_h = np.ceil(i_h / float(s_h))
+        s_o_w = np.ceil(i_w / float(s_w))
+        s_o_d = np.ceil(i_d / float(s_d))
+        if (o_h == s_o_h) and (o_w == s_o_w) and (o_d == s_o_d):
+            return 'same'
+        v_o_h = np.ceil((i_h - k_h + 1.0) / float(s_h))
+        v_o_w = np.ceil((i_w - k_w + 1.0) / float(s_w))
+        v_o_d = np.ceil((i_d - k_d + 1.0) / float(s_d))
+        if (o_h == v_o_h) and (o_w == v_o_w) and (o_d == v_o_d):
+            return 'valid'
+        return 'custom'

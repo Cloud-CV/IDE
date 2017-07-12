@@ -5,20 +5,45 @@ def Input(layer):
     if (len(shape) == 2):
         params['dim'] = str([1, shape[1]])[1:-1]
     else:
-        params['dim'] = str([1, shape[3], shape[1], shape[2]])[1:-1]
+        params['dim'] = str([1, shape[-1]] + list(shape[1:-1]))[1:-1]
     return jsonLayer('Input', params, layer)
 
 
 # ********** Vision Layers **********
 def Convolution(layer):
     params = {}
-    params['kernel_h'], params['kernel_w'] = layer.kernel_size
-    params['stride_h'], params['stride_w'] = layer.strides
-    params['dilation_h'], params['dilation_w'] = layer.dilation_rate
-    params['pad_h'], params['pad_w'] = get_padding(params['kernel_w'], params['kernel_h'],
-                                                   params['stride_w'], params['stride_h'],
-                                                   layer.input_shape, layer.output_shape,
-                                                   layer.padding.lower())
+    if (layer.__class__.__name__ == 'Conv1D'):
+        params['layer_type'] = '1D'
+        params['kernel_w'] = layer.kernel_size[0]
+        params['stride_w'] = layer.strides[0]
+        params['dilation_w'] = layer.dilation_rate[0]
+        params['pad_h'] = get_padding([params['kernel_w'], -1, -1,
+                                      params['stride_w'], -1, -1],
+                                      layer.input_shape, layer.output_shape,
+                                      layer.padding.lower(), '1D')
+    elif (layer.__class__.__name__ == 'Conv2D'):
+        params['layer_type'] = '2D'
+        params['kernel_h'], params['kernel_w'] = layer.kernel_size
+        params['stride_h'], params['stride_w'] = layer.strides
+        params['dilation_h'], params['dilation_w'] = layer.dilation_rate
+        params['pad_h'], params['pad_w'] = get_padding([params['kernel_w'], params['kernel_h'], -1,
+                                                       params['stride_w'], params['stride_h'], -1],
+                                                       layer.input_shape, layer.output_shape,
+                                                       layer.padding.lower(), '2D')
+    else:
+        params['layer_type'] = '3D'
+        params['kernel_h'], params['kernel_w'], params['kernel_d'] = layer.kernel_size
+        params['stride_h'], params['stride_w'], params['stride_d'] = layer.strides
+        params['dilation_h'], params['dilation_w'], params['dilation_d'] = layer.dilation_rate
+        params['pad_h'], params['pad_w'], params['pad_d'] = get_padding([params['kernel_w'],
+                                                                        params['kernel_h'],
+                                                                        params['kernel_d'],
+                                                                        params['stride_w'],
+                                                                        params['stride_h'],
+                                                                        params['stride_d']],
+                                                                        layer.input_shape,
+                                                                        layer.output_shape,
+                                                                        layer.padding.lower(), '3D')
     params['weight_filler'] = layer.kernel_initializer.__class__.__name__
     params['bias_filler'] = layer.bias_initializer.__class__.__name__
     params['num_output'] = layer.filters
@@ -79,10 +104,10 @@ def Pooling(layer):
         params['kernel_w'], params['kernel_h'] = layer.pool_size
         params['stride_w'], params['stride_h'] = layer.strides
         padding = layer.padding.lower()
-    params['pad_h'], params['pad_w'] = get_padding(params['kernel_w'], params['kernel_h'],
-                                                   params['stride_w'], params['stride_h'],
+    params['pad_h'], params['pad_w'] = get_padding([params['kernel_w'], params['kernel_h'], -1,
+                                                   params['stride_w'], params['stride_h'], -1],
                                                    layer.input_shape, layer.output_shape,
-                                                   padding)
+                                                   padding, '2D')
     params['pool'] = poolMap[layer.__class__.__name__]
     return jsonLayer('Pooling', params, layer)
 
@@ -254,13 +279,29 @@ def Padding(layer):
 
 # padding logic following
 # https://github.com/Yangqing/caffe2/blob/master/caffe2/proto/caffe2_legacy.proto
-def get_padding(k_w, k_h, s_w, s_h, input_shape, output_shape, pad_type):
-    if (pad_type == 'valid'):
-        return [0, 0]
+def get_padding(params, input_shape, output_shape, pad_type, type):
+    k_w, k_h, k_d, s_w, s_h, s_d = params
+    if (type == '1D'):
+        if (pad_type == 'valid'):
+            return 0
+        else:
+            pad_h = ((output_shape[2]-1)*s_h + k_h - input_shape[2])/2
+            return pad_h
+    elif (type == '2D'):
+        if (pad_type == 'valid'):
+            return [0, 0]
+        else:
+            pad_h = ((output_shape[2]-1)*s_h + k_h - input_shape[2])/2
+            pad_w = ((output_shape[1]-1)*s_w + k_w - input_shape[1])/2
+            return (pad_h, pad_w)
     else:
-        pad_h = ((output_shape[2]-1)*s_h + k_h - input_shape[2])/2
-        pad_w = ((output_shape[1]-1)*s_w + k_w - input_shape[1])/2
-        return (pad_h, pad_w)
+        if (pad_type == 'valid'):
+            return [0, 0, 0]
+        else:
+            pad_h = ((output_shape[2]-1)*s_h + k_h - input_shape[2])/2
+            pad_w = ((output_shape[1]-1)*s_w + k_w - input_shape[1])/2
+            pad_d = ((output_shape[3]-1)*s_d + k_d - input_shape[3])/2
+            return (pad_h, pad_w, pad_d)
 
 
 def jsonLayer(type, params, layer):

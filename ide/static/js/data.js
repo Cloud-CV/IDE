@@ -480,35 +480,18 @@ export default {
       trg: ['Top']
     },
     params: {
+      layer_type: { // Only Keras
+        name: 'Type',
+        value: '3D',
+        type: 'select',
+        options: ['1D', '2D', '3D'],
+        required: false
+      },
       num_output: { // Maps to: filters(Keras)
         name: 'No of outputs',
         value: '',
         type: 'number',
         required: true
-      },
-      kernel_h: {
-        name: 'Kernel height',
-        value: '',
-        type: 'number',
-        required: true
-      },
-      kernel_w: {
-        name: 'Kernel width',
-        value: '',
-        type: 'number',
-        required: true
-      },
-      stride_h: {
-        name: 'Stride height',
-        value: 1,
-        type: 'number',
-        required: false
-      },
-      stride_w: {
-        name: 'Stride width',
-        value: 1,
-        type: 'number',
-        required: false
       },
       pad_h: {
         name: 'Padding height',
@@ -522,6 +505,48 @@ export default {
         type: 'number',
         required: false
       },
+      pad_d: {
+        name: 'Padding depth',
+        value: 0,
+        type: 'number',
+        required: false
+      },
+      kernel_h: {
+        name: 'Kernel height',
+        value: '',
+        type: 'number',
+        required: false
+      },
+      kernel_w: {
+        name: 'Kernel width',
+        value: '',
+        type: 'number',
+        required: true
+      },
+      kernel_d: {
+        name: 'Kernel depth',
+        value: '',
+        type: 'number',
+        required: false
+      },
+      stride_h: {
+        name: 'Stride height',
+        value: 1,
+        type: 'number',
+        required: false
+      },
+      stride_w: {
+        name: 'Stride width',
+        value: 1,
+        type: 'number',
+        required: false
+      },
+      stride_d: {
+        name: 'Stride depth',
+        value: 1,
+        type: 'number',
+        required: false
+      },
       dilation_h: {
         name: 'Dilation height',
         value: 1,
@@ -530,6 +555,12 @@ export default {
       },
       dilation_w: {
         name: 'Dilation width',
+        value: 1,
+        type: 'number',
+        required: false
+      },
+      dilation_d: {
+        name: 'Dilation depth',
         value: 1,
         type: 'number',
         required: false
@@ -615,6 +646,13 @@ export default {
       trg: ['Top']
     },
     params: {
+      layer_type: { // Only Keras
+        name: 'Type',
+        value: '2D',
+        type: 'select',
+        options: ['1D', '2D', '3D'],
+        required: false
+      },
       pad_h: {
         name: 'Padding height',
         value: 0,
@@ -623,6 +661,12 @@ export default {
       },
       pad_w: {
         name: 'Padding width',
+        value: 0,
+        type: 'number',
+        required: false
+      },
+      pad_d: {
+        name: 'Padding depth',
         value: 0,
         type: 'number',
         required: false
@@ -637,7 +681,13 @@ export default {
         name: 'Kernel width',
         value: '',
         type: 'number',
-        required: true
+        required: false
+      },
+      kernel_d: {
+        name: 'Kernel depth',
+        value: '',
+        type: 'number',
+        required: false
       },
       stride_h: {
         name: 'Stride height',
@@ -647,6 +697,12 @@ export default {
       },
       stride_w: {
         name: 'Stride width',
+        value: 1,
+        type: 'number',
+        required: false
+      },
+      stride_d: {
+        name: 'Stride depth',
         value: 1,
         type: 'number',
         required: false

@@ -25,7 +25,9 @@ def importJson(request):
 
     layer_map = {
         'InputLayer': Input,
+        'Conv1D': Convolution,
         'Conv2D': Convolution,
+        'Conv3D': Convolution,
         'Conv2DTranspose': Deconvolution,
         'MaxPooling2D': Pooling,
         'GlobalMaxPooling2D': Pooling,
@@ -54,7 +56,7 @@ def importJson(request):
         'ZeroPadding2D': Padding,
     }
 
-    hasActivation = ['Conv2D', 'Conv2DTranspose', 'Dense']
+    hasActivation = ['Conv1D', 'Conv2D', 'Conv3D', 'Conv2DTranspose', 'Dense']
 
     net = {}
     # Add dummy input layer if sequential model

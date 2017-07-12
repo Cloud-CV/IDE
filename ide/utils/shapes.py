@@ -22,21 +22,38 @@ def identity(layer):
 
 
 def filter(layer):
-    _, i_h, i_w = layer['shape']['input']
-    k_h, k_w = layer['params']['kernel_h'], layer['params']['kernel_w']
-    s_h, s_w = layer['params']['stride_h'], layer['params']['stride_w']
-    p_h, p_w = layer['params']['pad_h'], layer['params']['pad_w']
-    if (layer['info']['type'] == 'Deconvolution'):
-        o_h = int((i_h - 1)*s_h + k_h - 2*p_h)
-        o_w = int((i_w - 1)*s_w + k_w - 2*p_w)
-    else:
-        o_h = int((i_h + 2 * p_h - k_h) / float(s_h) + 1)
-        o_w = int((i_w + 2 * p_w - k_w) / float(s_w) + 1)
+    k_h, k_w, k_d = layer['params']['kernel_h'], layer['params']['kernel_w'],\
+        layer['params']['kernel_d']
+    s_h, s_w, s_d = layer['params']['stride_h'], layer['params']['stride_w'],\
+        layer['params']['stride_d']
+    p_h, p_w, p_d = layer['params']['pad_h'], layer['params']['pad_w'],\
+        layer['params']['pad_d']
     if (layer['info']['type'] == 'Pooling'):
         num_out = layer['shape']['input'][0]
     else:
         num_out = layer['params']['num_output']
-    return [num_out, o_h, o_w]
+    if (layer['info']['type'] == 'Deconvolution'):
+        _, i_h, i_w = layer['shape']['input']
+        o_h = int((i_h - 1)*s_h + k_h - 2*p_h)
+        o_w = int((i_w - 1)*s_w + k_w - 2*p_w)
+        return [num_out, o_h, o_w]
+    else:
+        if (layer['params']['layer_type'] == '1D'):
+            i_w = layer['shape']['input'][0]
+            o_w = int((i_w + 2 * p_w - k_w) / float(s_w) + 1)
+            return [num_out, o_w]
+        elif (layer['params']['layer_type'] == '2D'):
+            _, i_h, i_w = layer['shape']['input']
+            o_h = int((i_h + 2 * p_h - k_h) / float(s_h) + 1)
+            o_w = int((i_w + 2 * p_w - k_w) / float(s_w) + 1)
+            return [num_out, o_h, o_w]
+        else:
+            _, i_h, i_w, i_d = layer['shape']['input']
+            o_h = int((i_h + 2 * p_h - k_h) / float(s_h) + 1)
+            o_w = int((i_w + 2 * p_w - k_w) / float(s_w) + 1)
+            o_d = int((i_d + 2 * p_d - k_d) / float(s_d) + 1)
+            return [num_out, o_h, o_w, o_d]
+    return
 
 
 def output(layer):

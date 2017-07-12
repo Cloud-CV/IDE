@@ -26,6 +26,7 @@ class Content extends React.Component {
     this.changeSelectedLayer = this.changeSelectedLayer.bind(this);
     this.changeHoveredLayer = this.changeHoveredLayer.bind(this);
     this.modifyLayer = this.modifyLayer.bind(this);
+    this.adjustParameters = this.adjustParameters.bind(this);
     this.modifyLayerParams = this.modifyLayerParams.bind(this);
     this.deleteLayer = this.deleteLayer.bind(this);
     this.exportNet = this.exportNet.bind(this);
@@ -157,6 +158,7 @@ class Content extends React.Component {
     Object.keys(net).forEach(layerId => {
       const layer = net[layerId];
       Object.keys(layer.params).forEach(param => {
+        layer.params[param] = layer.params[param][0];
         const paramData = data[layer.info.type].params[param];
         if (layer.info.type == 'Python' && param == 'endPoint'){
           return;
@@ -274,16 +276,22 @@ class Content extends React.Component {
     data['Python']['params'] = {}
     this.setState({ net: {}, selectedLayer: null, hoveredLayer: null, nextLayerId: 0, selectedPhase: 0, error: [] });
     Object.keys(net).forEach(layerId => {
-      const layer = net[layerId];
+      var layer = net[layerId];
       const type = layer.info.type;
       // const index = +layerId.substring(1);
       if (data.hasOwnProperty(type)) {
         // add the missing params with default values
         Object.keys(data[type].params).forEach(param => {
           if (!layer.params.hasOwnProperty(param)) {
-            layer.params[param] = data[type].params[param].value;
+            layer.params[param] = [data[type].params[param].value, false];
+          }
+          else {
+            layer.params[param] = [layer.params[param], false];
           }
         });
+        if (type == 'Convolution'){
+          layer = this.adjustParameters(layer, 'layer_type', layer.params['layer_type'][0]);
+        }
         // layer.props = JSON.parse(JSON.stringify(data[type].props));
         layer.props = {};
         // default name
@@ -340,6 +348,43 @@ class Content extends React.Component {
         error: []
       });
     }
+  }
+  adjustParameters(layer, para, value) {
+    if (para == 'layer_type'){
+      if (layer.info['type'] == 'Convolution'){
+        if (value == '1D'){
+          layer.params['kernel_h'] = [layer.params['kernel_h'][0], true]
+          layer.params['kernel_d'] = [layer.params['kernel_d'][0], true]
+          layer.params['pad_h'] = [layer.params['pad_h'][0], true]
+          layer.params['pad_d'] = [layer.params['pad_d'][0], true]
+          layer.params['stride_h'] = [layer.params['stride_h'][0], true]
+          layer.params['stride_d'] = [layer.params['stride_d'][0], true]
+          layer.params['dilation_h'] = [layer.params['dilation_h'][0], true]
+          layer.params['dilation_d'] = [layer.params['dilation_d'][0], true]
+        }
+        else if (value == '2D'){
+          layer.params['kernel_h'] = [layer.params['kernel_h'][0], false]
+          layer.params['kernel_d'] = [layer.params['kernel_d'][0], true]
+          layer.params['pad_h'] = [layer.params['pad_h'][0], false]
+          layer.params['pad_d'] = [layer.params['pad_d'][0], true]
+          layer.params['stride_h'] = [layer.params['stride_h'][0], false]
+          layer.params['stride_d'] = [layer.params['stride_d'][0], true]
+          layer.params['dilation_h'] = [layer.params['dilation_h'][0], false]
+          layer.params['dilation_d'] = [layer.params['dilation_d'][0], true]
+        }
+        else {
+          layer.params['kernel_h'] = [layer.params['kernel_h'][0], false]
+          layer.params['kernel_d'] = [layer.params['kernel_d'][0], false]
+          layer.params['pad_h'] = [layer.params['pad_h'][0], false]
+          layer.params['pad_d'] = [layer.params['pad_d'][0], false]
+          layer.params['stride_h'] = [layer.params['stride_h'][0], false]
+          layer.params['stride_d'] = [layer.params['stride_d'][0], false]
+          layer.params['dilation_h'] = [layer.params['dilation_h'][0], false]
+          layer.params['dilation_d'] = [layer.params['dilation_d'][0], false]
+        }
+      }
+    }
+    return layer;
   }
   changeNetStatus(bool) {
     this.setState({ rebuildNet: bool });
@@ -445,6 +490,7 @@ class Content extends React.Component {
             net={this.state.net}
             selectedLayer={this.state.selectedLayer}
             modifyLayer={this.modifyLayerParams}
+            adjustParameters={this.adjustParameters}
             deleteLayer={this.deleteLayer}
             selectedPhase={this.state.selectedPhase}
             copyTrain={this.copyTrain}
