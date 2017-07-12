@@ -480,7 +480,7 @@ export default {
       trg: ['Top']
     },
     params: {
-      num_output: { // Keras(filters)
+      num_output: { // Maps to: filters(Keras)
         name: 'No of outputs',
         value: '',
         type: 'number',
@@ -534,7 +534,7 @@ export default {
         type: 'number',
         required: false
       },
-      weight_filler: { // Keras(kernel_initializer)
+      weight_filler: { // Maps to: kernel_initializer(Keras)
         name: 'Weight filler',
         value: 'constant',
         type: 'select',
@@ -545,7 +545,7 @@ export default {
                   'lecun_uniform', 'glorot_normal', 'glorot_uniform', 'he_normal', 'he_uniform'],
         required: false
       },
-      bias_filler: { // Keras(bias_initializer)
+      bias_filler: { // Maps to: bias_initializer(Keras)
         name: 'Bias filler',
         value: 'constant',
         type: 'select',
@@ -591,7 +591,7 @@ export default {
         options: ['None', 'max_norm', 'non_neg', 'unit_norm'],
         required: false
       },
-      use_bias: { // Caffe(bias_term)
+      use_bias: { // Maps to: bias_term(Caffe)
         name: 'Use bias term',
         value: true,
         type: 'checkbox',
@@ -737,7 +737,7 @@ export default {
       trg: ['Top']
     },
     params: {
-      num_output: { // Keras(filters)
+      num_output: { // Maps to: filters(Keras)
         name: 'No of outputs',
         value: '',
         type: 'number',
@@ -790,7 +790,7 @@ export default {
         type: 'number',
         required: false
       },
-      weight_filler: { // Keras(kernel_initializer)
+      weight_filler: { // Maps to: kernel_initializer(Keras)
         name: 'Weight filler',
         value: 'constant',
         type: 'select',
@@ -801,7 +801,7 @@ export default {
                   'lecun_uniform', 'glorot_normal', 'glorot_uniform', 'he_normal', 'he_uniform'],
         required: false
       },
-      bias_filler: { // Keras(bias_initializer)
+      bias_filler: { // Maps to: bias_initializer(Keras)
         name: 'Bias filler',
         value: 'constant',
         type: 'select',
@@ -847,7 +847,7 @@ export default {
         options: ['None', 'max_norm', 'non_neg', 'unit_norm'],
         required: false
       },
-      use_bias: { // Caffe(bias_term)
+      use_bias: { // Maps to: bias_term(Caffe)
         name: 'Use bias term',
         value: true,
         type: 'checkbox',
@@ -930,13 +930,13 @@ export default {
       trg: ['Top']
     },
     params: {
-      num_output: { // Keras(units)
+      num_output: { // Maps to: units(Keras)
         name: 'No of outputs',
         value: '',
         type: 'number',
         required: true
       },
-      weight_filler: { // Keras(kernel_initializer)
+      weight_filler: { // Maps to: kernel_initializer(Keras)
         name: 'Weight filler',
         value: 'constant',
         type: 'select',
@@ -947,7 +947,7 @@ export default {
                   'lecun_uniform', 'glorot_normal', 'glorot_uniform', 'he_normal', 'he_uniform'],
         required: false
       },
-      bias_filler: { // Keras(bias_initializer)
+      bias_filler: { // Maps to: bias_initializer(Keras)
         name: 'Bias filler',
         value: 'constant',
         type: 'select',
@@ -1063,13 +1063,13 @@ export default {
       trg: ['Top']
     },
     params: {
-      num_output: { // Keras(units)
+      num_output: { // Maps to: units(Keras)
         name: 'No of outputs',
         value: '',
         type: 'number',
         required: true
       },
-      weight_filler: { // Keras(kernel_initializer)
+      weight_filler: { // Maps to: kernel_initializer(Keras)
         name: 'Weight filler',
         value: 'constant',
         type: 'select',
@@ -1080,7 +1080,7 @@ export default {
                   'lecun_uniform', 'glorot_normal', 'glorot_uniform', 'he_normal', 'he_uniform'],
         required: false
       },
-      bias_filler: { // Keras(bias_initializer)
+      bias_filler: { // Maps to: bias_initializer(Keras)
         name: 'Bias filler',
         value: 'constant',
         type: 'select',
@@ -1197,13 +1197,13 @@ export default {
       trg: ['Top']
     },
     params: {
-      num_output: { // Keras(units)
+      num_output: { // Maps to: units(Keras)
         name: 'No of outputs',
         value: '',
         type: 'number',
         required: true
       },
-      weight_filler: { // Keras(kernel_initializer)
+      weight_filler: { // Maps to: kernel_initializer(Keras)
         name: 'Weight filler',
         value: 'constant',
         type: 'select',
@@ -1214,7 +1214,7 @@ export default {
                   'lecun_uniform', 'glorot_normal', 'glorot_uniform', 'he_normal', 'he_uniform'],
         required: false
       },
-      bias_filler: { // Keras(bias_initializer)
+      bias_filler: { // Maps to: bias_initializer(Keras)
         name: 'Bias filler',
         value: 'constant',
         type: 'select',
@@ -1260,7 +1260,7 @@ export default {
         options: ['None', 'max_norm', 'non_neg', 'unit_norm'],
         required: false
       },
-      use_bias: { // Caffe(bias_term)
+      use_bias: { // Maps to: bias_term(Caffe)
         name: 'Use bias term',
         value: true,
         type: 'checkbox',
@@ -1320,7 +1320,7 @@ export default {
         type: 'number',
         required: true
       },
-      weight_filler: { // Keras(embeddings_initializer)
+      weight_filler: { // Maps to: embeddings_initializer(Keras)
         name: 'Weight filler',
         value: 'constant',
         type: 'select',
@@ -1502,7 +1502,7 @@ export default {
         type: 'checkbox',
         required: true
       },
-      moving_average_fraction: { // Keras(momentum)
+      moving_average_fraction: { // Maps to: momentum(Keras)
         name: 'Moving Avg. Fraction',
         value: 0.999,
         type: 'float',
@@ -1944,7 +1944,7 @@ export default {
         type: 'number',
         required: false
       },
-      filler: { // Keras(gamma_initializer)
+      filler: { // Maps to: gamma_initializer(Keras)
         name: 'Filler',
         value: 'constant',
         type: 'select',
@@ -1955,7 +1955,7 @@ export default {
                   'lecun_uniform', 'glorot_normal', 'glorot_uniform', 'he_normal', 'he_uniform'],
         required: false
       },
-      bias_term: { // Keras(center)
+      bias_term: { // Maps to: center(Keras)
         name: 'Bias term',
         value: false,
         type: 'checkbox',
@@ -1967,7 +1967,7 @@ export default {
         type: 'checkbox',
         required: false
       },
-      bias_filler: { // Keras(beta_initializer)
+      bias_filler: { // Maps to: beta_initializer(Keras)
         name: 'Bias Filler',
         value: 'constant',
         type: 'select',
