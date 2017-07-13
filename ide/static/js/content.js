@@ -289,7 +289,7 @@ class Content extends React.Component {
             layer.params[param] = [layer.params[param], false];
           }
         });
-        if (type == 'Convolution'){
+        if (type == 'Convolution' || type == 'Pooling'){
           layer = this.adjustParameters(layer, 'layer_type', layer.params['layer_type'][0]);
         }
         // layer.props = JSON.parse(JSON.stringify(data[type].props));
@@ -351,7 +351,7 @@ class Content extends React.Component {
   }
   adjustParameters(layer, para, value) {
     if (para == 'layer_type'){
-      if (layer.info['type'] == 'Convolution'){
+      if (layer.info['type'] == 'Convolution' || layer.info['type'] == 'Pooling'){
         if (value == '1D'){
           layer.params['kernel_h'] = [layer.params['kernel_h'][0], true]
           layer.params['kernel_d'] = [layer.params['kernel_d'][0], true]
@@ -359,8 +359,10 @@ class Content extends React.Component {
           layer.params['pad_d'] = [layer.params['pad_d'][0], true]
           layer.params['stride_h'] = [layer.params['stride_h'][0], true]
           layer.params['stride_d'] = [layer.params['stride_d'][0], true]
-          layer.params['dilation_h'] = [layer.params['dilation_h'][0], true]
-          layer.params['dilation_d'] = [layer.params['dilation_d'][0], true]
+          if (layer.info['type'] == 'Convolution'){
+            layer.params['dilation_h'] = [layer.params['dilation_h'][0], true]
+            layer.params['dilation_d'] = [layer.params['dilation_d'][0], true]
+          }
         }
         else if (value == '2D'){
           layer.params['kernel_h'] = [layer.params['kernel_h'][0], false]
@@ -369,8 +371,10 @@ class Content extends React.Component {
           layer.params['pad_d'] = [layer.params['pad_d'][0], true]
           layer.params['stride_h'] = [layer.params['stride_h'][0], false]
           layer.params['stride_d'] = [layer.params['stride_d'][0], true]
-          layer.params['dilation_h'] = [layer.params['dilation_h'][0], false]
-          layer.params['dilation_d'] = [layer.params['dilation_d'][0], true]
+          if (layer.info['type'] == 'Convolution'){
+            layer.params['dilation_h'] = [layer.params['dilation_h'][0], false]
+            layer.params['dilation_d'] = [layer.params['dilation_d'][0], true]
+          }
         }
         else {
           layer.params['kernel_h'] = [layer.params['kernel_h'][0], false]
@@ -379,8 +383,10 @@ class Content extends React.Component {
           layer.params['pad_d'] = [layer.params['pad_d'][0], false]
           layer.params['stride_h'] = [layer.params['stride_h'][0], false]
           layer.params['stride_d'] = [layer.params['stride_d'][0], false]
-          layer.params['dilation_h'] = [layer.params['dilation_h'][0], false]
-          layer.params['dilation_d'] = [layer.params['dilation_d'][0], false]
+          if (layer.info['type'] == 'Convolution'){
+            layer.params['dilation_h'] = [layer.params['dilation_h'][0], false]
+            layer.params['dilation_d'] = [layer.params['dilation_d'][0], false]
+          }
         }
       }
     }

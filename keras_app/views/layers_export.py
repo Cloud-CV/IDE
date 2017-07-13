@@ -1,8 +1,10 @@
 import numpy as np
 
 from keras.layers import Dense, Activation, Dropout, Flatten, Reshape
-from keras.layers import Conv1D, Conv2D, Conv3D, Conv2DTranspose, ZeroPadding2D
-from keras.layers import MaxPooling2D, AveragePooling2D
+from keras.layers import Conv1D, Conv2D, Conv3D, Conv2DTranspose
+from keras.layers import MaxPooling1D, MaxPooling2D, MaxPooling3D
+from keras.layers import AveragePooling1D, AveragePooling2D, AveragePooling3D
+from keras.layers import ZeroPadding1D, ZeroPadding2D, ZeroPadding3D
 from keras.layers import SimpleRNN, LSTM
 from keras.layers import Embedding
 from keras.layers import add, multiply, maximum, concatenate
@@ -79,10 +81,20 @@ def convolution(layer, layer_in, layerId):
         strides = layer['params']['stride_w']
         kernel = layer['params']['kernel_w']
         dilation_rate = layer['params']['dilation_w']
+        if (padding == 'custom'):
+            p_w = layer['params']['pad_w']
+            out[layerId + 'Pad'] = ZeroPadding1D(padding=p_w)(*layer_in)
+            padding = 'valid'
+            layer_in = out[layerId + 'Pad']
     elif (layer_type == '2D'):
         strides = (layer['params']['stride_h'], layer['params']['stride_w'])
         kernel = (layer['params']['kernel_h'], layer['params']['kernel_w'])
         dilation_rate = (layer['params']['dilation_h'], layer['params']['dilation_w'])
+        if (padding == 'custom'):
+            p_h, p_w = layer['params']['pad_h'], layer['params']['pad_w']
+            out[layerId + 'Pad'] = ZeroPadding2D(padding=(p_h, p_w))(*layer_in)
+            padding = 'valid'
+            layer_in = out[layerId + 'Pad']
     else:
         strides = (layer['params']['stride_h'], layer['params']['stride_w'],
                    layer['params']['stride_d'])
@@ -90,6 +102,12 @@ def convolution(layer, layer_in, layerId):
                   layer['params']['kernel_d'])
         dilation_rate = (layer['params']['dilation_h'], layer['params']['dilation_w'],
                          layer['params']['dilation_d'])
+        if (padding == 'custom'):
+            p_h, p_w, p_d = layer['params']['pad_h'], layer['params']['pad_w'],\
+                            layer['params']['pad_d']
+            out[layerId + 'Pad'] = ZeroPadding3D(padding=(p_h, p_w, p_d))(*layer_in)
+            padding = 'valid'
+            layer_in = out[layerId + 'Pad']
     out[layerId] = convMap[layer_type](filters, kernel, strides=strides, padding=padding,
                                        dilation_rate=dilation_rate,
                                        kernel_initializer=kernel_initializer,
@@ -140,21 +158,47 @@ def deconvolution(layer, layer_in, layerId):
 
 
 def pooling(layer, layer_in, layerId):
+    poolMap = {
+        ('1D', 'MAX'): MaxPooling1D,
+        ('2D', 'MAX'): MaxPooling2D,
+        ('3D', 'MAX'): MaxPooling3D,
+        ('1D', 'AVE'): AveragePooling1D,
+        ('2D', 'AVE'): AveragePooling2D,
+        ('3D', 'AVE'): AveragePooling3D,
+    }
     out = {}
+    layer_type = layer['params']['layer_type']
+    pool_type = layer['params']['pool']
     padding = get_padding(layer)
-    k_h, k_w = layer['params']['kernel_h'], layer['params']['kernel_w']
-    s_h, s_w = layer['params']['stride_h'], layer['params']['stride_w']
-    if (padding == 'custom'):
-        p_h, p_w = layer['params']['pad_h'], layer['params']['pad_w']
-        out[layerId + 'Pad'] = ZeroPadding2D(padding=(p_h, p_w))(layer_in)
-        padding = 'valid'
-        layer_in = out[layerId + 'Pad']
-    if (layer['params']['pool'] == 1):
-        out[layerId] = AveragePooling2D(pool_size=(k_h, k_w), strides=(s_h, s_w), padding=padding)(
-                                        *layer_in)
+    if (layer_type == '1D'):
+        strides = layer['params']['stride_w']
+        kernel = layer['params']['kernel_w']
+        if (padding == 'custom'):
+            p_w = layer['params']['pad_w']
+            out[layerId + 'Pad'] = ZeroPadding1D(padding=p_w)(*layer_in)
+            padding = 'valid'
+            layer_in = out[layerId + 'Pad']
+    elif (layer_type == '2D'):
+        strides = (layer['params']['stride_h'], layer['params']['stride_w'])
+        kernel = (layer['params']['kernel_h'], layer['params']['kernel_w'])
+        if (padding == 'custom'):
+            p_h, p_w = layer['params']['pad_h'], layer['params']['pad_w']
+            out[layerId + 'Pad'] = ZeroPadding2D(padding=(p_h, p_w))(*layer_in)
+            padding = 'valid'
+            layer_in = out[layerId + 'Pad']
     else:
-        out[layerId] = MaxPooling2D(pool_size=(k_h, k_w), strides=(s_h, s_w), padding=padding)(
-                                    *layer_in)
+        strides = (layer['params']['stride_h'], layer['params']['stride_w'],
+                   layer['params']['stride_d'])
+        kernel = (layer['params']['kernel_h'], layer['params']['kernel_w'],
+                  layer['params']['kernel_d'])
+        if (padding == 'custom'):
+            p_h, p_w, p_d = layer['params']['pad_h'], layer['params']['pad_w'],\
+                            layer['params']['pad_d']
+            out[layerId + 'Pad'] = ZeroPadding3D(padding=(p_h, p_w, p_d))(*layer_in)
+            padding = 'valid'
+            layer_in = out[layerId + 'Pad']
+    out[layerId] = poolMap[(layer_type, pool_type)](pool_size=kernel, strides=strides, padding=padding)(
+                                                    *layer_in)
     return out
 
 

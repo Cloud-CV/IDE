@@ -17,7 +17,7 @@ def Convolution(layer):
         params['kernel_w'] = layer.kernel_size[0]
         params['stride_w'] = layer.strides[0]
         params['dilation_w'] = layer.dilation_rate[0]
-        params['pad_h'] = get_padding([params['kernel_w'], -1, -1,
+        params['pad_w'] = get_padding([params['kernel_w'], -1, -1,
                                       params['stride_w'], -1, -1],
                                       layer.input_shape, layer.output_shape,
                                       layer.padding.lower(), '1D')
@@ -90,26 +90,68 @@ def Deconvolution(layer):
 def Pooling(layer):
     params = {}
     poolMap = {
-        'MaxPooling2D': 0,
-        'GlobalMaxPooling2D': 0,
-        'AveragePooling2D': 1,
-        'GlobalAveragePooling2D': 1
+        'MaxPooling1D': 'MAX',
+        'MaxPooling2D': 'MAX',
+        'MaxPooling3D': 'MAX',
+        'AveragePooling1D': 'AVE',
+        'AveragePooling2D': 'AVE',
+        'AveragePooling3D': 'AVE',
+        'GlobalMaxPooling1D': 'MAX',
+        'GlobalMaxPooling2D': 'MAX',
+        'GlobalAveragePooling1D': 'AVE',
+        'GlobalAveragePooling2D': 'AVE'
     }
-    if (layer.__class__.__name__ in ['GlobalAveragePooling2D', 'GlobalMaxPooling2D']):
+    if (layer.__class__.__name__ in ['GlobalAveragePooling1D', 'GlobalMaxPooling1D']):
+        input_shape = layer.input_shape
+        params['kernel_w'] = params['stride_w'] = input_shape[1]
+        padding = 'valid'
+        params['layer_type'] = '1D'
+        params['pad_w'] = get_padding([params['kernel_w'], -1, -1,
+                                      params['stride_w'], -1, -1],
+                                      layer.input_shape, layer.output_shape,
+                                      padding, '1D')
+    elif (layer.__class__.__name__ in ['GlobalAveragePooling2D', 'GlobalMaxPooling2D']):
         input_shape = layer.input_shape
         params['kernel_h'] = params['stride_h'] = input_shape[2]
         params['kernel_w'] = params['stride_w'] = input_shape[1]
         padding = 'valid'
+        params['layer_type'] = '2D'
+        params['pad_h'], params['pad_w'] = get_padding([params['kernel_w'], params['kernel_h'], -1,
+                                                       params['stride_w'], params['stride_h'], -1],
+                                                       layer.input_shape, layer.output_shape,
+                                                       padding, '2D')
     else:
-        params['kernel_w'], params['kernel_h'] = layer.pool_size
-        params['stride_w'], params['stride_h'] = layer.strides
         padding = layer.padding.lower()
-    params['pad_h'], params['pad_w'] = get_padding([params['kernel_w'], params['kernel_h'], -1,
-                                                   params['stride_w'], params['stride_h'], -1],
-                                                   layer.input_shape, layer.output_shape,
-                                                   padding, '2D')
+        if (layer.__class__.__name__ in ['MaxPooling1D', 'AveragePooling1D']):
+            params['kernel_w'] = layer.pool_size[0]
+            params['stride_w'] = layer.strides[0]
+            params['layer_type'] = '1D'
+            params['pad_w'] = get_padding([params['kernel_w'], -1, -1,
+                                           params['stride_w'], -1, -1],
+                                          layer.input_shape, layer.output_shape,
+                                          padding, '1D')
+        elif (layer.__class__.__name__ in ['MaxPooling2D', 'AveragePooling2D']):
+            params['kernel_w'], params['kernel_h'] = layer.pool_size
+            params['stride_w'], params['stride_h'] = layer.strides
+            params['layer_type'] = '2D'
+            params['pad_h'], params['pad_w'] = get_padding([params['kernel_w'], params['kernel_h'], -1,
+                                                            params['stride_w'], params['stride_h'], -1],
+                                                           layer.input_shape, layer.output_shape,
+                                                           padding, '2D')
+        else:
+            params['kernel_h'], params['kernel_w'], params['kernel_d'] = layer.pool_size
+            params['stride_h'], params['stride_w'], params['stride_d'] = layer.strides
+            params['layer_type'] = '3D'
+            params['pad_h'], params['pad_w'], params['pad_d'] = get_padding([params['kernel_w'],
+                                                                            params['kernel_h'],
+                                                                            params['kernel_d'],
+                                                                            params['stride_w'],
+                                                                            params['stride_h'],
+                                                                            params['stride_d']],
+                                                                            layer.input_shape,
+                                                                            layer.output_shape,
+                                                                            padding, '3D')
     params['pool'] = poolMap[layer.__class__.__name__]
-    params['layer_type'] = '2D'
     return jsonLayer('Pooling', params, layer)
 
 

@@ -653,6 +653,13 @@ export default {
         options: ['1D', '2D', '3D'],
         required: false
       },
+      pool: {
+        name: 'Pooling method',
+        value: 'MAX',
+        type: 'select',
+        options: ['MAX', 'AVE', 'STOCHASTIC'],
+        required: false
+      },
       pad_h: {
         name: 'Padding height',
         value: 0,
@@ -675,13 +682,13 @@ export default {
         name: 'Kernel height',
         value: '',
         type: 'number',
-        required: true
+        required: false
       },
       kernel_w: {
         name: 'Kernel width',
         value: '',
         type: 'number',
-        required: false
+        required: true
       },
       kernel_d: {
         name: 'Kernel depth',
@@ -705,13 +712,6 @@ export default {
         name: 'Stride depth',
         value: 1,
         type: 'number',
-        required: false
-      },
-      pool: {
-        name: 'Pooling method',
-        value: 'MAX',
-        type: 'select',
-        options: ['MAX', 'AVE', 'STOCHASTIC'],
         required: false
       }
     },
