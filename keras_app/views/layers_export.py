@@ -54,12 +54,6 @@ def convolution(layer, layer_in, layerId):
     }
     out = {}
     padding = get_padding(layer)
-    k_h, k_w, k_d = layer['params']['kernel_h'], layer['params']['kernel_w'],\
-        layer['params']['kernel_d']
-    s_h, s_w, s_d = layer['params']['stride_h'], layer['params']['stride_w'],\
-        layer['params']['stride_d']
-    d_h, d_w, d_d = layer['params']['dilation_h'], layer['params']['dilation_w'],\
-        layer['params']['dilation_d']
     if (layer['params']['weight_filler'] in fillerMap):
         kernel_initializer = fillerMap[layer['params']['weight_filler']]
     else:
@@ -82,17 +76,20 @@ def convolution(layer, layer_in, layerId):
     use_bias = layer['params']['use_bias']
     layer_type = layer['params']['layer_type']
     if (layer_type == '1D'):
-        strides = s_w
-        kernel = k_w
-        dilation_rate = d_h
+        strides = layer['params']['stride_w']
+        kernel = layer['params']['kernel_w']
+        dilation_rate = layer['params']['dilation_w']
     elif (layer_type == '2D'):
-        strides = (s_h, s_w)
-        kernel = (k_h, k_w)
-        dilation_rate = (d_h, d_w)
+        strides = (layer['params']['stride_h'], layer['params']['stride_w'])
+        kernel = (layer['params']['kernel_h'], layer['params']['kernel_w'])
+        dilation_rate = (layer['params']['dilation_h'], layer['params']['dilation_w'])
     else:
-        strides = (s_h, s_w, s_d)
-        kernel = (k_h, k_w, k_d)
-        dilation_rate = (d_h, d_w, d_d)
+        strides = (layer['params']['stride_h'], layer['params']['stride_w'],
+                   layer['params']['stride_d'])
+        kernel = (layer['params']['kernel_h'], layer['params']['kernel_w'],
+                  layer['params']['kernel_d'])
+        dilation_rate = (layer['params']['dilation_h'], layer['params']['dilation_w'],
+                         layer['params']['dilation_d'])
     out[layerId] = convMap[layer_type](filters, kernel, strides=strides, padding=padding,
                                        dilation_rate=dilation_rate,
                                        kernel_initializer=kernel_initializer,
@@ -358,20 +355,27 @@ def get_padding(layer):
     if (layer['info']['type'] == 'Deconvolution'):
         _, i_h, i_w = layer['shape']['output']
         _, o_h, o_w = layer['shape']['input']
+        k_h, k_w = layer['params']['kernel_h'], layer['params']['kernel_w']
+        s_h, s_w = layer['params']['stride_h'], layer['params']['stride_w']
     else:
         if (layer['params']['layer_type'] == '1D'):
             i_w = layer['shape']['input'][0]
             o_w = layer['shape']['output'][1]
+            k_w = layer['params']['kernel_w']
+            s_w = layer['params']['stride_w']
+
         elif (layer['params']['layer_type'] == '2D'):
             _, i_h, i_w = layer['shape']['input']
             _, o_h, o_w = layer['shape']['output']
+            k_h, k_w = layer['params']['kernel_h'], layer['params']['kernel_w']
+            s_h, s_w = layer['params']['stride_h'], layer['params']['stride_w']
         else:
             _, i_h, i_w, i_d = layer['shape']['input']
             _, o_h, o_w, o_d = layer['shape']['output']
-    k_h, k_w, k_d = layer['params']['kernel_h'], layer['params']['kernel_w'],\
-        layer['params']['kernel_d']
-    s_h, s_w, s_d = layer['params']['stride_h'], layer['params']['stride_w'],\
-        layer['params']['stride_d']
+            k_h, k_w, k_d = layer['params']['kernel_h'], layer['params']['kernel_w'],\
+                layer['params']['kernel_d']
+            s_h, s_w, s_d = layer['params']['stride_h'], layer['params']['stride_w'],\
+                layer['params']['stride_d']
     if (layer['params']['layer_type'] == '1D'):
         s_o_w = np.ceil(i_w / float(s_w))
         if (o_w == s_o_w):

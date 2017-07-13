@@ -61,7 +61,8 @@
             "use_bias": true, 
             "bias_regularizer": "None", 
             "bias_constraint": "None", 
-            "kernel_regularizer": "None"
+            "kernel_regularizer": "None",
+            "layer_type": "2D"
         }, 
         "shape": {
             "input": [
@@ -104,7 +105,8 @@
             "use_bias": true, 
             "bias_regularizer": "None", 
             "bias_constraint": "None", 
-            "kernel_regularizer": "None"
+            "kernel_regularizer": "None",
+            "layer_type": "2D"
         }, 
         "shape": {
             "input": [
@@ -358,7 +360,8 @@
             "pad_w": 0, 
             "pool": 1, 
             "stride_h": 2, 
-            "stride_w": 2
+            "stride_w": 2,
+            "layer_type": "2D"
         }, 
         "shape": {
             "input": [

@@ -66,10 +66,10 @@ def Deconvolution(layer):
     params['kernel_h'], params['kernel_w'] = layer.kernel_size
     params['stride_h'], params['stride_w'] = layer.strides
     params['dilation_h'], params['dilation_w'] = layer.dilation_rate
-    params['pad_h'], params['pad_w'] = get_padding(params['kernel_w'], params['kernel_h'],
-                                                   params['stride_w'], params['stride_h'],
+    params['pad_h'], params['pad_w'] = get_padding([params['kernel_w'], params['kernel_h'], -1,
+                                                    params['stride_w'], params['stride_h'], -1],
                                                    layer.input_shape, layer.output_shape,
-                                                   layer.padding.lower())
+                                                   layer.padding.lower(), '2D')
     params['weight_filler'] = layer.kernel_initializer.__class__.__name__
     params['bias_filler'] = layer.bias_initializer.__class__.__name__
     params['num_output'] = layer.filters
@@ -109,6 +109,7 @@ def Pooling(layer):
                                                    layer.input_shape, layer.output_shape,
                                                    padding, '2D')
     params['pool'] = poolMap[layer.__class__.__name__]
+    params['layer_type'] = '2D'
     return jsonLayer('Pooling', params, layer)
 
 
