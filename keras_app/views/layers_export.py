@@ -169,6 +169,10 @@ def pooling(layer, layer_in, layerId):
     out = {}
     layer_type = layer['params']['layer_type']
     pool_type = layer['params']['pool']
+    if (pool_type == 0):
+        pool_type = 'MAX'
+    else:
+        pool_type = 'AVE'
     padding = get_padding(layer)
     if (layer_type == '1D'):
         strides = layer['params']['stride_w']
