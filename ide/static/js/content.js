@@ -290,7 +290,7 @@ class Content extends React.Component {
             layer.params[param] = [layer.params[param], false];
           }
         });
-        if (type == 'Convolution' || type == 'Pooling'){
+        if (type == 'Convolution' || type == 'Pooling' || type == 'Upsample'){
           layer = this.adjustParameters(layer, 'layer_type', layer.params['layer_type'][0]);
         }
         // layer.props = JSON.parse(JSON.stringify(data[type].props));
@@ -391,6 +391,20 @@ class Content extends React.Component {
             layer.params['dilation_h'] = [layer.params['dilation_h'][0], false];
             layer.params['dilation_d'] = [layer.params['dilation_d'][0], false];
           }
+        }
+      }
+      else if (layer.info['type'] == 'Upsample'){
+        if (value == '1D'){
+          layer.params['size_h'] = [layer.params['size_h'][0], true];
+          layer.params['size_d'] = [layer.params['size_d'][0], true];
+        }
+        else if (value == '2D'){
+          layer.params['size_h'] = [layer.params['size_h'][0], false];
+          layer.params['size_d'] = [layer.params['size_d'][0], true];
+        }
+        else{
+          layer.params['size_h'] = [layer.params['size_h'][0], false];
+          layer.params['size_d'] = [layer.params['size_d'][0], false];
         }
       }
     }

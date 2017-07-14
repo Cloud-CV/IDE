@@ -155,6 +155,20 @@ def Pooling(layer):
     return jsonLayer('Pooling', params, layer)
 
 
+def Upsample(layer):
+    params = {}
+    if (layer.__class__.__name__ == 'UpSampling1D'):
+        params['size_w'] = layer.size
+        params['layer_type'] = '1D'
+    elif (layer.__class__.__name__ == 'UpSampling2D'):
+        params['size_w'], params['size_h'] = layer.size
+        params['layer_type'] = '2D'
+    else:
+        params['size_w'], params['size_h'], params['size_d'] = layer.size
+        params['layer_type'] = '3D'
+    return jsonLayer('Upsample', params, layer)
+
+
 # ********** Common Layers **********
 def Dense(layer):
     params = {}

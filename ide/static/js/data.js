@@ -702,7 +702,7 @@ export default {
     params: {
       layer_type: { // Only Keras
         name: 'Type',
-        value: '2D',
+        value: '3D',
         type: 'select',
         options: ['1D', '2D', '3D'],
         required: false
@@ -771,6 +771,55 @@ export default {
       caffe: {
         name: 'Available Caffe',
         value: true,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
+  Upsample: { // Only Keras
+    name: 'upsample',
+    color: '#3f51b5',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      layer_type: {
+        name: 'Type',
+        value: '3D',
+        type: 'select',
+        options: ['1D', '2D', '3D'],
+        required: false
+      },
+      size_h: {
+        name: 'Size height',
+        value: 1,
+        type: 'number',
+        required: false
+      },
+      size_w: {
+        name: 'Size width',
+        value: 1,
+        type: 'number',
+        required: true
+      },
+      size_d: {
+        name: 'Size depth',
+        value: 1,
+        type: 'number',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: false,
         type: 'checkbox',
         required: false
       }

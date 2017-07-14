@@ -36,7 +36,7 @@ def filter(layer):
         return [num_out, o_h, o_w]
     else:
         if (layer['params']['layer_type'] == '1D'):
-            i_w = layer['shape']['input'][0]
+            _, i_w = layer['shape']['input']
             k_w = layer['params']['kernel_w']
             s_w = layer['params']['stride_w']
             p_w = layer['params']['pad_w']
@@ -63,6 +63,28 @@ def filter(layer):
             o_d = int((i_d + 2 * p_d - k_d) / float(s_d) + 1)
             return [num_out, o_h, o_w, o_d]
     return
+
+
+def upsample(layer):
+    if (layer['params']['layer_type'] == '1D'):
+        num_out, i_w = layer['shape']['input']
+        s_w = layer['params']['size_w']
+        o_w = int(i_w*s_w)
+        return [num_out, o_w]
+    elif (layer['params']['layer_type'] == '2D'):
+        num_out, i_h, i_w = layer['shape']['input']
+        s_h, s_w = layer['params']['size_h'], layer['params']['size_w']
+        o_w = int(i_w*s_w)
+        o_h = int(i_h*s_h)
+        return [num_out, o_h, o_w]
+    else:
+        num_out, i_h, i_w, i_d = layer['shape']['input']
+        s_h, s_w, s_d = layer['params']['size_h'], layer['params']['size_w'],\
+            layer['params']['size_d']
+        o_w = int(i_w*s_w)
+        o_h = int(i_h*s_h)
+        o_d = int(i_d*s_d)
+        return [num_out, o_h, o_w, o_d]
 
 
 def output(layer):
@@ -120,6 +142,9 @@ def get_shapes(net):
 
         elif(net[layerId]['info']['type'] == 'Reshape'):
             net[layerId]['shape']['output'] = reshape(net[layerId])
+
+        elif(net[layerId]['info']['type'] == 'Upsample'):
+            net[layerId]['shape']['output'] = upsample(net[layerId])
 
         elif(net[layerId]['info']['type'] in ['SPP', 'Crop']):
             raise Exception('Cannot determine shape of ' + net[layerId]['info']['type'] + 'layer.')

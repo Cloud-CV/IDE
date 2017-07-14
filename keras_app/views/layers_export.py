@@ -2,6 +2,7 @@ import numpy as np
 
 from keras.layers import Dense, Activation, Dropout, Flatten, Reshape
 from keras.layers import Conv1D, Conv2D, Conv3D, Conv2DTranspose
+from keras.layers import UpSampling1D, UpSampling2D, UpSampling3D
 from keras.layers import MaxPooling1D, MaxPooling2D, MaxPooling3D
 from keras.layers import AveragePooling1D, AveragePooling2D, AveragePooling3D
 from keras.layers import ZeroPadding1D, ZeroPadding2D, ZeroPadding3D
@@ -154,6 +155,25 @@ def deconvolution(layer, layer_in, layerId):
                                    activity_regularizer=activity_regularizer, use_bias=use_bias,
                                    bias_constraint=bias_constraint,
                                    kernel_constraint=kernel_constraint)(*layer_in)
+    return out
+
+
+def upsample(layer, layer_in, layerId):
+    upsampleMap = {
+        '1D': UpSampling1D,
+        '2D': UpSampling2D,
+        '3D': UpSampling3D
+    }
+    out = {}
+    layer_type = layer['params']['layer_type']
+    if (layer_type == '1D'):
+        size = layer['params']['size_w']
+    elif (layer_type == '2D'):
+        size = (layer['params']['size_h'], layer['params']['size_w'])
+    else:
+        size = (layer['params']['size_h'], layer['params']['size_w'],
+                layer['params']['size_d'])
+    out[layerId] = upsampleMap[layer_type](size=size)(*layer_in)
     return out
 
 

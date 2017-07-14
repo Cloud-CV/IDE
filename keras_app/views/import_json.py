@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from layers_import import Input, Convolution, Deconvolution, Pooling, Dense, Dropout, Embed,\
     Recurrent, BatchNorm, Activation, LeakyReLU, PReLU, ELU, Scale, Flatten, Reshape, Concat, \
-    Eltwise, Padding
+    Eltwise, Padding, Upsample
 from keras.models import model_from_json, Sequential
 
 
@@ -28,6 +28,9 @@ def importJson(request):
         'Conv1D': Convolution,
         'Conv2D': Convolution,
         'Conv3D': Convolution,
+        'UpSampling1D': Upsample,
+        'UpSampling2D': Upsample,
+        'UpSampling3D': Upsample,
         'Conv2DTranspose': Deconvolution,
         'MaxPooling1D': Pooling,
         'MaxPooling2D': Pooling,
