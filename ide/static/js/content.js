@@ -188,6 +188,7 @@ class Content extends React.Component {
           net_name: this.state.net_name
         },
         success : function (response) {
+
           if (response.result == 'success' && framework == 'url'){
             var id = response.url.split('/')[2];
             id = id.split('.')[0];
@@ -353,39 +354,42 @@ class Content extends React.Component {
     if (para == 'layer_type'){
       if (layer.info['type'] == 'Convolution' || layer.info['type'] == 'Pooling'){
         if (value == '1D'){
-          layer.params['kernel_h'] = [layer.params['kernel_h'][0], true]
-          layer.params['kernel_d'] = [layer.params['kernel_d'][0], true]
-          layer.params['pad_h'] = [layer.params['pad_h'][0], true]
-          layer.params['pad_d'] = [layer.params['pad_d'][0], true]
-          layer.params['stride_h'] = [layer.params['stride_h'][0], true]
-          layer.params['stride_d'] = [layer.params['stride_d'][0], true]
+          layer.params['caffe'] = [false, false];
+          layer.params['kernel_h'] = [layer.params['kernel_h'][0], true];
+          layer.params['kernel_d'] = [layer.params['kernel_d'][0], true];
+          layer.params['pad_h'] = [layer.params['pad_h'][0], true];
+          layer.params['pad_d'] = [layer.params['pad_d'][0], true];
+          layer.params['stride_h'] = [layer.params['stride_h'][0], true];
+          layer.params['stride_d'] = [layer.params['stride_d'][0], true];
           if (layer.info['type'] == 'Convolution'){
-            layer.params['dilation_h'] = [layer.params['dilation_h'][0], true]
-            layer.params['dilation_d'] = [layer.params['dilation_d'][0], true]
+            layer.params['dilation_h'] = [layer.params['dilation_h'][0], true];
+            layer.params['dilation_d'] = [layer.params['dilation_d'][0], true];
           }
         }
         else if (value == '2D'){
-          layer.params['kernel_h'] = [layer.params['kernel_h'][0], false]
-          layer.params['kernel_d'] = [layer.params['kernel_d'][0], true]
-          layer.params['pad_h'] = [layer.params['pad_h'][0], false]
-          layer.params['pad_d'] = [layer.params['pad_d'][0], true]
-          layer.params['stride_h'] = [layer.params['stride_h'][0], false]
-          layer.params['stride_d'] = [layer.params['stride_d'][0], true]
+          layer.params['caffe'] = [true, false];
+          layer.params['kernel_h'] = [layer.params['kernel_h'][0], false];
+          layer.params['kernel_d'] = [layer.params['kernel_d'][0], true];
+          layer.params['pad_h'] = [layer.params['pad_h'][0], false];
+          layer.params['pad_d'] = [layer.params['pad_d'][0], true];
+          layer.params['stride_h'] = [layer.params['stride_h'][0], false];
+          layer.params['stride_d'] = [layer.params['stride_d'][0], true];
           if (layer.info['type'] == 'Convolution'){
-            layer.params['dilation_h'] = [layer.params['dilation_h'][0], false]
-            layer.params['dilation_d'] = [layer.params['dilation_d'][0], true]
+            layer.params['dilation_h'] = [layer.params['dilation_h'][0], false];
+            layer.params['dilation_d'] = [layer.params['dilation_d'][0], true];
           }
         }
         else {
-          layer.params['kernel_h'] = [layer.params['kernel_h'][0], false]
-          layer.params['kernel_d'] = [layer.params['kernel_d'][0], false]
-          layer.params['pad_h'] = [layer.params['pad_h'][0], false]
-          layer.params['pad_d'] = [layer.params['pad_d'][0], false]
-          layer.params['stride_h'] = [layer.params['stride_h'][0], false]
-          layer.params['stride_d'] = [layer.params['stride_d'][0], false]
+          layer.params['caffe'] = [false, false];
+          layer.params['kernel_h'] = [layer.params['kernel_h'][0], false];
+          layer.params['kernel_d'] = [layer.params['kernel_d'][0], false];
+          layer.params['pad_h'] = [layer.params['pad_h'][0], false];
+          layer.params['pad_d'] = [layer.params['pad_d'][0], false];
+          layer.params['stride_h'] = [layer.params['stride_h'][0], false];
+          layer.params['stride_d'] = [layer.params['stride_d'][0], false];
           if (layer.info['type'] == 'Convolution'){
-            layer.params['dilation_h'] = [layer.params['dilation_h'][0], false]
-            layer.params['dilation_d'] = [layer.params['dilation_d'][0], false]
+            layer.params['dilation_h'] = [layer.params['dilation_h'][0], false];
+            layer.params['dilation_d'] = [layer.params['dilation_d'][0], false];
           }
         }
       }

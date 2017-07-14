@@ -54,16 +54,19 @@ class SetParams extends React.Component {
       }
 
       Object.keys(data[layer.info.type].params).forEach(param => {
-        params.push(
-          <Field
-            id={param}
-            key={param}
-            data={data[layer.info.type].params[param]}
-            value={layer.params[param][0]}
-            disabled={((layer.info.phase === null) && (this.props.selectedPhase === 1) && (data[layer.info.type].learn)) || (layer.params[param][1])}
-            changeField={this.changeParams}
-          />
-        );
+        if (param != 'caffe'){
+          params.push(
+            <Field
+              id={param}
+              key={param}
+              data={data[layer.info.type].params[param]}
+              value={layer.params[param][0]}
+              disabled={((layer.info.phase === null) && (this.props.selectedPhase === 1) && (data[layer.info.type].learn)) || 
+                (layer.params[param][1])}
+              changeField={this.changeParams}
+            />
+          );
+        }
       });
 
       Object.keys(data[layer.info.type].props).forEach(prop => {

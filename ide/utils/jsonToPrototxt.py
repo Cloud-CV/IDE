@@ -118,6 +118,13 @@ def jsonToPrototxt(net, net_name):
         layerParams = layer['params']
         layerType = layer['info']['type']
         layerPhase = layer['info']['phase']
+        if (not layerParams['caffe']):
+            if ('layer_type' in layerParams):
+                raise Exception('Cannot export layer of type ' + layerType + ' ' + layerParams['layer_type']
+                                + ' to Caffe.')
+            else:
+                raise Exception('Cannot export layer of type ' + layerType + ' to Caffe.')
+
         # ********** Data Layers **********
         if (layerType in hasTransformParam):
             transform_param = {}

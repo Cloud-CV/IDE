@@ -97,6 +97,12 @@ export default {
         value: false,
         type: 'checkbox',
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -188,6 +194,12 @@ export default {
         value: false,
         type: 'checkbox',
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -224,6 +236,12 @@ export default {
         value: false,
         type: 'checkbox',
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -248,6 +266,12 @@ export default {
         value: '',
         type: 'text',
         required: true
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -272,6 +296,12 @@ export default {
         value: '',
         type: 'text',
         required: true
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -387,6 +417,12 @@ export default {
         value: false,
         type: 'checkbox',
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -430,6 +466,12 @@ export default {
         value: '',
         type: 'number',
         required: true
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -460,6 +502,12 @@ export default {
         value: '',
         type: 'text',
         required: true
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -627,6 +675,12 @@ export default {
         value: true,
         type: 'checkbox',
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -713,6 +767,12 @@ export default {
         value: 1,
         type: 'number',
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -742,6 +802,12 @@ export default {
         name: 'offset',
         value: '0',
         type: 'number',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
         required: false
       }
     },
@@ -774,6 +840,12 @@ export default {
         value: '',
         type: 'number',
         required: true
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -908,6 +980,12 @@ export default {
         value: true,
         type: 'checkbox',
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -965,6 +1043,12 @@ export default {
       expose_hidden: {
         name: 'Expose Hidden',
         value: false,
+        type: 'checkbox',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
         type: 'checkbox',
         required: false
       }
@@ -1100,6 +1184,12 @@ export default {
         value: 0.0,
         type: 'number',
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -1233,6 +1323,12 @@ export default {
         value: 0.0,
         type: 'number',
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -1321,6 +1417,12 @@ export default {
         value: true,
         type: 'checkbox',
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -1342,6 +1444,12 @@ export default {
     params: {
       inplace: {
         name: 'Inplace operation',
+        value: true,
+        type: 'checkbox',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
         value: true,
         type: 'checkbox',
         required: false
@@ -1429,6 +1537,12 @@ export default {
         value: null,
         type: 'number',
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -1485,6 +1599,12 @@ export default {
         type: 'select',
         options: ['ACROSS_CHANNELS', 'WITHIN_CHANNEL'],
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -1526,6 +1646,12 @@ export default {
         name: 'Epsilon',
         value: 1e-9,
         type: 'float',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
         required: false
       }
     },
@@ -1585,6 +1711,12 @@ export default {
         options: ['Zeros', 'Ones', 'Constant', 'RandomNormal', 'RandomUniform', 'TruncatedNormal', 'VarianceScaling', 'Orthogonal', 'Identity',
         'lecun_uniform', 'glorot_normal', 'glorot_uniform', 'he_normal', 'he_uniform'],
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -1616,6 +1748,12 @@ export default {
         value: 0,
         type: 'number',
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -1644,6 +1782,12 @@ export default {
       channel_shared: {
         name: 'Channel Shared',
         value: false,
+        type: 'checkbox',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
         type: 'checkbox',
         required: false
       }
@@ -1676,6 +1820,12 @@ export default {
         value: 1,
         type: 'float',
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -1697,6 +1847,12 @@ export default {
     params: {
       inplace: {
         name: 'Inplace operation',
+        value: true,
+        type: 'checkbox',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
         value: true,
         type: 'checkbox',
         required: false
@@ -1724,6 +1880,12 @@ export default {
         value: true,
         type: 'checkbox',
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -1745,6 +1907,12 @@ export default {
     params: {
       inplace: {
         name: 'Inplace operation',
+        value: true,
+        type: 'checkbox',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
         value: true,
         type: 'checkbox',
         required: false
@@ -1790,6 +1958,12 @@ export default {
         value: 0.0,
         type: 'float',
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -1831,6 +2005,12 @@ export default {
         name: 'Shift',
         value: 0.0,
         type: 'float',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
         required: false
       }
     },
@@ -1874,6 +2054,12 @@ export default {
         value: 0.0,
         type: 'float',
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -1895,6 +2081,12 @@ export default {
     params: {
       inplace: {
         name: 'Inplace operation',
+        value: true,
+        type: 'checkbox',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
         value: true,
         type: 'checkbox',
         required: false
@@ -1927,6 +2119,12 @@ export default {
         name: 'threshold',
         value: 0,
         type: 'float',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
         required: false
       }
     },
@@ -1968,6 +2166,12 @@ export default {
                   //Keras
                   'Zeros', 'Ones', 'Constant', 'RandomNormal', 'RandomUniform', 'TruncatedNormal', 'VarianceScaling', 'Orthogonal', 'Identity',
                   'lecun_uniform', 'glorot_normal', 'glorot_uniform', 'he_normal', 'he_uniform'],
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
         required: false
       }
     },
@@ -2061,6 +2265,12 @@ export default {
         type: 'select',
         options: ['None', 'max_norm', 'non_neg', 'unit_norm'],
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -2092,6 +2302,12 @@ export default {
         value: -1,
         type: 'number',
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -2116,6 +2332,12 @@ export default {
         value: '',
         type: 'text',
         required: true
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -2135,6 +2357,12 @@ export default {
       trg: ['Top']
     },
     params: {
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
+      }
     },
     props: {
       name: {
@@ -2153,6 +2381,12 @@ export default {
       trg: ['Top']
     },
     params: {
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
+      }
     },
     props: {
       name: {
@@ -2171,6 +2405,12 @@ export default {
       trg: ['Top']
     },
     params: {
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
+      }
     },
     props: {
       name: {
@@ -2206,6 +2446,12 @@ export default {
         value: 1,
         type: 'number',
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -2232,6 +2478,12 @@ export default {
         type: 'select',
         options: ['SUM', 'PROD', 'Max'],
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -2252,6 +2504,12 @@ export default {
 
     },
     params: {
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
+      }
     },
     props: {
       name: {
@@ -2275,6 +2533,12 @@ export default {
         value: '',
         type: 'text',
         required: true
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -2313,6 +2577,12 @@ export default {
         value: 1.0,
         type: 'float',
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -2333,6 +2603,12 @@ export default {
 
     },
     params: {
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
+      }
     },
     props: {
       name: {
@@ -2369,6 +2645,12 @@ export default {
         value: 0,
         type: 'number',
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -2389,6 +2671,12 @@ export default {
 
     },
     params: {
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
+      }
     },
     props: {
       name: {
@@ -2409,6 +2697,12 @@ export default {
 
     },
     params: {
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
+      }
     },
     props: {
       name: {
@@ -2438,6 +2732,12 @@ export default {
         value: 1,
         type: 'number',
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -2463,6 +2763,12 @@ export default {
         value: 1,
         type: 'number',
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -2483,6 +2789,12 @@ export default {
 
     },
     params: {
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
+      }
     },
     props: {
       name: {
@@ -2508,6 +2820,12 @@ export default {
         type: 'select',
         options: ['L1', 'L2'],
         required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
@@ -2527,6 +2845,12 @@ export default {
       trg: ['Top']
     },
     params: {
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
+      }
     },
     props: {
       name: {
@@ -2556,6 +2880,12 @@ export default {
         name: 'Axis',
         value: 1,
         type: 'number',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
         required: false
       }
     },
@@ -2587,6 +2917,12 @@ export default {
         name: 'Margin',
         value: 1.0,
         type: 'float',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
         required: false
       }
     },
@@ -2625,6 +2961,12 @@ export default {
         value: '',
         type: 'text',
         required: true
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: true,
+        type: 'checkbox',
+        required: false
       }
     },
     props: {
