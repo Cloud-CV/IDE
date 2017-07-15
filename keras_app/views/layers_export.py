@@ -6,6 +6,7 @@ from keras.layers import UpSampling1D, UpSampling2D, UpSampling3D
 from keras.layers import MaxPooling1D, MaxPooling2D, MaxPooling3D
 from keras.layers import AveragePooling1D, AveragePooling2D, AveragePooling3D
 from keras.layers import ZeroPadding1D, ZeroPadding2D, ZeroPadding3D
+from keras.layers import LocallyConnected1D, LocallyConnected2D
 from keras.layers import SimpleRNN, LSTM
 from keras.layers import Embedding
 from keras.layers import add, multiply, maximum, concatenate
@@ -223,6 +224,39 @@ def pooling(layer, layer_in, layerId):
             layer_in = out[layerId + 'Pad']
     out[layerId] = poolMap[(layer_type, pool_type)](pool_size=kernel, strides=strides, padding=padding)(
                                                     *layer_in)
+    return out
+
+
+def locallyConnected(layer, layer_in, layerId):
+    localMap = {
+        '1D': LocallyConnected1D,
+        '2D': LocallyConnected2D,
+    }
+    out = {}
+    kernel_initializer = layer['params']['kernel_initializer']
+    bias_initializer = layer['params']['bias_initializer']
+    filters = layer['params']['filters']
+    kernel_regularizer = regularizerMap[layer['params']['kernel_regularizer']]
+    bias_regularizer = regularizerMap[layer['params']['bias_regularizer']]
+    activity_regularizer = regularizerMap[layer['params']['activity_regularizer']]
+    kernel_constraint = constraintMap[layer['params']['kernel_constraint']]
+    bias_constraint = constraintMap[layer['params']['bias_constraint']]
+    use_bias = layer['params']['use_bias']
+    layer_type = layer['params']['layer_type']
+    if (layer_type == '1D'):
+        strides = layer['params']['stride_w']
+        kernel = layer['params']['kernel_w']
+    else:
+        strides = (layer['params']['stride_h'], layer['params']['stride_w'])
+        kernel = (layer['params']['kernel_h'], layer['params']['kernel_w'])
+    out[layerId] = localMap[layer_type](filters, kernel, strides=strides, padding='valid',
+                                        kernel_initializer=kernel_initializer,
+                                        bias_initializer=bias_initializer,
+                                        kernel_regularizer=kernel_regularizer,
+                                        bias_regularizer=bias_regularizer,
+                                        activity_regularizer=activity_regularizer, use_bias=use_bias,
+                                        bias_constraint=bias_constraint,
+                                        kernel_constraint=kernel_constraint)(*layer_in)
     return out
 
 

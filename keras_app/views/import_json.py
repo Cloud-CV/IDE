@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from layers_import import Input, Convolution, Deconvolution, Pooling, Dense, Dropout, Embed,\
     Recurrent, BatchNorm, Activation, LeakyReLU, PReLU, ELU, Scale, Flatten, Reshape, Concat, \
-    Eltwise, Padding, Upsample
+    Eltwise, Padding, Upsample, LocallyConnected
 from keras.models import model_from_json, Sequential
 
 
@@ -42,6 +42,8 @@ def importJson(request):
         'GlobalMaxPooling2D': Pooling,
         'GlobalAveragePooling1D': Pooling,
         'GlobalAveragePooling2D': Pooling,
+        'LocallyConnected1D': LocallyConnected,
+        'LocallyConnected2D': LocallyConnected,
         'Dense': Dense,
         'Dropout': Dropout,
         'Embedding': Embed,
@@ -65,7 +67,8 @@ def importJson(request):
         'ZeroPadding2D': Padding,
     }
 
-    hasActivation = ['Conv1D', 'Conv2D', 'Conv3D', 'Conv2DTranspose', 'Dense']
+    hasActivation = ['Conv1D', 'Conv2D', 'Conv3D', 'Conv2DTranspose', 'Dense', 'LocallyConnected1D',
+                     'LocallyConnected2D']
 
     net = {}
     # Add dummy input layer if sequential model

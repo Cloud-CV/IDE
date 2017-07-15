@@ -833,6 +833,124 @@ export default {
     },
     learn: false
   },
+  LocallyConnected: { // Only Keras
+    name: 'locally connected',
+    color: '#3f51b5',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      layer_type: {
+        name: 'Type',
+        value: '2D',
+        type: 'select',
+        options: ['1D', '2D'],
+        required: false
+      },
+      filters: {
+        name: 'No of outputs',
+        value: '',
+        type: 'number',
+        required: true
+      },
+      kernel_h: {
+        name: 'Kernel height',
+        value: '',
+        type: 'number',
+        required: false
+      },
+      kernel_w: {
+        name: 'Kernel width',
+        value: '',
+        type: 'number',
+        required: true
+      },
+      stride_h: {
+        name: 'Stride height',
+        value: 1,
+        type: 'number',
+        required: false
+      },
+      stride_w: {
+        name: 'Stride width',
+        value: 1,
+        type: 'number',
+        required: false
+      },
+      kernel_initializer: {
+        name: 'Kernel Initializer',
+        value: 'glorot_uniform',
+        type: 'select',
+        options: ['Zeros', 'Ones', 'Constant', 'RandomNormal', 'RandomUniform', 'TruncatedNormal', 'VarianceScaling', 'Orthogonal', 'Identity',
+                  'lecun_uniform', 'glorot_normal', 'glorot_uniform', 'he_normal', 'he_uniform'],
+        required: false
+      },
+      bias_initializer: {
+        name: 'Bias Initializer',
+        value: 'Zeros',
+        type: 'select',
+        options: ['Zeros', 'Ones', 'Constant', 'RandomNormal', 'RandomUniform', 'TruncatedNormal', 'VarianceScaling', 'Orthogonal', 'Identity',
+                  'lecun_uniform', 'glorot_normal', 'glorot_uniform', 'he_normal', 'he_uniform'],
+        required: false
+      },
+      kernel_regularizer: {
+        name: 'Kernel regularizer',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'l1', 'l2', 'l1_l2'],
+        required: false
+      },
+      bias_regularizer: {
+        name: 'Bias regularizer',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'l1', 'l2', 'l1_l2'],
+        required: false
+      },
+      activity_regularizer: {
+        name: 'Activity regularizer',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'l1', 'l2', 'l1_l2'],
+        required: false
+      },
+      kernel_constraint: {
+        name: 'Kernel constraint',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'max_norm', 'non_neg', 'unit_norm'],
+        required: false
+      },
+      bias_constraint: {
+        name: 'Bias constraint',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'max_norm', 'non_neg', 'unit_norm'],
+        required: false
+      },
+      use_bias: {
+        name: 'Use bias term',
+        value: true,
+        type: 'checkbox',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: false,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: true
+  },
   Crop: {
     name: 'crop',
     color: '#3f51b5',

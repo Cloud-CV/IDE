@@ -290,7 +290,7 @@ class Content extends React.Component {
             layer.params[param] = [layer.params[param], false];
           }
         });
-        if (type == 'Convolution' || type == 'Pooling' || type == 'Upsample'){
+        if (type == 'Convolution' || type == 'Pooling' || type == 'Upsample' || type == 'LocallyConnected'){
           layer = this.adjustParameters(layer, 'layer_type', layer.params['layer_type'][0]);
         }
         // layer.props = JSON.parse(JSON.stringify(data[type].props));
@@ -405,6 +405,12 @@ class Content extends React.Component {
         else{
           layer.params['size_h'] = [layer.params['size_h'][0], false];
           layer.params['size_d'] = [layer.params['size_d'][0], false];
+        }
+      }
+      else if (layer.info['type'] == 'LocallyConnected'){
+        if (value == '1D'){
+          layer.params['kernel_h'] = [layer.params['kernel_h'][0], true];
+          layer.params['stride_h'] = [layer.params['stride_h'][0], true];
         }
       }
     }

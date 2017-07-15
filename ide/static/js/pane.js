@@ -27,6 +27,7 @@ function Pane() {
       <ul className="dropdown-menu">
         <li><PaneElement id="Convolution">Convolution</PaneElement></li>
         <li><PaneElement id="Pooling">Pool</PaneElement></li>
+        <li><PaneElement id="Locally Connected">LocallyConnected</PaneElement></li>
         <li><PaneElement id="Upsample">Upsample</PaneElement></li>
         <li><PaneElement id="SPP">SPP</PaneElement></li>
         <li><PaneElement id="Crop">Crop</PaneElement></li>

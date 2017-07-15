@@ -169,6 +169,33 @@ def Upsample(layer):
     return jsonLayer('Upsample', params, layer)
 
 
+def LocallyConnected(layer):
+    params = {}
+    if (layer.__class__.__name__ == 'LocallyConnected1D'):
+        params['layer_type'] = '1D'
+        params['kernel_w'] = layer.kernel_size[0]
+        params['stride_w'] = layer.strides[0]
+    else:
+        params['layer_type'] = '2D'
+        params['kernel_h'], params['kernel_w'] = layer.kernel_size
+        params['stride_h'], params['stride_w'] = layer.strides
+    params['kernel_initializer'] = layer.kernel_initializer.__class__.__name__
+    params['bias_initializer'] = layer.bias_initializer.__class__.__name__
+    params['filters'] = layer.filters
+    if (layer.kernel_regularizer):
+        params['kernel_regularizer'] = layer.kernel_regularizer.__class__.__name__
+    if (layer.bias_regularizer):
+        params['bias_regularizer'] = layer.bias_regularizer.__class__.__name__
+    if (layer.activity_regularizer):
+        params['activity_regularizer'] = layer.activity_regularizer.__class__.__name__
+    if (layer.kernel_constraint):
+        params['kernel_constraint'] = layer.kernel_constraint.__class__.__name__
+    if (layer.bias_constraint):
+        params['bias_constraint'] = layer.bias_constraint.__class__.__name__
+    params['use_bias'] = layer.use_bias
+    return jsonLayer('LocallyConnected', params, layer)
+
+
 # ********** Common Layers **********
 def Dense(layer):
     params = {}
