@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from layers_import import Input, Convolution, Deconvolution, Pooling, Dense, Dropout, Embed,\
     Recurrent, BatchNorm, Activation, LeakyReLU, PReLU, ELU, Scale, Flatten, Reshape, Concat, \
-    Eltwise, Padding, Upsample, LocallyConnected, DepthwiseConv
+    Eltwise, Padding, Upsample, LocallyConnected, DepthwiseConv, ThresholdedReLU
 from keras.models import model_from_json, Sequential
 
 
@@ -56,9 +56,14 @@ def importJson(request):
         'relu': Activation,
         'softmax': Activation,
         'elu': ELU,
+        'selu': Activation,
+        'softplus': Activation,
+        'softsign': Activation,
+        'hard_sigmoid': Activation,
         'tanh': Activation,
         'sigmoid': Activation,
         'LeakyReLU': LeakyReLU,
+        'ThresholdedReLU': ThresholdedReLU,
         'PReLU': PReLU,
         'Flatten': Flatten,
         'Reshape': Reshape,

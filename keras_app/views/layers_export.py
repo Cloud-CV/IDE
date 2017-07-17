@@ -10,7 +10,7 @@ from keras.layers import LocallyConnected1D, LocallyConnected2D
 from keras.layers import SimpleRNN, LSTM, GRU
 from keras.layers import Embedding
 from keras.layers import add, multiply, maximum, concatenate, average, dot
-from keras.layers.advanced_activations import LeakyReLU, PReLU, ELU
+from keras.layers.advanced_activations import LeakyReLU, PReLU, ELU, ThresholdedReLU
 from keras.layers import BatchNormalization
 from keras.layers import Input
 from keras import regularizers
@@ -472,12 +472,22 @@ def activation(layer, layer_in, layerId):
         out[layerId] = PReLU()(*layer_in)
     elif (layer['info']['type'] == 'ELU'):
         out[layerId] = ELU(alpha=layer['params']['alpha'])(*layer_in)
+    elif (layer['info']['type'] == 'ThresholdedReLU'):
+        out[layerId] = ThresholdedReLU(theta=layer['params']['theta'])(*layer_in)
     elif (layer['info']['type'] == 'Sigmoid'):
         out[layerId] = Activation('sigmoid')(*layer_in)
     elif (layer['info']['type'] == 'TanH'):
         out[layerId] = Activation('tanh')(*layer_in)
     elif (layer['info']['type'] == 'Softmax'):
         out[layerId] = Activation('softmax')(*layer_in)
+    elif (layer['info']['type'] == 'SELU'):
+        out[layerId] = Activation('selu')(*layer_in)
+    elif (layer['info']['type'] == 'Softplus'):
+        out[layerId] = Activation('softplus')(*layer_in)
+    elif (layer['info']['type'] == 'Softsign'):
+        out[layerId] = Activation('softsign')(*layer_in)
+    elif (layer['info']['type'] == 'HardSigmoid'):
+        out[layerId] = Activation('hard_sigmoid')(*layer_in)
     return out
 
 

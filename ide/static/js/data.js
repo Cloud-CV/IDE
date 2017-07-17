@@ -2314,6 +2314,42 @@ export default {
     },
     learn: false
   },
+  ThresholdedReLU: {
+    name: 'Thresholded ReLU',
+    color: '#009688',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      inplace: {
+        name: 'Inplace operation',
+        value: true,
+        type: 'checkbox',
+        required: false
+      },
+      theta: {
+        name: 'Theta',
+        value: 1,
+        type: 'float',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: false,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   Sigmoid: {
     name: 'sigmoid',
     color: '#009688',
@@ -2361,6 +2397,126 @@ export default {
       caffe: {
         name: 'Available Caffe',
         value: true,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
+  SELU: {
+    name: 'selu',
+    color: '#009688',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      inplace: {
+        name: 'Inplace operation',
+        value: true,
+        type: 'checkbox',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: false,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
+  Softplus: {
+    name: 'softplus',
+    color: '#009688',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      inplace: {
+        name: 'Inplace operation',
+        value: true,
+        type: 'checkbox',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: false,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
+  Softsign: {
+    name: 'softsign',
+    color: '#009688',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      inplace: {
+        name: 'Inplace operation',
+        value: true,
+        type: 'checkbox',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: false,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
+  HardSigmoid: {
+    name: 'hard sigmoid',
+    color: '#009688',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      inplace: {
+        name: 'Inplace operation',
+        value: true,
+        type: 'checkbox',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: false,
         type: 'checkbox',
         required: false
       }

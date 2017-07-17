@@ -319,7 +319,11 @@ def Activation(layer):
         'softmax': 'Softmax',
         'relu': 'ReLU',
         'tanh': 'TanH',
-        'sigmoid': 'Sigmoid'
+        'sigmoid': 'Sigmoid',
+        'selu': 'SELU',
+        'softplus': 'Softplus',
+        'softsign': 'Softsign',
+        'hard_sigmoid': 'HardSigmoid'
     }
     if (layer.__class__.__name__ == 'Activation'):
         return jsonLayer(activationMap[layer.activation.func_name], {}, layer)
@@ -336,6 +340,11 @@ def LeakyReLU(layer):
 
 def PReLU(layer):
     return jsonLayer('PReLU', {}, layer)
+
+
+def ThresholdedReLU(layer):
+    params = {'theta': layer.theta.tolist()}
+    return jsonLayer('ThresholdedReLU', params, layer)
 
 
 def ELU(layer):
