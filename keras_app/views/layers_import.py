@@ -251,6 +251,12 @@ def Dropout(layer):
     return jsonLayer('Dropout', {}, layer)
 
 
+def Permute(layer):
+    params = {}
+    params['dim'] = str(layer.dims)[1:-1]
+    return jsonLayer('Permute', params, layer)
+
+
 def Embed(layer):
     params = {}
     params['input_dim'] = layer.input_dim

@@ -1941,6 +1941,36 @@ export default {
     },
     learn: false
   },
+  Permute: { // Only Keras
+    name: 'permute',
+    color: '#ff9800',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      dim: {
+        name: 'Dim',
+        value: '',
+        type: 'text',
+        required: true
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: false,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   Embed: {
     name: 'embed',
     color: '#ff9800',

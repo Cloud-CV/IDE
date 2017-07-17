@@ -1,6 +1,6 @@
 import numpy as np
 
-from keras.layers import Dense, Activation, Dropout, Flatten, Reshape
+from keras.layers import Dense, Activation, Dropout, Flatten, Reshape, Permute
 from keras.layers import Conv1D, Conv2D, Conv3D, Conv2DTranspose, SeparableConv2D
 from keras.layers import UpSampling1D, UpSampling2D, UpSampling3D
 from keras.layers import MaxPooling1D, MaxPooling2D, MaxPooling3D
@@ -329,6 +329,11 @@ def dense(layer, layer_in, layerId):
 
 def dropout(layer, layer_in, layerId):
     out = {layerId: Dropout(0.5)(*layer_in)}
+    return out
+
+
+def permute(layer, layer_in, layerId):
+    out = {layerId: Permute(map(int, layer['params']['dim'].split(',')))(*layer_in)}
     return out
 
 
