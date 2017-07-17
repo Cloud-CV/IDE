@@ -305,7 +305,7 @@
             "type": "Eltwise"
         }, 
         "params": {
-            "operation": 2,
+            "layer_type": 2,
             "caffe": true
         }
     }, 

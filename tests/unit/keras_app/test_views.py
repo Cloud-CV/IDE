@@ -269,7 +269,7 @@ class EltwiseImportTest(unittest.TestCase):
         response = json.loads(response.content)
         layerId = sorted(response['net'].keys())
         self.assertEqual(response['result'], 'success')
-        self.assertEqual(response['net'][layerId[0]]['params']['operation'], 1)
+        self.assertEqual(response['net'][layerId[0]]['params']['layer_type'], 'Sum')
 
 
 class ConcatImportTest(unittest.TestCase):
