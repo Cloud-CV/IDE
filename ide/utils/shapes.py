@@ -26,7 +26,7 @@ def filter(layer):
         num_out = layer['shape']['input'][0]
     else:
         num_out = layer['params']['num_output']
-    if (layer['info']['type'] == 'Deconvolution'):
+    if (layer['info']['type'] in ['Deconvolution', 'DepthwiseConv']):
         _, i_h, i_w = layer['shape']['input']
         k_h, k_w = layer['params']['kernel_h'], layer['params']['kernel_w']
         s_h, s_w = layer['params']['stride_h'], layer['params']['stride_w']
@@ -131,7 +131,7 @@ def get_shapes(net):
         if(net[layerId]['info']['type'] in dataLayers):
             net[layerId]['shape']['input'], net[layerId]['shape']['output'] = data(net[layerId])
 
-        elif(net[layerId]['info']['type'] in ['Convolution', 'Pooling', 'Deconvolution']):
+        elif(net[layerId]['info']['type'] in ['Convolution', 'Pooling', 'Deconvolution' 'DepthwiseConv']):
             net[layerId]['shape']['output'] = filter(net[layerId])
 
         elif(net[layerId]['info']['type'] in ['InnerProduct', 'Recurrent', 'RNN', 'LSTM', 'Embed']):
