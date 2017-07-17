@@ -9,7 +9,86 @@ def Input(layer):
     return jsonLayer('Input', params, layer)
 
 
-# ********** Vision Layers **********
+# ********** Core Layers **********
+def Dense(layer):
+    params = {}
+    params['weight_filler'] = layer.kernel_initializer.__class__.__name__
+    params['bias_filler'] = layer.bias_initializer.__class__.__name__
+    params['num_output'] = layer.units
+    if (layer.kernel_regularizer):
+        params['kernel_regularizer'] = layer.kernel_regularizer.__class__.__name__
+    if (layer.bias_regularizer):
+        params['bias_regularizer'] = layer.bias_regularizer.__class__.__name__
+    if (layer.activity_regularizer):
+        params['activity_regularizer'] = layer.activity_regularizer.__class__.__name__
+    if (layer.kernel_constraint):
+        params['kernel_constraint'] = layer.kernel_constraint.__class__.__name__
+    if (layer.bias_constraint):
+        params['bias_constraint'] = layer.bias_constraint.__class__.__name__
+    params['use_bias'] = layer.use_bias
+    return jsonLayer('InnerProduct', params, layer)
+
+
+def Activation(layer):
+    activationMap = {
+        'softmax': 'Softmax',
+        'relu': 'ReLU',
+        'tanh': 'TanH',
+        'sigmoid': 'Sigmoid',
+        'selu': 'SELU',
+        'softplus': 'Softplus',
+        'softsign': 'Softsign',
+        'hard_sigmoid': 'HardSigmoid'
+    }
+    if (layer.__class__.__name__ == 'Activation'):
+        return jsonLayer(activationMap[layer.activation.func_name], {}, layer)
+    else:
+        tempLayer = {}
+        tempLayer['inbound_nodes'] = [[[layer.name + layer.__class__.__name__]]]
+        return jsonLayer(activationMap[layer.activation.func_name], {}, tempLayer)
+
+
+def Dropout(layer):
+    return jsonLayer('Dropout', {}, layer)
+
+
+def Flatten(layer):
+    return jsonLayer('Flatten', {}, layer)
+
+
+def Reshape(layer):
+    params = {}
+    shape = layer.target_shape
+    params['dim'] = str([1, shape[2], shape[0], shape[1]])[1:-1]
+    return jsonLayer('Reshape', params, layer)
+
+
+def Permute(layer):
+    params = {}
+    params['dim'] = str(layer.dims)[1:-1]
+    return jsonLayer('Permute', params, layer)
+
+
+def RepeatVector(layer):
+    params = {}
+    params['n'] = layer.n
+    return jsonLayer('RepeatVector', params, layer)
+
+
+def ActivityRegularization(layer):
+    params = {}
+    params['l1'] = layer.l1
+    params['l2'] = layer.l2
+    return jsonLayer('Regularization', params, layer)
+
+
+def Masking(layer):
+    params = {}
+    params['mask_value'] = layer.mask_value
+    return jsonLayer('Masking', params, layer)
+
+
+# ********** Convolutional Layers **********
 def Convolution(layer):
     params = {}
     if (layer.__class__.__name__ == 'Conv1D'):
@@ -61,32 +140,6 @@ def Convolution(layer):
     return jsonLayer('Convolution', params, layer)
 
 
-def Deconvolution(layer):
-    params = {}
-    params['kernel_h'], params['kernel_w'] = layer.kernel_size
-    params['stride_h'], params['stride_w'] = layer.strides
-    params['dilation_h'], params['dilation_w'] = layer.dilation_rate
-    params['pad_h'], params['pad_w'] = get_padding([params['kernel_w'], params['kernel_h'], -1,
-                                                    params['stride_w'], params['stride_h'], -1],
-                                                   layer.input_shape, layer.output_shape,
-                                                   layer.padding.lower(), '2D')
-    params['weight_filler'] = layer.kernel_initializer.__class__.__name__
-    params['bias_filler'] = layer.bias_initializer.__class__.__name__
-    params['num_output'] = layer.filters
-    if (layer.kernel_regularizer):
-        params['kernel_regularizer'] = layer.kernel_regularizer.__class__.__name__
-    if (layer.bias_regularizer):
-        params['bias_regularizer'] = layer.bias_regularizer.__class__.__name__
-    if (layer.activity_regularizer):
-        params['activity_regularizer'] = layer.activity_regularizer.__class__.__name__
-    if (layer.kernel_constraint):
-        params['kernel_constraint'] = layer.kernel_constraint.__class__.__name__
-    if (layer.bias_constraint):
-        params['bias_constraint'] = layer.bias_constraint.__class__.__name__
-    params['use_bias'] = layer.use_bias
-    return jsonLayer('Deconvolution', params, layer)
-
-
 def DepthwiseConv(layer):
     params = {}
     params['filters'] = layer.filters
@@ -118,6 +171,47 @@ def DepthwiseConv(layer):
     return jsonLayer('DepthwiseConv', params, layer)
 
 
+def Deconvolution(layer):
+    params = {}
+    params['kernel_h'], params['kernel_w'] = layer.kernel_size
+    params['stride_h'], params['stride_w'] = layer.strides
+    params['dilation_h'], params['dilation_w'] = layer.dilation_rate
+    params['pad_h'], params['pad_w'] = get_padding([params['kernel_w'], params['kernel_h'], -1,
+                                                    params['stride_w'], params['stride_h'], -1],
+                                                   layer.input_shape, layer.output_shape,
+                                                   layer.padding.lower(), '2D')
+    params['weight_filler'] = layer.kernel_initializer.__class__.__name__
+    params['bias_filler'] = layer.bias_initializer.__class__.__name__
+    params['num_output'] = layer.filters
+    if (layer.kernel_regularizer):
+        params['kernel_regularizer'] = layer.kernel_regularizer.__class__.__name__
+    if (layer.bias_regularizer):
+        params['bias_regularizer'] = layer.bias_regularizer.__class__.__name__
+    if (layer.activity_regularizer):
+        params['activity_regularizer'] = layer.activity_regularizer.__class__.__name__
+    if (layer.kernel_constraint):
+        params['kernel_constraint'] = layer.kernel_constraint.__class__.__name__
+    if (layer.bias_constraint):
+        params['bias_constraint'] = layer.bias_constraint.__class__.__name__
+    params['use_bias'] = layer.use_bias
+    return jsonLayer('Deconvolution', params, layer)
+
+
+def Upsample(layer):
+    params = {}
+    if (layer.__class__.__name__ == 'UpSampling1D'):
+        params['size_w'] = layer.size
+        params['layer_type'] = '1D'
+    elif (layer.__class__.__name__ == 'UpSampling2D'):
+        params['size_w'], params['size_h'] = layer.size
+        params['layer_type'] = '2D'
+    else:
+        params['size_w'], params['size_h'], params['size_d'] = layer.size
+        params['layer_type'] = '3D'
+    return jsonLayer('Upsample', params, layer)
+
+
+# ********** Pooling Layers **********
 def Pooling(layer):
     params = {}
     poolMap = {
@@ -186,20 +280,7 @@ def Pooling(layer):
     return jsonLayer('Pooling', params, layer)
 
 
-def Upsample(layer):
-    params = {}
-    if (layer.__class__.__name__ == 'UpSampling1D'):
-        params['size_w'] = layer.size
-        params['layer_type'] = '1D'
-    elif (layer.__class__.__name__ == 'UpSampling2D'):
-        params['size_w'], params['size_h'] = layer.size
-        params['layer_type'] = '2D'
-    else:
-        params['size_w'], params['size_h'], params['size_d'] = layer.size
-        params['layer_type'] = '3D'
-    return jsonLayer('Upsample', params, layer)
-
-
+# ********** Locally-connected Layers **********
 def LocallyConnected(layer):
     params = {}
     if (layer.__class__.__name__ == 'LocallyConnected1D'):
@@ -225,90 +306,6 @@ def LocallyConnected(layer):
         params['bias_constraint'] = layer.bias_constraint.__class__.__name__
     params['use_bias'] = layer.use_bias
     return jsonLayer('LocallyConnected', params, layer)
-
-
-# ********** Common Layers **********
-def Dense(layer):
-    params = {}
-    params['weight_filler'] = layer.kernel_initializer.__class__.__name__
-    params['bias_filler'] = layer.bias_initializer.__class__.__name__
-    params['num_output'] = layer.units
-    if (layer.kernel_regularizer):
-        params['kernel_regularizer'] = layer.kernel_regularizer.__class__.__name__
-    if (layer.bias_regularizer):
-        params['bias_regularizer'] = layer.bias_regularizer.__class__.__name__
-    if (layer.activity_regularizer):
-        params['activity_regularizer'] = layer.activity_regularizer.__class__.__name__
-    if (layer.kernel_constraint):
-        params['kernel_constraint'] = layer.kernel_constraint.__class__.__name__
-    if (layer.bias_constraint):
-        params['bias_constraint'] = layer.bias_constraint.__class__.__name__
-    params['use_bias'] = layer.use_bias
-    return jsonLayer('InnerProduct', params, layer)
-
-
-def Dropout(layer):
-    return jsonLayer('Dropout', {}, layer)
-
-
-def Permute(layer):
-    params = {}
-    params['dim'] = str(layer.dims)[1:-1]
-    return jsonLayer('Permute', params, layer)
-
-
-def RepeatVector(layer):
-    params = {}
-    params['n'] = layer.n
-    return jsonLayer('RepeatVector', params, layer)
-
-
-def ActivityRegularization(layer):
-    params = {}
-    params['l1'] = layer.l1
-    params['l2'] = layer.l2
-    return jsonLayer('Regularization', params, layer)
-
-
-def Masking(layer):
-    params = {}
-    params['mask_value'] = layer.mask_value
-    return jsonLayer('Masking', params, layer)
-
-
-def GaussianNoise(layer):
-    params = {}
-    params['stddev'] = layer.stddev
-    return jsonLayer('GaussianNoise', params, layer)
-
-
-def GaussianDropout(layer):
-    params = {}
-    params['rate'] = layer.rate
-    return jsonLayer('GaussianDropout', params, layer)
-
-
-def AlphaDropout(layer):
-    params = {}
-    params['rate'] = layer.rate
-    if (layer.seed):
-        params['seed'] = layer.seed
-    return jsonLayer('AlphaDropout', params, layer)
-
-
-def Embed(layer):
-    params = {}
-    params['input_dim'] = layer.input_dim
-    params['num_output'] = layer.output_dim
-    params['weight_filler'] = layer.embeddings_initializer.__class__.__name__
-    if (layer.embeddings_regularizer):
-        params['embeddings_regularizer'] = layer.embeddings_regularizer.__class__.__name__
-    if (layer.embeddings_constraint):
-        params['embeddings_constraint'] = layer.embeddings_constraint.__class__.__name__
-    if (layer.input_length):
-        params['input_length'] = layer.input_length
-    params['mask_zero'] = layer.mask_zero
-    return jsonLayer('Embed', params, layer)
 
 
 # ********** Recurrent Layers **********
@@ -348,6 +345,59 @@ def Recurrent(layer):
     return jsonLayer(recurrentMap[layer.__class__.__name__], params, layer)
 
 
+# ********** Embedding Layers **********
+def Embed(layer):
+    params = {}
+    params['input_dim'] = layer.input_dim
+    params['num_output'] = layer.output_dim
+    params['weight_filler'] = layer.embeddings_initializer.__class__.__name__
+    if (layer.embeddings_regularizer):
+        params['embeddings_regularizer'] = layer.embeddings_regularizer.__class__.__name__
+    if (layer.embeddings_constraint):
+        params['embeddings_constraint'] = layer.embeddings_constraint.__class__.__name__
+    if (layer.input_length):
+        params['input_length'] = layer.input_length
+    params['mask_zero'] = layer.mask_zero
+    return jsonLayer('Embed', params, layer)
+
+
+# ********** Merge Layers **********
+def Concat(layer):
+    return jsonLayer('Concat', {}, layer)
+
+
+def Eltwise(layer):
+    eltwiseMap = {
+        'Add': 'Sum',
+        'Multiply': 'Product',
+        'Maximum': 'Maximum',
+        'Dot': 'Dot',
+        'Average': 'Average'
+    }
+    params = {'layer_type': eltwiseMap[layer.__class__.__name__]}
+    return jsonLayer('Eltwise', params, layer)
+
+
+# ********** Advanced Activations Layers **********
+def LeakyReLU(layer):
+    params = {'negative_slope': layer.alpha.tolist()}
+    return jsonLayer('ReLU', params, layer)
+
+
+def PReLU(layer):
+    return jsonLayer('PReLU', {}, layer)
+
+
+def ELU(layer):
+    params = {'alpha': layer.alpha}
+    return jsonLayer('ELU', params, layer)
+
+
+def ThresholdedReLU(layer):
+    params = {'theta': layer.theta.tolist()}
+    return jsonLayer('ThresholdedReLU', params, layer)
+
+
 # ********** Normalisation Layers **********
 def BatchNorm(layer):
     params = {}
@@ -358,45 +408,28 @@ def BatchNorm(layer):
     return jsonLayer('BatchNorm', params, layer)
 
 
-# ********** Activation/Neuron Layers **********
-def Activation(layer):
-    activationMap = {
-        'softmax': 'Softmax',
-        'relu': 'ReLU',
-        'tanh': 'TanH',
-        'sigmoid': 'Sigmoid',
-        'selu': 'SELU',
-        'softplus': 'Softplus',
-        'softsign': 'Softsign',
-        'hard_sigmoid': 'HardSigmoid'
-    }
-    if (layer.__class__.__name__ == 'Activation'):
-        return jsonLayer(activationMap[layer.activation.func_name], {}, layer)
-    else:
-        tempLayer = {}
-        tempLayer['inbound_nodes'] = [[[layer.name + layer.__class__.__name__]]]
-        return jsonLayer(activationMap[layer.activation.func_name], {}, tempLayer)
+# ********** Noise Layers **********
+def GaussianNoise(layer):
+    params = {}
+    params['stddev'] = layer.stddev
+    return jsonLayer('GaussianNoise', params, layer)
 
 
-def LeakyReLU(layer):
-    params = {'negative_slope': layer.alpha.tolist()}
-    return jsonLayer('ReLU', params, layer)
+def GaussianDropout(layer):
+    params = {}
+    params['rate'] = layer.rate
+    return jsonLayer('GaussianDropout', params, layer)
 
 
-def PReLU(layer):
-    return jsonLayer('PReLU', {}, layer)
+def AlphaDropout(layer):
+    params = {}
+    params['rate'] = layer.rate
+    if (layer.seed):
+        params['seed'] = layer.seed
+    return jsonLayer('AlphaDropout', params, layer)
 
 
-def ThresholdedReLU(layer):
-    params = {'theta': layer.theta.tolist()}
-    return jsonLayer('ThresholdedReLU', params, layer)
-
-
-def ELU(layer):
-    params = {'alpha': layer.alpha}
-    return jsonLayer('ELU', params, layer)
-
-
+# ********** Utility Layers **********
 def Scale(layer):
     tempLayer = {}
     params = {}
@@ -416,34 +449,6 @@ def Scale(layer):
         params['gamma_constraint'] = layer.gamma_constraint.__class__.__name__
     tempLayer['inbound_nodes'] = [[[layer.name+layer.__class__.__name__]]]
     return jsonLayer('Scale', params, tempLayer)
-
-
-# ********** Utility Layers **********
-def Flatten(layer):
-    return jsonLayer('Flatten', {}, layer)
-
-
-def Reshape(layer):
-    params = {}
-    shape = layer.target_shape
-    params['dim'] = str([1, shape[2], shape[0], shape[1]])[1:-1]
-    return jsonLayer('Reshape', params, layer)
-
-
-def Concat(layer):
-    return jsonLayer('Concat', {}, layer)
-
-
-def Eltwise(layer):
-    eltwiseMap = {
-        'Add': 'Sum',
-        'Multiply': 'Product',
-        'Maximum': 'Maximum',
-        'Dot': 'Dot',
-        'Average': 'Average'
-    }
-    params = {'layer_type': eltwiseMap[layer.__class__.__name__]}
-    return jsonLayer('Eltwise', params, layer)
 
 
 def Padding(layer):

@@ -1,6 +1,6 @@
 export default {
   /* ********** Data Layers ********** */
-  ImageData: {
+  ImageData: { // Only Caffe
     name: 'image data',
     color: '#673ab7',
     endpoint: {
@@ -114,7 +114,7 @@ export default {
     },
     learn: false
   },
-  Data: {
+  Data: { // Only Caffe
     name: 'data',
     color: '#673ab7',
     endpoint: {
@@ -211,7 +211,7 @@ export default {
     },
     learn: false
   },
-  HDF5Data: {
+  HDF5Data: { // Only Caffe
     name: 'hdf5data',
     color: '#673ab7',
     endpoint: {
@@ -253,7 +253,7 @@ export default {
     },
     learn: false
   },
-  HDF5Output: {
+  HDF5Output: { // Only Caffe
     name: 'hdf5output',
     color: '#673ab7',
     endpoint: {
@@ -313,7 +313,7 @@ export default {
     },
     learn: false
   },
-  WindowData: {
+  WindowData: { // Only Caffe
     name: 'window data',
     color: '#673ab7',
     endpoint: {
@@ -434,8 +434,7 @@ export default {
     },
     learn: false
   },
-
-  MemoryData: {
+  MemoryData: { // Only Caffe
     name: 'memory data',
     color: '#673ab7',
     endpoint: {
@@ -483,7 +482,7 @@ export default {
     },
     learn: false
   },
-  DummyData: {
+  DummyData: { // Only Caffe
     name: 'dummy data',
     color: '#673ab7',
     endpoint: {
@@ -951,7 +950,7 @@ export default {
     },
     learn: true
   },
-  Crop: {
+  Crop: { // Only Caffe
     name: 'crop',
     color: '#3f51b5',
     endpoint: {
@@ -987,7 +986,7 @@ export default {
     },
     learn: false
   },
-  SPP: {
+  SPP: { // Only Caffe
     name: 'spp',
     color: '#3f51b5',
     endpoint: {
@@ -1316,7 +1315,7 @@ export default {
     learn: true
   },
   /* ********** Recurrent Layers ********** */
-  Recurrent: {
+  Recurrent: { // Only Caffe
     name: 'recurrent',
     color: '#3f51b5',
     endpoint: {
@@ -1941,228 +1940,6 @@ export default {
     },
     learn: false
   },
-  GaussianNoise: { // Only Keras
-    name: 'gaussian noise',
-    color: '#ff9800',
-    endpoint: {
-      src: ['Bottom'],
-      trg: ['Top']
-    },
-    params: {
-      stddev: {
-        name: 'stddev',
-        value: '',
-        type: 'number',
-        required: true
-      },
-      caffe: {
-        name: 'Available Caffe',
-        value: false,
-        type: 'checkbox',
-        required: false
-      }
-    },
-    props: {
-      name: {
-        name: 'Name',
-        value: '',
-        type: 'text'
-      }
-    },
-    learn: false
-  },
-  GaussianDropout: { // Only Keras
-    name: 'gaussian dropout',
-    color: '#ff9800',
-    endpoint: {
-      src: ['Bottom'],
-      trg: ['Top']
-    },
-    params: {
-      rate: {
-        name: 'rate',
-        value: '',
-        type: 'number',
-        required: true
-      },
-      caffe: {
-        name: 'Available Caffe',
-        value: false,
-        type: 'checkbox',
-        required: false
-      }
-    },
-    props: {
-      name: {
-        name: 'Name',
-        value: '',
-        type: 'text'
-      }
-    },
-    learn: false
-  },
-  AlphaDropout: { // Only Keras
-    name: 'alpha dropout',
-    color: '#ff9800',
-    endpoint: {
-      src: ['Bottom'],
-      trg: ['Top']
-    },
-    params: {
-      rate: {
-        name: 'rate',
-        value: '',
-        type: 'number',
-        required: true
-      },
-      seed: {
-        name: 'seed',
-        value: null,
-        type: 'number',
-        required: false
-      },
-      caffe: {
-        name: 'Available Caffe',
-        value: false,
-        type: 'checkbox',
-        required: false
-      }
-    },
-    props: {
-      name: {
-        name: 'Name',
-        value: '',
-        type: 'text'
-      }
-    },
-    learn: false
-  },
-  Permute: { // Only Keras
-    name: 'permute',
-    color: '#ff9800',
-    endpoint: {
-      src: ['Bottom'],
-      trg: ['Top']
-    },
-    params: {
-      dim: {
-        name: 'Dim',
-        value: '',
-        type: 'text',
-        required: true
-      },
-      caffe: {
-        name: 'Available Caffe',
-        value: false,
-        type: 'checkbox',
-        required: false
-      }
-    },
-    props: {
-      name: {
-        name: 'Name',
-        value: '',
-        type: 'text'
-      }
-    },
-    learn: false
-  },
-  RepeatVector: { // Only Keras
-    name: 'repeat vector',
-    color: '#ff9800',
-    endpoint: {
-      src: ['Bottom'],
-      trg: ['Top']
-    },
-    params: {
-      n: {
-        name: 'Times repeat',
-        value: '',
-        type: 'number',
-        required: true
-      },
-      caffe: {
-        name: 'Available Caffe',
-        value: false,
-        type: 'checkbox',
-        required: false
-      }
-    },
-    props: {
-      name: {
-        name: 'Name',
-        value: '',
-        type: 'text'
-      }
-    },
-    learn: false
-  },
-  Regularization: { // Only Keras
-    name: 'regularization',
-    color: '#ff9800',
-    endpoint: {
-      src: ['Bottom'],
-      trg: ['Top']
-    },
-    params: {
-      l1: {
-        name: 'L1',
-        value: 0.0,
-        type: 'float',
-        required: false
-      },
-      l2: {
-        name: 'L2',
-        value: 0.0,
-        type: 'float',
-        required: false
-      },
-      caffe: {
-        name: 'Available Caffe',
-        value: false,
-        type: 'checkbox',
-        required: false
-      }
-    },
-    props: {
-      name: {
-        name: 'Name',
-        value: '',
-        type: 'text'
-      }
-    },
-    learn: false
-  },
-  Masking: { // Only Keras
-    name: 'masking',
-    color: '#ff9800',
-    endpoint: {
-      src: ['Bottom'],
-      trg: ['Top']
-    },
-    params: {
-      mask_value: {
-        name: 'Mask value',
-        value: 0.0,
-        type: 'float',
-        required: true
-      },
-      caffe: {
-        name: 'Available Caffe',
-        value: false,
-        type: 'checkbox',
-        required: false
-      }
-    },
-    props: {
-      name: {
-        name: 'Name',
-        value: '',
-        type: 'text'
-      }
-    },
-    learn: false
-  },
   Embed: {
     name: 'embed',
     color: '#ff9800',
@@ -2254,7 +2031,7 @@ export default {
     learn: true
   },
   /* ********** Normalisation Layers ********** */
-  LRN: {
+  LRN: { // Only Caffe
     name: 'lrn',
     color: '#ffeb3b',
     endpoint: {
@@ -2315,7 +2092,7 @@ export default {
     },
     learn: false
   },
-  MVN: {
+  MVN: { // Only Caffe
     name: 'mvn',
     color: '#ffeb3b',
     endpoint: {
@@ -2427,6 +2204,104 @@ export default {
     },
     learn: true
   },
+  /* ********** Noise Layers ********** */
+
+  GaussianNoise: { // Only Keras
+    name: 'gaussian noise',
+    color: '#ff9800',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      stddev: {
+        name: 'stddev',
+        value: '',
+        type: 'number',
+        required: true
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: false,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
+  GaussianDropout: { // Only Keras
+    name: 'gaussian dropout',
+    color: '#ff9800',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      rate: {
+        name: 'rate',
+        value: '',
+        type: 'number',
+        required: true
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: false,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
+  AlphaDropout: { // Only Keras
+    name: 'alpha dropout',
+    color: '#ff9800',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      rate: {
+        name: 'rate',
+        value: '',
+        type: 'number',
+        required: true
+      },
+      seed: {
+        name: 'seed',
+        value: null,
+        type: 'number',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: false,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   /* ********** Activation/Neuron Layers ********** */
   ReLU: {
     name: 'relu',
@@ -2536,7 +2411,7 @@ export default {
     },
     learn: false
   },
-  ThresholdedReLU: {
+  ThresholdedReLU: { 
     name: 'Thresholded ReLU',
     color: '#009688',
     endpoint: {
@@ -2632,7 +2507,7 @@ export default {
     },
     learn: false
   },
-  SELU: {
+  SELU: { // Only Keras
     name: 'selu',
     color: '#009688',
     endpoint: {
@@ -2662,7 +2537,7 @@ export default {
     },
     learn: false
   },
-  Softplus: {
+  Softplus: { // Only Keras
     name: 'softplus',
     color: '#009688',
     endpoint: {
@@ -2692,7 +2567,7 @@ export default {
     },
     learn: false
   },
-  Softsign: {
+  Softsign: { // Only Keras
     name: 'softsign',
     color: '#009688',
     endpoint: {
@@ -2722,7 +2597,7 @@ export default {
     },
     learn: false
   },
-  HardSigmoid: {
+  HardSigmoid: { // Only Keras
     name: 'hard sigmoid',
     color: '#009688',
     endpoint: {
@@ -2752,7 +2627,7 @@ export default {
     },
     learn: false
   },
-  AbsVal: {
+  AbsVal: { // Only Caffe
     name: 'absval',
     color: '#009688',
     endpoint: {
@@ -2782,7 +2657,7 @@ export default {
     },
     learn: false
   },
-  Power: {
+  Power: { // Only Caffe
     name: 'power',
     color: '#009688',
     endpoint: {
@@ -2830,7 +2705,7 @@ export default {
     },
     learn: false
   },
-  Exp: {
+  Exp: { // Only Caffe
     name: 'exp',
     color: '#009688',
     endpoint: {
@@ -2878,7 +2753,7 @@ export default {
     },
     learn: false
   },
-  Log: {
+  Log: { // Only Caffe
     name: 'log',
     color: '#009688',
     endpoint: {
@@ -2926,7 +2801,7 @@ export default {
     },
     learn: false
   },
-  BNLL: {
+  BNLL: { // Only Caffe
     name: 'bnll',
     color: '#009688',
     endpoint: {
@@ -2956,7 +2831,7 @@ export default {
     },
     learn: false
   },
-  Threshold: {
+  Threshold: { // Only Caffe
     name: 'threshold',
     color: '#009688',
     endpoint: {
@@ -2992,7 +2867,7 @@ export default {
     },
     learn: false
   },
-  Bias: {
+  Bias: { // Only Caffe
     name: 'bias',
     color: '#009688',
     endpoint: {
@@ -3039,7 +2914,7 @@ export default {
     },
     learn: true
   },
-  Scale: {
+  Scale: { // Only Caffe
     name: 'scale',
     color: '#009688',
     endpoint: {
@@ -3204,7 +3079,7 @@ export default {
     },
     learn: false
   },
-  BatchReindex: {
+  BatchReindex: { // Only Caffe
     name: 'Batch Reindex',
     color: '#03a9f4',
     endpoint: {
@@ -3228,7 +3103,7 @@ export default {
     },
     learn: false
   },
-  Split: {
+  Split: { // Only Caffe
     name: 'Split',
     color: '#03a9f4',
     endpoint: {
@@ -3276,7 +3151,7 @@ export default {
     },
     learn: false
   },
-  Slice: {
+  Slice: { // Only Caffe
     name: 'slice',
     color: '#03a9f4',
     endpoint: {
@@ -3350,7 +3225,7 @@ export default {
     },
     learn: false
   },
-  Filter: {
+  Filter: { // Only Caffe
     name: 'filter',
     color: '#03a9f4',
     endpoint: {
@@ -3375,7 +3250,7 @@ export default {
     },
     learn: false
   },
-  Parameter: {
+  Parameter: { // Only Caffe
     name: 'parameter',
     color: '#03a9f4',
     endpoint: {
@@ -3405,7 +3280,7 @@ export default {
     },
     learn: true
   },
-  Reduction: {
+  Reduction: { // Only Caffe
     name: 'reduction',
     color: '#03a9f4',
     endpoint: {
@@ -3449,7 +3324,7 @@ export default {
     },
     learn: false
   },
-  Silence: {
+  Silence: { // Only Caffe
     name: 'silence',
     color: '#03a9f4',
     endpoint: {
@@ -3474,7 +3349,7 @@ export default {
     },
     learn: false
   },
-  ArgMax: {
+  ArgMax: { // Only Caffe
     name: 'argmax',
     color: '#03a9f4',
     endpoint: {
@@ -3542,8 +3417,134 @@ export default {
     },
     learn: false
   },
+  Permute: { // Only Keras
+    name: 'permute',
+    color: '#ff9800',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      dim: {
+        name: 'Dim',
+        value: '',
+        type: 'text',
+        required: true
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: false,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
+  RepeatVector: { // Only Keras
+    name: 'repeat vector',
+    color: '#ff9800',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      n: {
+        name: 'Times repeat',
+        value: '',
+        type: 'number',
+        required: true
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: false,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
+  Regularization: { // Only Keras
+    name: 'regularization',
+    color: '#ff9800',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      l1: {
+        name: 'L1',
+        value: 0.0,
+        type: 'float',
+        required: false
+      },
+      l2: {
+        name: 'L2',
+        value: 0.0,
+        type: 'float',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: false,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
+  Masking: { // Only Keras
+    name: 'masking',
+    color: '#ff9800',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      mask_value: {
+        name: 'Mask value',
+        value: 0.0,
+        type: 'float',
+        required: true
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: false,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   /* ********** Loss Layers ********** */
-  MultinomialLogisticLoss: {
+  MultinomialLogisticLoss: { // Only Caffe
     name: 'multinomial logistic loss',
     color: '#f44336',
     endpoint: {
@@ -3568,7 +3569,7 @@ export default {
     },
     learn: false
   },
-  InfogainLoss: {
+  InfogainLoss: { // Only Caffe
     name: 'infogain loss',
     color: '#f44336',
     endpoint: {
@@ -3604,7 +3605,7 @@ export default {
     },
     learn: false
   },
-  SoftmaxWithLoss: {
+  SoftmaxWithLoss: { // Only Caffe
     name: 'softmax loss',
     color: '#f44336',
     endpoint: {
@@ -3635,7 +3636,7 @@ export default {
     },
     learn: false
   },
-  EuclideanLoss: {
+  EuclideanLoss: { // Only Caffe
     name: 'euclidean loss',
     color: '#f44336',
     endpoint: {
@@ -3660,7 +3661,7 @@ export default {
     },
     learn: false
   },
-  HingeLoss: {
+  HingeLoss: { // Only Caffe
     name: 'hinge loss',
     color: '#f44336',
     endpoint: {
@@ -3692,7 +3693,7 @@ export default {
     },
     learn: false
   },
-  SigmoidCrossEntropyLoss: {
+  SigmoidCrossEntropyLoss: { // Only Caffe
     name: 'sigmoid cross entropy loss',
     color: '#f44336',
     endpoint: {
@@ -3716,7 +3717,7 @@ export default {
     },
     learn: false
   },
-  Accuracy: {
+  Accuracy: { // Only Caffe
     name: 'acc',
     color: '#f44336',
     endpoint: {
@@ -3753,7 +3754,7 @@ export default {
     },
     learn: false
   },
-  ContrastiveLoss: {
+  ContrastiveLoss: { // Only Caffe
     name: 'contrastive loss',
     color: '#f44336',
     endpoint: {
@@ -3791,7 +3792,7 @@ export default {
     learn: false
   },
   /* ********** Python Layer ********** */
-  Python: {
+  Python: { // Only Caffe
     name: 'python',
     color: '#f44336',
     endpoint: {
