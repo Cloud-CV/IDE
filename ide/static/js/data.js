@@ -2037,6 +2037,36 @@ export default {
     },
     learn: false
   },
+  Masking: { // Only Keras
+    name: 'masking',
+    color: '#ff9800',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      mask_value: {
+        name: 'Mask value',
+        value: 0.0,
+        type: 'float',
+        required: true
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: false,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   Embed: {
     name: 'embed',
     color: '#ff9800',

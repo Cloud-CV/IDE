@@ -1,7 +1,7 @@
 import numpy as np
 
 from keras.layers import Dense, Activation, Dropout, Flatten, Reshape, Permute, RepeatVector
-from keras.layers import ActivityRegularization
+from keras.layers import ActivityRegularization, Masking
 from keras.layers import Conv1D, Conv2D, Conv3D, Conv2DTranspose, SeparableConv2D
 from keras.layers import UpSampling1D, UpSampling2D, UpSampling3D
 from keras.layers import MaxPooling1D, MaxPooling2D, MaxPooling3D
@@ -340,6 +340,11 @@ def permute(layer, layer_in, layerId):
 
 def repeatVector(layer, layer_in, layerId):
     out = {layerId: RepeatVector(layer['params']['n'])(*layer_in)}
+    return out
+
+
+def masking(layer, layer_in, layerId):
+    out = {layerId: Masking(mask_value=layer['params']['mask_value'])(*layer_in)}
     return out
 
 

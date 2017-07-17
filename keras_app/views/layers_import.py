@@ -270,6 +270,12 @@ def ActivityRegularization(layer):
     return jsonLayer('Regularization', params, layer)
 
 
+def Masking(layer):
+    params = {}
+    params['mask_value'] = layer.mask_value
+    return jsonLayer('Masking', params, layer)
+
+
 def Embed(layer):
     params = {}
     params['input_dim'] = layer.input_dim
