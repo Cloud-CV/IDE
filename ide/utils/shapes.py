@@ -105,6 +105,12 @@ def reshape(layer):
     return temp.shape
 
 
+def repeat(layer):
+    shape = layer['shape']['input']
+    shape = [layer['params']['n']] + shape
+    return shape
+
+
 def get_shapes(net):
     stack = []
     dataLayers = ['ImageData', 'Data', 'HDF5Data', 'Input', 'WindowData', 'MemoryData', 'DummyData']
@@ -145,6 +151,9 @@ def get_shapes(net):
 
         elif(net[layerId]['info']['type'] == 'Upsample'):
             net[layerId]['shape']['output'] = upsample(net[layerId])
+
+        elif(net[layerId]['info']['type'] == 'RepeatVector'):
+            net[layerId]['shape']['output'] = repeat(net[layerId])
 
         elif(net[layerId]['info']['type'] in ['SPP', 'Crop']):
             raise Exception('Cannot determine shape of ' + net[layerId]['info']['type'] + 'layer.')

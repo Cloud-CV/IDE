@@ -1971,6 +1971,36 @@ export default {
     },
     learn: false
   },
+  RepeatVector: { // Only Keras
+    name: 'repeat vector',
+    color: '#ff9800',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      n: {
+        name: 'Times repeat',
+        value: '',
+        type: 'number',
+        required: true
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: false,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   Embed: {
     name: 'embed',
     color: '#ff9800',

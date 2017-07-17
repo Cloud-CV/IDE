@@ -11,7 +11,8 @@ from django.http import JsonResponse
 from ide.utils.shapes import get_shapes
 from keras.models import Model
 from layers_export import data, convolution, deconvolution, pooling, dense, dropout, embed, depthwiseConv,\
-    recurrent, batchNorm, activation, flatten, reshape, eltwise, concat, upsample, locallyConnected, permute
+    recurrent, batchNorm, activation, flatten, reshape, eltwise, concat, upsample, locallyConnected, permute,\
+    repeatVector
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
@@ -56,6 +57,7 @@ def exportJson(request):
             'ReLU': activation,
             'PReLU': activation,
             'Permute': permute,
+            'RepeatVector': repeatVector,
             'ELU': activation,
             'Sigmoid': activation,
             'TanH': activation,

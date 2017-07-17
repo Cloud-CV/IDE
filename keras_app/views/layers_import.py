@@ -257,6 +257,12 @@ def Permute(layer):
     return jsonLayer('Permute', params, layer)
 
 
+def RepeatVector(layer):
+    params = {}
+    params['n'] = layer.n
+    return jsonLayer('RepeatVector', params, layer)
+
+
 def Embed(layer):
     params = {}
     params['input_dim'] = layer.input_dim
