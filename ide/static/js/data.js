@@ -2001,6 +2001,42 @@ export default {
     },
     learn: false
   },
+  Regularization: { // Only Keras
+    name: 'regularization',
+    color: '#ff9800',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      l1: {
+        name: 'L1',
+        value: 0.0,
+        type: 'float',
+        required: false
+      },
+      l2: {
+        name: 'L2',
+        value: 0.0,
+        type: 'float',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: false,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   Embed: {
     name: 'embed',
     color: '#ff9800',

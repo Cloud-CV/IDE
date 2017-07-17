@@ -263,6 +263,13 @@ def RepeatVector(layer):
     return jsonLayer('RepeatVector', params, layer)
 
 
+def ActivityRegularization(layer):
+    params = {}
+    params['l1'] = layer.l1
+    params['l2'] = layer.l2
+    return jsonLayer('Regularization', params, layer)
+
+
 def Embed(layer):
     params = {}
     params['input_dim'] = layer.input_dim
