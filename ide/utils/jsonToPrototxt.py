@@ -922,13 +922,13 @@ def jsonToPrototxt(net, net_name):
 
         elif (layerType == 'Eltwise'):
             eltwise_param = {}
-            if layerParams['operation'] != '':
-                elt = layerParams['operation']
-                if(elt == 'PROD'):
+            if layerParams['layer_type'] != '':
+                elt = layerParams['layer_type']
+                if(elt == 'Product'):
                     elt = 0
-                elif(elt == 'SUM'):
+                elif(elt == 'Sum'):
                     elt = 1
-                elif(elt == 'MAX'):
+                elif(elt == 'Maximum'):
                     elt = 2
             else:
                 elt = 1  # Default is sum

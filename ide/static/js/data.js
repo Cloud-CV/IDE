@@ -2949,11 +2949,11 @@ export default {
 
     },
     params: {
-      operation: {
+      layer_type: {
         name: 'Eltwise method',
-        value: 'SUM',
+        value: 'Sum',
         type: 'select',
-        options: ['SUM', 'PROD', 'Max'],
+        options: ['Product', 'Sum', 'Maximum', 'Average', 'Dot'],
         required: false
       },
       caffe: {

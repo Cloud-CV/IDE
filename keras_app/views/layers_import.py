@@ -382,11 +382,13 @@ def Concat(layer):
 
 def Eltwise(layer):
     eltwiseMap = {
-        'Add': 1,
-        'Multiply': 0,
-        'Maximum': 2
+        'Add': 'Sum',
+        'Multiply': 'Product',
+        'Maximum': 'Maximum',
+        'Dot': 'Dot',
+        'Average': 'Average'
     }
-    params = {'operation': eltwiseMap[layer.__class__.__name__]}
+    params = {'layer_type': eltwiseMap[layer.__class__.__name__]}
     return jsonLayer('Eltwise', params, layer)
 
 

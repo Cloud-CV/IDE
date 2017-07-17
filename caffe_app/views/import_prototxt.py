@@ -323,10 +323,15 @@ def importPrototxt(request):
                 params['slice_dim'] = layer.slice_param.slice_dim
 
             elif(layer.type == 'Eltwise'):
+                opMap = {
+                    0: 'Product',
+                    1: 'Sum',
+                    2: 'Maximum'
+                }
                 if layer.eltwise_param.operation:
-                    params['operation'] = layer.eltwise_param.operation
+                    params['layer_type'] = opMap[layer.eltwise_param.operation]
                 else:
-                    params['operation'] = 1
+                    params['layer_type'] = 'Sum'
 
             elif(layer.type == 'Parameter'):
                 params['shape'] = str(map(int, layer.parameter_param.shape.dim))[1:-1]

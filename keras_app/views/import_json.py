@@ -66,6 +66,8 @@ def importJson(request):
         'Add': Eltwise,
         'Multiply': Eltwise,
         'Maximum': Eltwise,
+        'Dot': Eltwise,
+        'Average': Eltwise,
         'ZeroPadding2D': Padding,
     }
 

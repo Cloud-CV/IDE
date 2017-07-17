@@ -34,5 +34,4 @@ def exportToCaffe(request):
             return JsonResponse({'result': 'success', 'id': randomId,
                                 'name': randomId+'.prototxt', 'url': '/media/'+randomId+'.prototxt'})
         except:
-            print str(sys.exc_info())
             return JsonResponse({'result': 'error', 'error': str(sys.exc_info()[1])})

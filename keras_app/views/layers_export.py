@@ -9,7 +9,7 @@ from keras.layers import ZeroPadding1D, ZeroPadding2D, ZeroPadding3D
 from keras.layers import LocallyConnected1D, LocallyConnected2D
 from keras.layers import SimpleRNN, LSTM, GRU
 from keras.layers import Embedding
-from keras.layers import add, multiply, maximum, concatenate
+from keras.layers import add, multiply, maximum, concatenate, average, dot
 from keras.layers.advanced_activations import LeakyReLU, PReLU, ELU
 from keras.layers import BatchNormalization
 from keras.layers import Input
@@ -500,11 +500,15 @@ def concat(layer, layer_in, layerId):
 
 def eltwise(layer, layer_in, layerId):
     out = {}
-    if (layer['params']['operation'] == 0):
+    if (layer['params']['layer_type'] == 'Multiply'):
         # This input reverse is to handle visualization
         out[layerId] = multiply(layer_in[::-1])
-    elif (layer['params']['operation'] == 1):
+    elif (layer['params']['layer_type'] == 'Sum'):
         out[layerId] = add(layer_in[::-1])
+    elif (layer['params']['layer_type'] == 'Average'):
+        out[layerId] = average(layer_in[::-1])
+    elif (layer['params']['layer_type'] == 'Dot'):
+        out[layerId] = dot(layer_in[::-1])
     else:
         out[layerId] = maximum(layer_in[::-1])
     return out
