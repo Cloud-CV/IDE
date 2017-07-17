@@ -276,6 +276,26 @@ def Masking(layer):
     return jsonLayer('Masking', params, layer)
 
 
+def GaussianNoise(layer):
+    params = {}
+    params['stddev'] = layer.stddev
+    return jsonLayer('GaussianNoise', params, layer)
+
+
+def GaussianDropout(layer):
+    params = {}
+    params['rate'] = layer.rate
+    return jsonLayer('GaussianDropout', params, layer)
+
+
+def AlphaDropout(layer):
+    params = {}
+    params['rate'] = layer.rate
+    if (layer.seed):
+        params['seed'] = layer.seed
+    return jsonLayer('AlphaDropout', params, layer)
+
+
 def Embed(layer):
     params = {}
     params['input_dim'] = layer.input_dim

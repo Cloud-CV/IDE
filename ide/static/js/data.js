@@ -1941,6 +1941,102 @@ export default {
     },
     learn: false
   },
+  GaussianNoise: { // Only Keras
+    name: 'gaussian noise',
+    color: '#ff9800',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      stddev: {
+        name: 'stddev',
+        value: '',
+        type: 'number',
+        required: true
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: false,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
+  GaussianDropout: { // Only Keras
+    name: 'gaussian dropout',
+    color: '#ff9800',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      rate: {
+        name: 'rate',
+        value: '',
+        type: 'number',
+        required: true
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: false,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
+  AlphaDropout: { // Only Keras
+    name: 'alpha dropout',
+    color: '#ff9800',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      rate: {
+        name: 'rate',
+        value: '',
+        type: 'number',
+        required: true
+      },
+      seed: {
+        name: 'seed',
+        value: null,
+        type: 'number',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: false,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: false
+  },
   Permute: { // Only Keras
     name: 'permute',
     color: '#ff9800',

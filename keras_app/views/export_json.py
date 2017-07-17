@@ -12,7 +12,7 @@ from ide.utils.shapes import get_shapes
 from keras.models import Model
 from layers_export import data, convolution, deconvolution, pooling, dense, dropout, embed, depthwiseConv,\
     recurrent, batchNorm, activation, flatten, reshape, eltwise, concat, upsample, locallyConnected, permute,\
-    repeatVector, regularization, masking
+    repeatVector, regularization, masking, gaussianNoise, gaussianDropout, alphaDropout
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
@@ -59,6 +59,9 @@ def exportJson(request):
             'Permute': permute,
             'RepeatVector': repeatVector,
             'Regularization': regularization,
+            'AlphaDropout': alphaDropout,
+            'GaussianDropout': gaussianDropout,
+            'GaussianNoise': gaussianNoise,
             'Masking': masking,
             'ELU': activation,
             'Sigmoid': activation,

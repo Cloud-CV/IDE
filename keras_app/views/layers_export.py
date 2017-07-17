@@ -13,6 +13,7 @@ from keras.layers import Embedding
 from keras.layers import add, multiply, maximum, concatenate, average, dot
 from keras.layers.advanced_activations import LeakyReLU, PReLU, ELU, ThresholdedReLU
 from keras.layers import BatchNormalization
+from keras.layers import GaussianNoise, GaussianDropout, AlphaDropout
 from keras.layers import Input
 from keras import regularizers
 
@@ -352,6 +353,25 @@ def regularization(layer, layer_in, layerId):
     l1 = layer['params']['l1']
     l2 = layer['params']['l2']
     out = {layerId: ActivityRegularization(l1=l1, l2=l2)(*layer_in)}
+    return out
+
+
+def alphaDropout(layer, layer_in, layerId):
+    rate = layer['params']['rate']
+    seed = layer['params']['seed']
+    out = {layerId: AlphaDropout(rate=rate, seed=seed)(*layer_in)}
+    return out
+
+
+def gaussianDropout(layer, layer_in, layerId):
+    rate = layer['params']['rate']
+    out = {layerId: GaussianDropout(rate=rate)(*layer_in)}
+    return out
+
+
+def gaussianNoise(layer, layer_in, layerId):
+    stddev = layer['params']['stddev']
+    out = {layerId: GaussianNoise(stddev=stddev)(*layer_in)}
     return out
 
 
