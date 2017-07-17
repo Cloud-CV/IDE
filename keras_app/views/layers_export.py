@@ -1,13 +1,13 @@
 import numpy as np
 
 from keras.layers import Dense, Activation, Dropout, Flatten, Reshape
-from keras.layers import Conv1D, Conv2D, Conv3D, Conv2DTranspose
+from keras.layers import Conv1D, Conv2D, Conv3D, Conv2DTranspose, SeparableConv2D
 from keras.layers import UpSampling1D, UpSampling2D, UpSampling3D
 from keras.layers import MaxPooling1D, MaxPooling2D, MaxPooling3D
 from keras.layers import AveragePooling1D, AveragePooling2D, AveragePooling3D
 from keras.layers import ZeroPadding1D, ZeroPadding2D, ZeroPadding3D
 from keras.layers import LocallyConnected1D, LocallyConnected2D
-from keras.layers import SimpleRNN, LSTM
+from keras.layers import SimpleRNN, LSTM, GRU
 from keras.layers import Embedding
 from keras.layers import add, multiply, maximum, concatenate
 from keras.layers.advanced_activations import LeakyReLU, PReLU, ELU
@@ -156,6 +156,44 @@ def deconvolution(layer, layer_in, layerId):
                                    activity_regularizer=activity_regularizer, use_bias=use_bias,
                                    bias_constraint=bias_constraint,
                                    kernel_constraint=kernel_constraint)(*layer_in)
+    return out
+
+
+def depthwiseConv(layer, layer_in, layerId):
+    out = {}
+    padding = get_padding(layer)
+    filters = layer['params']['filters']
+    k_h, k_w = layer['params']['kernel_h'], layer['params']['kernel_w']
+    s_h, s_w = layer['params']['stride_h'], layer['params']['stride_w']
+    depth_multiplier = layer['params']['depth_multiplier']
+    use_bias = layer['params']['use_bias']
+    depthwise_initializer = layer['params']['depthwise_initializer']
+    pointwise_initializer = layer['params']['pointwise_initializer']
+    bias_initializer = layer['params']['bias_initializer']
+    if (padding == 'custom'):
+        p_h, p_w = layer['params']['pad_h'], layer['params']['pad_w']
+        out[layerId + 'Pad'] = ZeroPadding2D(padding=(p_h, p_w))(*layer_in)
+        padding = 'valid'
+        layer_in = [out[layerId + 'Pad']]
+    depthwise_regularizer = regularizerMap[layer['params']['depthwise_regularizer']]
+    pointwise_regularizer = regularizerMap[layer['params']['pointwise_regularizer']]
+    bias_regularizer = regularizerMap[layer['params']['bias_regularizer']]
+    activity_regularizer = regularizerMap[layer['params']['activity_regularizer']]
+    depthwise_constraint = constraintMap[layer['params']['depthwise_constraint']]
+    pointwise_constraint = constraintMap[layer['params']['pointwise_constraint']]
+    bias_constraint = constraintMap[layer['params']['bias_constraint']]
+    out[layerId] = SeparableConv2D(filters, [k_h, k_w], strides=(s_h, s_w), padding=padding,
+                                   depth_multiplier=depth_multiplier, use_bias=use_bias,
+                                   depthwise_initializer=depthwise_initializer,
+                                   pointwise_initializer=pointwise_initializer,
+                                   bias_initializer=bias_initializer,
+                                   depthwise_regularizer=depthwise_regularizer,
+                                   pointwise_regularizer=pointwise_regularizer,
+                                   bias_regularizer=bias_regularizer,
+                                   activity_regularizer=activity_regularizer,
+                                   depthwise_constraint=depthwise_constraint,
+                                   pointwise_constraint=pointwise_constraint,
+                                   bias_constraint=bias_constraint,)(*layer_in)
     return out
 
 
@@ -318,10 +356,6 @@ def embed(layer, layer_in, layerId):
 # ********** Recurrent Layers **********
 def recurrent(layer, layer_in, layerId):
     out = {}
-    recurrentMap = {
-        'RNN': SimpleRNN,
-        'LSTM': LSTM
-    }
     units = layer['params']['num_output']
     if (layer['params']['weight_filler'] in fillerMap):
         kernel_initializer = fillerMap[layer['params']['weight_filler']]
@@ -342,19 +376,44 @@ def recurrent(layer, layer_in, layerId):
     use_bias = layer['params']['use_bias']
     dropout = layer['params']['dropout']
     recurrent_dropout = layer['params']['recurrent_dropout']
-    out[layerId] = recurrentMap[layer['info']['type']](units, kernel_initializer=kernel_initializer,
-                                                       bias_initializer=bias_initializer,
-                                                       recurrent_initializer=recurrent_initializer,
-                                                       kernel_regularizer=kernel_regularizer,
-                                                       recurrent_regularizer=recurrent_regularizer,
-                                                       bias_regularizer=bias_regularizer,
-                                                       activity_regularizer=activity_regularizer,
-                                                       kernel_constraint=kernel_constraint,
-                                                       recurrent_constraint=recurrent_constraint,
-                                                       bias_constraint=bias_constraint,
-                                                       use_bias=use_bias, dropout=dropout,
-                                                       recurrent_dropout=recurrent_dropout)(
-                                                       *layer_in)
+    if (layer['info']['type'] == 'GRU'):
+        recurrent_activation = layer['params']['recurrent_activation']
+        out[layerId] = GRU(units, kernel_initializer=kernel_initializer,
+                           bias_initializer=bias_initializer,
+                           recurrent_activation=recurrent_activation,
+                           recurrent_initializer=recurrent_initializer,
+                           kernel_regularizer=kernel_regularizer,
+                           recurrent_regularizer=recurrent_regularizer,
+                           bias_regularizer=bias_regularizer, activity_regularizer=activity_regularizer,
+                           kernel_constraint=kernel_constraint, recurrent_constraint=recurrent_constraint,
+                           bias_constraint=bias_constraint, use_bias=use_bias, dropout=dropout,
+                           recurrent_dropout=recurrent_dropout)(*layer_in)
+    elif (layer['info']['type'] == 'LSTM'):
+        recurrent_activation = layer['params']['recurrent_activation']
+        unit_forget_bias = layer['params']['unit_forget_bias']
+        out[layerId] = LSTM(units, kernel_initializer=kernel_initializer,
+                            bias_initializer=bias_initializer,
+                            recurrent_activation=recurrent_activation, unit_forget_bias=unit_forget_bias,
+                            recurrent_initializer=recurrent_initializer,
+                            kernel_regularizer=kernel_regularizer,
+                            recurrent_regularizer=recurrent_regularizer,
+                            bias_regularizer=bias_regularizer, activity_regularizer=activity_regularizer,
+                            kernel_constraint=kernel_constraint, recurrent_constraint=recurrent_constraint,
+                            bias_constraint=bias_constraint, use_bias=use_bias, dropout=dropout,
+                            recurrent_dropout=recurrent_dropout)(*layer_in)
+    else:
+        out[layerId] = SimpleRNN(units, kernel_initializer=kernel_initializer,
+                                 bias_initializer=bias_initializer,
+                                 recurrent_initializer=recurrent_initializer,
+                                 kernel_regularizer=kernel_regularizer,
+                                 recurrent_regularizer=recurrent_regularizer,
+                                 bias_regularizer=bias_regularizer,
+                                 activity_regularizer=activity_regularizer,
+                                 kernel_constraint=kernel_constraint,
+                                 recurrent_constraint=recurrent_constraint,
+                                 bias_constraint=bias_constraint,
+                                 use_bias=use_bias, dropout=dropout,
+                                 recurrent_dropout=recurrent_dropout)(*layer_in)
     return out
 
 

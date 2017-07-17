@@ -1164,6 +1164,157 @@ export default {
     },
     learn: true
   },
+  DepthwiseConv: { // Only Keras
+    name: 'depthwise convolution',
+    color: '#3f51b5',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      filters: {
+        name: 'No of outputs',
+        value: '',
+        type: 'number',
+        required: true
+      },
+      kernel_h: {
+        name: 'Kernel height',
+        value: '',
+        type: 'number',
+        required: true
+      },
+      kernel_w: {
+        name: 'Kernel width',
+        value: '',
+        type: 'number',
+        required: true
+      },
+      stride_h: {
+        name: 'Stride height',
+        value: 1,
+        type: 'number',
+        required: false
+      },
+      stride_w: {
+        name: 'Stride width',
+        value: 1,
+        type: 'number',
+        required: false
+      },
+      pad_h: {
+        name: 'Padding height',
+        value: 0,
+        type: 'number',
+        required: false
+      },
+      pad_w: {
+        name: 'Padding width',
+        value: 0,
+        type: 'number',
+        required: false
+      },
+      depth_mult: {
+        name: 'Depth multiplier',
+        value: 1,
+        type: 'number',
+        required: false
+      },
+      use_bias: { // Maps to: bias_term(Caffe)
+        name: 'Use bias term',
+        value: true,
+        type: 'checkbox',
+        required: false
+      },
+      depthwise_initializer: {
+        name: 'Depthwise Initializer',
+        value: 'glorot_uniform',
+        type: 'select',
+        options: ['Zeros', 'Ones', 'Constant', 'RandomNormal', 'RandomUniform', 'TruncatedNormal', 'VarianceScaling', 'Orthogonal', 'Identity',
+                  'lecun_uniform', 'glorot_normal', 'glorot_uniform', 'he_normal', 'he_uniform'],
+        required: false
+      },
+      pointwise_initializer: {
+        name: 'Pointwise Initializer',
+        value: 'glorot_uniform',
+        type: 'select',
+        options: ['Zeros', 'Ones', 'Constant', 'RandomNormal', 'RandomUniform', 'TruncatedNormal', 'VarianceScaling', 'Orthogonal', 'Identity',
+                  'lecun_uniform', 'glorot_normal', 'glorot_uniform', 'he_normal', 'he_uniform'],
+        required: false
+      },
+      bias_initializer: {
+        name: 'Bias Initializer',
+        value: 'Zeros',
+        type: 'select',
+        options: ['Zeros', 'Ones', 'Constant', 'RandomNormal', 'RandomUniform', 'TruncatedNormal', 'VarianceScaling', 'Orthogonal', 'Identity',
+                  'lecun_uniform', 'glorot_normal', 'glorot_uniform', 'he_normal', 'he_uniform'],
+        required: false
+      },
+      depthwise_regularizer: {
+        name: 'Depthwise regularizer',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'l1', 'l2', 'l1_l2'],
+        required: false
+      },
+      pointwise_regularizer: {
+        name: 'Pointwise regularizer',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'l1', 'l2', 'l1_l2'],
+        required: false
+      },
+      bias_regularizer: {
+        name: 'Bias regularizer',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'l1', 'l2', 'l1_l2'],
+        required: false
+      },
+      activity_regularizer: {
+        name: 'Activity regularizer',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'l1', 'l2', 'l1_l2'],
+        required: false
+      },
+      depthwise_constraint: {
+        name: 'Depthwise constraint',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'max_norm', 'non_neg', 'unit_norm'],
+        required: false
+      },
+      pointwise_constraint: {
+        name: 'Pointwise constraint',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'max_norm', 'non_neg', 'unit_norm'],
+        required: false
+      },
+      bias_constraint: {
+        name: 'Bias constraint',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'max_norm', 'non_neg', 'unit_norm'],
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: false,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: true
+  },
   /* ********** Recurrent Layers ********** */
   Recurrent: {
     name: 'recurrent',
@@ -1368,8 +1519,8 @@ export default {
     },
     learn: true
   },
-  LSTM: {
-    name: 'lstm',
+  GRU: { // Only Keras
+    name: 'gru',
     color: '#3f51b5',
     endpoint: {
       src: ['Bottom'],
@@ -1381,6 +1532,13 @@ export default {
         value: '',
         type: 'number',
         required: true
+      },
+      recurrent_activation: { // Only Keras
+        name: 'Recurrent activation',
+        value: 'hard_sigmoid',
+        type: 'select',
+        options: ['softmax', 'elu', 'selu', 'softplus', 'softsign', 'relu', 'tanh', 'sigmoid', 'hard_sigmoid', 'linear'],
+        required: false
       },
       weight_filler: { // Maps to: kernel_initializer(Keras)
         name: 'Weight filler',
@@ -1475,6 +1633,158 @@ export default {
       },
       use_bias: { // Only Keras
         name: 'Use bias term',
+        value: true,
+        type: 'checkbox',
+        required: false
+      },
+      dropout: { // Only Keras
+        name: 'Dropout',
+        value: 0.0,
+        type: 'number',
+        required: false
+      },
+      recurrent_dropout: { // Only Keras
+        name: 'Recurrent Dropout',
+        value: 0.0,
+        type: 'number',
+        required: false
+      },
+      caffe: {
+        name: 'Available Caffe',
+        value: false,
+        type: 'checkbox',
+        required: false
+      }
+    },
+    props: {
+      name: {
+        name: 'Name',
+        value: '',
+        type: 'text'
+      }
+    },
+    learn: true
+  },
+  LSTM: {
+    name: 'lstm',
+    color: '#3f51b5',
+    endpoint: {
+      src: ['Bottom'],
+      trg: ['Top']
+    },
+    params: {
+      num_output: { // Maps to: units(Keras)
+        name: 'No of outputs',
+        value: '',
+        type: 'number',
+        required: true
+      },
+      recurrent_activation: { // Only Keras
+        name: 'Recurrent activation',
+        value: 'hard_sigmoid',
+        type: 'select',
+        options: ['softmax', 'elu', 'selu', 'softplus', 'softsign', 'relu', 'tanh', 'sigmoid', 'hard_sigmoid', 'linear'],
+        required: false
+      },
+      weight_filler: { // Maps to: kernel_initializer(Keras)
+        name: 'Weight filler',
+        value: 'constant',
+        type: 'select',
+        options: [//Caffe
+                  'constant', 'gaussian', 'positive_unitball', 'uniform', 'xavier', 'msra', 'bilinear',
+                  //Keras
+                  'Zeros', 'Ones', 'Constant', 'RandomNormal', 'RandomUniform', 'TruncatedNormal', 'VarianceScaling', 'Orthogonal', 'Identity',
+                  'lecun_uniform', 'glorot_normal', 'glorot_uniform', 'he_normal', 'he_uniform'],
+        required: false
+      },
+      bias_filler: { // Maps to: bias_initializer(Keras)
+        name: 'Bias filler',
+        value: 'constant',
+        type: 'select',
+        options: [//Caffe
+                  'constant', 'gaussian', 'positive_unitball', 'uniform', 'xavier', 'msra', 'bilinear',
+                  //Keras
+                  'Zeros', 'Ones', 'Constant', 'RandomNormal', 'RandomUniform', 'TruncatedNormal', 'VarianceScaling', 'Orthogonal', 'Identity',
+                  'lecun_uniform', 'glorot_normal', 'glorot_uniform', 'he_normal', 'he_uniform'],
+        required: false
+      },
+      debug_info: { // Only Caffe
+        name: 'Degug',
+        value: false,
+        type: 'checkbox',
+        required: false
+      },
+      expose_hidden: { // Only Caffe
+        name: 'Expose Hidden',
+        value: false,
+        type: 'checkbox',
+        required: false
+      },
+      recurrent_initializer: { // Only Keras
+        name: 'Recurrent Initializer',
+        value: 'Orthogonal',
+        type: 'select',
+        options: ['Zeros', 'Ones', 'Constant', 'RandomNormal', 'RandomUniform', 'TruncatedNormal', 
+          'VarianceScaling', 'Orthogonal', 'Identity', 'lecun_uniform', 'glorot_normal', 'glorot_uniform', 'he_normal', 'he_uniform'],
+        required: false
+      },
+      kernel_regularizer: { // Only Keras
+        name: 'Kernel regularizer',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'l1', 'l2', 'l1_l2'],
+        required: false
+      },
+      recurrent_regularizer: { // Only Keras
+        name: 'Kernel regularizer',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'l1', 'l2', 'l1_l2'],
+        required: false
+      },
+      bias_regularizer: { // Only Keras
+        name: 'Bias regularizer',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'l1', 'l2', 'l1_l2'],
+        required: false
+      },
+      activity_regularizer: { // Only Keras
+        name: 'Activity regularizer',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'l1', 'l2', 'l1_l2'],
+        required: false
+      },
+      kernel_constraint: { // Only Keras
+        name: 'Kernel constraint',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'max_norm', 'non_neg', 'unit_norm'],
+        required: false
+      },
+      recurrent_constraint: { // Only Keras
+        name: 'Recurrent constraint',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'max_norm', 'non_neg', 'unit_norm'],
+        required: false
+      },
+      bias_constraint: { // Only Keras
+        name: 'Bias constraint',
+        value: 'None',
+        type: 'select',
+        options: ['None', 'max_norm', 'non_neg', 'unit_norm'],
+        required: false
+      },
+      use_bias: { // Only Keras
+        name: 'Use bias term',
+        value: true,
+        type: 'checkbox',
+        required: false
+      },
+      unit_forget_bias: { // Only Keras
+        name: 'Use forget bias',
         value: true,
         type: 'checkbox',
         required: false

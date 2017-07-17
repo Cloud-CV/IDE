@@ -206,8 +206,8 @@ class RecurrentImportTest(unittest.TestCase):
         response = json.loads(response.content)
         layerId = sorted(response['net'].keys())
         self.assertEqual(response['result'], 'success')
-        self.assertGreaterEqual(len(response['net'][layerId[2]]['params']), 3)
         self.assertGreaterEqual(len(response['net'][layerId[3]]['params']), 3)
+        self.assertGreaterEqual(len(response['net'][layerId[5]]['params']), 3)
 
 
 # ********** Normalisation Layers **********

@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from ide.utils.shapes import get_shapes
 from keras.models import Model
-from layers_export import data, convolution, deconvolution, pooling, dense, dropout, embed,\
+from layers_export import data, convolution, deconvolution, pooling, dense, dropout, embed, depthwiseConv,\
     recurrent, batchNorm, activation, flatten, reshape, eltwise, concat, upsample, locallyConnected
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -39,11 +39,13 @@ def exportJson(request):
             'MemoryData': data,
             'DummyData': data,
             'Convolution': convolution,
+            'DepthwiseConv': depthwiseConv,
             'LocallyConnected': locallyConnected,
             'Pooling': pooling,
             'Deconvolution': deconvolution,
             'Upsample': upsample,
             'RNN': recurrent,
+            'GRU': recurrent,
             'LSTM': recurrent,
             'InnerProduct': dense,
             'Dropout': dropout,

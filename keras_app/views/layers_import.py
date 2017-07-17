@@ -87,6 +87,37 @@ def Deconvolution(layer):
     return jsonLayer('Deconvolution', params, layer)
 
 
+def DepthwiseConv(layer):
+    params = {}
+    params['filters'] = layer.filters
+    params['kernel_h'], params['kernel_w'] = layer.kernel_size
+    params['stride_h'], params['stride_w'] = layer.strides
+    params['pad_h'], params['pad_w'] = get_padding([params['kernel_w'], params['kernel_h'], -1,
+                                                    params['stride_w'], params['stride_h'], -1],
+                                                   layer.input_shape, layer.output_shape,
+                                                   layer.padding.lower(), '2D')
+    params['depth_multiplier'] = layer.depth_multiplier
+    params['use_bias'] = layer.use_bias
+    params['depthwise_initializer'] = layer.depthwise_initializer.__class__.__name__
+    params['pointwise_initializer'] = layer.pointwise_initializer.__class__.__name__
+    params['bias_initializer'] = layer.bias_initializer.__class__.__name__
+    if (layer.depthwise_regularizer):
+        params['depthwise_regularizer'] = layer.depthwise_regularizer.__class__.__name__
+    if (layer.pointwise_regularizer):
+        params['pointwise_regularizer'] = layer.pointwise_regularizer.__class__.__name__
+    if (layer.bias_regularizer):
+        params['bias_regularizer'] = layer.bias_regularizer.__class__.__name__
+    if (layer.activity_regularizer):
+        params['activity_regularizer'] = layer.activity_regularizer.__class__.__name__
+    if (layer.depthwise_constraint):
+        params['depthwise_constraint'] = layer.depthwise_constraint.__class__.__name__
+    if (layer.pointwise_constraint):
+        params['pointwise_constraint'] = layer.pointwise_constraint.__class__.__name__
+    if (layer.bias_constraint):
+        params['bias_constraint'] = layer.bias_constraint.__class__.__name__
+    return jsonLayer('DepthwiseConv', params, layer)
+
+
 def Pooling(layer):
     params = {}
     poolMap = {
@@ -239,6 +270,7 @@ def Embed(layer):
 def Recurrent(layer):
     recurrentMap = {
         'SimpleRNN': 'RNN',
+        'GRU': 'GRU',
         'LSTM': 'LSTM'
     }
     params = {}
@@ -263,6 +295,11 @@ def Recurrent(layer):
     params['use_bias'] = layer.use_bias
     params['dropout'] = layer.dropout
     params['recurrent_dropout'] = layer.recurrent_dropout
+    if (layer.__class__.__name__ == 'GRU'):
+        params['recurrent_activation'] = layer.recurrent_activation.func_name
+    elif (layer.__class__.__name__ == 'LSTM'):
+        params['recurrent_activation'] = layer.recurrent_activation.func_name
+        params['unit_forget_bias'] = layer.unit_forget_bias
     return jsonLayer(recurrentMap[layer.__class__.__name__], params, layer)
 
 

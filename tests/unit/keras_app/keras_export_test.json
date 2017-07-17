@@ -310,7 +310,9 @@
         "params": {
             "recurrent_dropout": 0, 
             "kernel_constraint": "None", 
-            "dropout": 0, 
+            "dropout": 0,
+            "recurrent_activation": "linear",
+            "unit_forget_bias": false,
             "weight_filler": "VarianceScaling", 
             "recurrent_initializer": "Orthogonal", 
             "bias_filler": "Zeros", 
