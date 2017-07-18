@@ -284,6 +284,8 @@ class Content extends React.Component {
         // add the missing params with default values
         Object.keys(data[type].params).forEach(param => {
           if (!layer.params.hasOwnProperty(param)) {
+            // The initial value is a list with the first element being the actual value, and the second being a flag which 
+            // controls wheter the parameter is disabled or not on the frontend.
             layer.params[param] = [data[type].params[param].value, false];
           }
           else {
