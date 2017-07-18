@@ -1,3 +1,6 @@
+import numpy as np
+
+
 # ********** Data Layers **********
 def Input(layer):
     params = {}
@@ -452,8 +455,8 @@ def Scale(layer):
 
 
 def Padding(layer):
-    pad = layer.padding
-    params = {'pad_h': pad[0][0], 'pad_w': pad[1][0]}
+    pad = np.asarray(layer.padding)[:, 0].tolist()
+    params = {'pad': pad}
     return jsonLayer('Pad', params, layer)
 
 

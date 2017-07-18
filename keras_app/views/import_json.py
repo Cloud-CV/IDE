@@ -51,7 +51,9 @@ def importJson(request):
         'UpSampling1D': Upsample,
         'UpSampling2D': Upsample,
         'UpSampling3D': Upsample,
+        'ZeroPadding1D': Padding,
         'ZeroPadding2D': Padding,
+        'ZeroPadding3D': Padding,
         'MaxPooling1D': Pooling,
         'MaxPooling2D': Pooling,
         'MaxPooling3D': Pooling,
@@ -123,16 +125,23 @@ def importJson(request):
     # collect names of all zeroPad layers
     zeroPad = []
     # Transfer parameters and connections from zero pad
+    # The 'pad' param is a list with upto 3 elements
     for node in net:
         if (net[node]['info']['type'] == 'Pad'):
             net[net[node]['connection']['output'][0]]['connection']['input'] = \
                 net[node]['connection']['input']
-            net[net[node]['connection']['output'][0]]['params']['pad_w'] += \
-                net[node]['params']['pad_w']
-            net[net[node]['connection']['output'][0]]['params']['pad_h'] += \
-                net[node]['params']['pad_h']
             net[net[node]['connection']['input'][0]]['connection']['output'] = \
                 net[node]['connection']['output']
+            net[net[node]['connection']['output'][0]]['params']['pad_w'] += \
+                net[node]['params']['pad'][0]
+            if (net[net[node]['connection']['output'][0]]['params']['layer_type'] == '2D'):
+                net[net[node]['connection']['output'][0]]['params']['pad_h'] += \
+                    net[node]['params']['pad'][1]
+            elif (net[net[node]['connection']['output'][0]]['params']['layer_type'] == '3D'):
+                net[net[node]['connection']['output'][0]]['params']['pad_h'] += \
+                    net[node]['params']['pad'][1]
+                net[net[node]['connection']['output'][0]]['params']['pad_d'] += \
+                    net[node]['params']['pad'][2]
             zeroPad.append(node)
         # Switching connection order to handle visualization
         elif (net[node]['info']['type'] == 'Eltwise'):

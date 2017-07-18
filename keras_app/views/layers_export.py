@@ -166,11 +166,6 @@ def convolution(layer, layer_in, layerId):
     else:
         bias_initializer = layer['params']['bias_filler']
     filters = layer['params']['num_output']
-    if (padding == 'custom'):
-        p_h, p_w = layer['params']['pad_h'], layer['params']['pad_w']
-        out[layerId + 'Pad'] = ZeroPadding2D(padding=(p_h, p_w))(*layer_in)
-        padding = 'valid'
-        layer_in = [out[layerId + 'Pad']]
     kernel_regularizer = regularizerMap[layer['params']['kernel_regularizer']]
     bias_regularizer = regularizerMap[layer['params']['bias_regularizer']]
     activity_regularizer = regularizerMap[layer['params']['activity_regularizer']]
