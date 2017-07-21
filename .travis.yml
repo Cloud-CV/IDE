@@ -6,6 +6,9 @@ language: python
 python:
   - "2.7"
 
+services:
+  - docker
+
 cache:
   directories:
     - $HOME/.cache/pip
@@ -24,6 +27,7 @@ install:
 
 before_script:
   - export PYTHONPATH=$PYTHONPATH:$HOME/caffe/caffe/python
+
 script:
   - flake8 ./
   - npm run ci
@@ -31,3 +35,4 @@ script:
 
 after_success:
   - coveralls
+  - sh docker/deploy.sh
