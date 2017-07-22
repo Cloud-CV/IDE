@@ -1,5 +1,5 @@
 {
-  "AWSEBDockerrunVersion": 2,
+  "AWSEBDockerrunVersion": 1,
   "containerDefinitions": [
     {
       "name": "fabrik-app",
