@@ -2,7 +2,7 @@ import numpy as np
 
 from keras.layers import Dense, Activation, Dropout, Flatten, Reshape, Permute, RepeatVector
 from keras.layers import ActivityRegularization, Masking
-from keras.layers import Conv1D, Conv2D, Conv3D, Conv2DTranspose, SeparableConv2D
+from keras.layers import Conv1D, Conv2D, Conv3D, Conv2DTranspose
 from keras.layers import UpSampling1D, UpSampling2D, UpSampling3D
 from keras.layers import MaxPooling1D, MaxPooling2D, MaxPooling3D
 from keras.layers import AveragePooling1D, AveragePooling2D, AveragePooling3D
@@ -215,7 +215,8 @@ def convolution(layer, layer_in, layerId):
                                        kernel_constraint=kernel_constraint)(*layer_in)
     return out
 
-
+# Separable Convolution is currently not supported with Theano backend
+'''
 def depthwiseConv(layer, layer_in, layerId):
     out = {}
     padding = get_padding(layer)
@@ -251,7 +252,7 @@ def depthwiseConv(layer, layer_in, layerId):
                                    depthwise_constraint=depthwise_constraint,
                                    pointwise_constraint=pointwise_constraint,
                                    bias_constraint=bias_constraint,)(*layer_in)
-    return out
+    return out'''
 
 
 def deconvolution(layer, layer_in, layerId):

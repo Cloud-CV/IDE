@@ -32,7 +32,6 @@ function Pane() {
         <li><PaneElement id="Crop">Crop</PaneElement></li>
         <li><PaneElement id="SPP">SPP</PaneElement></li>
         <li><PaneElement id="Deconvolution">Deconvolution</PaneElement></li>
-        <li><PaneElement id="DepthwiseConv">Depthwise Conv</PaneElement></li>
       </ul>
     </li>
     <li className="dropdown-submenu">

@@ -24,7 +24,7 @@ from keras.layers import Input
 from keras import regularizers
 from keras.models import Model, Sequential
 from keras_app.views.layers_export import data, convolution, deconvolution, pooling, dense, dropout, embed,\
-    depthwiseConv, recurrent, batchNorm, activation, flatten, reshape, eltwise, concat, upsample,\
+    recurrent, batchNorm, activation, flatten, reshape, eltwise, concat, upsample,\
     locallyConnected, permute, repeatVector, regularization, masking, gaussianNoise, gaussianDropout,\
     alphaDropout
 
