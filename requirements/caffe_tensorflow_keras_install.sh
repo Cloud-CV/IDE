@@ -23,11 +23,12 @@ if [ ! -d $HOME/caffe/caffe ]; then
 		#Install caffe
 		echo "Installing caffe"
 		cp Makefile.config.example Makefile.config
-		WITH_PYTHON_LAYER=1	CPU_ONLY=1 USE_OPENCV=0 make all -j4
+		make clean
+		WITH_PYTHON_LAYER=1 CPU_ONLY=1 USE_OPENCV=0 make all -j4
 
 		#Install pycaffe
 		echo "Install PyCaffe"
-		WITH_PYTHON_LAYER=1	CPU_ONLY=1 USE_OPENCV=0 make pycaffe -j2
+		WITH_PYTHON_LAYER=1 CPU_ONLY=1 USE_OPENCV=0 make pycaffe -j2
 
 		echo "export PYTHONPATH=$(pwd)/python:$PYTHONPATH" > ~/.bash_profile
 		source ~/.bash_profile
