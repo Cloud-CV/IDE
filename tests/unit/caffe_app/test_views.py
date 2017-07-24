@@ -60,7 +60,6 @@ class ExportPrototxtFailTest(unittest.TestCase):
         response = self.client.post(reverse('caffe-export'), {'net': json.dumps(response['net']),
                                                               'net_name': ''})
         response = json.loads(response.content)
-        print response
         self.assertEqual(response['result'], 'error')
 
 
@@ -776,7 +775,8 @@ class FilterLayerTest(unittest.TestCase):
         self.assertEqual(response['result'], 'success')
 
 
-class ParameterLayerTest(unittest.TestCase):
+# This layer is currently not supported as there is no bottom blob
+'''class ParameterLayerTest(unittest.TestCase):
     def setUp(self):
         self.client = Client()
 
@@ -790,6 +790,7 @@ class ParameterLayerTest(unittest.TestCase):
         os.remove(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'))
         self.assertGreaterEqual(len(response['net']['l0']['params']), 1)
         self.assertEqual(response['result'], 'success')
+'''
 
 
 class ReductionLayerTest(unittest.TestCase):

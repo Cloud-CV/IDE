@@ -23,6 +23,17 @@ class ImageDataLayerTest(unittest.TestCase):
         tests.close()
         net = yaml.safe_load(json.dumps(response['net']))
         net = {'l0': net['ImageData']}
+        # Test 1
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l0']['info']['type'], 'ImageData')
+        # Test 2
+        net['l0']['info']['phase'] = 0
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l0']['info']['type'], 'ImageData')
+        # Test 3
+        net['l0']['info']['phase'] = 1
         prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
         self.assertGreater(len(prototxt), 9)
         self.assertEqual(net['l0']['info']['type'], 'ImageData')
@@ -39,6 +50,20 @@ class DataLayerTest(unittest.TestCase):
         tests.close()
         net = yaml.safe_load(json.dumps(response['net']))
         net = {'l0': net['Data']}
+        # Test 1
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l0']['info']['type'], 'Data')
+        # Test 2
+        net['l0']['info']['phase'] = 0
+        net['l0']['params']['mean_value'] = ''
+        net['l0']['params']['mean_file'] = '/path/to/mean/file'
+        net['l0']['params']['backend'] = "LEVELDB"
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l0']['info']['type'], 'Data')
+        # Test 3
+        net['l0']['info']['phase'] = 1
         prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
         self.assertGreater(len(prototxt), 9)
         self.assertEqual(net['l0']['info']['type'], 'Data')
@@ -55,6 +80,17 @@ class HDF5DataLayerTest(unittest.TestCase):
         tests.close()
         net = yaml.safe_load(json.dumps(response['net']))
         net = {'l0': net['HDF5Data']}
+        # Test 1
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l0']['info']['type'], 'HDF5Data')
+        # Test 2
+        net['l0']['info']['phase'] = 0
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l0']['info']['type'], 'HDF5Data')
+        # Test 3
+        net['l0']['info']['phase'] = 1
         prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
         self.assertGreater(len(prototxt), 9)
         self.assertEqual(net['l0']['info']['type'], 'HDF5Data')
@@ -72,6 +108,17 @@ class HDF5OutputLayerTest(unittest.TestCase):
         net = yaml.safe_load(json.dumps(response['net']))
         net = {'l0': net['Input'], 'l1': net['HDF5Output']}
         net['l0']['connection']['output'].append('l1')
+        # Test 1
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l1']['info']['type'], 'HDF5Output')
+        # Test 2
+        net['l1']['info']['phase'] = 0
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l1']['info']['type'], 'HDF5Output')
+        # Test 3
+        net['l1']['info']['phase'] = 1
         prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
         self.assertGreater(len(prototxt), 9)
         self.assertEqual(net['l1']['info']['type'], 'HDF5Output')
@@ -103,6 +150,17 @@ class WindowDataLayerTest(unittest.TestCase):
         tests.close()
         net = yaml.safe_load(json.dumps(response['net']))
         net = {'l0': net['WindowData']}
+        # Test 1
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l0']['info']['type'], 'WindowData')
+        # Test 2
+        net['l0']['info']['phase'] = 0
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l0']['info']['type'], 'WindowData')
+        # Test 3
+        net['l0']['info']['phase'] = 1
         prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
         self.assertGreater(len(prototxt), 9)
         self.assertEqual(net['l0']['info']['type'], 'WindowData')
@@ -119,6 +177,17 @@ class MemoryDataLayerTest(unittest.TestCase):
         tests.close()
         net = yaml.safe_load(json.dumps(response['net']))
         net = {'l0': net['MemoryData']}
+        # Test 1
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l0']['info']['type'], 'MemoryData')
+        # Test 2
+        net['l0']['info']['phase'] = 0
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l0']['info']['type'], 'MemoryData')
+        # Test 3
+        net['l0']['info']['phase'] = 1
         prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
         self.assertGreater(len(prototxt), 9)
         self.assertEqual(net['l0']['info']['type'], 'MemoryData')
@@ -135,6 +204,17 @@ class DummyDataLayerTest(unittest.TestCase):
         tests.close()
         net = yaml.safe_load(json.dumps(response['net']))
         net = {'l0': net['DummyData']}
+        # Test 1
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l0']['info']['type'], 'DummyData')
+        # Test 2
+        net['l0']['info']['phase'] = 0
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l0']['info']['type'], 'DummyData')
+        # Test 3
+        net['l0']['info']['phase'] = 1
         prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
         self.assertGreater(len(prototxt), 9)
         self.assertEqual(net['l0']['info']['type'], 'DummyData')
@@ -170,6 +250,17 @@ class PoolingLayerTest(unittest.TestCase):
         net = yaml.safe_load(json.dumps(response['net']))
         net = {'l0': net['Input'], 'l1': net['Pooling']}
         net['l0']['connection']['output'].append('l1')
+        # Test 1
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l1']['info']['type'], 'Pooling')
+        # Test 2
+        net['l1']['params']['pool'] = 'AVE'
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l1']['info']['type'], 'Pooling')
+        # Test 3
+        net['l1']['params']['pool'] = 'STOCHASTIC'
         prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
         self.assertGreater(len(prototxt), 9)
         self.assertEqual(net['l1']['info']['type'], 'Pooling')
@@ -343,6 +434,12 @@ class LRNLayerTest(unittest.TestCase):
         net = yaml.safe_load(json.dumps(response['net']))
         net = {'l0': net['Input'], 'l1': net['LRN']}
         net['l0']['connection']['output'].append('l1')
+        # Test 1
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l1']['info']['type'], 'LRN')
+        # Test 2
+        net['l1']['params']['norm_region'] = 'ACROSS_CHANNELS'
         prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
         self.assertGreater(len(prototxt), 9)
         self.assertEqual(net['l1']['info']['type'], 'LRN')
@@ -719,6 +816,22 @@ class EltwiseLayerTest(unittest.TestCase):
         net = yaml.safe_load(json.dumps(response['net']))
         net = {'l0': net['Input'], 'l1': net['Eltwise']}
         net['l0']['connection']['output'].append('l1')
+        # Test 1
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l1']['info']['type'], 'Eltwise')
+        # Test 2
+        net['l1']['params']['layer_type'] = 'Sum'
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l1']['info']['type'], 'Eltwise')
+        # Test 3
+        net['l1']['params']['layer_type'] = 'Maximum'
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l1']['info']['type'], 'Eltwise')
+        # Test 4
+        net['l1']['params']['layer_type'] = ''
         prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
         self.assertGreater(len(prototxt), 9)
         self.assertEqual(net['l1']['info']['type'], 'Eltwise')
@@ -775,6 +888,22 @@ class ReductionLayerTest(unittest.TestCase):
         net = yaml.safe_load(json.dumps(response['net']))
         net = {'l0': net['Input'], 'l1': net['Reduction']}
         net['l0']['connection']['output'].append('l1')
+        # Test 1
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l1']['info']['type'], 'Reduction')
+        # Test 2
+        net['l1']['params']['operation'] = 'SUM'
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l1']['info']['type'], 'Reduction')
+        # Test 3
+        net['l1']['params']['operation'] = 'ASUM'
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l1']['info']['type'], 'Reduction')
+        # Test 4
+        net['l1']['params']['operation'] = 'SUMSQ'
         prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
         self.assertGreater(len(prototxt), 9)
         self.assertEqual(net['l1']['info']['type'], 'Reduction')
@@ -946,6 +1075,17 @@ class AccuracyLayerTest(unittest.TestCase):
         net = yaml.safe_load(json.dumps(response['net']))
         net = {'l0': net['Input'], 'l1': net['Accuracy']}
         net['l0']['connection']['output'].append('l1')
+        # Test 1
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l1']['info']['type'], 'Accuracy')
+        # Test 2
+        net['l1']['info']['phase'] = 0
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l1']['info']['type'], 'Accuracy')
+        # Test 3
+        net['l1']['info']['phase'] = 1
         prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
         self.assertGreater(len(prototxt), 9)
         self.assertEqual(net['l1']['info']['type'], 'Accuracy')
@@ -969,7 +1109,7 @@ class ContrastiveLossLayerTest(unittest.TestCase):
 
 
 # ********** Python Layer Test **********
-class PythonLayerTest(unittest.TestCase):
+class PythonDataLayerTest(unittest.TestCase):
     def setUp(self):
         self.client = Client()
 
@@ -979,10 +1119,33 @@ class PythonLayerTest(unittest.TestCase):
         response = json.load(tests)
         tests.close()
         net = yaml.safe_load(json.dumps(response['net']))
-        net = {'l0': net['Python']}
+        net = {'l0': net['PythonData']}
+        # Test 1
         prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
         self.assertGreater(len(prototxt), 9)
         self.assertEqual(net['l0']['info']['type'], 'Python')
+        # Test 2
+        net['l0']['params']['endPoint'] = "1, 0"
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l0']['info']['type'], 'Python')
+
+
+class PythonLossLayerTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_json_to_prototxt(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'ide',
+                                  'caffe_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input'], 'l1': net['PythonLoss']}
+        net['l0']['connection']['output'].append('l1')
+        prototxt, input_dim = jsonToPrototxt(net, response['net_name'])
+        self.assertGreater(len(prototxt), 9)
+        self.assertEqual(net['l1']['info']['type'], 'Python')
 
 
 # ********** Shape Calculation Test **********

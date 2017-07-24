@@ -101,7 +101,6 @@ function Pane() {
         <li><PaneElement id="Concat">Concat</PaneElement></li>
         <li><PaneElement id="Eltwise">Eltwise</PaneElement></li>
         <li><PaneElement id="Filter">Filter</PaneElement></li>
-        <li><PaneElement id="Parameter">Parameter</PaneElement></li> 
         <li><PaneElement id="Reduction">Reduction</PaneElement></li>
         <li><PaneElement id="Silence">Silence</PaneElement></li>
         <li><PaneElement id="ArgMax">ArgMax</PaneElement></li>

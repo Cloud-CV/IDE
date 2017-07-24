@@ -2,6 +2,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.conf import settings
 import os
+import json
 from caffe.proto import caffe_pb2
 from google.protobuf import text_format
 
@@ -72,6 +73,10 @@ def importPrototxt(request):
                 params['source'] = layer.data_param.source
                 params['batch_size'] = layer.data_param.batch_size
                 params['backend'] = layer.data_param.backend
+                if (params['backend'] == 0):
+                    params['backend'] = 'LEVELDB'
+                else:
+                    params['backend'] = 'LMDB'
                 params['rand_skip'] = layer.data_param.rand_skip
                 params['prefetch'] = layer.data_param.prefetch
 
@@ -145,6 +150,12 @@ def importPrototxt(request):
                 params['kernel_h'] = layer.pooling_param.kernel_h or layer.pooling_param.kernel_size
                 params['kernel_w'] = layer.pooling_param.kernel_w or layer.pooling_param.kernel_size
                 params['pool'] = layer.pooling_param.pool
+                if (params['pool'] == 0):
+                    params['pool'] = 'MAX'
+                elif (params['pool'] == 1):
+                    params['pool'] = 'AVE'
+                else:
+                    params['pool'] = 'STOCHASTIC'
                 params['layer_type'] = '2D'
 
             elif(layer.type == 'SPP'):
@@ -222,8 +233,12 @@ def importPrototxt(request):
                 params['k'] = layer.lrn_param.k
                 if layer.lrn_param.norm_region:
                     params['norm_region'] = layer.lrn_param.norm_region
+                    if (params['norm_region'] == 0):
+                        params['norm_region'] = 'ACROSS_CHANNELS'
+                    else:
+                        params['norm_region'] = 'WITHIN_CHANNEL'
                 else:
-                    params['norm_region'] = 0
+                    params['norm_region'] = 'ACROSS_CHANNELS'
 
             elif(layer.type == 'MVN'):
                 if(layer.top == layer.bottom):
@@ -333,14 +348,23 @@ def importPrototxt(request):
                 else:
                     params['layer_type'] = 'Sum'
 
-            elif(layer.type == 'Parameter'):
-                params['shape'] = str(map(int, layer.parameter_param.shape.dim))[1:-1]
+            # This layer is currently not supported as there is no bottom blob
+            # elif(layer.type == 'Parameter'):
+            #    params['shape'] = str(map(int, layer.parameter_param.shape.dim))[1:-1]
 
             elif(layer.type == 'Reduction'):
                 if layer.reduction_param.operation:
                     params['operation'] = layer.reduction_param.operation
+                    if (params['operation'] == 1):
+                        params['operation'] = 'SUM'
+                    elif (params['operation'] == 1):
+                        params['operation'] = 'ASUM'
+                    elif (params['operation'] == 1):
+                        params['operation'] = 'SUMSQ'
+                    else:
+                        params['operation'] = 'MEAN'
                 else:
-                    params['operation'] = 1
+                    params['operation'] = 'SUM'
                 params['axis'] = layer.reduction_param.axis
                 params['coeff'] = layer.reduction_param.coeff
 
