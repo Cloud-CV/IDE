@@ -62,7 +62,7 @@ def Flatten(layer):
 def Reshape(layer):
     params = {}
     shape = layer.target_shape
-    params['dim'] = str([1, shape[2], shape[0], shape[1]])[1:-1]
+    params['dim'] = str([1] + list(shape))[1:-1]
     return jsonLayer('Reshape', params, layer)
 
 

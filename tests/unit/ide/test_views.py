@@ -1,8 +1,11 @@
+import caffe
 import json
 import os
+import sys
 import unittest
 import yaml
 
+from caffe import layers as L, to_proto
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.test import Client
@@ -1153,13 +1156,71 @@ class ShapeCalculationTest(unittest.TestCase):
     def setUp(self):
         self.client = Client()
 
-    def test_shapes(self):
-        with open(os.path.join(settings.BASE_DIR, 'example/keras', 'vgg16.json'), 'r') as f:
+    def caffe_test(self, path, key, success, layer=None):
+        with open(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'), 'r') as f:
+            response = self.client.post(reverse('caffe-import'), {'file': f})
+        response = json.loads(response.content)
+        if success:
+            net = get_shapes(response['net'])
+            caffe_net = caffe.Net(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'), caffe.TEST)
+            self.assertEqual(list(caffe_net.blobs[key].data.shape[1:]), net['l0']['shape']['output'])
+        else:
+            try:
+                net = get_shapes(response['net'])
+            except:
+                message = 'Cannot determine shape of ' + layer + ' layer.'
+                self.assertEqual(str(sys.exc_info()[1]), message)
+
+    def keras_test(self, filename):
+        with open(filename, 'r') as f:
             response = self.client.post(reverse('keras-import'), {'file': f})
         response = json.loads(response.content)
         net = get_shapes(response['net'])
-        with open(os.path.join(settings.BASE_DIR, 'example/keras', 'vgg16.json'), 'r') as f:
+        with open(filename, 'r') as f:
             model = model_from_json(json.dumps(json.load(f)))
         for layer in model.layers:
-            self.assertEqual(list(layer.output_shape[::-1][:-1]),
-                             net[layer.name]['shape']['output'])
+            self.assertEqual(list(layer.output_shape[::-1][:-1]), net[layer.name]['shape']['output'])
+
+    def test_shapes(self):
+        # Test 1
+        image_path = os.path.join(settings.BASE_DIR, 'media', 'image_list.txt')
+        data, _ = L.ImageData(source=image_path, batch_size=32, ntop=2, rand_skip=0,
+                              shuffle=False, new_height=256, new_width=256, is_color=True,
+                              root_folder=os.path.join(settings.BASE_DIR, 'example/'),
+                              transform_param=dict(crop_size=227), name='l0')
+        with open(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'), 'w') as f:
+            f.write(str(to_proto(data)))
+        self.caffe_test(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'), 'ImageData1', True)
+        # Test 2
+        image_path = os.path.join(settings.BASE_DIR, 'media', 'image_list.txt')
+        data, _ = L.ImageData(source=image_path, batch_size=32, ntop=2, rand_skip=0,
+                              shuffle=False, new_height=256, new_width=256, is_color=True,
+                              root_folder=os.path.join(settings.BASE_DIR, 'example/'), name='l0')
+        with open(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'), 'w') as f:
+            f.write(str(to_proto(data)))
+        self.caffe_test(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'), 'ImageData1', True)
+        # Test 3
+        data, _ = L.MemoryData(batch_size=32, ntop=2, channels=3, height=224, width=224)
+        with open(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'), 'w') as f:
+            f.write(str(to_proto(data)))
+        self.caffe_test(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'), 'MemoryData1', True)
+        # Test 4
+        data, _ = L.HDF5Data(source='/dummy/source/', batch_size=32, ntop=2, shuffle=False)
+        with open(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'), 'w') as f:
+            f.write(str(to_proto(data)))
+        self.caffe_test(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'), 'HDF5Data1', False,
+                        'HDF5Data')
+        # Test 5
+        top = L.Python(module='pascal_multilabel_datalayers', layer='PascalMultilabelDataLayerSync',
+                       param_str="{\'pascal_root\': \'../data/pascal/VOC2007\', \'im_shape\': [227, 227], \
+                        \'split\': \'train\', \'batch_size\': 128}")
+        with open(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'), 'w') as f:
+            f.write(str(to_proto(top)))
+        self.caffe_test(os.path.join(settings.BASE_DIR, 'media', 'test.prototxt'), 'HDF5Data1', False,
+                        'Python')
+        # Test 6
+        self.keras_test(os.path.join(settings.BASE_DIR, 'example/keras', 'shapeCheck1D.json'))
+        # Test 7
+        self.keras_test(os.path.join(settings.BASE_DIR, 'example/keras', 'shapeCheck2D.json'))
+        # Test 8
+        self.keras_test(os.path.join(settings.BASE_DIR, 'example/keras', 'shapeCheck3D.json'))
