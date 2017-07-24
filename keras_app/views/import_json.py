@@ -79,6 +79,7 @@ def importJson(request):
         'LeakyReLU': LeakyReLU,
         'PReLU': PReLU,
         'elu': ELU,
+        'ELU': ELU,
         'ThresholdedReLU': ThresholdedReLU,
         'BatchNormalization': BatchNorm,
         'GaussianNoise': GaussianNoise,

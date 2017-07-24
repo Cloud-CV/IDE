@@ -392,7 +392,7 @@ def PReLU(layer):
 
 
 def ELU(layer):
-    params = {'alpha': layer.alpha}
+    params = {'alpha': layer.alpha.tolist()}
     return jsonLayer('ELU', params, layer)
 
 

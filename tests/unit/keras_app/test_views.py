@@ -6,19 +6,27 @@ import yaml
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.test import Client
-from keras.layers import Input
-from keras.layers import Conv2D, Conv2DTranspose, ZeroPadding2D
-from keras.layers import MaxPooling2D, AveragePooling2D
-from keras.layers import Dense, Activation, Dropout, Flatten, Reshape
-from keras.layers import SimpleRNN, LSTM
+from keras.layers import Dense, Activation, Dropout, Flatten, Reshape, Permute, RepeatVector
+from keras.layers import ActivityRegularization, Masking
+from keras.layers import Conv1D, Conv2D, Conv3D, Conv2DTranspose
+from keras.layers import UpSampling1D, UpSampling2D, UpSampling3D
+from keras.layers import GlobalMaxPooling1D, GlobalMaxPooling2D
+from keras.layers import MaxPooling1D, MaxPooling2D, MaxPooling3D
+from keras.layers import ZeroPadding1D, ZeroPadding2D, ZeroPadding3D
+from keras.layers import LocallyConnected1D, LocallyConnected2D
+from keras.layers import SimpleRNN, LSTM, GRU
 from keras.layers import Embedding
-from keras.layers import add, concatenate
-from keras.layers.advanced_activations import LeakyReLU, PReLU
+from keras.layers import add, multiply, maximum, concatenate, average, dot
+from keras.layers.advanced_activations import LeakyReLU, PReLU, ELU, ThresholdedReLU
 from keras.layers import BatchNormalization
-from keras.models import Model, Sequential
+from keras.layers import GaussianNoise, GaussianDropout, AlphaDropout
+from keras.layers import Input
 from keras import regularizers
-from keras_app.views.layers_export import data, convolution, deconvolution, pooling, dense,\
-    dropout, embed, recurrent, batchNorm, activation, flatten, reshape, concat, eltwise
+from keras.models import Model, Sequential
+from keras_app.views.layers_export import data, convolution, deconvolution, pooling, dense, dropout, embed,\
+    depthwiseConv, recurrent, batchNorm, activation, flatten, reshape, eltwise, concat, upsample,\
+    locallyConnected, permute, repeatVector, regularization, masking, gaussianNoise, gaussianDropout,\
+    alphaDropout
 
 
 class ImportJsonTest(unittest.TestCase):
@@ -70,139 +78,348 @@ class ExportJsonTest(unittest.TestCase):
         net = {'l0': net['HDF5Data']}
         response = self.client.post(reverse('keras-export'), {'net': json.dumps(net),
                                                               'net_name': ''})
+        response = json.loads(response.content)
         self.assertEqual(response['result'], 'error')
 
 
 # ********** Import json tests **********
+class HelperFunctions():
+    def setUp(self):
+        self.client = Client()
+
+    def keras_type_test(self, model, id, type):
+        json_string = Model.to_json(model)
+        with open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'w') as out:
+            json.dump(json.loads(json_string), out, indent=4)
+        sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'r')
+        response = self.client.post(reverse('keras-import'), {'file': sample_file})
+        response = json.loads(response.content)
+        layerId = sorted(response['net'].keys())
+        self.assertEqual(response['result'], 'success')
+        self.assertEqual(response['net'][layerId[id]]['info']['type'], type)
+
+    def keras_param_test(self, model, id, params):
+        json_string = Model.to_json(model)
+        with open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'w') as out:
+            json.dump(json.loads(json_string), out, indent=4)
+        sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'r')
+        response = self.client.post(reverse('keras-import'), {'file': sample_file})
+        response = json.loads(response.content)
+        layerId = sorted(response['net'].keys())
+        self.assertEqual(response['result'], 'success')
+        self.assertGreaterEqual(len(response['net'][layerId[id]]['params']), params)
+
 
 # ********** Data Layers **********
-class InputImportTest(unittest.TestCase):
+class InputImportTest(unittest.TestCase, HelperFunctions):
     def setUp(self):
         self.client = Client()
 
     def test_keras_import(self):
         model = Input((224, 224, 3))
         model = Model(model, model)
-        json_string = Model.to_json(model)
-        with open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'w') as out:
-            json.dump(json.loads(json_string), out, indent=4)
-        sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'r')
-        response = self.client.post(reverse('keras-import'), {'file': sample_file})
-        response = json.loads(response.content)
-        layerId = sorted(response['net'].keys())
-        self.assertEqual(response['result'], 'success')
-        self.assertGreaterEqual(len(response['net'][layerId[0]]['params']), 1)
+        self.keras_param_test(model, 0, 1)
 
 
-# ********** Vision Layers **********
-class ConvolutionImportTest(unittest.TestCase):
+# ********** Core Layers **********
+class DenseImportTest(unittest.TestCase, HelperFunctions):
     def setUp(self):
         self.client = Client()
 
     def test_keras_import(self):
-        img_input = Input((224, 224, 3))
-        model = Conv2D(64, (3, 3), padding='same')(img_input)
-        model = Activation('relu')(model)
-        model = Model(img_input, model)
-        json_string = Model.to_json(model)
-        with open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'w') as out:
-            json.dump(json.loads(json_string), out, indent=4)
-        sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'r')
-        response = self.client.post(reverse('keras-import'), {'file': sample_file})
-        response = json.loads(response.content)
-        layerId = sorted(response['net'].keys())
-        self.assertEqual(response['result'], 'success')
-        self.assertGreaterEqual(len(response['net'][layerId[1]]['params']), 9)
-        self.assertEqual(response['net'][layerId[0]]['info']['type'], 'ReLU')
+        model = Sequential()
+        model.add(Dense(100, kernel_regularizer=regularizers.l2(0.01), bias_regularizer=regularizers.l2(0.01),
+                        activity_regularizer=regularizers.l2(0.01), kernel_constraint='max_norm',
+                        bias_constraint='max_norm', activation='relu', input_shape=(16,)))
+        model.build()
+        self.keras_param_test(model, 1, 3)
 
 
-class DeconvolutionImportTest(unittest.TestCase):
+class ActivationImportTest(unittest.TestCase, HelperFunctions):
     def setUp(self):
         self.client = Client()
 
     def test_keras_import(self):
-        img_input = Input((224, 224, 3))
-        model = Conv2DTranspose(64, (3, 3), padding='same')(img_input)
-        model = LeakyReLU()(model)
-        model = Model(img_input, model)
-        json_string = Model.to_json(model)
-        with open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'w') as out:
-            json.dump(json.loads(json_string), out, indent=4)
-        sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'r')
-        response = self.client.post(reverse('keras-import'), {'file': sample_file})
-        response = json.loads(response.content)
-        layerId = sorted(response['net'].keys())
-        self.assertEqual(response['result'], 'success')
-        self.assertGreaterEqual(len(response['net'][layerId[0]]['params']), 9)
-        self.assertEqual(response['net'][layerId[2]]['info']['type'], 'ReLU')
+        # softmax
+        model = Sequential()
+        model.add(Activation('softmax', input_shape=(15,)))
+        model.build()
+        self.keras_type_test(model, 0, 'Softmax')
+        # relu
+        model = Sequential()
+        model.add(Activation('relu', input_shape=(15,)))
+        model.build()
+        self.keras_type_test(model, 0, 'ReLU')
+        # tanh
+        model = Sequential()
+        model.add(Activation('tanh', input_shape=(15,)))
+        model.build()
+        self.keras_type_test(model, 0, 'TanH')
+        # sigmoid
+        model = Sequential()
+        model.add(Activation('sigmoid', input_shape=(15,)))
+        model.build()
+        self.keras_type_test(model, 0, 'Sigmoid')
+        # selu
+        model = Sequential()
+        model.add(Activation('selu', input_shape=(15,)))
+        model.build()
+        self.keras_type_test(model, 0, 'SELU')
+        # softplus
+        model = Sequential()
+        model.add(Activation('softplus', input_shape=(15,)))
+        model.build()
+        self.keras_type_test(model, 0, 'Softplus')
+        # softsign
+        model = Sequential()
+        model.add(Activation('softsign', input_shape=(15,)))
+        model.build()
+        self.keras_type_test(model, 0, 'Softsign')
+        # hard_sigmoid
+        model = Sequential()
+        model.add(Activation('hard_sigmoid', input_shape=(15,)))
+        model.build()
+        self.keras_type_test(model, 0, 'HardSigmoid')
+        # LeakyReLU
+        model = Sequential()
+        model.add(LeakyReLU(alpha=1, input_shape=(15,)))
+        model.build()
+        self.keras_type_test(model, 0, 'ReLU')
+        # PReLU
+        model = Sequential()
+        model.add(PReLU(input_shape=(15,)))
+        model.build()
+        self.keras_type_test(model, 0, 'PReLU')
+        # ELU
+        model = Sequential()
+        model.add(ELU(alpha=1, input_shape=(15,)))
+        model.build()
+        self.keras_type_test(model, 0, 'ELU')
+        # ThresholdedReLU
+        model = Sequential()
+        model.add(ThresholdedReLU(theta=1, input_shape=(15,)))
+        model.build()
+        self.keras_type_test(model, 0, 'ThresholdedReLU')
 
 
-class PoolingImportTest(unittest.TestCase):
+class DropoutImportTest(unittest.TestCase, HelperFunctions):
     def setUp(self):
         self.client = Client()
 
     def test_keras_import(self):
-        img_input = Input((224, 224, 3))
-        model = MaxPooling2D((2, 2), strides=(2, 2))(img_input)
-        model = AveragePooling2D((2, 2), strides=(2, 2))(model)
-        model = Model(img_input, model)
-        json_string = Model.to_json(model)
-        with open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'w') as out:
-            json.dump(json.loads(json_string), out, indent=4)
-        sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'r')
-        response = self.client.post(reverse('keras-import'), {'file': sample_file})
-        response = json.loads(response.content)
-        layerId = sorted(response['net'].keys())
-        self.assertEqual(response['result'], 'success')
-        self.assertGreaterEqual(len(response['net'][layerId[0]]['params']), 7)
-        self.assertGreaterEqual(len(response['net'][layerId[2]]['params']), 7)
+        model = Sequential()
+        model.add(Dropout(0.5, input_shape=(10, 64)))
+        model.build()
+        self.keras_type_test(model, 0, 'Dropout')
 
 
-# ********** Common Layers **********
-class DenseImportTest(unittest.TestCase):
+class FlattenImportTest(unittest.TestCase, HelperFunctions):
     def setUp(self):
         self.client = Client()
 
     def test_keras_import(self):
-        img_input = Input((224, 224, 3))
-        model = Flatten()(img_input)
-        model = Dense(100)(model)
-        model = PReLU()(model)
-        model = Dropout(0.5)(model)
-        model = Reshape((1, 1, 100))(model)
-        model = Model(img_input, model)
-        json_string = Model.to_json(model)
-        with open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'w') as out:
-            json.dump(json.loads(json_string), out, indent=4)
-        sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'r')
-        response = self.client.post(reverse('keras-import'), {'file': sample_file})
-        response = json.loads(response.content)
-        layerId = sorted(response['net'].keys())
-        self.assertEqual(response['result'], 'success')
-        self.assertGreaterEqual(len(response['net'][layerId[0]]['params']), 3)
-        self.assertEqual(response['net'][layerId[2]]['info']['type'], 'Flatten')
-        self.assertEqual(response['net'][layerId[4]]['info']['type'], 'PReLU')
-        self.assertEqual(response['net'][layerId[5]]['info']['type'], 'Reshape')
-        self.assertEqual(response['net'][layerId[1]]['info']['type'], 'Dropout')
+        model = Sequential()
+        model.add(Flatten(input_shape=(10, 64)))
+        model.build()
+        self.keras_type_test(model, 0, 'Flatten')
 
 
-class EmbeddingImportTest(unittest.TestCase):
+class ReshapeImportTest(unittest.TestCase, HelperFunctions):
     def setUp(self):
         self.client = Client()
 
     def test_keras_import(self):
-        img_input = Input((100,))
-        model = Embedding(100, 1000)(img_input)
-        model = Model(img_input, model)
-        json_string = Model.to_json(model)
-        with open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'w') as out:
-            json.dump(json.loads(json_string), out, indent=4)
-        sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'r')
-        response = self.client.post(reverse('keras-import'), {'file': sample_file})
-        response = json.loads(response.content)
-        layerId = sorted(response['net'].keys())
-        self.assertEqual(response['result'], 'success')
-        self.assertGreaterEqual(len(response['net'][layerId[0]]['params']), 3)
+        model = Sequential()
+        model.add(Reshape((5, 2), input_shape=(10,)))
+        model.build()
+        self.keras_type_test(model, 0, 'Reshape')
+
+
+class PermuteImportTest(unittest.TestCase, HelperFunctions):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_import(self):
+        model = Sequential()
+        model.add(Permute((2, 1), input_shape=(10, 64)))
+        model.build()
+        self.keras_type_test(model, 0, 'Permute')
+
+
+class RepeatVectorImportTest(unittest.TestCase, HelperFunctions):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_import(self):
+        model = Sequential()
+        model.add(RepeatVector(3, input_shape=(10,)))
+        model.build()
+        self.keras_type_test(model, 0, 'RepeatVector')
+
+
+class ActivityRegularizationImportTest(unittest.TestCase, HelperFunctions):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_import(self):
+        model = Sequential()
+        model.add(ActivityRegularization(l1=2, input_shape=(10,)))
+        model.build()
+        self.keras_type_test(model, 0, 'Regularization')
+
+
+class MaskingImportTest(unittest.TestCase, HelperFunctions):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_import(self):
+        model = Sequential()
+        model.add(Masking(mask_value=0., input_shape=(5, 100)))
+        model.build()
+        self.keras_type_test(model, 0, 'Masking')
+
+
+# ********** Convolutional Layers **********
+class ConvolutionImportTest(unittest.TestCase, HelperFunctions):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_import(self):
+        # Conv 1D
+        model = Sequential()
+        model.add(Conv1D(32, 3, kernel_regularizer=regularizers.l2(0.01),
+                         bias_regularizer=regularizers.l2(0.01),
+                         activity_regularizer=regularizers.l2(0.01), kernel_constraint='max_norm',
+                         bias_constraint='max_norm', activation='relu', input_shape=(1, 16)))
+        model.build()
+        self.keras_param_test(model, 1, 9)
+        # Conv 2D
+        model = Sequential()
+        model.add(Conv2D(32, (3, 3), kernel_regularizer=regularizers.l2(0.01),
+                         bias_regularizer=regularizers.l2(0.01),
+                         activity_regularizer=regularizers.l2(0.01), kernel_constraint='max_norm',
+                         bias_constraint='max_norm', activation='relu', input_shape=(1, 16, 16)))
+        model.build()
+        self.keras_param_test(model, 1, 13)
+        # Conv 3D
+        model = Sequential()
+        model.add(Conv3D(32, (3, 3, 3), kernel_regularizer=regularizers.l2(0.01),
+                         bias_regularizer=regularizers.l2(0.01),
+                         activity_regularizer=regularizers.l2(0.01), kernel_constraint='max_norm',
+                         bias_constraint='max_norm', activation='relu', input_shape=(1, 16, 16, 16)))
+        model.build()
+        self.keras_param_test(model, 1, 17)
+
+
+# This is currently unavailable with Theano backend
+'''
+class DepthwiseConvolutionImportTest(unittest.TestCase, HelperFunctions):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_import(self):
+        model = Sequential()
+        model.add(SeparableConv2D(32, 3, depthwise_regularizer=regularizers.l2(0.01),
+                                  pointwise_regularizer=regularizers.l2(0.01),
+                                  bias_regularizer=regularizers.l2(0.01),
+                                  activity_regularizer=regularizers.l2(0.01), depthwise_constraint='max_norm',
+                                  bias_constraint='max_norm', pointwise_constraint='max_norm',
+                                  activation='relu', input_shape=(1, 16, 16)))
+        self.keras_param_test(model, 1, 12)'''
+
+
+class DeconvolutionImportTest(unittest.TestCase, HelperFunctions):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_import(self):
+        model = Sequential()
+        model.add(Conv2DTranspose(32, (3, 3), kernel_regularizer=regularizers.l2(0.01),
+                                  bias_regularizer=regularizers.l2(0.01),
+                                  activity_regularizer=regularizers.l2(0.01), kernel_constraint='max_norm',
+                                  bias_constraint='max_norm', activation='relu', input_shape=(1, 16, 16)))
+        model.build()
+        self.keras_param_test(model, 1, 13)
+
+
+class UpsampleImportTest(unittest.TestCase, HelperFunctions):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_import(self):
+        # Upsample 1D
+        model = Sequential()
+        model.add(UpSampling1D(size=2, input_shape=(1, 16)))
+        model.build()
+        self.keras_param_test(model, 0, 2)
+        # Upsample 2D
+        model = Sequential()
+        model.add(UpSampling2D(size=(2, 2), input_shape=(1, 16, 16)))
+        model.build()
+        self.keras_param_test(model, 0, 3)
+        # Upsample 3D
+        model = Sequential()
+        model.add(UpSampling3D(size=(2, 2, 2), input_shape=(1, 16, 16, 16)))
+        model.build()
+        self.keras_param_test(model, 0, 4)
+
+
+# ********** Pooling Layers **********
+class PoolingImportTest(unittest.TestCase, HelperFunctions):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_import(self):
+        # Global Pooling 1D
+        model = Sequential()
+        model.add(GlobalMaxPooling1D(input_shape=(1, 16)))
+        model.build()
+        self.keras_param_test(model, 0, 5)
+        # Global Pooling 2D
+        model = Sequential()
+        model.add(GlobalMaxPooling2D(input_shape=(1, 16, 16)))
+        model.build()
+        self.keras_param_test(model, 0, 8)
+        # Pooling 1D
+        model = Sequential()
+        model.add(MaxPooling1D(pool_size=2, strides=2, padding='same', input_shape=(1, 16)))
+        model.build()
+        self.keras_param_test(model, 0, 5)
+        # Pooling 2D
+        model = Sequential()
+        model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same', input_shape=(1, 16, 16)))
+        model.build()
+        self.keras_param_test(model, 0, 8)
+        # Pooling 3D
+        model = Sequential()
+        model.add(MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2), padding='same',
+                               input_shape=(1, 16, 16, 16)))
+        model.build()
+        self.keras_param_test(model, 0, 11)
+
+
+# ********** Locally-connected Layers **********
+class LocallyConnectedImportTest(unittest.TestCase, HelperFunctions):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_import(self):
+        # Conv 1D
+        model = Sequential()
+        model.add(LocallyConnected1D(32, 3, kernel_regularizer=regularizers.l2(0.01),
+                                     bias_regularizer=regularizers.l2(0.01),
+                                     activity_regularizer=regularizers.l2(0.01), kernel_constraint='max_norm',
+                                     bias_constraint='max_norm', activation='relu', input_shape=(10, 16)))
+        model.build()
+        self.keras_param_test(model, 1, 12)
+        # Conv 2D
+        model = Sequential()
+        model.add(LocallyConnected2D(32, (3, 3), kernel_regularizer=regularizers.l2(0.01),
+                                     bias_regularizer=regularizers.l2(0.01),
+                                     activity_regularizer=regularizers.l2(0.01), kernel_constraint='max_norm',
+                                     bias_constraint='max_norm', activation='relu', input_shape=(10, 16, 16)))
+        model.build()
+        self.keras_param_test(model, 1, 14)
 
 
 # ********** Recurrent Layers **********
@@ -212,9 +429,12 @@ class RecurrentImportTest(unittest.TestCase):
 
     def test_keras_import(self):
         model = Sequential()
-        model.add(Embedding(100, output_dim=256))
-        model.add(LSTM(32, return_sequences=True))
-        model.add(SimpleRNN(64))
+        model.add(LSTM(64, input_dim=64, input_length=10, return_sequences=True))
+        model.add(SimpleRNN(32, return_sequences=True))
+        model.add(GRU(10, kernel_regularizer=regularizers.l2(0.01),
+                      bias_regularizer=regularizers.l2(0.01), recurrent_regularizer=regularizers.l2(0.01),
+                      activity_regularizer=regularizers.l2(0.01), kernel_constraint='max_norm',
+                      bias_constraint='max_norm', recurrent_constraint='max_norm'))
         model.build()
         json_string = Model.to_json(model)
         with open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'w') as out:
@@ -224,8 +444,47 @@ class RecurrentImportTest(unittest.TestCase):
         response = json.loads(response.content)
         layerId = sorted(response['net'].keys())
         self.assertEqual(response['result'], 'success')
-        self.assertGreaterEqual(len(response['net'][layerId[3]]['params']), 3)
-        self.assertGreaterEqual(len(response['net'][layerId[5]]['params']), 3)
+        self.assertGreaterEqual(len(response['net'][layerId[1]]['params']), 7)
+        self.assertGreaterEqual(len(response['net'][layerId[3]]['params']), 7)
+        self.assertGreaterEqual(len(response['net'][layerId[6]]['params']), 7)
+
+
+# ********** Embedding Layers **********
+class EmbeddingImportTest(unittest.TestCase, HelperFunctions):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_import(self):
+        model = Sequential()
+        model.add(Embedding(1000, 64, input_length=10, embeddings_regularizer=regularizers.l2(0.01),
+                            embeddings_constraint='max_norm'))
+        model.build()
+        self.keras_param_test(model, 0, 7)
+
+
+# ********** Merge Layers **********
+class ConcatImportTest(unittest.TestCase, HelperFunctions):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_import(self):
+        img_input = Input((224, 224, 3))
+        model = Conv2D(64, (3, 3), padding='same')(img_input)
+        model = concatenate([img_input, model])
+        model = Model(img_input, model)
+        self.keras_type_test(model, 0, 'Concat')
+
+
+class EltwiseImportTest(unittest.TestCase, HelperFunctions):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_import(self):
+        img_input = Input((224, 224, 64))
+        model = Conv2D(64, (3, 3), padding='same')(img_input)
+        model = add([img_input, model])
+        model = Model(img_input, model)
+        self.keras_type_test(model, 0, 'Eltwise')
 
 
 # ********** Normalisation Layers **********
@@ -234,9 +493,12 @@ class BatchNormImportTest(unittest.TestCase):
         self.client = Client()
 
     def test_keras_import(self):
-        img_input = Input((224, 224, 3))
-        model = BatchNormalization(center=True, scale=True)(img_input)
-        model = Model(img_input, model)
+        model = Sequential()
+        model.add(BatchNormalization(center=True, scale=True, beta_regularizer=regularizers.l2(0.01),
+                                     gamma_regularizer=regularizers.l2(0.01),
+                                     beta_constraint='max_norm', gamma_constraint='max_norm',
+                                     input_shape=(10, 16)))
+        model.build()
         json_string = Model.to_json(model)
         with open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'w') as out:
             json.dump(json.loads(json_string), out, indent=4)
@@ -247,6 +509,40 @@ class BatchNormImportTest(unittest.TestCase):
         self.assertEqual(response['result'], 'success')
         self.assertEqual(response['net'][layerId[0]]['info']['type'], 'Scale')
         self.assertEqual(response['net'][layerId[1]]['info']['type'], 'BatchNorm')
+
+
+# ********** Noise Layers **********
+class GaussianNoiseImportTest(unittest.TestCase, HelperFunctions):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_import(self):
+        model = Sequential()
+        model.add(GaussianNoise(stddev=0.1, input_shape=(1, 16)))
+        model.build()
+        self.keras_param_test(model, 0, 1)
+
+
+class GaussianDropoutImportTest(unittest.TestCase, HelperFunctions):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_import(self):
+        model = Sequential()
+        model.add(GaussianDropout(rate=0.5, input_shape=(1, 16)))
+        model.build()
+        self.keras_param_test(model, 0, 1)
+
+
+class AlphaDropoutImportTest(unittest.TestCase, HelperFunctions):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_import(self):
+        model = Sequential()
+        model.add(AlphaDropout(rate=0.5, seed=5, input_shape=(1, 16)))
+        model.build()
+        self.keras_param_test(model, 0, 1)
 
 
 # ********** Utility Layers **********
@@ -268,46 +564,6 @@ class PaddingImportTest(unittest.TestCase):
         layerId = sorted(response['net'].keys())
         self.assertEqual(response['result'], 'success')
         self.assertEqual(response['net'][layerId[0]]['params']['pad_h'], 3)
-
-
-class EltwiseImportTest(unittest.TestCase):
-    def setUp(self):
-        self.client = Client()
-
-    def test_keras_import(self):
-        img_input = Input((224, 224, 64))
-        model = Conv2D(64, (3, 3), padding='same')(img_input)
-        model = add([img_input, model])
-        model = Model(img_input, model)
-        json_string = Model.to_json(model)
-        with open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'w') as out:
-            json.dump(json.loads(json_string), out, indent=4)
-        sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'r')
-        response = self.client.post(reverse('keras-import'), {'file': sample_file})
-        response = json.loads(response.content)
-        layerId = sorted(response['net'].keys())
-        self.assertEqual(response['result'], 'success')
-        self.assertEqual(response['net'][layerId[0]]['params']['layer_type'], 'Sum')
-
-
-class ConcatImportTest(unittest.TestCase):
-    def setUp(self):
-        self.client = Client()
-
-    def test_keras_import(self):
-        img_input = Input((224, 224, 3))
-        model = Conv2D(64, (3, 3), padding='same')(img_input)
-        model = concatenate([img_input, model])
-        model = Model(img_input, model)
-        json_string = Model.to_json(model)
-        with open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'w') as out:
-            json.dump(json.loads(json_string), out, indent=4)
-        sample_file = open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'r')
-        response = self.client.post(reverse('keras-import'), {'file': sample_file})
-        response = json.loads(response.content)
-        layerId = sorted(response['net'].keys())
-        self.assertEqual(response['result'], 'success')
-        self.assertEqual(response['net'][layerId[0]]['info']['type'], 'Concat')
 
 
 # ********** Export json tests **********
