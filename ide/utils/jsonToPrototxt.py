@@ -1,4 +1,3 @@
-import collections
 import caffe
 from caffe import layers as L
 import re

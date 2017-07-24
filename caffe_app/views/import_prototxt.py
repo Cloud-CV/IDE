@@ -2,7 +2,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.conf import settings
 import os
-import json
 from caffe.proto import caffe_pb2
 from google.protobuf import text_format
 
@@ -233,10 +232,6 @@ def importPrototxt(request):
                 params['k'] = layer.lrn_param.k
                 if layer.lrn_param.norm_region:
                     params['norm_region'] = layer.lrn_param.norm_region
-                    if (params['norm_region'] == 0):
-                        params['norm_region'] = 'ACROSS_CHANNELS'
-                    else:
-                        params['norm_region'] = 'WITHIN_CHANNEL'
                 else:
                     params['norm_region'] = 'ACROSS_CHANNELS'
 
@@ -357,9 +352,9 @@ def importPrototxt(request):
                     params['operation'] = layer.reduction_param.operation
                     if (params['operation'] == 1):
                         params['operation'] = 'SUM'
-                    elif (params['operation'] == 1):
+                    elif (params['operation'] == 2):
                         params['operation'] = 'ASUM'
-                    elif (params['operation'] == 1):
+                    elif (params['operation'] == 3):
                         params['operation'] = 'SUMSQ'
                     else:
                         params['operation'] = 'MEAN'
