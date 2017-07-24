@@ -44,6 +44,7 @@ class ExportJsonTest(unittest.TestCase):
         self.client = Client()
 
     def test_keras_export(self):
+        # Test 1
         img_input = Input((224, 224, 3))
         model = Conv2D(64, (3, 3), padding='same', dilation_rate=1, use_bias=True,
                        kernel_regularizer=regularizers.l1(), bias_regularizer='l1',
@@ -60,6 +61,16 @@ class ExportJsonTest(unittest.TestCase):
                                                               'net_name': ''})
         response = json.loads(response.content)
         self.assertEqual(response['result'], 'success')
+        # Test 2
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'ide',
+                                  'caffe_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['HDF5Data']}
+        response = self.client.post(reverse('keras-export'), {'net': json.dumps(net),
+                                                              'net_name': ''})
+        self.assertEqual(response['result'], 'error')
 
 
 # ********** Import json tests **********
