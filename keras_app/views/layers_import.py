@@ -457,7 +457,11 @@ def Scale(layer):
 
 
 def Padding(layer):
-    pad = np.asarray(layer.padding)[:, 0].tolist()
+    pad = np.asarray(layer.padding)
+    if (len(pad.shape) == 1):
+        pad = [pad[0]]
+    else:
+        pad = pad[:, 0].tolist()
     params = {'pad': pad}
     return jsonLayer('Pad', params, layer)
 

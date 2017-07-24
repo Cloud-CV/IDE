@@ -550,11 +550,7 @@ class PaddingImportTest(unittest.TestCase):
     def setUp(self):
         self.client = Client()
 
-    def test_keras_import(self):
-        img_input = Input((224, 224, 3))
-        model = ZeroPadding2D((3, 3))(img_input)
-        model = Conv2D(64, (7, 7), strides=(2, 2))(model)
-        model = Model(img_input, model)
+    def pad_test(self, model, field, value):
         json_string = Model.to_json(model)
         with open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'w') as out:
             json.dump(json.loads(json_string), out, indent=4)
@@ -563,7 +559,27 @@ class PaddingImportTest(unittest.TestCase):
         response = json.loads(response.content)
         layerId = sorted(response['net'].keys())
         self.assertEqual(response['result'], 'success')
-        self.assertEqual(response['net'][layerId[0]]['params']['pad_h'], 3)
+        self.assertEqual(response['net'][layerId[0]]['params'][field], value)
+
+    def test_keras_import(self):
+        # Pad 1D
+        model = Sequential()
+        model.add(ZeroPadding1D(2, input_shape=(224, 3)))
+        model.add(Conv1D(32, 7, strides=2))
+        model.build()
+        self.pad_test(model, 'pad_w', 2)
+        # Pad 2D
+        model = Sequential()
+        model.add(ZeroPadding2D(2, input_shape=(224, 224, 3)))
+        model.add(Conv2D(32, 7, strides=2))
+        model.build()
+        self.pad_test(model, 'pad_w', 2)
+        # Pad 3D
+        model = Sequential()
+        model.add(ZeroPadding3D(2, input_shape=(224, 224, 224, 3)))
+        model.add(Conv3D(32, 7, strides=2))
+        model.build()
+        self.pad_test(model, 'pad_w', 2)
 
 
 # ********** Export json tests **********
