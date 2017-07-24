@@ -26,10 +26,17 @@ class ImportJsonTest(unittest.TestCase):
         self.client = Client()
 
     def test_keras_import(self):
+        # Test 1
         sample_file = open(os.path.join(settings.BASE_DIR, 'example/keras', 'vgg16.json'), 'r')
         response = self.client.post(reverse('keras-import'), {'file': sample_file})
         response = json.loads(response.content)
         self.assertEqual(response['result'], 'success')
+        # Test 2
+        sample_file = open(os.path.join(settings.BASE_DIR, 'example/caffe', 'GoogleNet.prototxt'), 'r')
+        response = self.client.post(reverse('keras-import'), {'file': sample_file})
+        response = json.loads(response.content)
+        self.assertEqual(response['result'], 'error')
+        self.assertEqual(response['error'], 'Invalid JSON')
 
 
 class ExportJsonTest(unittest.TestCase):
