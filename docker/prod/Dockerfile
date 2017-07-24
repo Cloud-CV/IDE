@@ -48,7 +48,7 @@ RUN cd /root &&\
 	cd caffe &&\
 	pip install scikit-image &&\
     mkdir build && cd build && \
-    cmake -DCPU_ONLY=1 -DWITH_PYTHON_LAYER=1 -DUSE_OPENCV=0 .. && \
+    cmake -DCPU_ONLY=1 -DWITH_PYTHON_LAYER=1 .. && \
     make -j"$(nproc)"
 
 # Set up Caffe environment variables
