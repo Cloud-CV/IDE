@@ -443,7 +443,6 @@ def Scale(layer):
     params['scale'] = layer.scale
     params['filler'] = layer.gamma_initializer.__class__.__name__
     params['bias_filler'] = layer.beta_initializer.__class__.__name__
-    params = {'bias_term': layer.center}
     if (layer.beta_regularizer):
         params['beta_regularizer'] = layer.beta_regularizer.__class__.__name__
     if (layer.gamma_regularizer):

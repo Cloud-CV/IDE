@@ -16,7 +16,7 @@ from keras.layers import ZeroPadding1D, ZeroPadding2D, ZeroPadding3D
 from keras.layers import LocallyConnected1D, LocallyConnected2D
 from keras.layers import SimpleRNN, LSTM, GRU
 from keras.layers import Embedding
-from keras.layers import add, multiply, maximum, concatenate, average, dot
+from keras.layers import add, concatenate
 from keras.layers.advanced_activations import LeakyReLU, PReLU, ELU, ThresholdedReLU
 from keras.layers import BatchNormalization
 from keras.layers import GaussianNoise, GaussianDropout, AlphaDropout
@@ -58,6 +58,9 @@ class ExportJsonTest(unittest.TestCase):
                        kernel_regularizer=regularizers.l1(), bias_regularizer='l1',
                        activity_regularizer='l1', kernel_constraint='max_norm',
                        bias_constraint='max_norm')(img_input)
+        model = BatchNormalization(center=True, scale=True, beta_regularizer=regularizers.l2(0.01),
+                                   gamma_regularizer=regularizers.l2(0.01),
+                                   beta_constraint='max_norm', gamma_constraint='max_norm',)(model)
         model = Model(img_input, model)
         json_string = Model.to_json(model)
         with open(os.path.join(settings.BASE_DIR, 'media', 'test.json'), 'w') as out:
@@ -589,7 +592,7 @@ class InputExportTest(unittest.TestCase):
     def setUp(self):
         self.client = Client()
 
-    def test_json_to_prototxt(self):
+    def test_keras_export(self):
         tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
                                   'keras_export_test.json'), 'r')
         response = json.load(tests)
@@ -601,48 +604,413 @@ class InputExportTest(unittest.TestCase):
         self.assertEqual(model.layers[0].__class__.__name__, 'InputLayer')
 
 
+# ********** Core Layers **********
+class DenseExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input2'], 'l1': net['InnerProduct']}
+        net['l0']['connection']['output'].append('l1')
+        # Test 1
+        inp = data(net['l0'], '', 'l0')['l0']
+        temp = dense(net['l1'], [inp], 'l1')
+        model = Model(inp, temp['l1'])
+        self.assertEqual(model.layers[2].__class__.__name__, 'Dense')
+        # Test 2
+        net['l1']['params']['weight_filler'] = 'glorot_normal'
+        net['l1']['params']['bias_filler'] = 'glorot_normal'
+        inp = data(net['l0'], '', 'l0')['l0']
+        temp = dense(net['l1'], [inp], 'l1')
+        model = Model(inp, temp['l1'])
+        self.assertEqual(model.layers[2].__class__.__name__, 'Dense')
+
+
+class ReLUExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input'], 'l1': net['ReLU']}
+        # Test 1
+        net['l0']['connection']['output'].append('l1')
+        inp = data(net['l0'], '', 'l0')['l0']
+        temp = activation(net['l1'], [inp], 'l1')
+        model = Model(inp, temp['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'Activation')
+        # Test 2
+        net['l1']['params']['negative_slope'] = 1
+        net['l0']['connection']['output'].append('l1')
+        inp = data(net['l0'], '', 'l0')['l0']
+        temp = activation(net['l1'], [inp], 'l1')
+        model = Model(inp, temp['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'LeakyReLU')
+
+
+class PReLUExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input'], 'l1': net['PReLU']}
+        net['l0']['connection']['output'].append('l1')
+        inp = data(net['l0'], '', 'l0')['l0']
+        net = activation(net['l1'], [inp], 'l1')
+        model = Model(inp, net['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'PReLU')
+
+
+class ELUExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input'], 'l1': net['ELU']}
+        net['l0']['connection']['output'].append('l1')
+        inp = data(net['l0'], '', 'l0')['l0']
+        net = activation(net['l1'], [inp], 'l1')
+        model = Model(inp, net['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'ELU')
+
+
+class ThresholdedReLUExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input'], 'l1': net['ThresholdedReLU']}
+        net['l0']['connection']['output'].append('l1')
+        inp = data(net['l0'], '', 'l0')['l0']
+        net = activation(net['l1'], [inp], 'l1')
+        model = Model(inp, net['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'ThresholdedReLU')
+
+
+class SigmoidExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input'], 'l1': net['Sigmoid']}
+        net['l0']['connection']['output'].append('l1')
+        inp = data(net['l0'], '', 'l0')['l0']
+        net = activation(net['l1'], [inp], 'l1')
+        model = Model(inp, net['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'Activation')
+
+
+class TanHExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input'], 'l1': net['TanH']}
+        inp = data(net['l0'], '', 'l0')['l0']
+        net = activation(net['l1'], [inp], 'l1')
+        model = Model(inp, net['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'Activation')
+
+
+class SoftmaxExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input'], 'l1': net['Softmax']}
+        net['l0']['connection']['output'].append('l1')
+        inp = data(net['l0'], '', 'l0')['l0']
+        net = activation(net['l1'], [inp], 'l1')
+        model = Model(inp, net['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'Activation')
+
+
+class SELUExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input'], 'l1': net['SELU']}
+        net['l0']['connection']['output'].append('l1')
+        inp = data(net['l0'], '', 'l0')['l0']
+        net = activation(net['l1'], [inp], 'l1')
+        model = Model(inp, net['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'Activation')
+
+
+class SoftplusExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input'], 'l1': net['Softplus']}
+        net['l0']['connection']['output'].append('l1')
+        inp = data(net['l0'], '', 'l0')['l0']
+        net = activation(net['l1'], [inp], 'l1')
+        model = Model(inp, net['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'Activation')
+
+
+class SoftsignExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input'], 'l1': net['Softsign']}
+        net['l0']['connection']['output'].append('l1')
+        inp = data(net['l0'], '', 'l0')['l0']
+        net = activation(net['l1'], [inp], 'l1')
+        model = Model(inp, net['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'Activation')
+
+
+class HardSigmoidExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input'], 'l1': net['HardSigmoid']}
+        net['l0']['connection']['output'].append('l1')
+        inp = data(net['l0'], '', 'l0')['l0']
+        net = activation(net['l1'], [inp], 'l1')
+        model = Model(inp, net['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'Activation')
+
+
+class DropoutExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input3'], 'l1': net['Dropout']}
+        net['l0']['connection']['output'].append('l1')
+        inp = data(net['l0'], '', 'l0')['l0']
+        net = dropout(net['l1'], [inp], 'l1')
+        model = Model(inp, net['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'Dropout')
+
+
+class FlattenExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input'], 'l1': net['Flatten']}
+        net['l0']['connection']['output'].append('l1')
+        inp = data(net['l0'], '', 'l0')['l0']
+        net = flatten(net['l1'], [inp], 'l1')
+        model = Model(inp, net['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'Flatten')
+
+
+class ReshapeExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input'], 'l1': net['Reshape']}
+        net['l0']['connection']['output'].append('l1')
+        inp = data(net['l0'], '', 'l0')['l0']
+        net = reshape(net['l1'], [inp], 'l1')
+        model = Model(inp, net['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'Reshape')
+
+
+class PermuteExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input2'], 'l1': net['Permute']}
+        net['l0']['connection']['output'].append('l1')
+        inp = data(net['l0'], '', 'l0')['l0']
+        net = permute(net['l1'], [inp], 'l1')
+        model = Model(inp, net['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'Permute')
+
+
+class RepeatVectorExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input3'], 'l1': net['RepeatVector']}
+        net['l0']['connection']['output'].append('l1')
+        inp = data(net['l0'], '', 'l0')['l0']
+        net = repeatVector(net['l1'], [inp], 'l1')
+        model = Model(inp, net['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'RepeatVector')
+
+
+class RegularizationExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input3'], 'l1': net['Regularization']}
+        net['l0']['connection']['output'].append('l1')
+        inp = data(net['l0'], '', 'l0')['l0']
+        net = regularization(net['l1'], [inp], 'l1')
+        model = Model(inp, net['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'ActivityRegularization')
+
+
+class MaskingExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input2'], 'l1': net['Masking']}
+        net['l0']['connection']['output'].append('l1')
+        inp = data(net['l0'], '', 'l0')['l0']
+        net = masking(net['l1'], [inp], 'l1')
+        model = Model(inp, net['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'Masking')
+
+
 # ********** Vision Layers Test **********
 class ConvolutionExportTest(unittest.TestCase):
     def setUp(self):
         self.client = Client()
 
-    def test_json_to_prototxt(self):
+    def test_keras_export(self):
         tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
                                   'keras_export_test.json'), 'r')
         response = json.load(tests)
         tests.close()
         net = yaml.safe_load(json.dumps(response['net']))
-        net = {'l0': net['Input'], 'l1': net['Convolution']}
-        net['l0']['connection']['output'].append('l1')
+        net = {'l0': net['Input'], 'l1': net['Input2'], 'l2': net['Input4'], 'l3': net['Convolution']}
+        # Conv 1D
+        net['l1']['connection']['output'].append('l3')
+        net['l3']['connection']['input'] = ['l1']
+        net['l3']['params']['layer_type'] = '1D'
+        net['l3']['shape']['input'] = net['l1']['shape']['output']
+        net['l3']['shape']['output'] = [128, 12]
+        inp = data(net['l1'], '', 'l1')['l1']
+        temp = convolution(net['l3'], [inp], 'l3')
+        model = Model(inp, temp['l3'])
+        self.assertEqual(model.layers[2].__class__.__name__, 'Conv1D')
+        # Conv 2D
+        net['l0']['connection']['output'].append('l0')
+        net['l3']['connection']['input'] = ['l0']
+        net['l3']['params']['layer_type'] = '2D'
+        net['l3']['shape']['input'] = net['l0']['shape']['output']
+        net['l3']['shape']['output'] = [128, 226, 226]
         inp = data(net['l0'], '', 'l0')['l0']
-        net = convolution(net['l1'], [inp], 'l1')
-        model = Model(inp, net['l1'])
-        self.assertEqual(model.layers[1].__class__.__name__, 'Conv2D')
-
-
-class PoolingExportTest(unittest.TestCase):
-    def setUp(self):
-        self.client = Client()
-
-    def test_json_to_prototxt(self):
-        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
-                                  'keras_export_test.json'), 'r')
-        response = json.load(tests)
-        tests.close()
-        net = yaml.safe_load(json.dumps(response['net']))
-        net = {'l0': net['Input'], 'l1': net['Pooling']}
-        net['l0']['connection']['output'].append('l1')
-        inp = data(net['l0'], '', 'l0')['l0']
-        net = pooling(net['l1'], [inp], 'l1')
-        model = Model(inp, net['l1'])
-        self.assertEqual(model.layers[1].__class__.__name__, 'AveragePooling2D')
+        temp = convolution(net['l3'], [inp], 'l3')
+        model = Model(inp, temp['l3'])
+        self.assertEqual(model.layers[2].__class__.__name__, 'Conv2D')
+        # Conv 3D
+        net['l2']['connection']['output'].append('l3')
+        net['l3']['connection']['input'] = ['l2']
+        net['l3']['params']['layer_type'] = '3D'
+        net['l3']['shape']['input'] = net['l2']['shape']['output']
+        net['l3']['shape']['output'] = [128, 226, 226, 18]
+        inp = data(net['l2'], '', 'l2')['l2']
+        temp = convolution(net['l3'], [inp], 'l3')
+        model = Model(inp, temp['l3'])
+        self.assertEqual(model.layers[2].__class__.__name__, 'Conv3D')
 
 
 class DeconvolutionExportTest(unittest.TestCase):
     def setUp(self):
         self.client = Client()
 
-    def test_json_to_prototxt(self):
+    def test_keras_export(self):
         tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
                                   'keras_export_test.json'), 'r')
         response = json.load(tests)
@@ -650,10 +1018,129 @@ class DeconvolutionExportTest(unittest.TestCase):
         net = yaml.safe_load(json.dumps(response['net']))
         net = {'l0': net['Input'], 'l1': net['Deconvolution']}
         net['l0']['connection']['output'].append('l1')
+        # Test 1
         inp = data(net['l0'], '', 'l0')['l0']
-        net = deconvolution(net['l1'], [inp], 'l1')
-        model = Model(inp, net['l1'])
-        self.assertEqual(model.layers[1].__class__.__name__, 'Conv2DTranspose')
+        temp = deconvolution(net['l1'], [inp], 'l1')
+        model = Model(inp, temp['l1'])
+        self.assertEqual(model.layers[2].__class__.__name__, 'Conv2DTranspose')
+        # Test 2
+        net['l1']['params']['weight_filler'] = 'xavier'
+        net['l1']['params']['bias_filler'] = 'xavier'
+        inp = data(net['l0'], '', 'l0')['l0']
+        temp = deconvolution(net['l1'], [inp], 'l1')
+        model = Model(inp, temp['l1'])
+        self.assertEqual(model.layers[2].__class__.__name__, 'Conv2DTranspose')
+
+
+class UpsampleExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input'], 'l1': net['Input2'], 'l2': net['Input4'], 'l3': net['Upsample']}
+        # Conv 1D
+        net['l1']['connection']['output'].append('l3')
+        net['l3']['connection']['input'] = ['l1']
+        net['l3']['params']['layer_type'] = '1D'
+        inp = data(net['l1'], '', 'l1')['l1']
+        temp = upsample(net['l3'], [inp], 'l3')
+        model = Model(inp, temp['l3'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'UpSampling1D')
+        # Conv 2D
+        net['l0']['connection']['output'].append('l0')
+        net['l3']['connection']['input'] = ['l0']
+        net['l3']['params']['layer_type'] = '2D'
+        inp = data(net['l0'], '', 'l0')['l0']
+        temp = upsample(net['l3'], [inp], 'l3')
+        model = Model(inp, temp['l3'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'UpSampling2D')
+        # Conv 3D
+        net['l2']['connection']['output'].append('l3')
+        net['l3']['connection']['input'] = ['l2']
+        net['l3']['params']['layer_type'] = '3D'
+        inp = data(net['l2'], '', 'l2')['l2']
+        temp = upsample(net['l3'], [inp], 'l3')
+        model = Model(inp, temp['l3'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'UpSampling3D')
+
+
+class PoolingExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input'], 'l1': net['Input2'], 'l2': net['Input4'], 'l3': net['Pooling']}
+        # Pool 1D
+        net['l1']['connection']['output'].append('l3')
+        net['l3']['connection']['input'] = ['l1']
+        net['l3']['params']['layer_type'] = '1D'
+        net['l3']['shape']['input'] = net['l1']['shape']['output']
+        net['l3']['shape']['output'] = [12, 12]
+        inp = data(net['l1'], '', 'l1')['l1']
+        temp = pooling(net['l3'], [inp], 'l3')
+        model = Model(inp, temp['l3'])
+        self.assertEqual(model.layers[2].__class__.__name__, 'MaxPooling1D')
+        # Pool 2D
+        net['l0']['connection']['output'].append('l0')
+        net['l3']['connection']['input'] = ['l0']
+        net['l3']['params']['layer_type'] = '2D'
+        net['l3']['shape']['input'] = net['l0']['shape']['output']
+        net['l3']['shape']['output'] = [3, 226, 226]
+        inp = data(net['l0'], '', 'l0')['l0']
+        temp = pooling(net['l3'], [inp], 'l3')
+        model = Model(inp, temp['l3'])
+        self.assertEqual(model.layers[2].__class__.__name__, 'MaxPooling2D')
+        # Pool 3D
+        net['l2']['connection']['output'].append('l3')
+        net['l3']['connection']['input'] = ['l2']
+        net['l3']['params']['layer_type'] = '3D'
+        net['l3']['shape']['input'] = net['l2']['shape']['output']
+        net['l3']['shape']['output'] = [3, 226, 226, 18]
+        inp = data(net['l2'], '', 'l2')['l2']
+        temp = pooling(net['l3'], [inp], 'l3')
+        model = Model(inp, temp['l3'])
+        self.assertEqual(model.layers[2].__class__.__name__, 'MaxPooling3D')
+
+
+# ********** Locally-connected Layers **********
+class LocallyConnectedExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input'], 'l1': net['Input2'], 'l3': net['LocallyConnected']}
+        # LocallyConnected 1D
+        net['l1']['connection']['output'].append('l3')
+        net['l3']['connection']['input'] = ['l1']
+        net['l3']['params']['layer_type'] = '1D'
+        inp = data(net['l1'], '', 'l1')['l1']
+        temp = locallyConnected(net['l3'], [inp], 'l3')
+        model = Model(inp, temp['l3'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'LocallyConnected1D')
+        # LocallyConnected 2D
+        net['l0']['connection']['output'].append('l0')
+        net['l0']['shape']['output'] = [3, 10, 10]
+        net['l3']['connection']['input'] = ['l0']
+        net['l3']['params']['layer_type'] = '2D'
+        inp = data(net['l0'], '', 'l0')['l0']
+        temp = locallyConnected(net['l3'], [inp], 'l3')
+        model = Model(inp, temp['l3'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'LocallyConnected2D')
 
 
 # ********** Recurrent Layers Test **********
@@ -661,7 +1148,7 @@ class RNNExportTest(unittest.TestCase):
     def setUp(self):
         self.client = Client()
 
-    def test_json_to_prototxt(self):
+    def test_keras_export(self):
         tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
                                   'keras_export_test.json'), 'r')
         response = json.load(tests)
@@ -680,7 +1167,7 @@ class LSTMExportTest(unittest.TestCase):
     def setUp(self):
         self.client = Client()
 
-    def test_json_to_prototxt(self):
+    def test_keras_export(self):
         tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
                                   'keras_export_test.json'), 'r')
         response = json.load(tests)
@@ -694,48 +1181,30 @@ class LSTMExportTest(unittest.TestCase):
         self.assertEqual(model.layers[1].__class__.__name__, 'LSTM')
 
 
-# ********** Common Layers Test **********
-class DenseExportTest(unittest.TestCase):
+class GRUExportTest(unittest.TestCase):
     def setUp(self):
         self.client = Client()
 
-    def test_json_to_prototxt(self):
+    def test_keras_export(self):
         tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
                                   'keras_export_test.json'), 'r')
         response = json.load(tests)
         tests.close()
         net = yaml.safe_load(json.dumps(response['net']))
-        net = {'l0': net['Input3'], 'l1': net['InnerProduct']}
+        net = {'l0': net['Input2'], 'l1': net['GRU']}
         net['l0']['connection']['output'].append('l1')
         inp = data(net['l0'], '', 'l0')['l0']
-        net = dense(net['l1'], [inp], 'l1')
+        net = recurrent(net['l1'], [inp], 'l1')
         model = Model(inp, net['l1'])
-        self.assertEqual(model.layers[1].__class__.__name__, 'Dense')
+        self.assertEqual(model.layers[1].__class__.__name__, 'GRU')
 
 
-class DropoutExportTest(unittest.TestCase):
-    def setUp(self):
-        self.client = Client()
-
-    def test_json_to_prototxt(self):
-        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
-                                  'keras_export_test.json'), 'r')
-        response = json.load(tests)
-        tests.close()
-        net = yaml.safe_load(json.dumps(response['net']))
-        net = {'l0': net['Input3'], 'l1': net['Dropout']}
-        net['l0']['connection']['output'].append('l1')
-        inp = data(net['l0'], '', 'l0')['l0']
-        net = dropout(net['l1'], [inp], 'l1')
-        model = Model(inp, net['l1'])
-        self.assertEqual(model.layers[1].__class__.__name__, 'Dropout')
-
-
+# ********** Embed Layer Test *********
 class EmbedExportTest(unittest.TestCase):
     def setUp(self):
         self.client = Client()
 
-    def test_json_to_prototxt(self):
+    def test_keras_export(self):
         tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
                                   'keras_export_test.json'), 'r')
         response = json.load(tests)
@@ -743,163 +1212,69 @@ class EmbedExportTest(unittest.TestCase):
         net = yaml.safe_load(json.dumps(response['net']))
         net = {'l0': net['Input3'], 'l1': net['Embed']}
         net['l0']['connection']['output'].append('l1')
+        # Test 1
         inp = data(net['l0'], '', 'l0')['l0']
-        net = embed(net['l1'], [inp], 'l1')
-        model = Model(inp, net['l1'])
+        temp = embed(net['l1'], [inp], 'l1')
+        model = Model(inp, temp['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'Embedding')
+        # Test 2
+        net['l1']['params']['input_length'] = None
+        net['l1']['params']['weight_filler'] = 'VarianceScaling'
+        inp = data(net['l0'], '', 'l0')['l0']
+        temp = embed(net['l1'], [inp], 'l1')
+        model = Model(inp, temp['l1'])
         self.assertEqual(model.layers[1].__class__.__name__, 'Embedding')
 
 
-# ********** Normalisation Layers Test **********
-class BatchNormExportTest(unittest.TestCase):
+# ********** Merge Layers Test **********
+class EltwiseExportTest(unittest.TestCase):
     def setUp(self):
         self.client = Client()
 
-    def test_json_to_prototxt(self):
+    def test_keras_export(self):
         tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
                                   'keras_export_test.json'), 'r')
         response = json.load(tests)
         tests.close()
         net = yaml.safe_load(json.dumps(response['net']))
-        net = {'l0': net['Input'], 'l1': net['BatchNorm'], 'l2': net['Scale']}
+        net = {'l0': net['Input'], 'l1': net['Eltwise']}
         net['l0']['connection']['output'].append('l1')
+        # Test 1
         inp = data(net['l0'], '', 'l0')['l0']
-        net = batchNorm(net['l1'], [inp], 'l1', 'l2', net['l2'])
-        model = Model(inp, net['l2'])
-        self.assertEqual(model.layers[1].__class__.__name__, 'BatchNormalization')
-
-
-# ********** Activation / Neuron Layers Test **********
-class ReLUExportTest(unittest.TestCase):
-    def setUp(self):
-        self.client = Client()
-
-    def test_json_to_prototxt(self):
-        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
-                                  'keras_export_test.json'), 'r')
-        response = json.load(tests)
-        tests.close()
-        net = yaml.safe_load(json.dumps(response['net']))
-        net = {'l0': net['Input'], 'l1': net['ReLU']}
-        net['l0']['connection']['output'].append('l1')
+        temp = eltwise(net['l1'], [inp, inp], 'l1')
+        model = Model(inp, temp['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'Multiply')
+        # Test 2
+        net['l1']['params']['layer_type'] = 'Sum'
         inp = data(net['l0'], '', 'l0')['l0']
-        net = activation(net['l1'], [inp], 'l1')
-        model = Model(inp, net['l1'])
-        self.assertEqual(model.layers[1].__class__.__name__, 'Activation')
-
-
-class PReLUExportTest(unittest.TestCase):
-    def setUp(self):
-        self.client = Client()
-
-    def test_json_to_prototxt(self):
-        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
-                                  'keras_export_test.json'), 'r')
-        response = json.load(tests)
-        tests.close()
-        net = yaml.safe_load(json.dumps(response['net']))
-        net = {'l0': net['Input'], 'l1': net['PReLU']}
-        net['l0']['connection']['output'].append('l1')
+        temp = eltwise(net['l1'], [inp, inp], 'l1')
+        model = Model(inp, temp['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'Add')
+        # Test 3
+        net['l1']['params']['layer_type'] = 'Average'
         inp = data(net['l0'], '', 'l0')['l0']
-        net = activation(net['l1'], [inp], 'l1')
-        model = Model(inp, net['l1'])
-        self.assertEqual(model.layers[1].__class__.__name__, 'PReLU')
-
-
-class ELUExportTest(unittest.TestCase):
-    def setUp(self):
-        self.client = Client()
-
-    def test_json_to_prototxt(self):
-        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
-                                  'keras_export_test.json'), 'r')
-        response = json.load(tests)
-        tests.close()
-        net = yaml.safe_load(json.dumps(response['net']))
-        net = {'l0': net['Input'], 'l1': net['ELU']}
-        net['l0']['connection']['output'].append('l1')
+        temp = eltwise(net['l1'], [inp, inp], 'l1')
+        model = Model(inp, temp['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'Average')
+        # Test 4
+        net['l1']['params']['layer_type'] = 'Dot'
         inp = data(net['l0'], '', 'l0')['l0']
-        net = activation(net['l1'], [inp], 'l1')
-        model = Model(inp, net['l1'])
-        self.assertEqual(model.layers[1].__class__.__name__, 'ELU')
-
-
-class SigmoidExportTest(unittest.TestCase):
-    def setUp(self):
-        self.client = Client()
-
-    def test_json_to_prototxt(self):
-        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
-                                  'keras_export_test.json'), 'r')
-        response = json.load(tests)
-        tests.close()
-        net = yaml.safe_load(json.dumps(response['net']))
-        net = {'l0': net['Input'], 'l1': net['Sigmoid']}
-        net['l0']['connection']['output'].append('l1')
+        temp = eltwise(net['l1'], [inp, inp], 'l1')
+        model = Model(inp, temp['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'Dot')
+        # Test 5
+        net['l1']['params']['layer_type'] = 'Maximum'
         inp = data(net['l0'], '', 'l0')['l0']
-        net = activation(net['l1'], [inp], 'l1')
-        model = Model(inp, net['l1'])
-        self.assertEqual(model.layers[1].__class__.__name__, 'Activation')
-
-
-class TanHExportTest(unittest.TestCase):
-    def setUp(self):
-        self.client = Client()
-
-    def test_json_to_prototxt(self):
-        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
-                                  'keras_export_test.json'), 'r')
-        response = json.load(tests)
-        tests.close()
-        net = yaml.safe_load(json.dumps(response['net']))
-        net = {'l0': net['Input'], 'l1': net['TanH']}
-        inp = data(net['l0'], '', 'l0')['l0']
-        net = activation(net['l1'], [inp], 'l1')
-        model = Model(inp, net['l1'])
-        self.assertEqual(model.layers[1].__class__.__name__, 'Activation')
-
-
-# ********** Utility Layers Test **********
-class FlattenExportTest(unittest.TestCase):
-    def setUp(self):
-        self.client = Client()
-
-    def test_json_to_prototxt(self):
-        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
-                                  'keras_export_test.json'), 'r')
-        response = json.load(tests)
-        tests.close()
-        net = yaml.safe_load(json.dumps(response['net']))
-        net = {'l0': net['Input'], 'l1': net['Flatten']}
-        net['l0']['connection']['output'].append('l1')
-        inp = data(net['l0'], '', 'l0')['l0']
-        net = flatten(net['l1'], [inp], 'l1')
-        model = Model(inp, net['l1'])
-        self.assertEqual(model.layers[1].__class__.__name__, 'Flatten')
-
-
-class ReshapeExportTest(unittest.TestCase):
-    def setUp(self):
-        self.client = Client()
-
-    def test_json_to_prototxt(self):
-        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
-                                  'keras_export_test.json'), 'r')
-        response = json.load(tests)
-        tests.close()
-        net = yaml.safe_load(json.dumps(response['net']))
-        net = {'l0': net['Input'], 'l1': net['Reshape']}
-        net['l0']['connection']['output'].append('l1')
-        inp = data(net['l0'], '', 'l0')['l0']
-        net = reshape(net['l1'], [inp], 'l1')
-        model = Model(inp, net['l1'])
-        self.assertEqual(model.layers[1].__class__.__name__, 'Reshape')
+        temp = eltwise(net['l1'], [inp, inp], 'l1')
+        model = Model(inp, temp['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'Maximum')
 
 
 class ConcatExportTest(unittest.TestCase):
     def setUp(self):
         self.client = Client()
 
-    def test_json_to_prototxt(self):
+    def test_keras_export(self):
         tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
                                   'keras_export_test.json'), 'r')
         response = json.load(tests)
@@ -913,37 +1288,88 @@ class ConcatExportTest(unittest.TestCase):
         self.assertEqual(model.layers[1].__class__.__name__, 'Concatenate')
 
 
-class EltwiseExportTest(unittest.TestCase):
+# ********** Noise Layers Test **********
+class GaussianNoiseExportTest(unittest.TestCase):
     def setUp(self):
         self.client = Client()
 
-    def test_json_to_prototxt(self):
+    def test_keras_export(self):
         tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
                                   'keras_export_test.json'), 'r')
         response = json.load(tests)
         tests.close()
         net = yaml.safe_load(json.dumps(response['net']))
-        net = {'l0': net['Input'], 'l1': net['Eltwise']}
+        net = {'l0': net['Input'], 'l1': net['GaussianNoise']}
         net['l0']['connection']['output'].append('l1')
         inp = data(net['l0'], '', 'l0')['l0']
-        net = eltwise(net['l1'], [inp, inp], 'l1')
+        net = gaussianNoise(net['l1'], [inp], 'l1')
         model = Model(inp, net['l1'])
-        self.assertEqual(model.layers[1].__class__.__name__, 'Maximum')
+        self.assertEqual(model.layers[1].__class__.__name__, 'GaussianNoise')
 
 
-class SoftmaxExportTest(unittest.TestCase):
+class GaussianDropoutExportTest(unittest.TestCase):
     def setUp(self):
         self.client = Client()
 
-    def test_json_to_prototxt(self):
+    def test_keras_export(self):
         tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
                                   'keras_export_test.json'), 'r')
         response = json.load(tests)
         tests.close()
         net = yaml.safe_load(json.dumps(response['net']))
-        net = {'l0': net['Input'], 'l1': net['Softmax']}
+        net = {'l0': net['Input'], 'l1': net['GaussianDropout']}
         net['l0']['connection']['output'].append('l1')
         inp = data(net['l0'], '', 'l0')['l0']
-        net = activation(net['l1'], [inp], 'l1')
+        net = gaussianDropout(net['l1'], [inp], 'l1')
         model = Model(inp, net['l1'])
-        self.assertEqual(model.layers[1].__class__.__name__, 'Activation')
+        self.assertEqual(model.layers[1].__class__.__name__, 'GaussianDropout')
+
+
+class AlphaDropoutExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input'], 'l1': net['AlphaDropout']}
+        net['l0']['connection']['output'].append('l1')
+        inp = data(net['l0'], '', 'l0')['l0']
+        net = alphaDropout(net['l1'], [inp], 'l1')
+        model = Model(inp, net['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'AlphaDropout')
+
+
+# ********** Normalisation Layers Test **********
+class BatchNormExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input'], 'l1': net['BatchNorm'], 'l2': net['Scale']}
+        net['l0']['connection']['output'].append('l1')
+        # Test 1
+        inp = data(net['l0'], '', 'l0')['l0']
+        temp = batchNorm(net['l1'], [inp], 'l1', 'l2', net['l2'])
+        model = Model(inp, temp['l2'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'BatchNormalization')
+        # Test 2
+        net['l2']['params']['filler'] = 'VarianceScaling'
+        net['l2']['params']['bias_filler'] = 'VarianceScaling'
+        inp = data(net['l0'], '', 'l0')['l0']
+        temp = batchNorm(net['l1'], [inp], 'l1', 'l2', net['l2'])
+        model = Model(inp, temp['l2'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'BatchNormalization')
+        # Test 3
+        inp = data(net['l0'], '', 'l0')['l0']
+        temp = batchNorm(net['l1'], [inp], 'l1', 'l0', net['l0'])
+        model = Model(inp, temp['l1'])
+        self.assertEqual(model.layers[1].__class__.__name__, 'BatchNormalization')
