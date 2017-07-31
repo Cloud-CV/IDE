@@ -1,10 +1,12 @@
 import json
+import os
 
+from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from layers_import import Input, Convolution, Deconvolution, Pooling, Dense, Dropout, Embed,\
     Recurrent, BatchNorm, Activation, LeakyReLU, PReLU, ELU, Scale, Flatten, Reshape, Concat, \
-    Eltwise, Padding, Upsample, LocallyConnected, DepthwiseConv, ThresholdedReLU, Permute, RepeatVector,\
+    Eltwise, Padding, Upsample, LocallyConnected, ThresholdedReLU, Permute, RepeatVector,\
     ActivityRegularization, Masking, GaussianNoise, GaussianDropout, AlphaDropout
 from keras.models import model_from_json, Sequential
 
@@ -12,11 +14,19 @@ from keras.models import model_from_json, Sequential
 @csrf_exempt
 def importJson(request):
     if request.method == 'POST':
-        try:
-            f = request.FILES['file']
-        except Exception:
-            return JsonResponse({'result': 'error', 'error': 'No JSON model file found'})
-
+        if ('file' in request.FILES):
+            try:
+                f = request.FILES['file']
+            except Exception:
+                return JsonResponse({'result': 'error', 'error': 'No JSON model file found'})
+        elif 'sample_id' in request.POST:
+                try:
+                    f = open(os.path.join(settings.BASE_DIR,
+                                          'example', 'keras',
+                                          request.POST['sample_id'] + '.json'), 'r')
+                except Exception:
+                    return JsonResponse({'result': 'error',
+                                         'error': 'No JSON model file found'})
         try:
             model = json.load(f)
         except Exception:
@@ -45,7 +55,6 @@ def importJson(request):
         'Masking': Masking,
         'Conv1D': Convolution,
         'Conv2D': Convolution,
-        'SeparableConv2D': DepthwiseConv,
         'Conv2DTranspose': Deconvolution,
         'Conv3D': Convolution,
         'UpSampling1D': Upsample,
@@ -79,6 +88,7 @@ def importJson(request):
         'LeakyReLU': LeakyReLU,
         'PReLU': PReLU,
         'elu': ELU,
+        'ELU': ELU,
         'ThresholdedReLU': ThresholdedReLU,
         'BatchNormalization': BatchNorm,
         'GaussianNoise': GaussianNoise,
