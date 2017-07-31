@@ -1,4 +1,4 @@
 #!/bin/sh
 cd /code && \
 webpack
-python manage.py runserver 0.0.0.0:8000
+KERAS_BACKEND=theano uwsgi --ini ide_uwsgi.ini

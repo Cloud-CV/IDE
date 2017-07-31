@@ -35,3 +35,4 @@ aws elasticbeanstalk create-application-version --application-name $APPLICATION 
 # Update the environment to use the new application version
 aws elasticbeanstalk update-environment --environment-name $ENVIRONMENT \
       --version-label $VERSION
+
