@@ -21,6 +21,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         git \
         unzip \	
         wget \
+	supervisor \
+	nginx \
         libatlas-base-dev \
         libboost-all-dev \
         libgflags-dev \
@@ -64,6 +66,10 @@ RUN pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/te
 
 # Install Keras
 RUN pip install git+https://github.com/fchollet/keras.git
+
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+COPY docker/prod/nginx.conf /etc/nginx/sites_available/default
+COPY docker/prod/supervisor.conf /etc/supervisor/conf.d/
 
 # Install Fabrik dependencies
 COPY /requirements /code/requirements
