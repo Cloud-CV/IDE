@@ -67,7 +67,7 @@ RUN pip install git+https://github.com/fchollet/keras.git
 
 # Install Fabrik dependencies
 COPY /requirements /code/requirements
-RUN pip install -r requirements/common.txt
+RUN pip install -r requirements/prod.txt
 
 COPY . /code
 
