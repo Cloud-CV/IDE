@@ -7,10 +7,15 @@ from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from yaml import safe_load
+from django.shortcuts import render
 
 
 def randomword(length):
     return ''.join(random.choice(string.lowercase) for i in range(length))
+
+
+def index(request):
+    return render(request, 'index.html')
 
 
 @csrf_exempt
@@ -40,3 +45,7 @@ def loadFromDB(request):
                 return JsonResponse({'result': 'error',
                                      'error': 'No network file found'})
             return JsonResponse({'result': 'success', 'net': net, 'net_name': model.name})
+
+    if request.method == 'GET':
+        print request.GET.get('id', '')
+        return index(request)

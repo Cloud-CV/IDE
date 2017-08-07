@@ -8,5 +8,5 @@ urlpatterns = [
     url(r'^export$', exportToCaffe, name='caffe-export'),
     url(r'^import$', importPrototxt, name='caffe-import'),
     url(r'^save$', saveToDB, name='saveDB'),
-    url(r'^load$', loadFromDB, name='loadDB')
+    url(r'^load*', loadFromDB, name='loadDB')
 ]

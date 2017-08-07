@@ -10,23 +10,37 @@ class TopBar extends React.Component {
           </div>
           <div className="col-md-5" >
             <div className="form-inline">
-              <div className="form-group" style={{'float':'right'}}>
+            <div className="form-group" style={{'float':'right'}}>
                 <div className="dropdown">
                   <button className="btn btn-primary dropdown-toggle form-control" data-toggle="dropdown">
-                    Export
+                    <span className="glyphicon glyphicon-share" aria-hidden="true"></span>
                   </button>
                   <ul className="dropdown-menu pull-right">
-                    <li><a href="#" onClick={() => this.props.exportNet('caffe')}>caffe</a></li>
-                    <li><a href="#" onClick={() => this.props.exportNet('keras')}>keras</a></li>
-                    <li><a href="#" onClick={() => this.props.exportNet('tensorflow')}>tensorflow</a></li>
-                    <li><a href="#" onClick={() => this.props.saveDb()}>url</a></li>
+                    <li><a href="#" onClick={() => this.props.loadDb()}>
+                      Download
+                    </a></li>
+                    <li><a href="#" onClick={() => this.props.saveDb()}>
+                      Upload
+                    </a></li>
                   </ul>
                 </div>
               </div>
               <div className="form-group" style={{'float':'right'}}>
                 <div className="dropdown">
                   <button className="btn btn-primary dropdown-toggle form-control" data-toggle="dropdown">
-                    Import
+                    <span className="glyphicon glyphicon-export" aria-hidden="true"></span>
+                  </button>
+                  <ul className="dropdown-menu pull-right">
+                    <li><a href="#" onClick={() => this.props.exportNet('caffe')}>caffe</a></li>
+                    <li><a href="#" onClick={() => this.props.exportNet('keras')}>keras</a></li>
+                    <li><a href="#" onClick={() => this.props.exportNet('tensorflow')}>tensorflow</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div className="form-group" style={{'float':'right'}}>
+                <div className="dropdown">
+                  <button className="btn btn-primary dropdown-toggle form-control" data-toggle="dropdown">
+                    <span className="glyphicon glyphicon-import" aria-hidden="true"></span>
                   </button>
                   <ul className="dropdown-menu pull-right">
                     <li>
@@ -47,7 +61,6 @@ class TopBar extends React.Component {
                         <input id="inputFiletensorflow" type="file" accept=".pbtxt" onChange={() => this.props.importNet('tensorflow', '')}/>
                         </a>
                     </li>
-                    <li><a href="#" onClick={() => this.props.loadDb()}>url</a></li>
                   </ul>
                 </div>
               </div>
