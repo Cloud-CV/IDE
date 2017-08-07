@@ -39,6 +39,7 @@ class Content extends React.Component {
     this.dismissAllErrors = this.dismissAllErrors.bind(this);
     this.copyTrain = this.copyTrain.bind(this);
     this.trainOnly = this.trainOnly.bind(this);
+    this.saveDb = this.saveDb.bind(this);
   }
   addNewLayer(layer) {
     const net = this.state.net;
@@ -178,7 +179,7 @@ class Content extends React.Component {
         delete netData[layerId].state;
       });
 
-      const url = {'caffe': '/caffe/export', 'keras': '/keras/export', 'tensorflow': '/tensorflow/export', 'url': '/caffe/export'}
+      const url = {'caffe': '/caffe/export', 'keras': '/keras/export', 'tensorflow': '/tensorflow/export'}
       this.setState({ load: true });
       $.ajax({
         url: url[framework],
@@ -190,12 +191,7 @@ class Content extends React.Component {
         },
         success : function (response) {
 
-          if (response.result == 'success' && framework == 'url'){
-            var id = response.url.split('/')[2];
-            id = id.split('.')[0];
-            prompt('Your prototxt ID is ',id);
-          }
-          else if (response.result == 'success') {
+          if (response.result == 'success') {
             const downloadAnchor = document.getElementById('download');
             downloadAnchor.download = response.name;
             downloadAnchor.href = response.url;
@@ -498,6 +494,55 @@ class Content extends React.Component {
     layer.info.phase = 0;
     this.setState({ net });
   }
+  saveDb(){
+    this.dismissAllErrors();
+    const error = [];
+    const net = this.state.net;
+
+    Object.keys(net).forEach(layerId => {
+      const layer = net[layerId];
+      Object.keys(layer.params).forEach(param => {
+        layer.params[param] = layer.params[param][0];
+        const paramData = data[layer.info.type].params[param];
+        if (layer.info.type == 'Python' && param == 'endPoint'){
+          return;
+        }
+        if (paramData.required === true && layer.params[param] === '') {
+          error.push(`Error: "${paramData.name}" required in "${layer.props.name}" Layer`);
+        }
+      });
+    });
+
+    if (error.length) {
+      this.setState({ error });
+    } else {
+      const netData = JSON.parse(JSON.stringify(this.state.net));
+      Object.keys(netData).forEach(layerId => {
+        delete netData[layerId].state;
+      });
+      this.setState({ load: true });
+      $.ajax({
+        url: '/caffe/save',
+        dataType: 'json',
+        type: 'POST',
+        data: {
+          net: JSON.stringify(netData),
+          net_name: this.state.net_name
+        },
+        success : function (response) {
+          if (response.result == 'success'){
+            prompt('Your prototxt ID is ',response.id);
+          } else if (response.result == 'error') {
+            this.addError(response.error);
+          }
+          this.setState({ load: false });
+        }.bind(this),
+        error() {
+          this.setState({ load: false });
+        }
+      });
+    }
+  }
   render() {
     let loader = null;
     if (this.state.load) {
@@ -508,6 +553,7 @@ class Content extends React.Component {
         <TopBar
           exportNet={this.exportNet}
           importNet={this.importNet}
+          saveDb={this.saveDb}
         />
         <div className="content">
           <div className="pane">

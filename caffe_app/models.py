@@ -6,5 +6,8 @@ from django.contrib.postgres.fields import JSONField
 
 class ModelExport(models.Model):
     name = models.CharField(max_length=100)
-    id = models.CharField(primary_key=True)
+    id = models.CharField(max_length=20, primary_key=True)
     network = JSONField()
+
+    def __unicode__(self):
+        return self.id

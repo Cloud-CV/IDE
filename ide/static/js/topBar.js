@@ -19,7 +19,7 @@ class TopBar extends React.Component {
                     <li><a href="#" onClick={() => this.props.exportNet('caffe')}>caffe</a></li>
                     <li><a href="#" onClick={() => this.props.exportNet('keras')}>keras</a></li>
                     <li><a href="#" onClick={() => this.props.exportNet('tensorflow')}>tensorflow</a></li>
-                    <li><a href="#" onClick={() => this.props.exportNet('url')}>url</a></li>
+                    <li><a href="#" onClick={() => this.props.saveDb()}>url</a></li>
                   </ul>
                 </div>
               </div>
@@ -61,7 +61,8 @@ class TopBar extends React.Component {
 
 TopBar.propTypes = {
   exportNet: React.PropTypes.func,
-  importNet: React.PropTypes.func
+  importNet: React.PropTypes.func,
+  saveDb: React.PropTypes.func
 };
 
 export default TopBar;
