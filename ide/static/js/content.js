@@ -40,6 +40,7 @@ class Content extends React.Component {
     this.copyTrain = this.copyTrain.bind(this);
     this.trainOnly = this.trainOnly.bind(this);
     this.saveDb = this.saveDb.bind(this);
+    this.loadDb = this.loadDb.bind(this);
   }
   addNewLayer(layer) {
     const net = this.state.net;
@@ -209,7 +210,7 @@ class Content extends React.Component {
   }
   importNet(framework, id) {
     this.dismissAllErrors();
-    const url = {'caffe': '/caffe/import', 'keras': '/keras/import', 'tensorflow': '/tensorflow/import', 'url': '/caffe/import'};
+    const url = {'caffe': '/caffe/import', 'keras': '/keras/import', 'tensorflow': '/tensorflow/import'};
     const formData = new FormData();
     const caffe_fillers = ['constant', 'gaussian', 'positive_unitball', 'uniform', 'xavier', 'msra', 'bilinear'];
     const keras_fillers = ['Zeros', 'Ones', 'Constant', 'RandomNormal', 'RandomUniform', 'TruncatedNormal', 
@@ -221,10 +222,6 @@ class Content extends React.Component {
     else if (framework == 'samplekeras'){
       framework = 'keras'
       formData.append('sample_id', id);
-    }
-    else if (framework == 'url'){
-      const id = prompt('Please enter prototxt id ',id);
-      formData.append('proto_id', id);
     }
     else
       formData.append('file', $('#inputFile'+framework)[0].files[0]);
@@ -543,6 +540,31 @@ class Content extends React.Component {
       });
     }
   }
+  loadDb() {
+    this.dismissAllErrors();
+    const formData = new FormData();
+    const id = prompt('Please enter prototxt id ',id);
+    formData.append('proto_id', id);
+    $.ajax({
+      url: '/caffe/load',
+      dataType: 'json',
+      type: 'POST',
+      data: formData,
+      processData: false,  // tell jQuery not to process the data
+      contentType: false,
+      success: function (response) {
+        if (response.result === 'success'){
+          this.initialiseImportedNet(response.net,response.net_name);
+        } else if (response.result === 'error'){
+          this.addError(response.error);
+        }
+        this.setState({ load: false });
+      }.bind(this),
+      error() {
+        this.setState({ load: false });
+      }
+    });
+  }
   render() {
     let loader = null;
     if (this.state.load) {
@@ -554,6 +576,7 @@ class Content extends React.Component {
           exportNet={this.exportNet}
           importNet={this.importNet}
           saveDb={this.saveDb}
+          loadDb={this.loadDb}
         />
         <div className="content">
           <div className="pane">

@@ -1,10 +1,12 @@
-from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
-from datetime import datetime
 import random
 import string
 import sys
+
 from caffe_app.models import ModelExport
+from datetime import datetime
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+from yaml import safe_load
 
 
 def randomword(length):
@@ -25,3 +27,16 @@ def saveToDB(request):
             return JsonResponse({'result': 'success', 'id': randomId})
         except:
             return JsonResponse({'result': 'error', 'error': str(sys.exc_info()[1])})
+
+
+@csrf_exempt
+def loadFromDB(request):
+    if request.method == 'POST':
+        if 'proto_id' in request.POST:
+            try:
+                model = ModelExport.objects.get(pk=request.POST['proto_id'])
+                net = safe_load(model.network)
+            except Exception:
+                return JsonResponse({'result': 'error',
+                                     'error': 'No network file found'})
+            return JsonResponse({'result': 'success', 'net': net, 'net_name': model.name})

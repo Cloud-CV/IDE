@@ -47,7 +47,7 @@ class TopBar extends React.Component {
                         <input id="inputFiletensorflow" type="file" accept=".pbtxt" onChange={() => this.props.importNet('tensorflow', '')}/>
                         </a>
                     </li>
-                    <li><a href="#" onClick={() => this.props.importNet('url', '')}>url</a></li>
+                    <li><a href="#" onClick={() => this.props.loadDb()}>url</a></li>
                   </ul>
                 </div>
               </div>
@@ -62,7 +62,8 @@ class TopBar extends React.Component {
 TopBar.propTypes = {
   exportNet: React.PropTypes.func,
   importNet: React.PropTypes.func,
-  saveDb: React.PropTypes.func
+  saveDb: React.PropTypes.func,
+  loadDb: React.PropTypes.func
 };
 
 export default TopBar;
