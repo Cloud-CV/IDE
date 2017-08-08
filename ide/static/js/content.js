@@ -1,7 +1,6 @@
 import React from 'react';
 import Canvas from './canvas';
-import Pane from './pane';
-import Models from './models'
+import Pane from './pane2';
 import SetParams from './setParams';
 import Tooltip from './tooltip'
 import TopBar from './topBar';
@@ -280,7 +279,7 @@ class Content extends React.Component {
     const tempError = {};
     const error = [];
     const height = 0.05*window.innerHeight;
-    const width = 0.45*window.innerWidth;
+    const width = 0.35*window.innerWidth;
     // Initialize Python layer parameters to be empty
     data['Python']['params'] = {}
     this.setState({ net: {}, selectedLayer: null, hoveredLayer: null, nextLayerId: 0, selectedPhase: 0, error: [] });
@@ -504,22 +503,20 @@ class Content extends React.Component {
       loader = (<div className="loader"></div>);
     }
     return (
-      <div className="container-fluid">
-        <TopBar
-          exportNet={this.exportNet}
-          importNet={this.importNet}
-        />
-        <div className="content">
-          <div className="pane">
-            <ul className="nav nav-pills">
-              <Pane />
-              {/* <li style={{paddingTop:'4px'}}>
-                <button><span className="glyphicon glyphicon-cog" style={{fontSize:'24px'}}></span></button>
-              </li> --> */}
-              <Tabs selectedPhase={this.state.selectedPhase} changeNetPhase={this.changeNetPhase} />
-              <Models importNet={this.importNet}/>
-            </ul>
+        <div id="parent">
+        <div id="sidebar">
+          <div className="col-md-12 text-center">
+              <img src={'/static/img/fabrik_t.png'} className="img-responsive" alt="logo" id="logo"/>
+             <TopBar
+              exportNet={this.exportNet}
+              importNet={this.importNet}
+             />
+             <br/>
+             <Pane />
+             <Tabs selectedPhase={this.state.selectedPhase} changeNetPhase={this.changeNetPhase} />
           </div>
+        </div>
+        <div id="main">
           {loader}
           <Canvas
             net={this.state.net}
