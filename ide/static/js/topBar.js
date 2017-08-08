@@ -11,19 +11,9 @@ class TopBar extends React.Component {
           <div className="col-md-5" >
             <div className="form-inline">
             <div className="form-group" style={{'float':'right'}}>
-                <div className="dropdown">
-                  <button className="btn btn-primary dropdown-toggle form-control" data-toggle="dropdown">
+                  <button className="btn btn-primary form-control" onClick={() => this.props.saveDb()}>
                     <span className="glyphicon glyphicon-share" aria-hidden="true"></span>
                   </button>
-                  <ul className="dropdown-menu pull-right">
-                    <li><a href="#" onClick={() => this.props.loadDb()}>
-                      Download
-                    </a></li>
-                    <li><a href="#" onClick={() => this.props.saveDb()}>
-                      Upload
-                    </a></li>
-                  </ul>
-                </div>
               </div>
               <div className="form-group" style={{'float':'right'}}>
                 <div className="dropdown">

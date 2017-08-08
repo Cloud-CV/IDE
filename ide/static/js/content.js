@@ -26,6 +26,7 @@ class Content extends React.Component {
     this.addNewLayer = this.addNewLayer.bind(this);
     this.changeSelectedLayer = this.changeSelectedLayer.bind(this);
     this.changeHoveredLayer = this.changeHoveredLayer.bind(this);
+    this.componentWillMount = this.componentWillMount.bind(this);
     this.modifyLayer = this.modifyLayer.bind(this);
     this.adjustParameters = this.adjustParameters.bind(this);
     this.modifyLayerParams = this.modifyLayerParams.bind(this);
@@ -528,7 +529,8 @@ class Content extends React.Component {
         },
         success : function (response) {
           if (response.result == 'success'){
-            prompt('Your prototxt ID is ',response.id);
+            var url = 'fabrik.cloudcv.org/caffe/load?id='+response.id;
+            prompt('Your model url is ', url);
           } else if (response.result == 'error') {
             this.addError(response.error);
           }
@@ -540,10 +542,23 @@ class Content extends React.Component {
       });
     }
   }
-  loadDb() {
+  componentWillMount(){
+    var url = window.location.href;
+    var urlParams = {};
+    url = url.split('#')[0];
+    url.replace(
+    new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+    function($0, $1, $2, $3) {
+      urlParams[$1] = $3;
+      }
+    );
+    if ('id' in urlParams){
+      this.loadDb(urlParams['id']);
+    }
+  }
+  loadDb(id) {
     this.dismissAllErrors();
     const formData = new FormData();
-    const id = prompt('Please enter prototxt id ',id);
     formData.append('proto_id', id);
     $.ajax({
       url: '/caffe/load',
