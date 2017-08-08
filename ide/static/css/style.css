@@ -24,9 +24,10 @@ body {
     left: 0px;
     bottom: 0px;
     width: 20%;
-    background-color: black;
+    background-color: #2a2a2a;
     overflow-y: auto;
 }
+
 #parent {
     margin-left: 20%;
     background-color: blue;
@@ -131,6 +132,13 @@ body {
   max-height: 60px;
   margin: 0 auto;
   margin-top: 10px;
+  margin-bottom: 10px;
+  }
+
+#smallLogo{
+  max-height: 40px;
+  margin: 0 auto;
+  margin-top: 30px;
   margin-bottom: 10px;
   }
 

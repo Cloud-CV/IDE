@@ -506,7 +506,7 @@ class Content extends React.Component {
         <div id="parent">
         <div id="sidebar">
           <div className="col-md-12 text-center">
-              <img src={'/static/img/fabrik_t.png'} className="img-responsive" alt="logo" id="logo"/>
+              <a href="http://fabrik.cloudcv.org"><img src={'/static/img/fabrik_t.png'} className="img-responsive" alt="logo" id="logo"/></a>
              <TopBar
               exportNet={this.exportNet}
               importNet={this.importNet}
@@ -514,6 +514,18 @@ class Content extends React.Component {
              <br/>
              <Pane />
              <Tabs selectedPhase={this.state.selectedPhase} changeNetPhase={this.changeNetPhase} />
+             <div className="row footer">
+              <div className="col-md-2"/>
+              <div className="col-md-4">
+                <a href="https://github.com/Cloud-CV/Fabrik" target="_blank">
+                <img src={'/static/img/git.png'} className="img-responsive" alt="git logo" id="smallLogo"/></a>
+              </div>
+              <div className="col-md-4">
+                <a href="http://cloudcv.org" target="_blank">
+                <img src={'/static/img/cloudcv.png'} className="img-responsive" alt="cloudcv logo" id="smallLogo"/></a>
+              </div>
+              <div className="col-md-2"/>
+            </div>
           </div>
         </div>
         <div id="main">
