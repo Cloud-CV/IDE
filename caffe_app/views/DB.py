@@ -48,5 +48,4 @@ def loadFromDB(request):
             return JsonResponse({'result': 'success', 'net': net, 'net_name': model.name})
 
     if request.method == 'GET':
-        print request.GET.get('id', '')
         return index(request)
