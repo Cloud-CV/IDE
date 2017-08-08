@@ -70,6 +70,22 @@ body {
   border-radius: 20px;
 }
 
+#circleInfo {
+  width: 40px;
+  height: 40px;
+  padding: 6px 10px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 20px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.panel-group{
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
 .panel-default{
   border: none;
 }
