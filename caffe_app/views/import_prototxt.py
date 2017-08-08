@@ -7,7 +7,7 @@ from google.protobuf import text_format
 
 
 @csrf_exempt
-def importPrototxt(request):
+def import_prototxt(request):
     if request.method == 'POST':
         if ('file' in request.FILES) and \
            (request.FILES['file'].content_type == 'application/octet-stream'):

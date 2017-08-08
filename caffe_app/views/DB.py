@@ -19,7 +19,7 @@ def index(request):
 
 
 @csrf_exempt
-def saveToDB(request):
+def save_to_db(request):
     if request.method == 'POST':
         net = request.POST.get('net')
         net_name = request.POST.get('net_name')
@@ -36,7 +36,7 @@ def saveToDB(request):
 
 
 @csrf_exempt
-def loadFromDB(request):
+def load_from_db(request):
     if request.method == 'POST':
         if 'proto_id' in request.POST:
             try:
