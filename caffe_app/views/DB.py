@@ -27,7 +27,8 @@ def saveToDB(request):
             net_name = 'Net'
         try:
             randomId = datetime.now().strftime('%Y%m%d%H%M%S')+randomword(5)
-            model = ModelExport(name=net_name, id=randomId, network=net)
+            model = ModelExport(name=net_name, id=randomId, network=net, createdOn=datetime.now(),
+                                updatedOn=datetime.now())
             model.save()
             return JsonResponse({'result': 'success', 'id': randomId})
         except:
