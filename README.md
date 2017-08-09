@@ -63,7 +63,7 @@ This app is presently under active development and we welcome contributions. Ple
 6. Install node modules
 ```
 npm install
-webpack
+webpack --progress --watch --colors
 ```
 
 ### Usage
