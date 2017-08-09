@@ -60,6 +60,9 @@ class Content extends React.Component {
     this.closeModal = this.closeModal.bind(this);
     this.saveDb = this.saveDb.bind(this);
     this.loadDb = this.loadDb.bind(this);
+    this.infoModal = this.infoModal.bind(this);
+    this.modalContent = null;
+    this.modalHeader = null;
   }
   openModal() {
     this.setState({modalIsOpen: true});
@@ -554,7 +557,9 @@ class Content extends React.Component {
         success : function (response) {
           if (response.result == 'success'){
             var url = 'fabrik.cloudcv.org/caffe/load?id='+response.id;
-            prompt('Your model url is ', url);
+            this.modalHeader = 'Your model url is:';
+            this.modalContent = (<a href={url}>{url}</a>);
+            this.openModal();
           } else if (response.result == 'error') {
             this.addError(response.error);
           }
@@ -604,6 +609,14 @@ class Content extends React.Component {
       }
     });
   }
+  infoModal() {
+    this.modalHeader = "About"
+    this.modalContent = "This is a React+Django webapp with a simple drag and drop interface to build and configure\
+                         deep neural networks with support for export of model configuration files to caffe and tensorflow. It also supports\
+                         import from these frameworks to visualize different model architectures. Our motivation is to build an online IDE where\
+                         researchers can share models and collaborate without having to deal with deep learning code.";
+    this.openModal();
+  }
   render() {
     let loader = null;
     if (this.state.load) {
@@ -617,13 +630,14 @@ class Content extends React.Component {
              <TopBar
               exportNet={this.exportNet}
               importNet={this.importNet}
+              saveDb={this.saveDb}
              />
              <br/>
              <Pane />
              <Tabs selectedPhase={this.state.selectedPhase} changeNetPhase={this.changeNetPhase} />
              <div className="row footer">
               <div className="col-md-2">
-                <button id="circleInfo" className="btn btn-default" onClick={this.openModal}>
+                <button id="circleInfo" className="btn btn-default" onClick={this.infoModal}>
                       <span className="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                 </button>
               </div>
@@ -676,11 +690,8 @@ class Content extends React.Component {
             onRequestClose={this.closeModal}
             style={infoStyle}>
             <button type="button" style={{padding: 5+'px'}} className="close" onClick={this.closeModal}>&times;</button>
-            <br></br>
-            <p>This is a React+Django webapp with a simple drag and drop interface to build and configure deep neural networks
-             with support for export of model configuration files to caffe and tensorflow. It also supports import from these
-             frameworks to visualize different model architectures. Our motivation is to build an online IDE where researchers 
-             can share models and collaborate without having to deal with deep learning code.</p>
+            <h4>{ this.modalHeader }</h4>
+            { this.modalContent }
           </Modal>
         </div>
       </div>
