@@ -45,7 +45,7 @@ This app is presently under active development and we welcome contributions. Ple
     ```
     pip install -r requirements/common.txt
     ```
-5. Install postgres
+5. [Install postgres](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04)
 * Setup postgres database
     ```
       psql -c "CREATE DATABASE fabrik" -U postgres
@@ -60,8 +60,10 @@ This app is presently under active development and we welcome contributions. Ple
     python manage.py makemigrations caffe_app
     python manage.py migrate
     ```
+6. Install node modules
 ```
 npm install
+webpack
 ```
 
 ### Usage
