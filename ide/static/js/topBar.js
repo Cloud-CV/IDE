@@ -64,7 +64,8 @@ class TopBar extends React.Component {
                 </div>
               </div>
               <div className="form-group">
-                <button id="circle" className="btn btn-default dropdown-toggle form-control" data-toggle="dropdown">
+                <button id="circle" className="btn btn-default dropdown-toggle form-control" data-toggle="dropdown" 
+                onClick={() => this.props.saveDb()}>
                     <span className="glyphicon glyphicon-share" aria-hidden="true"></span>
                 </button>
               </div>
@@ -78,7 +79,9 @@ class TopBar extends React.Component {
 
 TopBar.propTypes = {
   exportNet: React.PropTypes.func,
-  importNet: React.PropTypes.func
+  importNet: React.PropTypes.func,
+  saveDb: React.PropTypes.func,
+  loadDb: React.PropTypes.func
 };
 
 export default TopBar;
