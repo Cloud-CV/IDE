@@ -1,6 +1,6 @@
 import React from 'react';
 import Canvas from './canvas';
-import Pane from './pane2';
+import Pane from './pane';
 import SetParams from './setParams';
 import Tooltip from './tooltip'
 import TopBar from './topBar';
@@ -625,36 +625,28 @@ class Content extends React.Component {
     return (
         <div id="parent">
         <div id="sidebar">
-          <div className="col-md-12 text-center">
-              <a href="http://fabrik.cloudcv.org"><img src={'/static/img/fabrik_t.png'} className="img-responsive" alt="logo" id="logo"/></a>
+          <div id="logo_back">
+            <a href="http://fabrik.cloudcv.org"><img src={'/static/img/fabrik_t.png'} className="img-responsive" alt="logo" id="logo"/></a>
+          </div>
+          <div className="col-md-12">
+             <h5 className="sidebar-heading">ACTIONS</h5>
              <TopBar
               exportNet={this.exportNet}
               importNet={this.importNet}
               saveDb={this.saveDb}
              />
-             <br/>
+             <h5 className="sidebar-heading">INSERT LAYER</h5>
              <Pane />
-             <Tabs selectedPhase={this.state.selectedPhase} changeNetPhase={this.changeNetPhase} />
-             <div className="row footer">
-              <div className="col-md-2">
-                <button id="circleInfo" className="btn btn-default" onClick={this.infoModal}>
-                      <span className="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                </button>
-              </div>
-              <div className="col-md-2"/>
-              <div className="col-md-2">
-                <a href="https://github.com/Cloud-CV/Fabrik" target="_blank">
-                <img src={'/static/img/git.png'} alt="git logo" id="smallLogo"/></a>
-              </div>
-              <div className="col-md-2"/>
-              <div className="col-md-2">
-                <a href="http://cloudcv.org" target="_blank">
-                <img src={'/static/img/cloudcv.png'} alt="cloudcv logo" id="smallLogo"/></a>
-              </div>
-            </div>
+             <div className="text-center">
+              <Tabs selectedPhase={this.state.selectedPhase} changeNetPhase={this.changeNetPhase} />
+             </div>
+             <h5 className="sidebar-heading">EXTRAS</h5>
+             <a className="btn btn-block extra-buttons text-left" onClick={this.infoModal}>About Us</a>
+             <a className="btn btn-block extra-buttons text-left" href="https://github.com/Cloud-CV/Fabrik" target="_blank">GitHub</a>
+             <a className="btn btn-block extra-buttons text-left" href="http://cloudcv.org" target="_blank">CloudCV</a>
           </div>
         </div>
-        <div id="main">
+      <div id="main">
           {loader}
           <Canvas
             net={this.state.net}
@@ -675,6 +667,7 @@ class Content extends React.Component {
             selectedLayer={this.state.selectedLayer}
             modifyLayer={this.modifyLayerParams}
             adjustParameters={this.adjustParameters}
+            changeSelectedLayer={this.changeSelectedLayer}
             deleteLayer={this.deleteLayer}
             selectedPhase={this.state.selectedPhase}
             copyTrain={this.copyTrain}
@@ -688,7 +681,8 @@ class Content extends React.Component {
           <Modal
             isOpen={this.state.modalIsOpen}
             onRequestClose={this.closeModal}
-            style={infoStyle}>
+            style={infoStyle}
+            contentLabel="Modal">
             <button type="button" style={{padding: 5+'px'}} className="close" onClick={this.closeModal}>&times;</button>
             <h4>{ this.modalHeader }</h4>
             { this.modalContent }

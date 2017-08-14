@@ -279,6 +279,12 @@ class Canvas extends React.Component {
       >
         {layers}
       </div>
+      <button id='icon-plus' className="btn btn-default canvas-icon text-center">
+          <span className="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span>
+      </button>
+      <button id='icon-minus' className="btn btn-default canvas-icon text-center">
+          <span className="glyphicon glyphicon glyphicon-minus" aria-hidden="true"></span>
+      </button>
       </div>
     );
   }
