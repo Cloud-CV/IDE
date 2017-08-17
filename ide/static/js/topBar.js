@@ -1,5 +1,6 @@
 import React from 'react';
-import ModelElement from './modelElement'
+import ModelElement from './modelElement';
+import ReactTooltip from 'react-tooltip';
 
 class TopBar extends React.Component {
   render() {
@@ -9,7 +10,8 @@ class TopBar extends React.Component {
             <div className="col-md-3">
               <div className="form-group">
                   <div className="dropdown">
-                    <button id="topbar-icon" className="btn btn-default dropdown-toggle form-control" data-toggle="dropdown">
+                    <button id="topbar-icon" className="btn btn-default dropdown-toggle form-control" data-toggle="dropdown" 
+                    data-tip="Load from zoo">
                       <span className="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
                     </button>
                     <ul className="dropdown-menu">
@@ -27,7 +29,7 @@ class TopBar extends React.Component {
             <div className="col-md-3">
               <div className="form-group">
                 <div className="dropdown">
-                  <button id="topbar-icon" className="btn btn-default dropdown-toggle form-control" data-toggle="dropdown">
+                  <button id="topbar-icon" className="btn btn-default dropdown-toggle form-control" data-toggle="dropdown" data-tip="Export">
                     <span className="glyphicon glyphicon-export" aria-hidden="true"></span>
                   </button>
                   <ul className="dropdown-menu">
@@ -41,7 +43,7 @@ class TopBar extends React.Component {
             <div className="col-md-3">
               <div className="form-group">
                 <div className="dropdown">
-                  <button id="topbar-icon" className="btn btn-default dropdown-toggle form-control" data-toggle="dropdown">
+                  <button id="topbar-icon" className="btn btn-default dropdown-toggle form-control" data-toggle="dropdown" data-tip="Import">
                     <span className="glyphicon glyphicon-import" aria-hidden="true"></span>
                   </button>
                   <ul className="dropdown-menu">
@@ -70,12 +72,13 @@ class TopBar extends React.Component {
             <div className="col-md-3">
               <div className="form-group">
                 <button id="topbar-icon" className="btn btn-default dropdown-toggle form-control" data-toggle="dropdown" 
-                onClick={() => this.props.saveDb()}>
+                onClick={() => this.props.saveDb()} data-tip="Share">
                     <span className="glyphicon glyphicon-share" aria-hidden="true"></span>
                 </button>
               </div>
             </div>
         </div>
+      <ReactTooltip type="dark" multiline={true}/>
       </div>
     );
   }
