@@ -85,16 +85,24 @@ body {
 }
 
 .canvas-icon{
+  margin: 0px;
+  position: fixed;
+  bottom: 4%;
+  right: 4%;
+}
+
+.canvas-icon > p{
+  margin: 0px;
+  color: #9ea2a9;
+}
+
+.canvas-icon > button{
   width: 40px;
   height: 40px;
   border-radius: 5px;
   background-color: #cdcfd2;
   box-shadow:none ;
   border: none;
-  margin: 0px;
-  position: fixed;
-  bottom: 4%;
-  right: 4%;
 }
 
 #icon-plus{

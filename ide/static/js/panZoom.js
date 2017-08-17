@@ -68,6 +68,11 @@ export default function() {
     onZoom((e.ctrlKey || e.metaKey) ? current.zoom * 1.2 : current.zoom / 1.2);
   };
 
+  window.onkeypress = function(e) {   
+   onZoom((e.key == '[') ? current.zoom * 1.2 : current.zoom);    
+   onZoom((e.key == ']') ? current.zoom / 1.2 : current.zoom) ;    
+  }
+
   zoomOut.onclick = function(){
     onZoom(current.zoom * 1.2);
   };
