@@ -1,4 +1,4 @@
-# Fabrik
+<img width="25%" src="/ide/static/img/logo.png" />
 
 [![Join the chat at https://gitter.im/Cloud-CV/IDE](https://badges.gitter.im/Cloud-CV/IDE.svg)](https://gitter.im/Cloud-CV/IDE?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/Cloud-CV/Fabrik.svg?branch=master)](https://travis-ci.org/Cloud-CV/Fabrik)
