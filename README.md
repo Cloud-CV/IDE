@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/Cloud-CV/Fabrik.svg?branch=master)](https://travis-ci.org/Cloud-CV/Fabrik)
 [![Coverage Status](https://coveralls.io/repos/github/Cloud-CV/Fabrik/badge.svg?branch=master)](https://coveralls.io/github/Cloud-CV/Fabrik?branch=coveralls)
 
-This is a React+Django webapp with a simple drag and drop interface to build and configure deep neural networks with support for export of model configuration files to caffe and tensorflow. It also supports import from these frameworks to visualize different model architectures. Our motivation is to build an online IDE where researchers can share models and collaborate without having to deal with deep learning code.
+Fabrik is an online collaborative platform to build, visualize and train deep learning models via a simple drag-and-drop interface. It allows researchers to collaboratively develop and debug models using a web GUI that supports importing, editing and exporting networks written in widely popular frameworks like Caffe, Keras, and TensorFlow.
 
 ### Interface
 <img src="/example/fabrik_demo.gif?raw=true">
