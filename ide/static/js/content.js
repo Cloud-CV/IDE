@@ -309,6 +309,12 @@ class Content extends React.Component {
       var layer = net[layerId];
       const type = layer.info.type;
       // const index = +layerId.substring(1);
+      if (type == 'Python'){
+        Object.keys(layer.params).forEach(param => {
+          layer.params[param] = [layer.params[param], false];
+        });
+        layer.params['caffe'] = [true, false];
+      }
       if (data.hasOwnProperty(type)) {
         // add the missing params with default values
         Object.keys(data[type].params).forEach(param => {
@@ -556,7 +562,7 @@ class Content extends React.Component {
         },
         success : function (response) {
           if (response.result == 'success'){
-            var url = 'fabrik.cloudcv.org/caffe/load?id='+response.id;
+            var url = 'https://www.fabrik.cloudcv.org/caffe/load?id='+response.id;
             this.modalHeader = 'Your model url is:';
             this.modalContent = (<a href={url}>{url}</a>);
             this.openModal();
