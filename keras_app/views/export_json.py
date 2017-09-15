@@ -11,7 +11,8 @@ from django.http import JsonResponse
 from ide.utils.shapes import get_shapes
 from keras.models import Model
 from layers_export import data, convolution, deconvolution, pooling, dense, dropout, embed,\
-    recurrent, batchNorm, activation, flatten, reshape, eltwise, concat
+    recurrent, batch_norm, activation, flatten, reshape, eltwise, concat, upsample, locally_connected,\
+    permute, repeat_vector, regularization, masking, gaussian_noise, gaussian_dropout, alpha_dropout
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
@@ -20,7 +21,7 @@ def randomword(length):
 
 
 @csrf_exempt
-def exportJson(request):
+def export_json(request):
     if request.method == 'POST':
         net = yaml.safe_load(request.POST.get('net'))
         net_name = request.POST.get('net_name')
@@ -29,6 +30,7 @@ def exportJson(request):
         try:
             net = get_shapes(net)
         except:
+            print sys.exc_info()
             return JsonResponse({'result': 'error', 'error': str(sys.exc_info()[1])})
 
         layer_map = {
@@ -38,27 +40,50 @@ def exportJson(request):
             'WindowData': data,
             'MemoryData': data,
             'DummyData': data,
-            'Convolution': convolution,
-            'Pooling': pooling,
-            'Deconvolution': deconvolution,
-            'RNN': recurrent,
-            'LSTM': recurrent,
             'InnerProduct': dense,
+            'Softmax': activation,
+            'SELU': activation,
+            'Softplus': activation,
+            'Softsign': activation,
+            'ReLU': activation,
+            'TanH': activation,
+            'Sigmoid': activation,
+            'HardSigmoid': activation,
             'Dropout': dropout,
+            'Flatten': flatten,
+            'Reshape': reshape,
+            'Permute': permute,
+            'RepeatVector': repeat_vector,
+            'Regularization': regularization,
+            'Masking': masking,
+            'Convolution': convolution,
+            'Deconvolution': deconvolution,
+            'Upsample': upsample,
+            'Pooling': pooling,
+            'LocallyConnected': locally_connected,
+            'RNN': recurrent,
+            'GRU': recurrent,
+            'LSTM': recurrent,
             'Embed': embed,
             'Concat': concat,
             'Eltwise': eltwise,
-            'BatchNorm': batchNorm,
-            'ReLU': activation,
             'PReLU': activation,
             'ELU': activation,
-            'Sigmoid': activation,
-            'TanH': activation,
-            'Flatten': flatten,
-            'Reshape': reshape,
-            'Softmax': activation,
+            'ThresholdedReLU': activation,
+            'BatchNorm': batch_norm,
+            'GaussianNoise': gaussian_noise,
+            'GaussianDropout': gaussian_dropout,
+            'AlphaDropout': alpha_dropout,
             'Scale': ''
         }
+
+        # Check if conversion is possible
+        for layerId in net:
+            layerType = net[layerId]['info']['type']
+            if ('Loss' in layerType or layerType == 'Accuracy' or layerType in layer_map):
+                pass
+            else:
+                return JsonResponse({'result': 'error', 'error': 'Cannot convert ' + layerType + ' to Keras'})
 
         stack = []
         net_out = {}
@@ -122,6 +147,7 @@ def exportJson(request):
                         stack.append(outputId)
                 processedLayer[layerId] = True
             else:
+                print net[layerId]['info']['type']
                 return JsonResponse({'result': 'error', 'error': 'Cannot convert ' +
                                      net[layerId]['info']['type'] + ' to Keras'})
 

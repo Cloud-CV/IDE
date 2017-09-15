@@ -18,14 +18,17 @@ class Canvas extends React.Component {
     this.clickOrDraggedLayer = 0;
     this.hover = 0;
     this.mouseState = null;
+    this.placeholder = true;
   }
   componentDidMount() {
+    this.placeholder = false;
     instance = jsPlumbReady();
     instance.bind('connection', this.connectionEvent.bind(this));
     instance.bind('connectionDetached', this.detachConnectionEvent.bind(this));
     this.mouseState = panZoom();
   }
   componentDidUpdate() {
+    this.placeholder = false;
     instance.draggable(jsPlumb.getSelector('.layer'),
       {
         drag: this.updateLayerPosition.bind(this),
@@ -88,6 +91,7 @@ class Canvas extends React.Component {
     event.stopPropagation();
   }
   clickCanvas(event) {
+    this.placeholder = false;
     event.preventDefault();
     if (event.target.id === 'panZoomContainer' && !this.mouseState.pan) {
       this.props.changeSelectedLayer(null);
@@ -158,6 +162,7 @@ class Canvas extends React.Component {
     }
   }
   drop(event) {
+    this.placeholder = false;
     event.preventDefault();
     const canvas = document.getElementById('jsplumbContainer');
     const zoom = instance.getZoom();
@@ -185,7 +190,7 @@ class Canvas extends React.Component {
       layer.connection = { input: [], output: [] };
       layer.params = {};
       Object.keys(data[type].params).forEach(j => {
-        layer.params[j] = data[type].params[j].value;
+        layer.params[j] = [data[type].params[j].value, false];
       });
       // l.props = JSON.parse(JSON.stringify(data[type].props));
       layer.props = {};
@@ -199,15 +204,19 @@ class Canvas extends React.Component {
     const errors = [];
     const net = this.props.net;
     const error = this.props.error;
+    let placeholder = null;
+    if (this.placeholder){
+      placeholder = (<h4 className="text-center" id="placeholder">Load an existing model from the folder dropdown</h4>)
+    }
     Object.keys(net).forEach(layerId => {
       const layer = net[layerId];
       if (layer.info.type == 'Python'){
         // Changing endpoints depending on the type of Python layer
-        if (layer.params.endPoint == '1, 0'){
+        if (layer.params.endPoint[0] == '1, 0'){
           data[layer.info.type]['endpoint']['trg'] = [];
           data[layer.info.type]['endpoint']['src'] = ['Bottom'];
         }
-        else if (layer.params.endPoint == '0, 1'){
+        else if (layer.params.endPoint[0] == '0, 1'){
           data[layer.info.type]['endpoint']['trg'] = ['Top'];
           data[layer.info.type]['endpoint']['src'] = [];
         }
@@ -261,6 +270,7 @@ class Canvas extends React.Component {
         onClick={this.clickCanvas}
       >
         {errors}
+        {placeholder}
       <div
         id="jsplumbContainer"
         data-zoom="1"
@@ -268,6 +278,18 @@ class Canvas extends React.Component {
         data-y="0"
       >
         {layers}
+      </div>
+      <div id='icon-plus' className="canvas-icon">
+        <p>Press ]</p>
+        <button className="btn btn-default text-center">
+            <span className="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div id='icon-minus' className="canvas-icon">
+        <p>Press [</p>
+        <button className="btn btn-default text-center">
+            <span className="glyphicon glyphicon glyphicon-minus" aria-hidden="true"></span>
+        </button>
       </div>
       </div>
     );
@@ -286,7 +308,8 @@ Canvas.propTypes = {
   changeNetStatus: React.PropTypes.func,
   addError: React.PropTypes.func,
   dismissError: React.PropTypes.func,
-  error: React.PropTypes.array
+  error: React.PropTypes.array,
+  placeholder: React.PropTypes.bool
 };
 
 export default Canvas;

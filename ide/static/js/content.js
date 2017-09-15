@@ -7,6 +7,22 @@ import TopBar from './topBar';
 import Tabs from './tabs';
 import data from './data';
 import netLayout from './netLayout_vertical';
+import Modal from 'react-modal';
+
+const infoStyle = {
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : '60%',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)',
+    borderRadius          : '8px'
+  },
+  overlay: {
+    zIndex                : 100
+  }
+};
 
 class Content extends React.Component {
   constructor(props) {
@@ -20,12 +36,15 @@ class Content extends React.Component {
       rebuildNet: false,
       selectedPhase: 0,
       error: [],
-      load: false
+      load: false,
+      modalIsOpen: false
     };
     this.addNewLayer = this.addNewLayer.bind(this);
     this.changeSelectedLayer = this.changeSelectedLayer.bind(this);
     this.changeHoveredLayer = this.changeHoveredLayer.bind(this);
+    this.componentWillMount = this.componentWillMount.bind(this);
     this.modifyLayer = this.modifyLayer.bind(this);
+    this.adjustParameters = this.adjustParameters.bind(this);
     this.modifyLayerParams = this.modifyLayerParams.bind(this);
     this.deleteLayer = this.deleteLayer.bind(this);
     this.exportNet = this.exportNet.bind(this);
@@ -37,6 +56,19 @@ class Content extends React.Component {
     this.dismissAllErrors = this.dismissAllErrors.bind(this);
     this.copyTrain = this.copyTrain.bind(this);
     this.trainOnly = this.trainOnly.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.saveDb = this.saveDb.bind(this);
+    this.loadDb = this.loadDb.bind(this);
+    this.infoModal = this.infoModal.bind(this);
+    this.modalContent = null;
+    this.modalHeader = null;
+  }
+  openModal() {
+    this.setState({modalIsOpen: true});
+  }
+  closeModal() {
+    this.setState({modalIsOpen: false});
   }
   addNewLayer(layer) {
     const net = this.state.net;
@@ -157,6 +189,7 @@ class Content extends React.Component {
     Object.keys(net).forEach(layerId => {
       const layer = net[layerId];
       Object.keys(layer.params).forEach(param => {
+        layer.params[param] = layer.params[param][0];
         const paramData = data[layer.info.type].params[param];
         if (layer.info.type == 'Python' && param == 'endPoint'){
           return;
@@ -175,7 +208,7 @@ class Content extends React.Component {
         delete netData[layerId].state;
       });
 
-      const url = {'caffe': '/caffe/export', 'keras': '/keras/export', 'tensorflow': '/tensorflow/export', 'url': '/caffe/export'}
+      const url = {'caffe': '/caffe/export', 'keras': '/keras/export', 'tensorflow': '/tensorflow/export'}
       this.setState({ load: true });
       $.ajax({
         url: url[framework],
@@ -186,12 +219,8 @@ class Content extends React.Component {
           net_name: this.state.net_name
         },
         success : function (response) {
-          if (response.result == 'success' && framework == 'url'){
-            var id = response.url.split('/')[2];
-            id = id.split('.')[0];
-            prompt('Your prototxt ID is ',id);
-          }
-          else if (response.result == 'success') {
+
+          if (response.result == 'success') {
             const downloadAnchor = document.getElementById('download');
             downloadAnchor.download = response.name;
             downloadAnchor.href = response.url;
@@ -207,17 +236,20 @@ class Content extends React.Component {
       });
     }
   }
-  importNet(framework) {
+  importNet(framework, id) {
     this.dismissAllErrors();
-    const url = {'caffe': '/caffe/import', 'keras': '/keras/import', 'tensorflow': '/tensorflow/import', 'url': '/caffe/import'};
+    const url = {'caffe': '/caffe/import', 'keras': '/keras/import', 'tensorflow': '/tensorflow/import'};
     const formData = new FormData();
     const caffe_fillers = ['constant', 'gaussian', 'positive_unitball', 'uniform', 'xavier', 'msra', 'bilinear'];
     const keras_fillers = ['Zeros', 'Ones', 'Constant', 'RandomNormal', 'RandomUniform', 'TruncatedNormal', 
     'VarianceScaling', 'Orthogonal', 'Identity', 'lecun_uniform', 'glorot_normal', 'glorot_uniform', 'he_normal', 'he_uniform'];
-
-    if (framework == 'url'){
-      const id = prompt('Please enter prototxt id ',id);
-      formData.append('proto_id', id);
+    if (framework == 'samplecaffe'){
+      framework = 'caffe'
+      formData.append('sample_id', id);
+    }
+    else if (framework == 'samplekeras'){
+      framework = 'keras'
+      formData.append('sample_id', id);
     }
     else
       formData.append('file', $('#inputFile'+framework)[0].files[0]);
@@ -269,21 +301,35 @@ class Content extends React.Component {
     const tempError = {};
     const error = [];
     const height = 0.05*window.innerHeight;
-    const width = 0.45*window.innerWidth;
+    const width = 0.35*window.innerWidth;
     // Initialize Python layer parameters to be empty
     data['Python']['params'] = {}
     this.setState({ net: {}, selectedLayer: null, hoveredLayer: null, nextLayerId: 0, selectedPhase: 0, error: [] });
     Object.keys(net).forEach(layerId => {
-      const layer = net[layerId];
+      var layer = net[layerId];
       const type = layer.info.type;
       // const index = +layerId.substring(1);
+      if (type == 'Python'){
+        Object.keys(layer.params).forEach(param => {
+          layer.params[param] = [layer.params[param], false];
+        });
+        layer.params['caffe'] = [true, false];
+      }
       if (data.hasOwnProperty(type)) {
         // add the missing params with default values
         Object.keys(data[type].params).forEach(param => {
           if (!layer.params.hasOwnProperty(param)) {
-            layer.params[param] = data[type].params[param].value;
+            // The initial value is a list with the first element being the actual value, and the second being a flag which 
+            // controls wheter the parameter is disabled or not on the frontend.
+            layer.params[param] = [data[type].params[param].value, false];
+          }
+          else {
+            layer.params[param] = [layer.params[param], false];
           }
         });
+        if (type == 'Convolution' || type == 'Pooling' || type == 'Upsample' || type == 'LocallyConnected' || type == 'Eltwise'){
+          layer = this.adjustParameters(layer, 'layer_type', layer.params['layer_type'][0]);
+        }
         // layer.props = JSON.parse(JSON.stringify(data[type].props));
         layer.props = {};
         // default name
@@ -308,10 +354,16 @@ class Content extends React.Component {
       }
       var prev_top = 0;
 
-      // Finding the position of the last connected layer
+      // Finding the position of the last(deepest) connected layer
       if (net[layer.connection.input[0]] != undefined){
-        let top_str = net[layer.connection.input[Math.floor(layer.connection.input.length/2)]].state.top;
-        prev_top = parseInt(top_str.substring(0,top_str.length-2));
+        prev_top = 0;
+        for (var i=0; i<layer.connection.input.length; i++){
+          var temp = net[layer.connection.input[i]].state.top;
+          temp = parseInt(temp.substring(0,temp.length-2));
+          if (temp > prev_top){
+            prev_top = temp;
+          }
+        }
       }
       // Graph does not centre properly on higher resolution screens
       layer.state = {
@@ -340,6 +392,77 @@ class Content extends React.Component {
         error: []
       });
     }
+  }
+  adjustParameters(layer, para, value) {
+    if (para == 'layer_type'){
+      if (layer.info['type'] == 'Convolution' || layer.info['type'] == 'Pooling'){
+        if (value == '1D'){
+          layer.params['caffe'] = [false, false];
+          layer.params['kernel_h'] = [layer.params['kernel_h'][0], true];
+          layer.params['kernel_d'] = [layer.params['kernel_d'][0], true];
+          layer.params['pad_h'] = [layer.params['pad_h'][0], true];
+          layer.params['pad_d'] = [layer.params['pad_d'][0], true];
+          layer.params['stride_h'] = [layer.params['stride_h'][0], true];
+          layer.params['stride_d'] = [layer.params['stride_d'][0], true];
+          if (layer.info['type'] == 'Convolution'){
+            layer.params['dilation_h'] = [layer.params['dilation_h'][0], true];
+            layer.params['dilation_d'] = [layer.params['dilation_d'][0], true];
+          }
+        }
+        else if (value == '2D'){
+          layer.params['caffe'] = [true, false];
+          layer.params['kernel_h'] = [layer.params['kernel_h'][0], false];
+          layer.params['kernel_d'] = [layer.params['kernel_d'][0], true];
+          layer.params['pad_h'] = [layer.params['pad_h'][0], false];
+          layer.params['pad_d'] = [layer.params['pad_d'][0], true];
+          layer.params['stride_h'] = [layer.params['stride_h'][0], false];
+          layer.params['stride_d'] = [layer.params['stride_d'][0], true];
+          if (layer.info['type'] == 'Convolution'){
+            layer.params['dilation_h'] = [layer.params['dilation_h'][0], false];
+            layer.params['dilation_d'] = [layer.params['dilation_d'][0], true];
+          }
+        }
+        else {
+          layer.params['caffe'] = [false, false];
+          layer.params['kernel_h'] = [layer.params['kernel_h'][0], false];
+          layer.params['kernel_d'] = [layer.params['kernel_d'][0], false];
+          layer.params['pad_h'] = [layer.params['pad_h'][0], false];
+          layer.params['pad_d'] = [layer.params['pad_d'][0], false];
+          layer.params['stride_h'] = [layer.params['stride_h'][0], false];
+          layer.params['stride_d'] = [layer.params['stride_d'][0], false];
+          if (layer.info['type'] == 'Convolution'){
+            layer.params['dilation_h'] = [layer.params['dilation_h'][0], false];
+            layer.params['dilation_d'] = [layer.params['dilation_d'][0], false];
+          }
+        }
+      }
+      else if (layer.info['type'] == 'Upsample'){
+        if (value == '1D'){
+          layer.params['size_h'] = [layer.params['size_h'][0], true];
+          layer.params['size_d'] = [layer.params['size_d'][0], true];
+        }
+        else if (value == '2D'){
+          layer.params['size_h'] = [layer.params['size_h'][0], false];
+          layer.params['size_d'] = [layer.params['size_d'][0], true];
+        }
+        else{
+          layer.params['size_h'] = [layer.params['size_h'][0], false];
+          layer.params['size_d'] = [layer.params['size_d'][0], false];
+        }
+      }
+      else if (layer.info['type'] == 'LocallyConnected'){
+        if (value == '1D'){
+          layer.params['kernel_h'] = [layer.params['kernel_h'][0], true];
+          layer.params['stride_h'] = [layer.params['stride_h'][0], true];
+        }
+      }
+      else if (layer.info['type'] == 'Eltwise'){
+        if (value == 'Average' || value == 'Dot'){
+          layer.params['caffe'] = [false, false];
+        }
+      }
+    }
+    return layer;
   }
   changeNetStatus(bool) {
     this.setState({ rebuildNet: bool });
@@ -402,27 +525,135 @@ class Content extends React.Component {
     layer.info.phase = 0;
     this.setState({ net });
   }
+  saveDb(){
+    this.dismissAllErrors();
+    const error = [];
+    const net = this.state.net;
+
+    Object.keys(net).forEach(layerId => {
+      const layer = net[layerId];
+      Object.keys(layer.params).forEach(param => {
+        layer.params[param] = layer.params[param][0];
+        const paramData = data[layer.info.type].params[param];
+        if (layer.info.type == 'Python' && param == 'endPoint'){
+          return;
+        }
+        if (paramData.required === true && layer.params[param] === '') {
+          error.push(`Error: "${paramData.name}" required in "${layer.props.name}" Layer`);
+        }
+      });
+    });
+
+    if (error.length) {
+      this.setState({ error });
+    } else {
+      const netData = JSON.parse(JSON.stringify(this.state.net));
+      Object.keys(netData).forEach(layerId => {
+        delete netData[layerId].state;
+      });
+      this.setState({ load: true });
+      $.ajax({
+        url: '/caffe/save',
+        dataType: 'json',
+        type: 'POST',
+        data: {
+          net: JSON.stringify(netData),
+          net_name: this.state.net_name
+        },
+        success : function (response) {
+          if (response.result == 'success'){
+            var url = 'https://www.fabrik.cloudcv.org/caffe/load?id='+response.id;
+            this.modalHeader = 'Your model url is:';
+            this.modalContent = (<a href={url}>{url}</a>);
+            this.openModal();
+          } else if (response.result == 'error') {
+            this.addError(response.error);
+          }
+          this.setState({ load: false });
+        }.bind(this),
+        error() {
+          this.setState({ load: false });
+        }
+      });
+    }
+  }
+  componentWillMount(){
+    var url = window.location.href;
+    var urlParams = {};
+    url = url.split('#')[0];
+    url.replace(
+    new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+    function($0, $1, $2, $3) {
+      urlParams[$1] = $3;
+      }
+    );
+    if ('id' in urlParams){
+      this.loadDb(urlParams['id']);
+    }
+  }
+  loadDb(id) {
+    this.dismissAllErrors();
+    const formData = new FormData();
+    formData.append('proto_id', id);
+    $.ajax({
+      url: '/caffe/load',
+      dataType: 'json',
+      type: 'POST',
+      data: formData,
+      processData: false,  // tell jQuery not to process the data
+      contentType: false,
+      success: function (response) {
+        if (response.result === 'success'){
+          this.initialiseImportedNet(response.net,response.net_name);
+        } else if (response.result === 'error'){
+          this.addError(response.error);
+        }
+        this.setState({ load: false });
+      }.bind(this),
+      error() {
+        this.setState({ load: false });
+      }
+    });
+  }
+  infoModal() {
+    this.modalHeader = "About"
+    this.modalContent = `Fabrik is an online collaborative platform to build, visualize and train deep\
+                         learning models via a simple drag-and-drop interface. It allows researchers to\ 
+                         collaboratively develop and debug models using a web GUI that supports importing,\
+                         editing and exporting networks written in widely popular frameworks like Caffe,\
+                         Keras, and TensorFlow.`;
+    this.openModal();
+  }
   render() {
     let loader = null;
     if (this.state.load) {
       loader = (<div className="loader"></div>);
     }
     return (
-      <div className="container-fluid">
-        <TopBar
-          exportNet={this.exportNet}
-          importNet={this.importNet}
-        />
-        <div className="content">
-          <div className="pane">
-            <ul className="nav nav-pills">
-              <Pane />
-              {/* <li style={{paddingTop:'4px'}}>
-                <button><span className="glyphicon glyphicon-cog" style={{fontSize:'24px'}}></span></button>
-              </li> --> */}
-              <Tabs selectedPhase={this.state.selectedPhase} changeNetPhase={this.changeNetPhase} />
-            </ul>
+        <div id="parent">
+        <div id="sidebar">
+          <div id="logo_back">
+            <a href="http://fabrik.cloudcv.org"><img src={'/static/img/fabrik_t.png'} className="img-responsive" alt="logo" id="logo"/></a>
           </div>
+          <div className="col-md-12">
+             <h5 className="sidebar-heading">ACTIONS</h5>
+             <TopBar
+              exportNet={this.exportNet}
+              importNet={this.importNet}
+              saveDb={this.saveDb}
+             />
+             <h5 className="sidebar-heading">INSERT LAYER</h5>
+             <Pane />
+             <div className="text-center">
+              <Tabs selectedPhase={this.state.selectedPhase} changeNetPhase={this.changeNetPhase} />
+             </div>
+             <h5 className="sidebar-heading">EXTRAS</h5>
+             <a className="btn btn-block extra-buttons text-left" onClick={this.infoModal}>About Us</a>
+             <a className="btn btn-block extra-buttons text-left" href="https://github.com/Cloud-CV/Fabrik" target="_blank">GitHub</a>
+             <a className="btn btn-block extra-buttons text-left" href="http://cloudcv.org" target="_blank">CloudCV</a>
+          </div>
+        </div>
+      <div id="main">
           {loader}
           <Canvas
             net={this.state.net}
@@ -442,6 +673,8 @@ class Content extends React.Component {
             net={this.state.net}
             selectedLayer={this.state.selectedLayer}
             modifyLayer={this.modifyLayerParams}
+            adjustParameters={this.adjustParameters}
+            changeSelectedLayer={this.changeSelectedLayer}
             deleteLayer={this.deleteLayer}
             selectedPhase={this.state.selectedPhase}
             copyTrain={this.copyTrain}
@@ -452,7 +685,15 @@ class Content extends React.Component {
             net={this.state.net}
             hoveredLayer={this.state.hoveredLayer}
           />
-
+          <Modal
+            isOpen={this.state.modalIsOpen}
+            onRequestClose={this.closeModal}
+            style={infoStyle}
+            contentLabel="Modal">
+            <button type="button" style={{padding: 5+'px'}} className="close" onClick={this.closeModal}>&times;</button>
+            <h4>{ this.modalHeader }</h4>
+            { this.modalContent }
+          </Modal>
         </div>
       </div>
     );

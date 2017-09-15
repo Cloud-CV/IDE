@@ -1,10 +1,9 @@
-import collections
 import caffe
 from caffe import layers as L
 import re
 
 
-def jsonToPrototxt(net, net_name):
+def json_to_prototxt(net, net_name):
     # assumption: a layer can accept only one input blob
     # the data layer produces two blobs: data and label
     # the loss layer requires two blobs: <someData> and label
@@ -15,10 +14,7 @@ def jsonToPrototxt(net, net_name):
     input_dim = None
 
     def get_iterable(x):
-        if isinstance(x, collections.Iterable):
-            return x
-        else:
-            return (x,)
+        return (x,)
 
     stack = []
     layersProcessed = {}
@@ -118,6 +114,13 @@ def jsonToPrototxt(net, net_name):
         layerParams = layer['params']
         layerType = layer['info']['type']
         layerPhase = layer['info']['phase']
+        if (not layerParams['caffe']):
+            if ('layer_type' in layerParams):
+                raise Exception('Cannot export layer of type ' + layerType + ' ' + layerParams['layer_type']
+                                + ' to Caffe.')
+            else:
+                raise Exception('Cannot export layer of type ' + layerType + ' to Caffe.')
+
         # ********** Data Layers **********
         if (layerType in hasTransformParam):
             transform_param = {}
@@ -242,11 +245,7 @@ def jsonToPrototxt(net, net_name):
                         ns[key] = value
 
         elif (layerType == 'Input'):
-            # Adding a default size
-            if 'dim' not in layerParams:
-                layerParams['dim'] = '10,3,224,224'
             input_param = {'shape': {'dim': map(int, layerParams['dim'].split(','))}}
-
             for ns in (ns_train, ns_test):
                     caffeLayer = get_iterable(L.Input(
                         input_param=input_param))
@@ -915,13 +914,13 @@ def jsonToPrototxt(net, net_name):
 
         elif (layerType == 'Eltwise'):
             eltwise_param = {}
-            if layerParams['operation'] != '':
-                elt = layerParams['operation']
-                if(elt == 'PROD'):
+            if layerParams['layer_type'] != '':
+                elt = layerParams['layer_type']
+                if(elt == 'Product'):
                     elt = 0
-                elif(elt == 'SUM'):
+                elif(elt == 'Sum'):
                     elt = 1
-                elif(elt == 'MAX'):
+                elif(elt == 'Maximum'):
                     elt = 2
             else:
                 elt = 1  # Default is sum
@@ -941,14 +940,15 @@ def jsonToPrototxt(net, net_name):
                 for key, value in zip(blobNames[layerId]['top'], caffeLayer):
                     ns[key] = value
 
-        elif (layerType == 'Parameter'):
-            parameter_param = {}
-            parameter_param['shape'] = map(int, layerParams['shape'].split(','))
-            for ns in (ns_train, ns_test):
-                caffeLayer = get_iterable(L.Parameter(
-                    parameter_param=parameter_param))
-                for key, value in zip(blobNames[layerId]['top'], caffeLayer):
-                    ns[key] = value
+        # This layer is currently not supported as there is no bottom blob
+        # elif (layerType == 'Parameter'):
+        #    parameter_param = {}
+        #    parameter_param['shape'] = map(int, layerParams['shape'].split(','))
+        #    for ns in (ns_train, ns_test):
+        #        caffeLayer = get_iterable(L.Parameter(
+        #            parameter_param=parameter_param))
+        #        for key, value in zip(blobNames[layerId]['top'], caffeLayer):
+        #            ns[key] = value
 
         elif (layerType == 'Reduction'):
             reduction_param = {}

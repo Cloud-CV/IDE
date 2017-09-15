@@ -7,7 +7,7 @@ from google.protobuf import text_format
 
 
 @csrf_exempt
-def importPrototxt(request):
+def import_prototxt(request):
     if request.method == 'POST':
         if ('file' in request.FILES) and \
            (request.FILES['file'].content_type == 'application/octet-stream'):
@@ -16,10 +16,11 @@ def importPrototxt(request):
             except Exception:
                 return JsonResponse({'result': 'error',
                                      'error': 'No Prototxt model file found'})
-        elif 'proto_id' in request.POST:
+        elif 'sample_id' in request.POST:
             try:
                 prototxt = open(os.path.join(settings.BASE_DIR,
-                                             'media', request.POST['proto_id'] + '.prototxt'), 'r')
+                                             'example', 'caffe',
+                                             request.POST['sample_id'] + '.prototxt'), 'r')
             except Exception:
                 return JsonResponse({'result': 'error',
                                      'error': 'No Prototxt model file found'})
@@ -72,6 +73,10 @@ def importPrototxt(request):
                 params['source'] = layer.data_param.source
                 params['batch_size'] = layer.data_param.batch_size
                 params['backend'] = layer.data_param.backend
+                if (params['backend'] == 0):
+                    params['backend'] = 'LEVELDB'
+                else:
+                    params['backend'] = 'LMDB'
                 params['rand_skip'] = layer.data_param.rand_skip
                 params['prefetch'] = layer.data_param.prefetch
 
@@ -135,6 +140,7 @@ def importPrototxt(request):
                 params['bias_filler'] = layer.convolution_param.bias_filler.type
                 params['num_output'] = layer.convolution_param.num_output
                 params['use_bias'] = layer.convolution_param.bias_term
+                params['layer_type'] = '2D'
 
             elif(layer.type == 'Pooling'):
                 params['pad_h'] = layer.pooling_param.pad_h or layer.pooling_param.pad
@@ -144,6 +150,13 @@ def importPrototxt(request):
                 params['kernel_h'] = layer.pooling_param.kernel_h or layer.pooling_param.kernel_size
                 params['kernel_w'] = layer.pooling_param.kernel_w or layer.pooling_param.kernel_size
                 params['pool'] = layer.pooling_param.pool
+                if (params['pool'] == 0):
+                    params['pool'] = 'MAX'
+                elif (params['pool'] == 1):
+                    params['pool'] = 'AVE'
+                else:
+                    params['pool'] = 'STOCHASTIC'
+                params['layer_type'] = '2D'
 
             elif(layer.type == 'SPP'):
                 params['pool'] = layer.spp_param.pool
@@ -221,7 +234,7 @@ def importPrototxt(request):
                 if layer.lrn_param.norm_region:
                     params['norm_region'] = layer.lrn_param.norm_region
                 else:
-                    params['norm_region'] = 0
+                    params['norm_region'] = 'ACROSS_CHANNELS'
 
             elif(layer.type == 'MVN'):
                 if(layer.top == layer.bottom):
@@ -321,19 +334,33 @@ def importPrototxt(request):
                 params['slice_dim'] = layer.slice_param.slice_dim
 
             elif(layer.type == 'Eltwise'):
+                opMap = {
+                    0: 'Product',
+                    1: 'Sum',
+                    2: 'Maximum'
+                }
                 if layer.eltwise_param.operation:
-                    params['operation'] = layer.eltwise_param.operation
+                    params['layer_type'] = opMap[layer.eltwise_param.operation]
                 else:
-                    params['operation'] = 1
+                    params['layer_type'] = 'Sum'
 
-            elif(layer.type == 'Parameter'):
-                params['shape'] = str(map(int, layer.parameter_param.shape.dim))[1:-1]
+            # This layer is currently not supported as there is no bottom blob
+            # elif(layer.type == 'Parameter'):
+            #    params['shape'] = str(map(int, layer.parameter_param.shape.dim))[1:-1]
 
             elif(layer.type == 'Reduction'):
                 if layer.reduction_param.operation:
                     params['operation'] = layer.reduction_param.operation
+                    if (params['operation'] == 1):
+                        params['operation'] = 'SUM'
+                    elif (params['operation'] == 2):
+                        params['operation'] = 'ASUM'
+                    elif (params['operation'] == 3):
+                        params['operation'] = 'SUMSQ'
+                    else:
+                        params['operation'] = 'MEAN'
                 else:
-                    params['operation'] = 1
+                    params['operation'] = 'SUM'
                 params['axis'] = layer.reduction_param.axis
                 params['coeff'] = layer.reduction_param.coeff
 
