@@ -1,0 +1,27 @@
+PostgreSQL:
+  image: sameersbn/postgresql:9.6-2
+  hostname: postgres
+  restart: always
+  ports:
+    - "5432:5432"
+  environment:
+    - DEBUG=false
+    - DB_USER=admin
+    - DB_PASS=fabrik
+    - DB_NAME=fabrik
+
+Frontend:
+  image: frontend:latest
+  hostname: frontend
+  environment:
+   - KERAS_BACKEND=theano
+   - DB_HOST=postgres
+   - PYTHONPATH=/caffe/caffe/python
+  command: ["bash","/code/frontend_entrypoint.sh"]
+  volumes:
+   - ./:/code
+  links:
+    - PostgreSQL
+  ports:
+    - "8080:8080"
+

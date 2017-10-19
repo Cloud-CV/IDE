@@ -95,7 +95,7 @@ DATABASES = {
         'NAME': 'fabrik',
         'USER': 'admin',
         'PASSWORD': 'fabrik',
-        'HOST': 'localhost',
+        'HOST': os.getenv('DB_HOST', 'localhost'),
         'PORT': '',
     }
 }
