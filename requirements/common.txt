@@ -2,3 +2,5 @@ Django==1.9.3
 pyaml==15.8.2
 django-allauth==0.30.0
 psycopg2==2.7.3
+scikit-image==0.13.1
+matplotlib==2.1.0
