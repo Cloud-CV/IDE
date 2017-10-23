@@ -13,13 +13,11 @@ PostgreSQL:
 Frontend:
   image: frontend:latest
   hostname: frontend
-  environment:
-   - KERAS_BACKEND=theano
-   - DB_HOST=postgres
-   - PYTHONPATH=/caffe/caffe/python
-  command: ["bash","/code/frontend_entrypoint.sh"]
+  env_file: ./.environment
+  command: ["bash","/frontend_entrypoint.sh"]
   volumes:
-   - ./:/code
+   - ./frontend_entrypoint.sh:/frontend_entrypoint.sh
+   - ../:/code
   links:
     - PostgreSQL
   ports:

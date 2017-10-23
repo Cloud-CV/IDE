@@ -1,0 +1,2 @@
+KERAS_BACKEND=theano
+DB_HOST=postgres
