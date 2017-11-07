@@ -23,12 +23,3 @@ node_modules/
 */migrations/
 
 ide/static/bundle/
-
-# PyBuilder
-target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# JetBrain
-.idea/
