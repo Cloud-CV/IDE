@@ -30,11 +30,11 @@ This app is presently under active development and we welcome contributions. Ple
         cd Fabrik/requirements
         yes Y | sh caffe_tensorflow_keras_install.sh
         ```
-        Open your ~/.bashrc file in nano by running ```nano ~/.bashrc``` and append this line at the end
+        Open your ~/.bashrc file and append this line at the end
         ```        
         export PYTHONPATH=~/caffe/caffe/python:$PYTHONPATH
         ```
-        Exit nano by pressing Ctrl + X and finally run
+        Save, exit and then run
         ```
         source ~/.bash_profile
         ```
