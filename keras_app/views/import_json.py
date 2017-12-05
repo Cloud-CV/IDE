@@ -31,9 +31,9 @@ def import_json(request):
             model = json.load(f)
         except Exception:
             return JsonResponse({'result': 'error', 'error': 'Invalid JSON'})
-
+        
     model = model_from_json(json.dumps(model))
-
+    
     layer_map = {
         'InputLayer': Input,
         'Dense': Dense,

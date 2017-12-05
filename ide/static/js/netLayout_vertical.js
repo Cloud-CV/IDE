@@ -33,6 +33,7 @@ function allocatePosition(layerId, preferredPosition){
   if (!map.hasOwnProperty(preferredPosition[1])) {
     map[preferredPosition[1]] = [];
   }
+  map[0]=[];
   let positionsY = map[preferredPosition[1]];
   if (positionsY.indexOf(preferredPosition[0]) != -1) { // If X position is taken
     let temp = preferredPosition[0], i = 2;
