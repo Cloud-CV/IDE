@@ -681,9 +681,38 @@ class Content extends React.Component {
     this.modalContent = <ModelZoo importNet={this.importNet}/>;
     this.openModal();
   }
-  handleClick(e) {
-    // eslint-disable-next-line no-console
-    console.log(e)
+  handleClick(event) {
+    this.placeholder = false;
+    event.preventDefault();
+    const net = this.state.net;
+    const layer = {};
+    let phase = this.state.selectedPhase;
+    const id = event.target.id;
+    const zoom = instance.getZoom();
+    const type = data[id];    
+    if (this.state.nextLayerId>0) {
+      if (net[`l${this.state.nextLayerId-1}`].params.endPoint[0].src == "Bottom"){
+        if (data[id].endpoint.trg == "Top") {
+          layer.info = {type , phase}
+          layer.state = {
+            top: `${(net[`l${this.state.nextLayerId-1}`].state.top - event.target.getBoundingClientRect().top)/zoom - 25}px`,
+            left: `${(net[`l${this.state.nextLayerId-1}`].state.left - event.target.getBoundingClientRect().left)/zoom - 45}px`,            
+            class: ''
+          }
+          
+          layer.connection = {input: `l${this.state.nextLayerId-1}`, output: []}
+          net[`l${this.state.nextLayerId-1}`].connection.output = `l${this.state.nextLayerId}`;
+          layer.props = {}
+          layer.params = {};
+          Object.keys(data[id].params).forEach(j => {
+            layer.params[j] = [data[id].params[j].value, false];
+          });    
+          layer.params['endPoint'] = [data[id]['endpoint'], false];          
+          layer.props.name = `${data[id].name}${this.state.nextLayerId}`;
+          this.addNewLayer(layer);          
+        }
+      }
+    }
   }
   render() {
     let loader = null;
