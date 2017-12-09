@@ -66,6 +66,7 @@ class Content extends React.Component {
     this.zooModal = this.zooModal.bind(this);
     this.modalContent = null;
     this.modalHeader = null;
+    this.handleClick = this.handleClick.bind(this);
   }
   openModal() {
     this.setState({modalIsOpen: true});
@@ -680,6 +681,10 @@ class Content extends React.Component {
     this.modalContent = <ModelZoo importNet={this.importNet}/>;
     this.openModal();
   }
+  handleClick(e) {
+    // eslint-disable-next-line no-console
+    console.log(e)
+  }
   render() {
     let loader = null;
     if (this.state.load) {
@@ -703,7 +708,9 @@ class Content extends React.Component {
               zooModal={this.zooModal}
              />
              <h5 className="sidebar-heading">INSERT LAYER</h5>
-             <Pane />
+             <Pane 
+             handleClick = {this.handleClick}
+             />
              <div className="text-center">
               <Tabs selectedPhase={this.state.selectedPhase} changeNetPhase={this.changeNetPhase} />
              </div>
