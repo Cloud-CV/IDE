@@ -9,7 +9,6 @@ import data from './data';
 import netLayout from './netLayout_vertical';
 import Modal from 'react-modal';
 import ModelZoo from './modelZoo';
-import jsPlumbReady from './jsplumb';
 import $ from 'jquery'
 
 const infoStyle = {
@@ -68,6 +67,7 @@ class Content extends React.Component {
     this.zooModal = this.zooModal.bind(this);
     this.modalContent = null;
     this.modalHeader = null;
+    this.clicker = false;
     this.handleClick = this.handleClick.bind(this);
   }
   openModal() {
@@ -692,7 +692,6 @@ class Content extends React.Component {
     const id = event.target.id;
     const prev = net[`l${this.state.nextLayerId-1}`];
     const next = data[id];
-    instance = jsPlumbReady();    
     const zoom = instance.getZoom();    
     const layer = {};
     let phase = this.state.selectedPhase;
@@ -719,17 +718,12 @@ class Content extends React.Component {
             class: '' 
           }
           layer.props.name = `${next.name}${this.state.nextLayerId}`;          
-          this.addNewLayer(layer); 
-          
-          const srcId = `l${this.state.nextLayerId-1}`;
-          const trgId = `l${this.state.nextLayerId}`;
-          instance.connect({source:srcId,target:trgId})
-
+          this.addNewLayer(layer);
+          this.clicker = true;
         }
       }
     }
   }
-
   render() {
     let loader = null;
     if (this.state.load) {
@@ -780,6 +774,7 @@ class Content extends React.Component {
             error={this.state.error}
             dismissError={this.dismissError}
             addError={this.addError}
+            clicker={this.clicker}
           />
           <SetParams
             net={this.state.net}
