@@ -9,6 +9,8 @@ import data from './data';
 import netLayout from './netLayout_vertical';
 import Modal from 'react-modal';
 import ModelZoo from './modelZoo';
+import jsPlumbReady from './jsplumb';
+import $ from 'jquery'
 
 const infoStyle = {
   content : {
@@ -681,39 +683,53 @@ class Content extends React.Component {
     this.modalContent = <ModelZoo importNet={this.importNet}/>;
     this.openModal();
   }
+  
   handleClick(event) {
     this.placeholder = false;
     event.preventDefault();
+
     const net = this.state.net;
+    const id = event.target.id;
+    const prev = net[`l${this.state.nextLayerId-1}`];
+    const next = data[id];
+    instance = jsPlumbReady();    
+    const zoom = instance.getZoom();    
     const layer = {};
     let phase = this.state.selectedPhase;
-    const id = event.target.id;
-    const zoom = instance.getZoom();
-    const type = data[id];    
+    
     if (this.state.nextLayerId>0) {
-      if (net[`l${this.state.nextLayerId-1}`].params.endPoint[0].src == "Bottom"){
-        if (data[id].endpoint.trg == "Top") {
-          layer.info = {type , phase}
-          layer.state = {
-            top: `${(net[`l${this.state.nextLayerId-1}`].state.top - event.target.getBoundingClientRect().top)/zoom - 25}px`,
-            left: `${(net[`l${this.state.nextLayerId-1}`].state.left - event.target.getBoundingClientRect().left)/zoom - 45}px`,            
+      if (prev.params.endPoint[0].src == "Bottom"){
+        if (next.endpoint.trg == "Top") {
+
+          layer.connection = { input: [], output: [] };
+          layer.info = {
+            type: id.toString(),
+            phase,
             class: ''
           }
-          
-          layer.connection = {input: `l${this.state.nextLayerId-1}`, output: []}
-          net[`l${this.state.nextLayerId-1}`].connection.output = `l${this.state.nextLayerId}`;
-          layer.props = {}
-          layer.params = {};
-          Object.keys(data[id].params).forEach(j => {
-            layer.params[j] = [data[id].params[j].value, false];
+          layer.params = {}
+          layer.params['endPoint'] = [next['endpoint'], false];          
+          Object.keys(next.params).forEach(j => {
+            layer.params[j] = [next.params[j].value, false];
           });    
-          layer.params['endPoint'] = [data[id]['endpoint'], false];          
-          layer.props.name = `${data[id].name}${this.state.nextLayerId}`;
-          this.addNewLayer(layer);          
+          layer.props = JSON.parse(JSON.stringify(next.props))
+          layer.state = {
+            top: `${(parseInt(prev.state.top.split('px')[0])/zoom + 100)}px`,
+            left: `${(parseInt(prev.state.left.split('px')[0])/zoom)}px`,
+            class: '' 
+          }
+          layer.props.name = `${next.name}${this.state.nextLayerId}`;          
+          this.addNewLayer(layer); 
+          
+          const srcId = `l${this.state.nextLayerId-1}`;
+          const trgId = `l${this.state.nextLayerId}`;
+          instance.connect({source:srcId,target:trgId})
+
         }
       }
     }
   }
+
   render() {
     let loader = null;
     if (this.state.load) {
