@@ -73,7 +73,7 @@ class Canvas extends React.Component {
     if(Object.keys(net).length>1){
       const x1 = parseInt(net[`l${this.props.nextLayerId-2}`].state.top.split('px'));
       const x2 = parseInt(net[`l${this.props.nextLayerId-1}`].state.top.split('px'));
-      if (x2-x1==100) {
+      if (x2-x1==80) {
         instance.connect({
           source: instance.getEndpoints(`l${this.props.nextLayerId-2}`)[0],
           target: instance.getEndpoints(`l${this.props.nextLayerId-1}`)[1]});

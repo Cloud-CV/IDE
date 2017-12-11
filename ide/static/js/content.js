@@ -685,7 +685,6 @@ class Content extends React.Component {
   }
   
   handleClick(event) {
-    this.placeholder = false;
     event.preventDefault();
 
     const net = this.state.net;
@@ -696,33 +695,58 @@ class Content extends React.Component {
     const layer = {};
     let phase = this.state.selectedPhase;
     
-    if (this.state.nextLayerId>0) {
-      if (prev.params.endPoint[0].src == "Bottom"){
-        if (next.endpoint.trg == "Top") {
+    if (this.state.nextLayerId>0 
+      &&data[prev.info.type].endpoint.src == "Bottom" 
+      &&next.endpoint.trg == "Top") {
+        layer.connection = { input: [], output: [] };
+        layer.info = {
+          type: id.toString(),
+          phase,
+          class: ''
+        }
+        layer.params = {
+          'endPoint' : [next['endpoint'], false]
+        }          
+        Object.keys(next.params).forEach(j => {
+          layer.params[j] = [next.params[j].value, false];
+        });    
+        layer.props = JSON.parse(JSON.stringify(next.props))
+        layer.state = {
+          top: `${(parseInt(prev.state.top.split('px')[0])/zoom + 80)}px`,
+          left: `${(parseInt(prev.state.left.split('px')[0])/zoom)}px`,
+          class: '' 
+        }
+        layer.props.name = `${next.name}${this.state.nextLayerId}`;          
+        this.addNewLayer(layer);
+    }
 
-          layer.connection = { input: [], output: [] };
-          layer.info = {
+    else if (Object.keys(net).length == 0) {
+      layer.connection = { input: [], output: [] };
+      layer.info = {
             type: id.toString(),
             phase,
             class: ''
           }
-          layer.params = {}
-          layer.params['endPoint'] = [next['endpoint'], false];          
-          Object.keys(next.params).forEach(j => {
-            layer.params[j] = [next.params[j].value, false];
-          });    
-          layer.props = JSON.parse(JSON.stringify(next.props))
-          layer.state = {
-            top: `${(parseInt(prev.state.top.split('px')[0])/zoom + 100)}px`,
-            left: `${(parseInt(prev.state.left.split('px')[0])/zoom)}px`,
+      layer.params = {
+        'endPoint' : [next['endpoint'], false]
+      }          
+      Object.keys(next.params).forEach(j => {
+        layer.params[j] = [next.params[j].value, false];
+      });    
+      layer.props = JSON.parse(JSON.stringify(next.props))
+      const height = Math.round(0.05*window.innerHeight, 0);
+      const width = Math.round(0.35*window.innerWidth, 0);
+      var top = height + Math.ceil(41-height);
+      var left = width;
+      layer.state = {
+            top: `${top}px`,
+            left: `${left}px`,
             class: '' 
           }
-          layer.props.name = `${next.name}${this.state.nextLayerId}`;          
-          this.addNewLayer(layer);
-          this.clicker = true;
-        }
-      }
+      layer.props.name = `${next.name}${this.state.nextLayerId}`;          
+      this.addNewLayer(layer); 
     }
+
   }
   render() {
     let loader = null;
@@ -774,7 +798,6 @@ class Content extends React.Component {
             error={this.state.error}
             dismissError={this.dismissError}
             addError={this.addError}
-            clicker={this.clicker}
           />
           <SetParams
             net={this.state.net}
