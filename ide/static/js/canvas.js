@@ -82,7 +82,7 @@ class Canvas extends React.Component {
       else{
         t = t[1];
       }
-      if (x2-x1==80) {
+      if (x2-x1==80) { //since only layers added through handleClick will be exactly 80px apart, we can connect those like this.
         instance.connect({
           source: s,
           target: t});

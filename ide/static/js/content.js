@@ -67,7 +67,6 @@ class Content extends React.Component {
     this.zooModal = this.zooModal.bind(this);
     this.modalContent = null;
     this.modalHeader = null;
-    this.clicker = false;
     this.handleClick = this.handleClick.bind(this);
   }
   openModal() {
@@ -695,9 +694,9 @@ class Content extends React.Component {
     const layer = {};
     let phase = this.state.selectedPhase;
     
-    if (this.state.nextLayerId>0 
-      &&data[prev.info.type].endpoint.src == "Bottom" 
-      &&next.endpoint.trg == "Top") {
+    if (this.state.nextLayerId>0 //makes sure that there are other layers 
+      &&data[prev.info.type].endpoint.src == "Bottom" //makes sure that the source has a bottom
+      &&next.endpoint.trg == "Top") { //makes sure that the target has a top
         layer.connection = { input: [], output: [] };
         layer.info = {
           type: id.toString(),
@@ -705,22 +704,22 @@ class Content extends React.Component {
           class: ''
         }
         layer.params = {
-          'endPoint' : [next['endpoint'], false]
+          'endPoint' : [next['endpoint'], false] //This key is endpoint in data.js, but endPoint in everywhere else.
         }          
         Object.keys(next.params).forEach(j => {
-          layer.params[j] = [next.params[j].value, false];
+          layer.params[j] = [next.params[j].value, false]; //copys all params from data.js
         });    
-        layer.props = JSON.parse(JSON.stringify(next.props))
+        layer.props = JSON.parse(JSON.stringify(next.props)) //copys all props rom data.js
         layer.state = {
-          top: `${(parseInt(prev.state.top.split('px')[0])/zoom + 80)}px`,
-          left: `${(parseInt(prev.state.left.split('px')[0])/zoom)}px`,
+          top: `${(parseInt(prev.state.top.split('px')[0])/zoom + 80)}px`, // This makes the new layer is exactly 80px under the previous one.
+          left: `${(parseInt(prev.state.left.split('px')[0])/zoom)}px`, // This aligns the new layer with the previous one.
           class: '' 
         }
         layer.props.name = `${next.name}${this.state.nextLayerId}`;          
         this.addNewLayer(layer);
     }
 
-    else if (Object.keys(net).length == 0) {
+    else if (Object.keys(net).length == 0) { // if there are no layers
       layer.connection = { input: [], output: [] };
       layer.info = {
             type: id.toString(),
@@ -728,14 +727,14 @@ class Content extends React.Component {
             class: ''
           }
       layer.params = {
-        'endPoint' : [next['endpoint'], false]
+        'endPoint' : [next['endpoint'], false] //This key is endpoint in data.js, but endPoint in everywhere else.
       }          
       Object.keys(next.params).forEach(j => {
-        layer.params[j] = [next.params[j].value, false];
+        layer.params[j] = [next.params[j].value, false];  //copys all params from data.js
       });    
-      layer.props = JSON.parse(JSON.stringify(next.props))
-      const height = Math.round(0.05*window.innerHeight, 0);
-      const width = Math.round(0.35*window.innerWidth, 0);
+      layer.props = JSON.parse(JSON.stringify(next.props)) //copys all props from data.js
+      const height = Math.round(0.05*window.innerHeight, 0); // 5% of screen height, rounded to zero decimals
+      const width = Math.round(0.35*window.innerWidth, 0); // 35% of screen width, rounded to zero decimals
       var top = height + Math.ceil(41-height);
       var left = width;
       layer.state = {
