@@ -47,8 +47,10 @@ def Activation(layer):
         return jsonLayer(activationMap[layer.activation.func_name], {}, layer)
     else:
         tempLayer = {}
-        tempLayer['inbound_nodes'] = [[[layer.name + layer.__class__.__name__]]]
-        return jsonLayer(activationMap[layer.activation.func_name], {}, tempLayer)
+        tempLayer['inbound_nodes'] = [
+            [[layer.name + layer.__class__.__name__]]]
+        return jsonLayer(
+            activationMap[layer.activation.func_name], {}, tempLayer)
 
 
 def Dropout(layer):
@@ -100,7 +102,7 @@ def Convolution(layer):
         params['stride_w'] = layer.strides[0]
         params['dilation_w'] = layer.dilation_rate[0]
         params['pad_w'] = get_padding([params['kernel_w'], -1, -1,
-                                      params['stride_w'], -1, -1],
+                                       params['stride_w'], -1, -1],
                                       layer.input_shape, layer.output_shape,
                                       layer.padding.lower(), '1D')
     elif (layer.__class__.__name__ == 'Conv2D'):
@@ -109,7 +111,7 @@ def Convolution(layer):
         params['stride_h'], params['stride_w'] = layer.strides
         params['dilation_h'], params['dilation_w'] = layer.dilation_rate
         params['pad_h'], params['pad_w'] = get_padding([params['kernel_w'], params['kernel_h'], -1,
-                                                       params['stride_w'], params['stride_h'], -1],
+                                                        params['stride_w'], params['stride_h'], -1],
                                                        layer.input_shape, layer.output_shape,
                                                        layer.padding.lower(), '2D')
     else:
@@ -118,11 +120,11 @@ def Convolution(layer):
         params['stride_h'], params['stride_w'], params['stride_d'] = layer.strides
         params['dilation_h'], params['dilation_w'], params['dilation_d'] = layer.dilation_rate
         params['pad_h'], params['pad_w'], params['pad_d'] = get_padding([params['kernel_w'],
-                                                                        params['kernel_h'],
-                                                                        params['kernel_d'],
-                                                                        params['stride_w'],
-                                                                        params['stride_h'],
-                                                                        params['stride_d']],
+                                                                         params['kernel_h'],
+                                                                         params['kernel_d'],
+                                                                         params['stride_w'],
+                                                                         params['stride_h'],
+                                                                         params['stride_d']],
                                                                         layer.input_shape,
                                                                         layer.output_shape,
                                                                         layer.padding.lower(), '3D')
@@ -231,13 +233,14 @@ def Pooling(layer):
         'GlobalAveragePooling1D': 'AVE',
         'GlobalAveragePooling2D': 'AVE'
     }
-    if (layer.__class__.__name__ in ['GlobalAveragePooling1D', 'GlobalMaxPooling1D']):
+    if (layer.__class__.__name__ in [
+            'GlobalAveragePooling1D', 'GlobalMaxPooling1D']):
         input_shape = layer.input_shape
         params['kernel_w'] = params['stride_w'] = input_shape[1]
         padding = 'valid'
         params['layer_type'] = '1D'
         params['pad_w'] = get_padding([params['kernel_w'], -1, -1,
-                                      params['stride_w'], -1, -1],
+                                       params['stride_w'], -1, -1],
                                       layer.input_shape, layer.output_shape,
                                       padding, '1D')
     elif (layer.__class__.__name__ in ['GlobalAveragePooling2D', 'GlobalMaxPooling2D']):
@@ -247,7 +250,7 @@ def Pooling(layer):
         padding = 'valid'
         params['layer_type'] = '2D'
         params['pad_h'], params['pad_w'] = get_padding([params['kernel_w'], params['kernel_h'], -1,
-                                                       params['stride_w'], params['stride_h'], -1],
+                                                        params['stride_w'], params['stride_h'], -1],
                                                        layer.input_shape, layer.output_shape,
                                                        padding, '2D')
     else:
@@ -273,11 +276,11 @@ def Pooling(layer):
             params['stride_h'], params['stride_w'], params['stride_d'] = layer.strides
             params['layer_type'] = '3D'
             params['pad_h'], params['pad_w'], params['pad_d'] = get_padding([params['kernel_w'],
-                                                                            params['kernel_h'],
-                                                                            params['kernel_d'],
-                                                                            params['stride_w'],
-                                                                            params['stride_h'],
-                                                                            params['stride_d']],
+                                                                             params['kernel_h'],
+                                                                             params['kernel_d'],
+                                                                             params['stride_w'],
+                                                                             params['stride_h'],
+                                                                             params['stride_d']],
                                                                             layer.input_shape,
                                                                             layer.output_shape,
                                                                             padding, '3D')
@@ -452,7 +455,7 @@ def Scale(layer):
         params['beta_constraint'] = layer.beta_constraint.__class__.__name__
     if (layer.gamma_constraint):
         params['gamma_constraint'] = layer.gamma_constraint.__class__.__name__
-    tempLayer['inbound_nodes'] = [[[layer.name+layer.__class__.__name__]]]
+    tempLayer['inbound_nodes'] = [[[layer.name + layer.__class__.__name__]]]
     return jsonLayer('Scale', params, tempLayer)
 
 
@@ -476,22 +479,22 @@ def get_padding(params, input_shape, output_shape, pad_type, type):
         if (pad_type == 'valid'):
             return 0
         else:
-            pad_h = ((output_shape[2]-1)*s_h + k_h - input_shape[2])/2
+            pad_h = ((output_shape[2] - 1) * s_h + k_h - input_shape[2]) / 2
             return pad_h
     elif (type == '2D'):
         if (pad_type == 'valid'):
             return [0, 0]
         else:
-            pad_h = ((output_shape[2]-1)*s_h + k_h - input_shape[2])/2
-            pad_w = ((output_shape[1]-1)*s_w + k_w - input_shape[1])/2
+            pad_h = ((output_shape[2] - 1) * s_h + k_h - input_shape[2]) / 2
+            pad_w = ((output_shape[1] - 1) * s_w + k_w - input_shape[1]) / 2
             return (pad_h, pad_w)
     else:
         if (pad_type == 'valid'):
             return [0, 0, 0]
         else:
-            pad_h = ((output_shape[2]-1)*s_h + k_h - input_shape[2])/2
-            pad_w = ((output_shape[1]-1)*s_w + k_w - input_shape[1])/2
-            pad_d = ((output_shape[3]-1)*s_d + k_d - input_shape[3])/2
+            pad_h = ((output_shape[2] - 1) * s_h + k_h - input_shape[2]) / 2
+            pad_w = ((output_shape[1] - 1) * s_w + k_w - input_shape[1]) / 2
+            pad_d = ((output_shape[3] - 1) * s_d + k_d - input_shape[3]) / 2
             return (pad_h, pad_w, pad_d)
 
 
@@ -504,14 +507,14 @@ def jsonLayer(type, params, layer):
         for node in layer.inbound_nodes[0].inbound_layers:
             input.append(node.name)
     layer = {
-                'info': {
-                    'type': type,
-                    'phase': None
-                },
-                'connection': {
-                    'input': input,
-                    'output': []
-                },
-                'params': params
-            }
+        'info': {
+            'type': type,
+            'phase': None
+        },
+        'connection': {
+            'input': input,
+            'output': []
+        },
+        'params': params
+    }
     return layer

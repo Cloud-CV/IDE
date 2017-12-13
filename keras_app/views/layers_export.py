@@ -47,7 +47,8 @@ constraintMap = {
 
 # ********** Data Layers **********
 def data(layer, layer_in, layerId):
-    out = {layerId: Input(layer['shape']['output'][1:]+layer['shape']['output'][:1])}
+    out = {layerId: Input(layer['shape']['output']
+                          [1:] + layer['shape']['output'][:1])}
     return out
 
 
@@ -68,15 +69,22 @@ def dense(layer, layer_in, layerId):
         bias_initializer = layer['params']['bias_filler']
     kernel_regularizer = regularizerMap[layer['params']['kernel_regularizer']]
     bias_regularizer = regularizerMap[layer['params']['bias_regularizer']]
-    activity_regularizer = regularizerMap[layer['params']['activity_regularizer']]
+    activity_regularizer = regularizerMap[layer['params']
+                                          ['activity_regularizer']]
     kernel_constraint = constraintMap[layer['params']['kernel_constraint']]
     bias_constraint = constraintMap[layer['params']['bias_constraint']]
     use_bias = layer['params']['use_bias']
-    out[layerId] = Dense(units=units, kernel_initializer=kernel_initializer,
-                         kernel_regularizer=kernel_regularizer, bias_regularizer=bias_regularizer,
-                         activity_regularizer=activity_regularizer, bias_constraint=bias_constraint,
-                         kernel_constraint=kernel_constraint, use_bias=use_bias,
-                         bias_initializer=bias_initializer)(*layer_in)
+    out[layerId] = Dense(
+        units=units,
+        kernel_initializer=kernel_initializer,
+        kernel_regularizer=kernel_regularizer,
+        bias_regularizer=bias_regularizer,
+        activity_regularizer=activity_regularizer,
+        bias_constraint=bias_constraint,
+        kernel_constraint=kernel_constraint,
+        use_bias=use_bias,
+        bias_initializer=bias_initializer)(
+        *layer_in)
     return out
 
 
@@ -84,7 +92,9 @@ def activation(layer, layer_in, layerId):
     out = {}
     if (layer['info']['type'] == 'ReLU'):
         if (layer['params']['negative_slope'] != 0):
-            out[layerId] = LeakyReLU(alpha=layer['params']['negative_slope'])(*layer_in)
+            out[layerId] = LeakyReLU(
+                alpha=layer['params']['negative_slope'])(
+                *layer_in)
         else:
             out[layerId] = Activation('relu')(*layer_in)
     elif (layer['info']['type'] == 'PReLU'):
@@ -92,7 +102,9 @@ def activation(layer, layer_in, layerId):
     elif (layer['info']['type'] == 'ELU'):
         out[layerId] = ELU(alpha=layer['params']['alpha'])(*layer_in)
     elif (layer['info']['type'] == 'ThresholdedReLU'):
-        out[layerId] = ThresholdedReLU(theta=layer['params']['theta'])(*layer_in)
+        out[layerId] = ThresholdedReLU(
+            theta=layer['params']['theta'])(
+            *layer_in)
     elif (layer['info']['type'] == 'Sigmoid'):
         out[layerId] = Activation('sigmoid')(*layer_in)
     elif (layer['info']['type'] == 'TanH'):
@@ -122,12 +134,13 @@ def flatten(layer, layer_in, layerId):
 
 def reshape(layer, layer_in, layerId):
     shape = map(int, layer['params']['dim'].split(','))
-    out = {layerId: Reshape(shape[2:]+shape[1:2])(*layer_in)}
+    out = {layerId: Reshape(shape[2:] + shape[1:2])(*layer_in)}
     return out
 
 
 def permute(layer, layer_in, layerId):
-    out = {layerId: Permute(map(int, layer['params']['dim'].split(',')))(*layer_in)}
+    out = {layerId: Permute(
+        map(int, layer['params']['dim'].split(',')))(*layer_in)}
     return out
 
 
@@ -144,7 +157,10 @@ def regularization(layer, layer_in, layerId):
 
 
 def masking(layer, layer_in, layerId):
-    out = {layerId: Masking(mask_value=layer['params']['mask_value'])(*layer_in)}
+    out = {
+        layerId: Masking(
+            mask_value=layer['params']['mask_value'])(
+            *layer_in)}
     return out
 
 
@@ -168,7 +184,8 @@ def convolution(layer, layer_in, layerId):
     filters = layer['params']['num_output']
     kernel_regularizer = regularizerMap[layer['params']['kernel_regularizer']]
     bias_regularizer = regularizerMap[layer['params']['bias_regularizer']]
-    activity_regularizer = regularizerMap[layer['params']['activity_regularizer']]
+    activity_regularizer = regularizerMap[layer['params']
+                                          ['activity_regularizer']]
     kernel_constraint = constraintMap[layer['params']['kernel_constraint']]
     bias_constraint = constraintMap[layer['params']['bias_constraint']]
     use_bias = layer['params']['use_bias']
@@ -185,7 +202,9 @@ def convolution(layer, layer_in, layerId):
     elif (layer_type == '2D'):
         strides = (layer['params']['stride_h'], layer['params']['stride_w'])
         kernel = (layer['params']['kernel_h'], layer['params']['kernel_w'])
-        dilation_rate = (layer['params']['dilation_h'], layer['params']['dilation_w'])
+        dilation_rate = (
+            layer['params']['dilation_h'],
+            layer['params']['dilation_w'])
         if (padding == 'custom'):
             p_h, p_w = layer['params']['pad_h'], layer['params']['pad_w']
             out[layerId + 'Pad'] = ZeroPadding2D(padding=(p_h, p_w))(*layer_in)
@@ -196,24 +215,34 @@ def convolution(layer, layer_in, layerId):
                    layer['params']['stride_d'])
         kernel = (layer['params']['kernel_h'], layer['params']['kernel_w'],
                   layer['params']['kernel_d'])
-        dilation_rate = (layer['params']['dilation_h'], layer['params']['dilation_w'],
-                         layer['params']['dilation_d'])
+        dilation_rate = (
+            layer['params']['dilation_h'],
+            layer['params']['dilation_w'],
+            layer['params']['dilation_d'])
         if (padding == 'custom'):
             p_h, p_w, p_d = layer['params']['pad_h'], layer['params']['pad_w'],\
-                            layer['params']['pad_d']
-            out[layerId + 'Pad'] = ZeroPadding3D(padding=(p_h, p_w, p_d))(*layer_in)
+                layer['params']['pad_d']
+            out[layerId +
+                'Pad'] = ZeroPadding3D(padding=(p_h, p_w, p_d))(*layer_in)
             padding = 'valid'
             layer_in = [out[layerId + 'Pad']]
-    out[layerId] = convMap[layer_type](filters, kernel, strides=strides, padding=padding,
-                                       dilation_rate=dilation_rate,
-                                       kernel_initializer=kernel_initializer,
-                                       bias_initializer=bias_initializer,
-                                       kernel_regularizer=kernel_regularizer,
-                                       bias_regularizer=bias_regularizer,
-                                       activity_regularizer=activity_regularizer, use_bias=use_bias,
-                                       bias_constraint=bias_constraint,
-                                       kernel_constraint=kernel_constraint)(*layer_in)
+    out[layerId] = convMap[layer_type](
+        filters,
+        kernel,
+        strides=strides,
+        padding=padding,
+        dilation_rate=dilation_rate,
+        kernel_initializer=kernel_initializer,
+        bias_initializer=bias_initializer,
+        kernel_regularizer=kernel_regularizer,
+        bias_regularizer=bias_regularizer,
+        activity_regularizer=activity_regularizer,
+        use_bias=use_bias,
+        bias_constraint=bias_constraint,
+        kernel_constraint=kernel_constraint)(
+        *layer_in)
     return out
+
 
 # Separable Convolution is currently not supported with Theano backend
 '''
@@ -277,18 +306,32 @@ def deconvolution(layer, layer_in, layerId):
         layer_in = [out[layerId + 'Pad']]
     kernel_regularizer = regularizerMap[layer['params']['kernel_regularizer']]
     bias_regularizer = regularizerMap[layer['params']['bias_regularizer']]
-    activity_regularizer = regularizerMap[layer['params']['activity_regularizer']]
+    activity_regularizer = regularizerMap[layer['params']
+                                          ['activity_regularizer']]
     kernel_constraint = constraintMap[layer['params']['kernel_constraint']]
     bias_constraint = constraintMap[layer['params']['bias_constraint']]
     use_bias = layer['params']['use_bias']
-    out[layerId] = Conv2DTranspose(filters, [k_h, k_w], strides=(s_h, s_w), padding=padding,
-                                   dilation_rate=(d_h, d_w), kernel_initializer=kernel_initializer,
-                                   bias_initializer=bias_initializer,
-                                   kernel_regularizer=kernel_regularizer,
-                                   bias_regularizer=bias_regularizer,
-                                   activity_regularizer=activity_regularizer, use_bias=use_bias,
-                                   bias_constraint=bias_constraint,
-                                   kernel_constraint=kernel_constraint)(*layer_in)
+    out[layerId] = Conv2DTranspose(
+        filters,
+        [
+            k_h,
+            k_w],
+        strides=(
+            s_h,
+            s_w),
+        padding=padding,
+        dilation_rate=(
+            d_h,
+            d_w),
+        kernel_initializer=kernel_initializer,
+        bias_initializer=bias_initializer,
+        kernel_regularizer=kernel_regularizer,
+        bias_regularizer=bias_regularizer,
+        activity_regularizer=activity_regularizer,
+        use_bias=use_bias,
+        bias_constraint=bias_constraint,
+        kernel_constraint=kernel_constraint)(
+        *layer_in)
     return out
 
 
@@ -348,12 +391,13 @@ def pooling(layer, layer_in, layerId):
                   layer['params']['kernel_d'])
         if (padding == 'custom'):
             p_h, p_w, p_d = layer['params']['pad_h'], layer['params']['pad_w'],\
-                            layer['params']['pad_d']
-            out[layerId + 'Pad'] = ZeroPadding3D(padding=(p_h, p_w, p_d))(*layer_in)
+                layer['params']['pad_d']
+            out[layerId +
+                'Pad'] = ZeroPadding3D(padding=(p_h, p_w, p_d))(*layer_in)
             padding = 'valid'
             layer_in = [out[layerId + 'Pad']]
-    out[layerId] = poolMap[(layer_type, pool_type)](pool_size=kernel, strides=strides, padding=padding)(
-                                                    *layer_in)
+    out[layerId] = poolMap[(layer_type, pool_type)](
+        pool_size=kernel, strides=strides, padding=padding)(*layer_in)
     return out
 
 
@@ -369,7 +413,8 @@ def locally_connected(layer, layer_in, layerId):
     filters = layer['params']['filters']
     kernel_regularizer = regularizerMap[layer['params']['kernel_regularizer']]
     bias_regularizer = regularizerMap[layer['params']['bias_regularizer']]
-    activity_regularizer = regularizerMap[layer['params']['activity_regularizer']]
+    activity_regularizer = regularizerMap[layer['params']
+                                          ['activity_regularizer']]
     kernel_constraint = constraintMap[layer['params']['kernel_constraint']]
     bias_constraint = constraintMap[layer['params']['bias_constraint']]
     use_bias = layer['params']['use_bias']
@@ -380,14 +425,20 @@ def locally_connected(layer, layer_in, layerId):
     else:
         strides = (layer['params']['stride_h'], layer['params']['stride_w'])
         kernel = (layer['params']['kernel_h'], layer['params']['kernel_w'])
-    out[layerId] = localMap[layer_type](filters, kernel, strides=strides, padding='valid',
-                                        kernel_initializer=kernel_initializer,
-                                        bias_initializer=bias_initializer,
-                                        kernel_regularizer=kernel_regularizer,
-                                        bias_regularizer=bias_regularizer,
-                                        activity_regularizer=activity_regularizer, use_bias=use_bias,
-                                        bias_constraint=bias_constraint,
-                                        kernel_constraint=kernel_constraint)(*layer_in)
+    out[layerId] = localMap[layer_type](
+        filters,
+        kernel,
+        strides=strides,
+        padding='valid',
+        kernel_initializer=kernel_initializer,
+        bias_initializer=bias_initializer,
+        kernel_regularizer=kernel_regularizer,
+        bias_regularizer=bias_regularizer,
+        activity_regularizer=activity_regularizer,
+        use_bias=use_bias,
+        bias_constraint=bias_constraint,
+        kernel_constraint=kernel_constraint)(
+        *layer_in)
     return out
 
 
@@ -405,11 +456,14 @@ def recurrent(layer, layer_in, layerId):
         bias_initializer = layer['params']['bias_filler']
     recurrent_initializer = layer['params']['recurrent_initializer']
     kernel_regularizer = regularizerMap[layer['params']['kernel_regularizer']]
-    recurrent_regularizer = regularizerMap[layer['params']['recurrent_regularizer']]
+    recurrent_regularizer = regularizerMap[layer['params']
+                                           ['recurrent_regularizer']]
     bias_regularizer = regularizerMap[layer['params']['bias_regularizer']]
-    activity_regularizer = regularizerMap[layer['params']['activity_regularizer']]
+    activity_regularizer = regularizerMap[layer['params']
+                                          ['activity_regularizer']]
     kernel_constraint = constraintMap[layer['params']['kernel_constraint']]
-    recurrent_constraint = constraintMap[layer['params']['recurrent_constraint']]
+    recurrent_constraint = constraintMap[layer['params']
+                                         ['recurrent_constraint']]
     bias_constraint = constraintMap[layer['params']['bias_constraint']]
     use_bias = layer['params']['use_bias']
     dropout = layer['params']['dropout']
@@ -420,42 +474,62 @@ def recurrent(layer, layer_in, layerId):
         return_sequences = False
     if (layer['info']['type'] == 'GRU'):
         recurrent_activation = layer['params']['recurrent_activation']
-        out[layerId] = GRU(units, kernel_initializer=kernel_initializer,
-                           bias_initializer=bias_initializer,
-                           recurrent_activation=recurrent_activation,
-                           recurrent_initializer=recurrent_initializer,
-                           kernel_regularizer=kernel_regularizer,
-                           recurrent_regularizer=recurrent_regularizer,
-                           bias_regularizer=bias_regularizer, activity_regularizer=activity_regularizer,
-                           kernel_constraint=kernel_constraint, recurrent_constraint=recurrent_constraint,
-                           bias_constraint=bias_constraint, use_bias=use_bias, dropout=dropout,
-                           recurrent_dropout=recurrent_dropout)(*layer_in)
+        out[layerId] = GRU(
+            units,
+            kernel_initializer=kernel_initializer,
+            bias_initializer=bias_initializer,
+            recurrent_activation=recurrent_activation,
+            recurrent_initializer=recurrent_initializer,
+            kernel_regularizer=kernel_regularizer,
+            recurrent_regularizer=recurrent_regularizer,
+            bias_regularizer=bias_regularizer,
+            activity_regularizer=activity_regularizer,
+            kernel_constraint=kernel_constraint,
+            recurrent_constraint=recurrent_constraint,
+            bias_constraint=bias_constraint,
+            use_bias=use_bias,
+            dropout=dropout,
+            recurrent_dropout=recurrent_dropout)(
+            *layer_in)
     elif (layer['info']['type'] == 'LSTM'):
         recurrent_activation = layer['params']['recurrent_activation']
         unit_forget_bias = layer['params']['unit_forget_bias']
-        out[layerId] = LSTM(units, kernel_initializer=kernel_initializer,
-                            bias_initializer=bias_initializer,
-                            recurrent_activation=recurrent_activation, unit_forget_bias=unit_forget_bias,
-                            recurrent_initializer=recurrent_initializer,
-                            kernel_regularizer=kernel_regularizer,
-                            recurrent_regularizer=recurrent_regularizer,
-                            bias_regularizer=bias_regularizer, activity_regularizer=activity_regularizer,
-                            kernel_constraint=kernel_constraint, recurrent_constraint=recurrent_constraint,
-                            bias_constraint=bias_constraint, use_bias=use_bias, dropout=dropout,
-                            recurrent_dropout=recurrent_dropout, return_sequences=return_sequences)(*layer_in)
+        out[layerId] = LSTM(
+            units,
+            kernel_initializer=kernel_initializer,
+            bias_initializer=bias_initializer,
+            recurrent_activation=recurrent_activation,
+            unit_forget_bias=unit_forget_bias,
+            recurrent_initializer=recurrent_initializer,
+            kernel_regularizer=kernel_regularizer,
+            recurrent_regularizer=recurrent_regularizer,
+            bias_regularizer=bias_regularizer,
+            activity_regularizer=activity_regularizer,
+            kernel_constraint=kernel_constraint,
+            recurrent_constraint=recurrent_constraint,
+            bias_constraint=bias_constraint,
+            use_bias=use_bias,
+            dropout=dropout,
+            recurrent_dropout=recurrent_dropout,
+            return_sequences=return_sequences)(
+            *layer_in)
     else:
-        out[layerId] = SimpleRNN(units, kernel_initializer=kernel_initializer,
-                                 bias_initializer=bias_initializer,
-                                 recurrent_initializer=recurrent_initializer,
-                                 kernel_regularizer=kernel_regularizer,
-                                 recurrent_regularizer=recurrent_regularizer,
-                                 bias_regularizer=bias_regularizer,
-                                 activity_regularizer=activity_regularizer,
-                                 kernel_constraint=kernel_constraint,
-                                 recurrent_constraint=recurrent_constraint,
-                                 bias_constraint=bias_constraint,
-                                 use_bias=use_bias, dropout=dropout,
-                                 recurrent_dropout=recurrent_dropout)(*layer_in)
+        out[layerId] = SimpleRNN(
+            units,
+            kernel_initializer=kernel_initializer,
+            bias_initializer=bias_initializer,
+            recurrent_initializer=recurrent_initializer,
+            kernel_regularizer=kernel_regularizer,
+            recurrent_regularizer=recurrent_regularizer,
+            bias_regularizer=bias_regularizer,
+            activity_regularizer=activity_regularizer,
+            kernel_constraint=kernel_constraint,
+            recurrent_constraint=recurrent_constraint,
+            bias_constraint=bias_constraint,
+            use_bias=use_bias,
+            dropout=dropout,
+            recurrent_dropout=recurrent_dropout)(
+            *layer_in)
     return out
 
 
@@ -466,18 +540,24 @@ def embed(layer, layer_in, layerId):
         embeddings_initializer = fillerMap[layer['params']['weight_filler']]
     else:
         embeddings_initializer = layer['params']['weight_filler']
-    embeddings_regularizer = regularizerMap[layer['params']['embeddings_regularizer']]
-    embeddings_constraint = constraintMap[layer['params']['embeddings_constraint']]
+    embeddings_regularizer = regularizerMap[layer['params']
+                                            ['embeddings_regularizer']]
+    embeddings_constraint = constraintMap[layer['params']
+                                          ['embeddings_constraint']]
     mask_zero = layer['params']['mask_zero']
     if (layer['params']['input_length']):
         input_length = layer['params']['input_length']
     else:
         input_length = None
-    out[layerId] = Embedding(layer['params']['input_dim'], layer['params']['num_output'],
-                             embeddings_initializer=embeddings_initializer,
-                             embeddings_regularizer=embeddings_regularizer,
-                             embeddings_constraint=embeddings_constraint,
-                             mask_zero=mask_zero, input_length=input_length)(*layer_in)
+    out[layerId] = Embedding(
+        layer['params']['input_dim'],
+        layer['params']['num_output'],
+        embeddings_initializer=embeddings_initializer,
+        embeddings_regularizer=embeddings_regularizer,
+        embeddings_constraint=embeddings_constraint,
+        mask_zero=mask_zero,
+        input_length=input_length)(
+        *layer_in)
     return out
 
 
@@ -544,25 +624,37 @@ def batch_norm(layer, layer_in, layerId, idNext, nextLayer,):
             beta_initializer = fillerMap[nextLayer['params']['bias_filler']]
         else:
             beta_initializer = nextLayer['params']['bias_filler']
-        gamma_regularizer = regularizerMap[nextLayer['params']['gamma_regularizer']]
-        beta_regularizer = regularizerMap[nextLayer['params']['beta_regularizer']]
-        gamma_constraint = constraintMap[nextLayer['params']['gamma_constraint']]
+        gamma_regularizer = regularizerMap[nextLayer['params']
+                                           ['gamma_regularizer']]
+        beta_regularizer = regularizerMap[nextLayer['params']
+                                          ['beta_regularizer']]
+        gamma_constraint = constraintMap[nextLayer['params']
+                                         ['gamma_constraint']]
         beta_constraint = constraintMap[nextLayer['params']['beta_constraint']]
-        out[idNext] = BatchNormalization(axis=axis, momentum=momentum, epsilon=eps,
-                                         moving_mean_initializer=moving_mean_initializer,
-                                         moving_variance_initializer=moving_variance_initializer,
-                                         center=center, scale=scale,
-                                         gamma_initializer=gamma_initializer,
-                                         beta_initializer=beta_initializer,
-                                         gamma_regularizer=gamma_regularizer,
-                                         beta_regularizer=beta_regularizer,
-                                         gamma_constraint=gamma_constraint,
-                                         beta_constraint=beta_constraint)(*layer_in)
+        out[idNext] = BatchNormalization(
+            axis=axis,
+            momentum=momentum,
+            epsilon=eps,
+            moving_mean_initializer=moving_mean_initializer,
+            moving_variance_initializer=moving_variance_initializer,
+            center=center,
+            scale=scale,
+            gamma_initializer=gamma_initializer,
+            beta_initializer=beta_initializer,
+            gamma_regularizer=gamma_regularizer,
+            beta_regularizer=beta_regularizer,
+            gamma_constraint=gamma_constraint,
+            beta_constraint=beta_constraint)(
+            *layer_in)
     else:
-        out[layerId] = BatchNormalization(momentum=momentum, epsilon=eps,
-                                          moving_mean_initializer=moving_mean_initializer,
-                                          moving_variance_initializer=moving_variance_initializer,
-                                          scale=False, center=False)(*layer_in)
+        out[layerId] = BatchNormalization(
+            momentum=momentum,
+            epsilon=eps,
+            moving_mean_initializer=moving_mean_initializer,
+            moving_variance_initializer=moving_variance_initializer,
+            scale=False,
+            center=False)(
+            *layer_in)
     return out
 
 

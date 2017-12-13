@@ -190,10 +190,12 @@ class Content extends React.Component {
     this.dismissAllErrors();
     const error = [];
     const net = this.state.net;
-
+   
     Object.keys(net).forEach(layerId => {
       const layer = net[layerId];
+    
       Object.keys(layer.params).forEach(param => {
+      
         layer.params[param] = layer.params[param][0];
         const paramData = data[layer.info.type].params[param];
         if (layer.info.type == 'Python' && param == 'endPoint'){
@@ -230,6 +232,8 @@ class Content extends React.Component {
             downloadAnchor.download = response.name;
             downloadAnchor.href = response.url;
             downloadAnchor.click();
+            this.initialiseImportedNet(this.state.net,this.state.net_name);
+            
           } else if (response.result == 'error') {
             this.addError(response.error);
           }
@@ -240,6 +244,7 @@ class Content extends React.Component {
         }
       });
     }
+
   }
   importNet(framework, id) {
     this.dismissAllErrors();

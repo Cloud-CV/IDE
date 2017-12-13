@@ -18,15 +18,21 @@ def import_json(request):
             try:
                 f = request.FILES['file']
             except Exception:
-                return JsonResponse({'result': 'error', 'error': 'No JSON model file found'})
+                return JsonResponse(
+                    {'result': 'error', 'error': 'No JSON model file found'})
         elif 'sample_id' in request.POST:
-                try:
-                    f = open(os.path.join(settings.BASE_DIR,
-                                          'example', 'keras',
-                                          request.POST['sample_id'] + '.json'), 'r')
-                except Exception:
-                    return JsonResponse({'result': 'error',
-                                         'error': 'No JSON model file found'})
+            try:
+                f = open(
+                    os.path.join(
+                        settings.BASE_DIR,
+                        'example',
+                        'keras',
+                        request.POST['sample_id'] +
+                        '.json'),
+                    'r')
+            except Exception:
+                return JsonResponse({'result': 'error',
+                                     'error': 'No JSON model file found'})
         try:
             model = json.load(f)
         except Exception:
@@ -95,8 +101,18 @@ def import_json(request):
         'AlphaDropout': AlphaDropout
     }
 
-    hasActivation = ['Conv1D', 'Conv2D', 'Conv3D', 'Conv2DTranspose', 'Dense', 'LocallyConnected1D',
-                     'LocallyConnected2D', 'SeparableConv2D', 'LSTM', 'SimpleRNN', 'GRU']
+    hasActivation = [
+        'Conv1D',
+        'Conv2D',
+        'Conv3D',
+        'Conv2DTranspose',
+        'Dense',
+        'LocallyConnected1D',
+        'LocallyConnected2D',
+        'SeparableConv2D',
+        'LSTM',
+        'SimpleRNN',
+        'GRU']
 
     net = {}
     # Add dummy input layer if sequential model
@@ -110,19 +126,22 @@ def import_json(request):
         name = ''
         class_name = layer.__class__.__name__
         if (class_name in layer_map):
-            # This extra logic is to handle connections if the layer has an Activation
+            # This extra logic is to handle connections if the layer has an
+            # Activation
             if (class_name in hasActivation and layer.activation.func_name != 'linear'):
-                net[layer.name+class_name] = layer_map[class_name](layer)
+                net[layer.name + class_name] = layer_map[class_name](layer)
                 net[layer.name] = layer_map[layer.activation.func_name](layer)
-                net[layer.name+class_name]['connection']['output'].append(layer.name)
-                name = layer.name+class_name
+                net[layer.name +
+                    class_name]['connection']['output'].append(layer.name)
+                name = layer.name + class_name
             # To check if a Scale layer is required
             elif (class_name == 'BatchNormalization' and (
                     layer.center or layer.scale)):
-                net[layer.name+class_name] = layer_map[class_name](layer)
+                net[layer.name + class_name] = layer_map[class_name](layer)
                 net[layer.name] = Scale(layer)
-                net[layer.name+class_name]['connection']['output'].append(layer.name)
-                name = layer.name+class_name
+                net[layer.name +
+                    class_name]['connection']['output'].append(layer.name)
+                name = layer.name + class_name
             else:
                 net[layer.name] = layer_map[class_name](layer)
                 name = layer.name
@@ -130,31 +149,36 @@ def import_json(request):
                 for node in layer.inbound_nodes[0].inbound_layers:
                     net[node.name]['connection']['output'].append(name)
         else:
-            raise Exception('Cannot import layer of '+layer.__class__.__name__+' type')
+            raise Exception(
+                'Cannot import layer of ' +
+                layer.__class__.__name__ +
+                ' type')
     # collect names of all zeroPad layers
     zeroPad = []
     # Transfer parameters and connections from zero pad
     # The 'pad' param is a list with upto 3 elements
     for node in net:
         if (net[node]['info']['type'] == 'Pad'):
-            net[net[node]['connection']['output'][0]]['connection']['input'] = \
-                net[node]['connection']['input']
-            net[net[node]['connection']['input'][0]]['connection']['output'] = \
-                net[node]['connection']['output']
+            net[net[node]['connection']['output'][0]
+                ]['connection']['input'] = net[node]['connection']['input']
+            net[net[node]['connection']['input'][0]
+                ]['connection']['output'] = net[node]['connection']['output']
             net[net[node]['connection']['output'][0]]['params']['pad_w'] += \
                 net[node]['params']['pad'][0]
-            if (net[net[node]['connection']['output'][0]]['params']['layer_type'] == '2D'):
-                net[net[node]['connection']['output'][0]]['params']['pad_h'] += \
-                    net[node]['params']['pad'][1]
+            if (net[net[node]['connection']['output'][0]]
+                    ['params']['layer_type'] == '2D'):
+                net[net[node]['connection']['output'][0]
+                    ]['params']['pad_h'] += net[node]['params']['pad'][1]
             elif (net[net[node]['connection']['output'][0]]['params']['layer_type'] == '3D'):
-                net[net[node]['connection']['output'][0]]['params']['pad_h'] += \
-                    net[node]['params']['pad'][1]
-                net[net[node]['connection']['output'][0]]['params']['pad_d'] += \
-                    net[node]['params']['pad'][2]
+                net[net[node]['connection']['output'][0]
+                    ]['params']['pad_h'] += net[node]['params']['pad'][1]
+                net[net[node]['connection']['output'][0]
+                    ]['params']['pad_d'] += net[node]['params']['pad'][2]
             zeroPad.append(node)
         # Switching connection order to handle visualization
         elif (net[node]['info']['type'] == 'Eltwise'):
             net[node]['connection']['input'] = net[node]['connection']['input'][::-1]
     for node in zeroPad:
         net.pop(node, None)
-    return JsonResponse({'result': 'success', 'net': net, 'net_name': model.name})
+    return JsonResponse(
+        {'result': 'success', 'net': net, 'net_name': model.name})
