@@ -232,6 +232,7 @@ class Content extends React.Component {
             downloadAnchor.download = response.name;
             downloadAnchor.href = response.url;
             downloadAnchor.click();
+            this.initialiseImportedNet(this.state.net,this.state.net_name);
           } else if (response.result == 'error') {
             this.addError(response.error);
           }
