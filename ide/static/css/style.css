@@ -85,6 +85,14 @@ body {
   z-index: auto;
 }
 
+input#netName {
+  width: 100%;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background: white;
+}
+
 .canvas-icon{
   margin: 0px;
   position: fixed;

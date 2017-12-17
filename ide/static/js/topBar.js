@@ -2,6 +2,13 @@ import React from 'react';
 import ReactTooltip from 'react-tooltip';
 
 class TopBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.netNameListener = this.netNameListener.bind(this);
+  }
+  netNameListener(event) {
+    this.props.changeNetName(event.target.value)
+  }
   render() {
     return (
       <div className="topBar">
@@ -69,6 +76,7 @@ class TopBar extends React.Component {
             </div>
         </div>
       <ReactTooltip type="dark" multiline={true}/>
+      <input type="text" id="netName" placeholder="Net name" value={this.props.net_name} onChange={this.netNameListener}/>
       </div>
     );
   }
@@ -79,7 +87,9 @@ TopBar.propTypes = {
   importNet: React.PropTypes.func,
   saveDb: React.PropTypes.func,
   loadDb: React.PropTypes.func,
-  zooModal: React.PropTypes.func
+  zooModal: React.PropTypes.func,
+  changeNetName: React.PropTypes.func,
+  net_name: React.PropTypes.string
 };
 
 export default TopBar;

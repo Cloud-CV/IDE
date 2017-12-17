@@ -31,7 +31,7 @@ class Content extends React.Component {
     super(props);
     this.state = {
       net: {},
-      net_name: null,
+      net_name: 'Untitled',
       selectedLayer: null,
       hoveredLayer: null,
       nextLayerId: 0,
@@ -46,6 +46,7 @@ class Content extends React.Component {
     this.changeHoveredLayer = this.changeHoveredLayer.bind(this);
     this.componentWillMount = this.componentWillMount.bind(this);
     this.modifyLayer = this.modifyLayer.bind(this);
+    this.changeNetName = this.changeNetName.bind(this);
     this.adjustParameters = this.adjustParameters.bind(this);
     this.modifyLayerParams = this.modifyLayerParams.bind(this);
     this.deleteLayer = this.deleteLayer.bind(this);
@@ -445,6 +446,9 @@ class Content extends React.Component {
       });
     }
   }
+  changeNetName(net_name) {
+    this.setState({net_name});
+  }
   adjustParameters(layer, para, value) {
     if (para == 'layer_type'){
       if (layer.info['type'] == 'Convolution' || layer.info['type'] == 'Pooling'){
@@ -771,6 +775,8 @@ class Content extends React.Component {
               importNet={this.importNet}
               saveDb={this.saveDb}
               zooModal={this.zooModal}
+              changeNetName={this.changeNetName}
+              net_name={this.state.net_name}
              />
              <h5 className="sidebar-heading">INSERT LAYER</h5>
              <Pane 
