@@ -446,8 +446,8 @@ class Content extends React.Component {
       });
     }
   }
-  changeNetName(net_name) {
-    this.setState({net_name});
+  changeNetName(event) {
+    this.setState({net_name: event.target.value});
   }
   adjustParameters(layer, para, value) {
     if (para == 'layer_type'){
@@ -775,8 +775,6 @@ class Content extends React.Component {
               importNet={this.importNet}
               saveDb={this.saveDb}
               zooModal={this.zooModal}
-              changeNetName={this.changeNetName}
-              net_name={this.state.net_name}
              />
              <h5 className="sidebar-heading">INSERT LAYER</h5>
              <Pane 
@@ -792,6 +790,7 @@ class Content extends React.Component {
           </div>
         </div>
       <div id="main">
+          <input type="text" id="netName" placeholder="Net name" value={this.state.net_name} onChange={this.changeNetName} spellCheck="false"/>
           {loader}
           <Canvas
             net={this.state.net}

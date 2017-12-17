@@ -88,9 +88,19 @@ body {
 input#netName {
   width: 100%;
   border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  background: white;
+  position: absolute;
+  top: 1.5rem;
+  left: 1rem;
+  font-size: 2rem;
+  padding: 0 10px;
+  outline: none;
+  z-index: 100;
+  background: transparent;
+}
+
+input#netName:focus {
+  text-decoration: underline;
+  text-decoration-color: #eee;
 }
 
 .canvas-icon{
