@@ -90,17 +90,19 @@ input#netName {
   border: none;
   position: absolute;
   top: 1.5rem;
-  left: 1rem;
+  left: 0;
+  text-align: center;
   font-size: 2rem;
   padding: 0 10px;
   outline: none;
   z-index: 100;
   background: transparent;
+  text-decoration: underline;
+  text-decoration-color: #eee;
 }
 
 input#netName:focus {
-  text-decoration: underline;
-  text-decoration-color: #eee;
+  text-decoration-color: #ccc;
 }
 
 .canvas-icon{
