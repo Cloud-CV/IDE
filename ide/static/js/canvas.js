@@ -110,7 +110,7 @@ class Canvas extends React.Component {
     }
     event.stopPropagation();
   }
-  scrollCanvas(event) {
+  scrollCanvas() {
     $('#netName').css('top', '-' + $('#panZoomContainer').scrollTop() + 'px');
   }
   clickCanvas(event) {
