@@ -31,7 +31,7 @@ class Content extends React.Component {
     super(props);
     this.state = {
       net: {},
-      net_name: null,
+      net_name: 'Untitled',
       selectedLayer: null,
       hoveredLayer: null,
       nextLayerId: 0,
@@ -46,6 +46,7 @@ class Content extends React.Component {
     this.changeHoveredLayer = this.changeHoveredLayer.bind(this);
     this.componentWillMount = this.componentWillMount.bind(this);
     this.modifyLayer = this.modifyLayer.bind(this);
+    this.changeNetName = this.changeNetName.bind(this);
     this.adjustParameters = this.adjustParameters.bind(this);
     this.modifyLayerParams = this.modifyLayerParams.bind(this);
     this.deleteLayer = this.deleteLayer.bind(this);
@@ -445,6 +446,9 @@ class Content extends React.Component {
       });
     }
   }
+  changeNetName(event) {
+    this.setState({net_name: event.target.value});
+  }
   adjustParameters(layer, para, value) {
     if (para == 'layer_type'){
       if (layer.info['type'] == 'Convolution' || layer.info['type'] == 'Pooling'){
@@ -739,7 +743,7 @@ class Content extends React.Component {
       layer.props = JSON.parse(JSON.stringify(next.props)) //copys all props from data.js
       const height = Math.round(0.05*window.innerHeight, 0); // 5% of screen height, rounded to zero decimals
       const width = Math.round(0.35*window.innerWidth, 0); // 35% of screen width, rounded to zero decimals
-      var top = height + Math.ceil(41-height);
+      var top = height + Math.ceil(81-height);
       var left = width;
       layer.state = {
             top: `${top}px`,
@@ -786,6 +790,14 @@ class Content extends React.Component {
           </div>
         </div>
       <div id="main">
+          <input type="text" 
+            className={$.isEmptyObject(this.state.net) ? "hidden": ""}
+            id="netName" 
+            placeholder="Net name" 
+            value={this.state.net_name} 
+            onChange={this.changeNetName} 
+            spellCheck="false"
+          />
           {loader}
           <Canvas
             net={this.state.net}
