@@ -790,7 +790,14 @@ class Content extends React.Component {
           </div>
         </div>
       <div id="main">
-          <input type="text" id="netName" placeholder="Net name" value={this.state.net_name} onChange={this.changeNetName} spellCheck="false"/>
+          <input type="text" 
+            className={$.isEmptyObject(this.state.net) ? "hidden": ""}
+            id="netName" 
+            placeholder="Net name" 
+            value={this.state.net_name} 
+            onChange={this.changeNetName} 
+            spellCheck="false"
+          />
           {loader}
           <Canvas
             net={this.state.net}

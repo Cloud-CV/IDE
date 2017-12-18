@@ -86,23 +86,31 @@ body {
 }
 
 input#netName {
-  width: 100%;
   border: none;
   position: absolute;
-  top: 1.5rem;
+  top: 0;
   left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 20rem;
+  margin: auto;
   text-align: center;
   font-size: 2rem;
-  padding: 0 10px;
+  padding: 1.5rem 10px;
   outline: none;
   z-index: 100;
   background: transparent;
-  text-decoration: underline;
-  text-decoration-color: #eee;
+  border-bottom: 2px solid;
+  border-color: #eee;
 }
 
 input#netName:focus {
-  text-decoration-color: #ccc;
+  border-color: #ccc;
+}
+
+input#netName.hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .canvas-icon{
