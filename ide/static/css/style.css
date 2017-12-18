@@ -92,20 +92,20 @@ input#netName {
   left: 0;
   right: 0;
   width: 100%;
-  max-width: 20rem;
+  max-width: 30%;
   margin: auto;
   text-align: center;
-  font-size: 2rem;
-  padding: 1.5rem 10px;
+  font-size: 2.5rem;
+  padding: 1rem;
   outline: none;
   z-index: 100;
   background: transparent;
   border-bottom: 2px solid;
-  border-color: #eee;
+  border-color: #cdcfd2;
 }
 
 input#netName:focus {
-  border-color: #ccc;
+  border-color: #cdcfd2;
 }
 
 input#netName.hidden {
