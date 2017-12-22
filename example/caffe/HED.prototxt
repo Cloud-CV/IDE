@@ -13,7 +13,16 @@ layer {
     mean_value: 116.66877
     mean_value: 122.67892
   }
+  image_data_param {
+    root_folder: "../../data/HED-BSDS/"
+    source: "../../data/HED-BSDS/train_pair.lst"
+    batch_size: 1
+    shuffle: true
+    new_height: 0
+    new_width: 0
+  }
 }
+
 layer {
   name: "data"
   type: "ImageData"
@@ -28,7 +37,17 @@ layer {
     mean_value: 116.66877
     mean_value: 122.67892
   }
+ image_data_param {
+    root_folder: "../../data/HED-BSDS/"
+    source: "../../data/HED-BSDS/train_pair.lst"
+    #Just setup the network. No real online testing
+    batch_size: 1
+    shuffle: true
+    new_height: 0
+    new_width: 0
+  }
 }
+
 
 layer { bottom: 'data' top: 'conv1_1' name: 'conv1_1' type: "Convolution"
   param { lr_mult: 1 decay_mult: 1 } param { lr_mult: 2 decay_mult: 0}
