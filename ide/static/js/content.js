@@ -801,6 +801,9 @@ class Content extends React.Component {
       &&data[prev.info.type].endpoint.src == "Bottom" //makes sure that the source has a bottom
       &&next.endpoint.trg == "Top") { //makes sure that the target has a top
         layer.connection = { input: [], output: [] };
+        // Add new layer as output layer of previous layer & previous layer as input of new layer
+        layer.connection.input.push(`l${this.state.nextLayerId-1}`);
+        net[`l${this.state.nextLayerId-1}`].connection.output.push(`l${this.state.nextLayerId}`);
         layer.info = {
           type: id.toString(),
           phase,
@@ -819,6 +822,7 @@ class Content extends React.Component {
           class: '' 
         }
         layer.props.name = `${next.name}${this.state.nextLayerId}`;          
+        this.setState({ net });
         this.addNewLayer(layer);
     }
 
