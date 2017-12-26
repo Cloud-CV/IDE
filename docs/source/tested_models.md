@@ -31,7 +31,7 @@ List of all models for which import/export has been tested with Fabrik.
 ## Captioning
 
 * COCO Caption [\[Source\]](https://github.com/jeffdonahue/caffe/tree/recurrent-rebase-cleanup/examples/coco_caption)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20171208113707zcgth)
-* Neuraltalk [\[Source\]](https://github.com/karpathy/neuraltalk)
+* FCN for Segmantic Segmentation [\[Source\]](https://github.com/shelhamer/fcn.berkeleyvision.org)
 
 ## Miscellaneous
 
