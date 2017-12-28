@@ -25,11 +25,11 @@ In order to export a Caffe Model from Fabrik:
   momentum: 0.9
   weight_decay: 0.0005             # regularization!
   snapshot: 2000                   # taking snapshot is like saving your progress in a game
-  snapshot_prefix: "path/to/model" # path to the network
+  snapshot_prefix: "path/to/model" # path to saved model
   solver_mode: GPU                 # choose CPU or GPU for processing, GPU is far faster, but CPU is more supported.
   ```
 
-5. Execute the following using caffe.
+5. Execute the following using caffe. ```caffe``` is the executable in the caffe folder (./build/tools/caffe). ```solver.prototxt``` should be the path to the file we just created. Z
   ```
   caffe train \
     -gpu 0 \
