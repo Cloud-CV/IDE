@@ -1,0 +1,412 @@
+name: "HOwt_png_quick"
+layer {
+  name: "control"
+  type: "Data"
+  top: "data"
+  top: "label"
+  include {
+    phase: TRAIN
+  }
+  transform_param {
+    mean_file: "data/HOwt_png_train_mean.binaryproto"
+  }
+  data_param {
+    source: "data/HOwt_png_train_lmdb"
+    batch_size: 100
+    backend: LMDB
+  }
+}
+layer {
+  name: "control"
+  type: "Data"
+  top: "data"
+  top: "label"
+  include {
+    phase: TEST
+  }
+  transform_param {
+    mean_file: "data/HOwt_png_train_mean.binaryproto"
+  }
+  data_param {
+    source: "data/HOwt_png_val_lmdb"
+    batch_size: 100
+    backend: LMDB
+  }
+}
+layer {
+  name: "conv1_1"
+  type: "Convolution"
+  bottom: "data"
+  top: "conv1_1"
+  convolution_param {
+    num_output: 64
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "bn1_1"
+  type: "BatchNorm"
+  bottom: "conv1_1"
+  top: "bn1_1"
+}
+layer {
+  name: "relu1_1"
+  type: "ReLU"
+  bottom: "bn1_1"
+  top: "bn1_1"
+}
+layer {
+  name: "conv1_2"
+  type: "Convolution"
+  bottom: "bn1_1"
+  top: "conv1_2"
+  convolution_param {
+    num_output: 64
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "bn1_2"
+  type: "BatchNorm"
+  bottom: "conv1_2"
+  top: "bn1_2"
+}
+layer {
+  name: "relu1_2"
+  type: "ReLU"
+  bottom: "bn1_2"
+  top: "bn1_2"
+}
+layer {
+  name: "pool1"
+  type: "Pooling"
+  bottom: "bn1_2"
+  top: "pool1"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+layer {
+  name: "conv2_1"
+  type: "Convolution"
+  bottom: "pool1"
+  top: "conv2_1"
+  convolution_param {
+    num_output: 128
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "bn2_1"
+  type: "BatchNorm"
+  bottom: "conv2_1"
+  top: "bn2_1"
+}
+layer {
+  name: "relu2_1"
+  type: "ReLU"
+  bottom: "bn2_1"
+  top: "bn2_1"
+}
+layer {
+  name: "conv2_2"
+  type: "Convolution"
+  bottom: "bn2_1"
+  top: "conv2_2"
+  convolution_param {
+    num_output: 128
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "bn2_2"
+  type: "BatchNorm"
+  bottom: "conv2_2"
+  top: "bn2_2"
+}
+layer {
+  name: "relu2_2"
+  type: "ReLU"
+  bottom: "bn2_2"
+  top: "bn2_2"
+}
+layer {
+  name: "pool2"
+  type: "Pooling"
+  bottom: "bn2_2"
+  top: "pool2"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+layer {
+  name: "conv3_1"
+  type: "Convolution"
+  bottom: "pool2"
+  top: "conv3_1"
+  convolution_param {
+    num_output: 256
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "bn3_1"
+  type: "BatchNorm"
+  bottom: "conv3_1"
+  top: "bn3_1"
+}
+layer {
+  name: "relu3_1"
+  type: "ReLU"
+  bottom: "bn3_1"
+  top: "bn3_1"
+}
+layer {
+  name: "conv3_2"
+  type: "Convolution"
+  bottom: "bn3_1"
+  top: "conv3_2"
+  convolution_param {
+    num_output: 256
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "bn3_2"
+  type: "BatchNorm"
+  bottom: "conv3_2"
+  top: "bn3_2"
+}
+layer {
+  name: "relu3_2"
+  type: "ReLU"
+  bottom: "bn3_2"
+  top: "bn3_2"
+}
+layer {
+  name: "conv3_3"
+  type: "Convolution"
+  bottom: "bn3_2"
+  top: "conv3_3"
+  convolution_param {
+    num_output: 256
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "bn3_3"
+  type: "BatchNorm"
+  bottom: "conv3_3"
+  top: "bn3_3"
+}
+layer {
+  name: "relu3_3"
+  type: "ReLU"
+  bottom: "bn3_3"
+  top: "bn3_3"
+}
+layer {
+  name: "conv3_4"
+  type: "Convolution"
+  bottom: "bn3_3"
+  top: "conv3_4"
+  convolution_param {
+    num_output: 256
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "bn3_4"
+  type: "BatchNorm"
+  bottom: "conv3_4"
+  top: "bn3_4"
+}
+layer {
+  name: "relu3_4"
+  type: "ReLU"
+  bottom: "bn3_4"
+  top: "bn3_4"
+}
+layer {
+  name: "pool3"
+  type: "Pooling"
+  bottom: "bn3_4"
+  top: "pool3"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+layer {
+  name: "ip1"
+  type: "InnerProduct"
+  bottom: "pool3"
+  top: "ip1"
+  inner_product_param {
+    num_output: 512
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "bn4"
+  type: "BatchNorm"
+  bottom: "ip1"
+  top: "bn4"
+}
+layer {
+  name: "relu4"
+  type: "ReLU"
+  bottom: "bn4"
+  top: "bn4"
+}
+layer {
+  name: "drop4"
+  type: "Dropout"
+  bottom: "bn4"
+  top: "bn4"
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+layer {
+  name: "ip2"
+  type: "InnerProduct"
+  bottom: "bn4"
+  top: "ip2"
+  inner_product_param {
+    num_output: 512
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "bn5"
+  type: "BatchNorm"
+  bottom: "ip2"
+  top: "bn5"
+}
+layer {
+  name: "relu5"
+  type: "ReLU"
+  bottom: "bn5"
+  top: "bn5"
+}
+layer {
+  name: "drop5"
+  type: "Dropout"
+  bottom: "bn5"
+  top: "bn5"
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+layer {
+  name: "ip3"
+  type: "InnerProduct"
+  bottom: "bn5"
+  top: "ip3"
+  inner_product_param {
+    num_output: 12
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "accuracy"
+  type: "Accuracy"
+  bottom: "ip3"
+  bottom: "label"
+  top: "accuracy"
+  include {
+    phase: TEST
+  }
+}
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip3"
+  bottom: "label"
+  top: "loss"
+}
