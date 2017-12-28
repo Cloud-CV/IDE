@@ -12,18 +12,19 @@ Fabrik is an online collaborative platform to build, visualize and train deep le
 This app is presently under active development and we welcome contributions. Please check out our [issues thread](https://github.com/Cloud-CV/IDE/issues) to find things to work on, or ping us on [Gitter](https://gitter.im/Cloud-CV/IDE). 
 
 ### How to setup
-1. First set up a virtualenv
+1. Clone the repository
+    ```
+    sudo apt-get install git    
+    git clone --recursive https://github.com/Cloud-CV/Fabrik.git
+    ```
+    
+2. Set up a virtualenv
     ```
     sudo apt-get install python-pip python-dev python-virtualenv 
     virtualenv --system-site-packages ~/Fabrik
     source ~/Fabrik/bin/activate
     ```
-    
-2. Clone the repository
-    ```
-    git clone --recursive https://github.com/Cloud-CV/Fabrik.git
-    ```
-    
+
 3. If you have Caffe, Keras and Tensorflow already installed on your computer, skip this step
     * For Linux users
         ```
