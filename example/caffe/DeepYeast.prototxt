@@ -1,4 +1,4 @@
-name: "HOwt_png_quick"
+name: "DeepYeast"
 layer {
   name: "control"
   type: "Data"
