@@ -29,7 +29,7 @@ In order to export a Caffe Model from Fabrik:
   solver_mode: GPU                 # choose CPU or GPU for processing, GPU is far faster, but CPU is more supported.
   ```
 
-5. Execute the following using caffe. ```caffe``` is the executable in the caffe folder (./build/tools/caffe). ```solver.prototxt``` should be the path to the file we just created. Z
+5. Execute the following using caffe. ```caffe``` is the executable in the caffe folder (./build/tools/caffe). ```solver.prototxt``` should be the path to the file we just created.
   ```
   caffe train \
     -gpu 0 \
