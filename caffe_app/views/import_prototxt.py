@@ -598,8 +598,8 @@ def import_prototxt(request):
             if layer.type in layer_dict:
                 layer_params = layer_dict[layer.type](layer)
                 params.update(layer_params)
-	    else:
-		return JsonResponse({'result': 'error', 'error': 'Unknown layer: ' + layer.type})
+            else:
+                return JsonResponse({'result': 'error', 'error': 'Unknown layer: ' + layer.type})
 
             jsonLayer = {
                 'info': {
