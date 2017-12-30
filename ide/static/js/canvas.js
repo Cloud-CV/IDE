@@ -20,6 +20,7 @@ class Canvas extends React.Component {
     this.hover = 0;
     this.mouseState = null;
     this.placeholder = true;
+    this.disableZoom = true;
   }
   /* this function returns the layers between a specified output y and input y
   it also sneaks in another functionallity of determining which direction is most crowded. this is specifically 
@@ -195,6 +196,9 @@ class Canvas extends React.Component {
           source: s,
           target: t});
       }
+    }
+    if(net.length!=0){ //enable zoom buttons if there are layers
+      this.disableZoom = false;
     }
   }
   allowDrop(event) {
@@ -422,13 +426,13 @@ class Canvas extends React.Component {
       </div>
       <div id='icon-plus' className="canvas-icon">
         <p>Press ]</p>
-        <button className="btn btn-default text-center">
+        <button className="btn btn-default text-center" disabled={this.disableZoom}>
             <span className="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span>
         </button>
       </div>
       <div id='icon-minus' className="canvas-icon">
         <p>Press [</p>
-        <button className="btn btn-default text-center">
+        <button className="btn btn-default text-center" disabled={this.disableZoom}>
             <span className="glyphicon glyphicon glyphicon-minus" aria-hidden="true"></span>
         </button>
       </div>
