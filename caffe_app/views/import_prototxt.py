@@ -561,8 +561,8 @@ def import_prototxt(request):
         caffe_net = caffe_pb2.NetParameter()
         try:
             text_format.Merge(prototxt.read(), caffe_net)
-        except Exception:
-            return JsonResponse({'result': 'error', 'error': 'Invalid Prototxt'})
+        except Exception as ex:
+            return JsonResponse({'result': 'error', 'error': 'Invalid Prototxt\n'+str(ex)})
 
         net = {}
         i = 0
@@ -598,6 +598,8 @@ def import_prototxt(request):
             if layer.type in layer_dict:
                 layer_params = layer_dict[layer.type](layer)
                 params.update(layer_params)
+	    else:
+		return JsonResponse({'result': 'error', 'error': 'Unknown layer: ' + layer.type})
 
             jsonLayer = {
                 'info': {
