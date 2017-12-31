@@ -39,4 +39,4 @@ print (loadedModel.summary())
 - Switch to the terminal we were using earlier.
 - Type ```python kerasModelLoader.py```.
 - Congrats! You should see a summary of the exported model.
-- You can further use the model for training/testing purpose.
+- You can further use the model for training/testing purpose. Read about it more [here](keras_json_usage_1.md).
