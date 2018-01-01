@@ -22,6 +22,7 @@ List of all models for which import/export has been tested with Fabrik.
 ## Retrieval
 
 * MNIST Siamese [\[Source\]](https://github.com/BVLC/caffe/tree/master/examples/siamese)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20171208113503xgnfd)
+* MNIST LeNet [\[Source\]](https://github.com/wenwei202/caffe/blob/scnn/examples/mnist)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180101094606ewlrt#/?_k=uu2fiw)
 
 ## Seq2Seq
 
