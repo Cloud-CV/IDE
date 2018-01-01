@@ -387,7 +387,8 @@ class Content extends React.Component {
       success: function (response) {
         if (response.result === 'success'){
           this.initialiseImportedNet(response.net,response.net_name);
-          this.loadLayerShapes();
+          if (Object.keys(this.state.net).length)
+            this.loadLayerShapes();
         } else if (response.result === 'error'){
           this.addError(response.error);
         }
@@ -403,7 +404,6 @@ class Content extends React.Component {
     // this line will unmount all the layers
     // so that the new imported layers will all be mounted again
     const tempError = {};
-    const error = [];
     // maintaining height & width in integers for use of map in order to
     // reduce the search space for overlapping layers & plotting.
     const height = Math.round(0.05*window.innerHeight, 0);
@@ -445,7 +445,7 @@ class Content extends React.Component {
       }
     });
     // initialize the position of layers
-    let positions = netLayout(net);
+    let positions = tempError.length ? {} : netLayout(net);
     // use map for maintaining top,left coordinates of layers
     // in order to avoid overlapping layers
     let map = {}
@@ -521,10 +521,8 @@ class Content extends React.Component {
     });
 
     if (Object.keys(tempError).length) {
-      Object.keys(tempError).forEach(type => {
-        error.push(`Error: Currently we do not support prototxt with "${type}" Layer.`);
-      });
-      this.setState({ error });
+      const errorLayers = Object.keys(tempError).join(', ');
+      this.setState({ error: [`Error: Currently we do not support these layers: ${errorLayers}.`] });
     } else {
       instance.detachEveryConnection();
       instance.deleteEveryEndpoint();

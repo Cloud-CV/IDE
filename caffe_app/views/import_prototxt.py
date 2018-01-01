@@ -598,8 +598,6 @@ def import_prototxt(request):
             if layer.type in layer_dict:
                 layer_params = layer_dict[layer.type](layer)
                 params.update(layer_params)
-            else:
-                return JsonResponse({'result': 'error', 'error': 'Unknown layer: ' + layer.type})
 
             jsonLayer = {
                 'info': {
@@ -612,7 +610,6 @@ def import_prototxt(request):
                 },
                 'params': params
             }
-
             # this logic was written for a scenario where train and test layers are mixed up
             # But as we know, the only differences between the train and test phase are:
             # 1) input layer with different source in test
