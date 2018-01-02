@@ -8,6 +8,8 @@ class ModelZoo extends React.Component {
         <div className="centered-zoo-modal">
           <div className="zoo-modal-model">
             <h3 className="zoo-modal-text">Recognition</h3>
+             <ModelElement importNet={this.props.importNet} framework="caffe" id="cifar">Cifar10</ModelElement>
+              <br/>
               <ModelElement importNet={this.props.importNet} framework="caffe" id="lenet">MNIST LeNet</ModelElement>
               <br/>
               <ModelElement importNet={this.props.importNet} framework="caffe" id="alexnet">AlexNet</ModelElement>
