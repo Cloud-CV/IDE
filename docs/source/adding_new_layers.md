@@ -29,7 +29,7 @@
 <img src="layerdetails.png" />
 
 - Here is a whole layer shown named ```ReLU```. It is a ```Activation/Neuron Layer```, that's why it is kept below the line ```/* ********** Activation/Neron Layers ********** */```.
-- Then add ```// Only Caffe```, because we want to add this layer for Caffe.
+- Then add the suitable comment for you layer or leave it empty if it is not for any specific framework.
 - Keywords' explanation:
     - name: Name of the layer.
     - color: Color of the layer to be shown in frontend.
