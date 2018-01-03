@@ -53,6 +53,32 @@
 - Now, add a new line for the layer you just added in ```data.js``` in the section of Activation/Neuron Layer, because this layer belongs to this category.
 - ```<PaneElement handleClick={this.props.handleClick} id="your_layer_id">your_layer_name</PaneElement>``` this line will make your layer visible in Fabrik.
 
+### Adding layer handling to the backend
+
+- Open [import_prototxt.py](https://github.com/Cloud-CV/Fabrik/blob/master/caffe_app/views/import_prototxt.py) file in a text editor.
+
+<img src="layerImportPrototxt1.png" />
+
+- Add a function for the new layer below the category of this layer.
+- Load the parameters, do the calculations for your layer in pyhton and return the value of ```params``` (parameters).
+- Move down in the file.
+
+<img src="layerImportPrototxt2.png" />
+
+- Add your defined layer in the ```layer_dict``` array, as shown above.
+
+- Now, open [jsonToPrototxt.py](https://github.com/Cloud-CV/Fabrik/blob/master/ide/utils/jsonToPrototxt.py) in a text editor.
+
+<img src="layerJSONtoPrototxt1.png" />
+
+- Add an export function for training and testing of the new layer.
+- There you need to load parameters, then train & test values and at last return the trained and tested data.
+- Move down in this file as well.
+
+<img src="layerJSONtoPrototxt2.png" />
+
+- Add the export function in the ```layer_map``` array.
+
 ### Testing and pushing the new layer.
 
 - Run the fabrik application on you local machine by following the instructions in [README](https://github.com/Cloud-CV/Fabrik/blob/master/README.md) file.
