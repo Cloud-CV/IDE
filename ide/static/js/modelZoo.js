@@ -25,6 +25,8 @@ class ModelZoo extends React.Component {
               <ModelElement importNet={this.props.importNet} framework="keras" id="v3">Inception V3</ModelElement>
               <br/>
               <ModelElement importNet={this.props.importNet} framework="caffe" id="Squeezenet">Squeezenet</ModelElement>
+              <br/>
+              <ModelElement importNet={this.props.importNet} framework="caffe" id="ImageNet">ImageNet</ModelElement>
           </div>
           <div className="zoo-modal-model">
             <h3 className="zoo-modal-text">Detection</h3>
