@@ -3,7 +3,7 @@
 #### To export the model for Caffe in Fabrik
 
 - Click on the export button in the Actions section of the sidebar.
--
+
 <img src="exportbutton.png">
 
 - Select Caffe option from the dropdown list.
@@ -32,7 +32,7 @@ def model_details (model):
     print "########################### Caffe Model Loaded ###########################"
     print "\nLayer-wise parameters: \n"
     pprint([(k, v[0].data.shape) for k, v in net.params.items()])
-    print "\nOutput size: " + str(sum([prod(v[0].data.shape) for k, v in net.params.items()]))
+    print "\nTotal number of parameters: " + str(sum([prod(v[0].data.shape) for k, v in net.params.items()]))
     
 model = "model.prototxt"            # Change name and path of the model as and if required 
 
