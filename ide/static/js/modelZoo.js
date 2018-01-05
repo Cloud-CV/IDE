@@ -44,7 +44,7 @@ class ModelZoo extends React.Component {
               <br/>
               <ModelElement importNet={this.props.importNet} framework="keras" id="seq2seq_lang">Seq2Seq Translation</ModelElement>
               <br/>
-              <ModelElement importNet={this.props.importNet} framework="keras" id="Pix2Pix">Pix2Pix</ModelElement>
+              <ModelElement importNet={this.props.importNet} framework="keras" id="pix2pix">Pix2Pix</ModelElement>
           </div>
           <div className="zoo-modal-model">
             <h3 className="zoo-modal-text">Caption</h3>
