@@ -36,6 +36,7 @@ List of all models for which import/export has been tested with Fabrik.
 * COCO Caption [\[Source\]](https://github.com/jeffdonahue/caffe/tree/recurrent-rebase-cleanup/examples/coco_caption)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20171208113707zcgth)
 * VQA [\[Source\]](https://github.com/iamaaditya/VQA_Demo)
 * VQA2 [\[Source\]](https://github.com/anantzoid/VQA-Keras-Visual-Question-Answering)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180105045732jmyeu)
+* SENet [\[Source\]](https://github.com/hujie-frank/SENet) [\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180106091323ectck)
 
 ## Miscellaneous
 

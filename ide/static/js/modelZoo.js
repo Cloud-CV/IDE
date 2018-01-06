@@ -44,11 +44,13 @@ class ModelZoo extends React.Component {
               <br/>
               <ModelElement importNet={this.props.importNet} framework="keras" id="seq2seq_lang">Seq2Seq Translation</ModelElement>
               <br/>
-              <ModelElement importNet={this.props.importNet} framework="keras" id="pix2pix">Pix2Pix</ModelElement>
+              <ModelElement importNet={this.props.importNet} framework="caffe" id="pix2pix">Pix2Pix</ModelElement>
           </div>
           <div className="zoo-modal-model">
             <h3 className="zoo-modal-text">Caption</h3>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="CoCo_Caption">CoCo Caption</ModelElement>
+            <br/>
+            <ModelElement importNet={this.props.importNet} framework="caffe" id="SENet">SENet</ModelElement>
             <h3 className="zoo-modal-text">Segmentation</h3>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="fcn2">Semantic Segmentation</ModelElement>
           </div>
