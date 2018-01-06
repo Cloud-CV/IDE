@@ -14,6 +14,7 @@ List of all models for which import/export has been tested with Fabrik.
 * VGG-16 [\[Source\]](https://gist.github.com/ksimonyan/211839e770f7b538e2d8#file-readme-md)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20171208113208hjcvb)
 * DeepYeast [\[Source\]](http://kodu.ut.ee/~leopoldp/2016_DeepYeast/code/caffe_model/)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180102135425bzkzy)
 * SpeechNet [\[Source\]](https://github.com/pannous/caffe-speech-recognition)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180102135032ctsho)
+* SENet [\[Source\]](https://github.com/hujie-frank/SENet) [\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180106091323ectck)
 
 ## Detection
 * Vanilla CNN [\[Source\]](https://github.com/ishay2b/VanillaCNN)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180103153019dogjt)
@@ -36,7 +37,6 @@ List of all models for which import/export has been tested with Fabrik.
 * COCO Caption [\[Source\]](https://github.com/jeffdonahue/caffe/tree/recurrent-rebase-cleanup/examples/coco_caption)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20171208113707zcgth)
 * VQA [\[Source\]](https://github.com/iamaaditya/VQA_Demo)
 * VQA2 [\[Source\]](https://github.com/anantzoid/VQA-Keras-Visual-Question-Answering)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180105045732jmyeu)
-* SENet [\[Source\]](https://github.com/hujie-frank/SENet) [\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180106091323ectck)
 
 ## Miscellaneous
 

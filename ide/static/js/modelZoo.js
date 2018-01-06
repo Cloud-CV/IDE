@@ -25,6 +25,8 @@ class ModelZoo extends React.Component {
               <ModelElement importNet={this.props.importNet} framework="keras" id="v3">Inception V3</ModelElement>
               <br/>
               <ModelElement importNet={this.props.importNet} framework="caffe" id="Squeezenet">Squeezenet</ModelElement>
+              <br/>
+              <ModelElement importNet={this.props.importNet} framework="caffe" id="SENet">SENet</ModelElement>
           </div>
           <div className="zoo-modal-model">
             <h3 className="zoo-modal-text">Detection</h3>
@@ -49,8 +51,6 @@ class ModelZoo extends React.Component {
           <div className="zoo-modal-model">
             <h3 className="zoo-modal-text">Caption</h3>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="CoCo_Caption">CoCo Caption</ModelElement>
-            <br/>
-            <ModelElement importNet={this.props.importNet} framework="caffe" id="SENet">SENet</ModelElement>
             <h3 className="zoo-modal-text">Segmentation</h3>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="fcn2">Semantic Segmentation</ModelElement>
           </div>
