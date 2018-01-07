@@ -125,7 +125,6 @@ def import_graph_def(request):
                 if str(node.type) == 'Conv2D':
                     layer['params']['stride_h'] = int(node.get_attr('strides')[1])
                     layer['params']['stride_w'] = int(node.get_attr('strides')[2])
-                    layer['params']['layer_type'] = '2D'
                     try:
                         layer['params']['pad_h'], layer['params']['pad_w'] = \
                             get_padding(node, layer)
@@ -140,7 +139,6 @@ def import_graph_def(request):
                     layer['params']['kernel_w'] = int(node.get_attr('ksize')[2])
                     layer['params']['stride_h'] = int(node.get_attr('strides')[1])
                     layer['params']['stride_w'] = int(node.get_attr('strides')[2])
-                    layer['params']['layer_type'] = '2D'
                     try:
                         layer['params']['pad_h'], layer['params']['pad_w'] = \
                             get_padding(node, layer)
@@ -154,7 +152,6 @@ def import_graph_def(request):
                     layer['params']['kernel_w'] = int(node.get_attr('ksize')[2])
                     layer['params']['stride_h'] = int(node.get_attr('strides')[1])
                     layer['params']['stride_w'] = int(node.get_attr('strides')[2])
-                    layer['params']['layer_type'] = '2D'
                     try:
                         layer['params']['pad_h'], layer['params']['pad_w'] = \
                             get_padding(node, layer)

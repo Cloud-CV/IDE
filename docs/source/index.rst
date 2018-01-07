@@ -17,10 +17,7 @@ Contents:
    keras_json_usage_1
    keras_json_usage_2
    tested_models
-   caffe_prototxt_usage_1
-   caffe_prototxt_usage_2
-   AddingNewModel
-   adding_new_layers
+   caffe_prototxt_usage
 
 Indices and tables
 ==================

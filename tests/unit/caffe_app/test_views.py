@@ -30,8 +30,7 @@ class ImportPrototxtTest(unittest.TestCase):
                                     {'file': sample_file})
         response = json.loads(response.content)
         self.assertEqual(response['result'], 'error')
-        self.assertEqual(response['error'], 'Invalid Prototxt\n'
-                                            'local variable \'prototxt\' referenced before assignment')
+        self.assertEqual(response['error'], 'Invalid Prototxt')
 
     def test_caffe_import_by_sample_id(self):
         response = self.client.post(reverse('caffe-import'),
