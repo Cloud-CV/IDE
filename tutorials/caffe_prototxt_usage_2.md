@@ -4,12 +4,12 @@
 
 - Click on the export button in the Actions section of the sidebar.
 
-<img src="exportbutton.png">
+<img src="https://raw.githubusercontent.com/Cloud-CV/Fabrik/master/tutorials/exportbutton.png">
 
 - Select Caffe option from the dropdown list.
     - A JSON file will be downloaded to your computer. It may take a while though.
 
-<img src="exportcaffe.png">
+<img src="https://raw.githubusercontent.com/Cloud-CV/Fabrik/master/tutorials/exportcaffe.png">
 
 - Rename the file to ```caffeModel.prototxt```.
 
