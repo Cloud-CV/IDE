@@ -48,7 +48,7 @@
 
 - Open [pane.js](https://github.com/Cloud-CV/Fabrik/blob/master/ide/static/js/pane.js) in a text editor, and you should see something like this.
 
-<img src="https://raw.githubusercontent.com/Cloud-CV/Fabrik/master/tutorials/layerpanell.png" />
+<img src="https://raw.githubusercontent.com/Cloud-CV/Fabrik/master/tutorials/layerpanel.png" />
 
 - Now, add a new line for the layer you just added in ```data.js``` in the section of Activation/Neuron Layer, because this layer belongs to this category.
 - ```<PaneElement handleClick={this.props.handleClick} id="your_layer_id">your_layer_name</PaneElement>``` this line will make your layer visible in Fabrik.

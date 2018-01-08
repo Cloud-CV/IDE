@@ -26,7 +26,7 @@ We want to export our model for Keras from Fabrik.
     # Print a summary of the model to verify that the model loaded correctly
     print (loaded_model.summary())
     ```
-### Example<sup>[1](https://machinelearningmastery.com/save-load-keras-deep-learning-models/)</sup>
+## Example<sup>[1](https://machinelearningmastery.com/save-load-keras-deep-learning-models/)</sup>
 1. [Export](http://fabrik.cloudcv.org/caffe/load?id=20171207035101pfjnz) this example Keras model (name it ```model.json```).
 
 2. [Download](http://archive.ics.uci.edu/ml/machine-learning-databases/pima-indians-diabetes/pima-indians-diabetes.data) this data set that we will use to train on (name it ```pima-indians-diabetes.csv```).
