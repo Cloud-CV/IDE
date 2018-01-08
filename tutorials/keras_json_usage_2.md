@@ -11,7 +11,7 @@
 
 - Rename the file to ```kerasModel.json```.
 
-####\ Load the exported model in python and show it's summary.
+### Load the exported model in python and show it's summary.
 
 - Open a terminal and cd into the directory where the ```kerasModel.json``` is saved.
 - Do ```touch kerasModelLoader.py```.
