@@ -15,6 +15,7 @@ from keras.layers.advanced_activations import LeakyReLU, PReLU, ELU, Thresholded
 from keras.layers import BatchNormalization
 from keras.layers import GaussianNoise, GaussianDropout, AlphaDropout
 from keras.layers import Input
+from keras.layers import TimeDistributed, Bidirectional, deserialize
 from keras import regularizers
 
 
@@ -567,6 +568,43 @@ def batch_norm(layer, layer_in, layerId, idNext, nextLayer,):
                                           moving_mean_initializer=moving_mean_initializer,
                                           moving_variance_initializer=moving_variance_initializer,
                                           scale=False, center=False)(*layer_in)
+    return out
+
+
+def bidirectional(layer, layer_in, layerId, net):
+    if layer['params']['merge_mode'] == '':
+        layer['params']['merge_mode'] = None
+    class_name = layer['connection']['output'][0].split('_')[0]
+    class_name = class_name[0].upper() + class_name[1:]
+    wrapped_layer = deserialize(
+        {
+            'class_name': class_name,
+            'config': net[layer['connection']['output'][0]]
+        }
+    )
+    out = {
+        layerId: Bidirectional(
+            layer=wrapped_layer,
+            merge_mode=layer['params']['merge_mode']
+        )(*layer_in)
+    }
+    return out
+
+
+def time_distributed(layer, layer_in, layerId, net):
+    class_name = layer['connection']['output'][0].split('_')[0]
+    class_name = class_name[0].upper() + class_name[1:]
+    wrapped_layer = deserialize(
+        {
+            'class_name': class_name,
+            'config': net[layer['connection']['output'][0]]
+        }
+    )
+    out = {
+        layerId: TimeDistributed(
+            layer=wrapped_layer
+        )(*layer_in)
+    }
     return out
 
 

@@ -466,6 +466,16 @@ def Padding(layer):
     return jsonLayer('Pad', params, layer)
 
 
+def TimeDistributed(layer):
+    return jsonLayer('TimeDistributed', {}, layer)
+
+
+def Bidirectional(layer):
+    params = {}
+    params['merge_mode'] = layer.merge_mode
+    return jsonLayer('Bidirectional', params, layer)
+
+
 # ********** Helper functions **********
 
 # padding logic following
@@ -497,12 +507,15 @@ def get_padding(params, input_shape, output_shape, pad_type, type):
 
 def jsonLayer(type, params, layer):
     input = []
-    if isinstance(layer, dict):
-        for node in layer['inbound_nodes'][0]:
-            input.append(node[0])
-    elif (len(layer.inbound_nodes[0].inbound_layers)):
-        for node in layer.inbound_nodes[0].inbound_layers:
-            input.append(node.name)
+    if hasattr(layer, 'wrapped'):
+        input.append(layer.wrapper[0])
+    else:
+        if isinstance(layer, dict):
+            for node in layer['inbound_nodes'][0]:
+                input.append(node[0])
+        elif (len(layer.inbound_nodes[0].inbound_layers)):
+            for node in layer.inbound_nodes[0].inbound_layers:
+                input.append(node.name)
     layer = {
                 'info': {
                     'type': type,
