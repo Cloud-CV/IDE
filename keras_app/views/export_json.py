@@ -3,7 +3,7 @@ import os
 import random
 import string
 import yaml
-
+import traceback
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -74,14 +74,17 @@ def export_json(request):
         }
 
         # Check if conversion is possible
+        error = []
         for layerId in net:
             layerType = net[layerId]['info']['type']
             if ('Loss' in layerType or layerType ==
                     'Accuracy' or layerType in layer_map):
                 pass
             else:
-                return JsonResponse(
-                    {'result': 'error', 'error': 'Cannot convert ' + layerType + ' to Keras'})
+                error.append(layerId + '(' + layerType + ')')
+        if len(error):
+            return JsonResponse(
+                {'result': 'error', 'error': 'Cannot convert ' + ', '.join(error) + ' to Keras'})
 
         stack = []
         net_out = {}
@@ -102,14 +105,17 @@ def export_json(request):
         for layerId in net:
             processedLayer[layerId] = False
             if (net[layerId]['info']['type'] == 'Python'):
-                return JsonResponse(
-                    {'result': 'error', 'error': 'Cannot convert Python to Keras'})
+                error.append(layerId + '(Python)')
+                continue
             if(net[layerId]['info']['type'] in dataLayers):
                 stack.append(layerId)
             if (not net[layerId]['connection']['input']):
                 inputLayerId.append(layerId)
             if (not net[layerId]['connection']['output']):
                 outputLayerId.append(layerId)
+        if len(error):
+            return JsonResponse(
+                {'result': 'error', 'error': 'Cannot convert ' + ', '.join(error) + ' to Keras'})
 
         while(len(stack)):
             if ('Loss' in net[layerId]['info']['type'] or
@@ -137,18 +143,22 @@ def export_json(request):
                     type = net[net[layerId]['connection']
                                ['input'][0]]['info']['type']
                     if (type != 'BatchNorm'):
-                        return JsonResponse({'result': 'error', 'error': 'Cannot convert ' +
-                                             net[layerId]['info']['type'] + ' to Keras'})
+                        error.append(layerId + '(' + net[layerId]['info']['type'] + ')')
                 else:
-                    net_out.update(layer_map[net[layerId]['info']['type']](
-                        net[layerId], layer_in, layerId))
+                    try:
+                        net_out.update(layer_map[net[layerId]['info']['type']](
+                            net[layerId], layer_in, layerId))
+                    except Exception:
+                        return JsonResponse({'result': 'error', 'error': traceback.format_exc()})
                 for outputId in net[layerId]['connection']['output']:
                     if outputId not in stack:
                         stack.append(outputId)
                 processedLayer[layerId] = True
             else:
-                return JsonResponse({'result': 'error', 'error': 'Cannot convert ' +
-                                     net[layerId]['info']['type'] + ' to Keras'})
+                error.append(layerId + '(' + net[layerId]['info']['type'] + ')')
+        if len(error):
+            return JsonResponse(
+                {'result': 'error', 'error': 'Cannot convert ' + ', '.join(error) + ' to Keras'})
 
         final_input = []
         final_output = []

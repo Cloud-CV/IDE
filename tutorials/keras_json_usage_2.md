@@ -1,17 +1,17 @@
-### Use exported model in Keras
+## Use exported model in Keras
 
-#### To export the model for Keras in Fabrik
+### To export the model for Keras in Fabrik
 
 - Click on the export button in the Actions section of the sidebar.
-<img src="exportbutton.png">
+<img src="https://raw.githubusercontent.com/Cloud-CV/Fabrik/master/tutorials/exportbutton.png">
 
 - Select Keras option from the dropdown list.
     - A JSON file will be downloaded to your computer. It may take a while though.
-<img src="exportdropdown.png">
+<img src="https://raw.githubusercontent.com/Cloud-CV/Fabrik/master/tutorials/exportdropdown.png">
 
 - Rename the file to ```kerasModel.json```.
 
-#### Load the exported model in python and show it's summary.
+### Load the exported model in python and show it's summary.
 
 - Open a terminal and cd into the directory where the ```kerasModel.json``` is saved.
 - Do ```touch kerasModelLoader.py```.
@@ -35,7 +35,7 @@ loadedModel = model_from_json(loadedModel)
 print (loadedModel.summary())
 ```
 
-- Save the file at the same location where the kerasModel.json is saved and close the text editor.
+- Save the file at the same location where the ```kerasModel.json``` is saved and close the text editor.
 - Switch to the terminal we were using earlier.
 - Type ```python kerasModelLoader.py```.
 - Congrats! You should see a summary of the exported model.

@@ -28,10 +28,17 @@ class ModelZoo extends React.Component {
               <br/>
               <ModelElement importNet={this.props.importNet} framework="caffe" id="Squeezenet">Squeezenet</ModelElement>
               <br/>
+<<<<<<< HEAD
+=======
+              <ModelElement importNet={this.props.importNet} framework="caffe" id="SENet">SENet</ModelElement>
+              <br/>
+>>>>>>> Cloud-CV/master
               <ModelElement importNet={this.props.importNet} framework="keras" id="imdb_cnn_lstm">IMDB CNN LSTM</ModelElement>
           </div>
           <div className="zoo-modal-model">
             <h3 className="zoo-modal-text">Detection</h3>
+            <ModelElement importNet={this.props.importNet} framework="caffe" id="vanilla">Vanilla CNN</ModelElement>
+              <br/>
               <ModelElement importNet={this.props.importNet} framework="caffe" id="fcn">FCN32 Pascal</ModelElement>
               <br/>
               <ModelElement importNet={this.props.importNet} framework="caffe" id="yolo_net">YOLONet</ModelElement>
@@ -45,6 +52,8 @@ class ModelZoo extends React.Component {
               <ModelElement importNet={this.props.importNet} framework="keras" id="textGeneration">Text Generation</ModelElement>
               <br/>
               <ModelElement importNet={this.props.importNet} framework="keras" id="seq2seq_lang">Seq2Seq Translation</ModelElement>
+              <br/>
+              <ModelElement importNet={this.props.importNet} framework="caffe" id="pix2pix">Pix2Pix</ModelElement>
           </div>
           <div className="zoo-modal-model">
             <h3 className="zoo-modal-text">Caption</h3>
@@ -57,6 +66,8 @@ class ModelZoo extends React.Component {
           <div className="zoo-modal-model">
             <h3 className="zoo-modal-text">VQA</h3>
             <ModelElement importNet={this.props.importNet} framework="keras" id="VQA">VQA</ModelElement>
+            <br/>
+            <ModelElement importNet={this.props.importNet} framework="keras" id="VQA2">VQA2</ModelElement>
           </div>
         </div>
       </div>
