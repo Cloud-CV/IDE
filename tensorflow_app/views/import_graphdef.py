@@ -9,7 +9,7 @@ import traceback
 # map from operation name(tensorflow) to layer name(caffe)
 op_layer_map = {'Placeholder': 'Input', 'Conv2D': 'Convolution', 'MaxPool': 'Pooling',
                 'MatMul': 'InnerProduct', 'Relu': 'ReLU', 'Softmax': 'Softmax', 'LRN': 'LRN',
-                'Concat': 'Concat', 'AvgPool': 'Pooling'}
+                'Concat': 'Concat', 'AvgPool': 'Pooling' }
 
 
 def get_layer_name(node_name):
@@ -23,6 +23,7 @@ def get_layer_name(node_name):
 
 def get_padding(node, layer):
     layer_name = get_layer_name(node.name)
+    print layer_name
     input_shape = None
     output_shape = None
     for input_tensor in node.inputs:
@@ -112,14 +113,15 @@ def import_graph_def(request):
         for node in graph.get_operations():
             name = get_layer_name(node.name)
             layer = d[name]
-
+            if len(layer['type']) == 0:
+                continue
             if layer['type'][0] == 'Input':
                 # NCHW to NWHC data format
                 layer['params']['dim'] = str(map(int, [node.get_attr('shape').dim[i].size
                                                  for i in [0, 3, 1, 2]]))[1:-1]
 
             elif layer['type'][0] == 'Convolution':
-                if str(node.name) == name + '/weights':
+                if str(node.name) == name + '/weights' or str(node.name) == name + '/kernel':
                     # since conv takes weights as input, this node will be processed first
                     # acquired parameters are then required in get_padding function
                     layer['params']['kernel_h'] = int(node.get_attr('shape').dim[0].size)
@@ -131,7 +133,7 @@ def import_graph_def(request):
                     layer['params']['layer_type'] = '2D'
                     try:
                         layer['params']['pad_h'], layer['params']['pad_w'] = \
-                            get_padding(node, layer)
+                           get_padding(node, layer)
                     except TypeError:
                         return JsonResponse({'result': 'error', 'error':
                                              'Missing shape info in GraphDef'})
@@ -183,6 +185,8 @@ def import_graph_def(request):
 
         net = {}
         for key in d:
+            if len(d[key]['type']) == 0:
+                continue
             net[key] = {
                     'info': {
                         'type': d[key]['type'][0],
