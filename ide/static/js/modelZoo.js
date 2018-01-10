@@ -28,8 +28,11 @@ class ModelZoo extends React.Component {
               <br/>
               <ModelElement importNet={this.props.importNet} framework="caffe" id="Squeezenet">Squeezenet</ModelElement>
               <br/>
+<<<<<<< HEAD
+=======
               <ModelElement importNet={this.props.importNet} framework="caffe" id="SENet">SENet</ModelElement>
               <br/>
+>>>>>>> Cloud-CV/master
               <ModelElement importNet={this.props.importNet} framework="keras" id="imdb_cnn_lstm">IMDB CNN LSTM</ModelElement>
           </div>
           <div className="zoo-modal-model">
@@ -55,6 +58,8 @@ class ModelZoo extends React.Component {
           <div className="zoo-modal-model">
             <h3 className="zoo-modal-text">Caption</h3>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="CoCo_Caption">CoCo Caption</ModelElement>
+            <br/>
+            <ModelElement importNet={this.props.importNet} framework="caffe" id="deploy_flickr">Flickr Caption</ModelElement>
             <h3 className="zoo-modal-text">Segmentation</h3>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="fcn2">Semantic Segmentation</ModelElement>
           </div>

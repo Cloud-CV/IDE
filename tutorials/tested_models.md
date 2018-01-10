@@ -1,7 +1,11 @@
 ## List of all models for which import/export has been tested with Fabrik.
 
+<<<<<<< HEAD
+## Recognition
+=======
 ### Recognition
 
+>>>>>>> Cloud-CV/master
 * Cifar10 CNN [\[Source\]](https://github.com/BVLC/caffe/tree/master/examples/cifar10)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180107213805mhzsp)
 * MNIST LeNet [\[Source\]](https://github.com/wenwei202/caffe/blob/scnn/examples/mnist)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180101094606ewlrt#/?_k=uu2fiw)
 * AlexNet [\[Source\]](https://github.com/BVLC/caffe/tree/master/models/bvlc_alexnet)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20171208113052pazsy)
@@ -36,8 +40,14 @@
 * Text Generation [\[Source\]](https://machinelearningmastery.com/text-generation-lstm-recurrent-neural-networks-python-keras/)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20171208113517iphlh)
 * Pix2Pix [\[Source\]](https://github.com/phillipi/pix2pix) [\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180105143836eahgb)
 
+<<<<<<< HEAD
+## Captioning
+* Flickr Caption
+[\[Source\]](https://github.com/deepsemantic/image_captioning/blob/master/models/finetune_flickr_style/deploy.prototxt)[\[Visual\]](http://fabrik.cloudcv.org/caffe/load?id=20180110065803emlup)
+=======
 ### Captioning
 
+>>>>>>> Cloud-CV/master
 * COCO Caption [\[Source\]](https://github.com/jeffdonahue/caffe/tree/recurrent-rebase-cleanup/examples/coco_caption)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20171208113707zcgth)
 * VQA [\[Source\]](https://github.com/iamaaditya/VQA_Demo)
 * VQA2 [\[Source\]](https://github.com/anantzoid/VQA-Keras-Visual-Question-Answering)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180105045732jmyeu)
