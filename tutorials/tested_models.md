@@ -32,7 +32,8 @@ List of all models for which import/export has been tested with Fabrik.
 * Text Generation [\[Source\]](https://machinelearningmastery.com/text-generation-lstm-recurrent-neural-networks-python-keras/)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20171208113517iphlh)
 
 ## Captioning
-
+* Flickr Caption
+[\[Source\]](https://github.com/deepsemantic/image_captioning/blob/master/models/finetune_flickr_style/deploy.prototxt)[\[Visual\]](http://fabrik.cloudcv.org/caffe/load?id=20180110065803emlup)
 * COCO Caption [\[Source\]](https://github.com/jeffdonahue/caffe/tree/recurrent-rebase-cleanup/examples/coco_caption)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20171208113707zcgth)
 * VQA [\[Source\]](https://github.com/iamaaditya/VQA_Demo)
 ## Miscellaneous
