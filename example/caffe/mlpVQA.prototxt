@@ -1,4 +1,4 @@
-name: "mlpVQA"
+name: "VQS"
 layer {
   name: "imageDataInput"
   type: "Data"
