@@ -6,6 +6,7 @@ from caffe.proto import caffe_pb2
 from google.protobuf import text_format
 import tempfile
 import subprocess
+import urllib2
 
 
 # ******Data Layers******
@@ -565,6 +566,11 @@ def import_prototxt(request):
         elif 'config' in request.POST:
             prototxt = request.POST['config']
             prototxtIsText = True
+        elif 'url' in request.POST:
+            try:
+                prototxt = urllib2.urlopen(request.POST['url'])
+            except Exception as ex:
+                return JsonResponse({'result': 'error', 'error': str(ex)})
         caffe_net = caffe_pb2.NetParameter()
 
         # try to convert to new prototxt

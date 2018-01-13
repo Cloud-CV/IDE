@@ -1,5 +1,6 @@
 import json
 import os
+import urllib2
 
 from django.conf import settings
 from django.http import JsonResponse
@@ -27,6 +28,11 @@ def import_json(request):
                                          'error': 'No JSON model file found'})
         elif 'config' in request.POST:
             loadFromText = True
+        elif 'url' in request.POST:
+            try:
+                f = urllib2.urlopen(request.POST['url'])
+            except Exception as ex:
+                return JsonResponse({'result': 'error', 'error': str(ex)})
         try:
             if loadFromText is True:
                 model = json.loads(request.POST['config'])

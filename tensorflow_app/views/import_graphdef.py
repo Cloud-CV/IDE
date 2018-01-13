@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import math
 import re
+import urllib2
 
 # map from operation name(tensorflow) to layer name(caffe)
 op_layer_map = {'Placeholder': 'Input', 'Conv2D': 'Convolution', 'MaxPool': 'Pooling',
@@ -81,6 +82,11 @@ def import_graph_def(request):
                 return JsonResponse({'result': 'error', 'error': 'No GraphDef model file found'})
         elif 'config' in request.POST:
             config = request.POST['config']
+        elif 'url' in request.POST:
+            try:
+                config = urllib2.urlopen(request.POST['url']).read()
+            except Exception as ex:
+                return JsonResponse({'result': 'error', 'error': str(ex)})
         else:
             return JsonResponse({'result': 'error', 'error': 'No GraphDef model found'})
 

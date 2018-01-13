@@ -28,6 +28,16 @@ class TopBar extends React.Component {
             </div>
             <div className="topbar-col">
               <div className="form-group">
+                  <div className="dropdown">
+                    <button id="topbar-icon" className="btn btn-default dropdown-toggle form-control" data-toggle="dropdown"
+                    onClick={() => this.props.urlModal()} data-tip="Load from URL">
+                      <span className="glyphicon glyphicon-link" aria-hidden="true"></span>
+                    </button>
+                  </div>
+              </div>
+            </div>
+            <div className="topbar-col">
+              <div className="form-group">
                 <div className="dropdown">
                   <button id="topbar-icon" className="btn btn-default dropdown-toggle form-control" data-toggle="dropdown" data-tip="Export">
                     <span className="glyphicon glyphicon-export" aria-hidden="true"></span>
@@ -90,7 +100,8 @@ TopBar.propTypes = {
   saveDb: React.PropTypes.func,
   loadDb: React.PropTypes.func,
   zooModal: React.PropTypes.func,
-  textboxModal: React.PropTypes.func
+  textboxModal: React.PropTypes.func,
+  urlModal: React.PropTypes.func
 };
 
 export default TopBar;
