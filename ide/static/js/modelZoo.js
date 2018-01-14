@@ -28,8 +28,11 @@ class ModelZoo extends React.Component {
               <br/>
               <ModelElement importNet={this.props.importNet} framework="caffe" id="Squeezenet">Squeezenet</ModelElement>
               <br/>
+<<<<<<< HEAD
+=======
               <ModelElement importNet={this.props.importNet} framework="caffe" id="SENet">SENet</ModelElement>
               <br/>
+>>>>>>> Cloud-CV/master
               <ModelElement importNet={this.props.importNet} framework="keras" id="imdb_cnn_lstm">IMDB CNN LSTM</ModelElement>
           </div>
           <div className="zoo-modal-model">
