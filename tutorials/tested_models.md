@@ -19,7 +19,7 @@
 * SENet [\[Source\]](https://github.com/hujie-frank/SENet) [\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180106091323ectck)
 
 ### Detection
-
+* 48NET [\[Source\]](https://github.com/CongWeilin/mtcnn-caffe/tree/master/48net)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180110093832phqza)
 * Vanilla CNN [\[Source\]](https://github.com/ishay2b/VanillaCNN)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180103153019dogjt)
 * FCN32 Pascal [\[Source\]](https://github.com/shelhamer/fcn.berkeleyvision.org)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20171208113426rgyqo)
 * RCNN [\[Source\]](https://github.com/rbgirshick/rcnn)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20171208120915yxabc)
