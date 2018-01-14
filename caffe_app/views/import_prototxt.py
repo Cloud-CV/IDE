@@ -7,7 +7,7 @@ from google.protobuf import text_format
 import tempfile
 import subprocess
 import urllib2
-
+from urlparse import urlparse
 
 # ******Data Layers******
 def ImageData(layer):
@@ -568,9 +568,13 @@ def import_prototxt(request):
             prototxtIsText = True
         elif 'url' in request.POST:
             try:
-                prototxt = urllib2.urlopen(request.POST['url'])
+                url = urlparse(request.POST['url'])
+                if url.netloc == 'github.com':
+                    url = url._replace(netloc='raw.githubusercontent.com')
+                    url = url._replace(path=url.path.replace('blob/', ''))
+                prototxt = urllib2.urlopen(url.geturl())
             except Exception as ex:
-                return JsonResponse({'result': 'error', 'error': str(ex)})
+                return JsonResponse({'result': 'error', 'error': 'Invalid URL\n'+str(ex)})
         caffe_net = caffe_pb2.NetParameter()
 
         # try to convert to new prototxt

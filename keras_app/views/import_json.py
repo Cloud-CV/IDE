@@ -1,6 +1,7 @@
 import json
 import os
 import urllib2
+from urlparse import urlparse
 
 from django.conf import settings
 from django.http import JsonResponse
@@ -30,9 +31,13 @@ def import_json(request):
             loadFromText = True
         elif 'url' in request.POST:
             try:
-                f = urllib2.urlopen(request.POST['url'])
+                url = urlparse(request.POST['url'])
+                if url.netloc == 'github.com':
+                    url = url._replace(netloc='raw.githubusercontent.com')
+                    url = url._replace(path=url.path.replace('blob/', ''))
+                f = urllib2.urlopen(url.geturl())
             except Exception as ex:
-                return JsonResponse({'result': 'error', 'error': str(ex)})
+                return JsonResponse({'result': 'error', 'error': 'Invalid URL\n'+str(ex)})
         try:
             if loadFromText is True:
                 model = json.loads(request.POST['config'])

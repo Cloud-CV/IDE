@@ -28,16 +28,6 @@ class TopBar extends React.Component {
             </div>
             <div className="topbar-col">
               <div className="form-group">
-                  <div className="dropdown">
-                    <button id="topbar-icon" className="btn btn-default dropdown-toggle form-control" data-toggle="dropdown"
-                    onClick={() => this.props.urlModal()} data-tip="Load from URL">
-                      <span className="glyphicon glyphicon-link" aria-hidden="true"></span>
-                    </button>
-                  </div>
-              </div>
-            </div>
-            <div className="topbar-col">
-              <div className="form-group">
                 <div className="dropdown">
                   <button id="topbar-icon" className="btn btn-default dropdown-toggle form-control" data-toggle="dropdown" data-tip="Export">
                     <span className="glyphicon glyphicon-export" aria-hidden="true"></span>
@@ -75,6 +65,7 @@ class TopBar extends React.Component {
                         <input id="inputFiletensorflow" type="file" accept=".pbtxt" onChange={() => this.props.importNet('tensorflow', '')}/>
                         </a>
                     </li>
+                    <li><a className="btn" onClick={() => this.props.urlModal()}>URL</a></li>
                   </ul>
                 </div>
               </div>
