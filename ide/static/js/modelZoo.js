@@ -44,6 +44,11 @@ class ModelZoo extends React.Component {
             <h3 className="zoo-modal-text">Retrieval</h3>
               <ModelElement importNet={this.props.importNet} framework="caffe" id="siamese_mnist">MNIST Siamese</ModelElement>
           </div>
+          h3 className="zoo-modal-text">Clasification</h3>
+              <ModelElement importNet={this.props.importNet} framework="caffe" id="age">Age</ModelElement>
+              <br/>
+              <ModelElement importNet={this.props.importNet} framework="caffe" id="gender">Gender</ModelElement>
+          </div>
           <div className="zoo-modal-model">
             <h3 className="zoo-modal-text">Seq2Seq</h3>
               <ModelElement importNet={this.props.importNet} framework="keras" id="textGeneration">Text Generation</ModelElement>
