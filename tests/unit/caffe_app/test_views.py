@@ -57,13 +57,13 @@ class ImportPrototxtTest(unittest.TestCase):
         url = 'https://github.com/Cloud-CV/Fabrik/blob/master/example/caffe/All_CNN.prototxt'
         # Test 1
         response = self.client.post(reverse('caffe-import'),
-                                            {'url': url})
+                                    {'url': url})
         response = json.loads(response.content)
         self.assertEqual(response['result'], 'success')
         # Test 2
         url = 'https://github.com/Cloud-CV/Fabrik/blob/master/some_typo_here'
         response = self.client.post(reverse('caffe-import'),
-                                            {'url': url})
+                                    {'url': url})
         response = json.loads(response.content)
         self.assertEqual(response['result'], 'error')
         self.assertEqual(response['error'], 'Invalid URL\nHTTP Error 404: Not Found')
