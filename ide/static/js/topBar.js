@@ -72,8 +72,8 @@ class TopBar extends React.Component {
             <div className="topbar-col">
               <div className="form-group">
                 <button id="topbar-icon" className="btn btn-default dropdown-toggle form-control" data-toggle="dropdown"
-                onClick={() => this.props.saveDb()} data-tip="Share">
-                    <span className="glyphicon glyphicon-share" aria-hidden="true"></span>
+                onClick={() => this.props.saveDb()} data-tip="Save">
+                    <span className="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
                 </button>
               </div>
             </div>

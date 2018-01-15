@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^model_parameter/', calculate_parameter, name='calculate-parameter'),
+    url(r'^backendAPI/', include('backendAPI.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

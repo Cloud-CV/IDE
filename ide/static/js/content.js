@@ -9,6 +9,7 @@ import data from './data';
 import netLayout from './netLayout_vertical';
 import Modal from 'react-modal';
 import ModelZoo from './modelZoo';
+import Login from './login';
 import ImportTextbox from './importTextbox';
 import $ from 'jquery'
 
@@ -347,6 +348,9 @@ class Content extends React.Component {
     }
   }
   importNet(framework, id) {
+    if (String(id).startsWith('sample')) {
+      this.setState({"modelID": ""})
+    }
     this.dismissAllErrors();
     this.closeModal();
     this.clickEvent = false;
@@ -717,18 +721,22 @@ class Content extends React.Component {
         delete netData[layerId].state;
       });
       this.setState({ load: true });
+      var dataToPost = {
+          net: JSON.stringify(netData),
+          net_name: this.state.net_name
+        }
+      if (this.state.modelID && this.state.modelID != "") {
+        dataToPost.model_id = this.state.modelID
+      }
       $.ajax({
         url: '/caffe/save',
         dataType: 'json',
         type: 'POST',
-        data: {
-          net: JSON.stringify(netData),
-          net_name: this.state.net_name
-        },
+        data: dataToPost,
         success : function (response) {
           if (response.result == 'success'){
             var url = 'http://fabrik.cloudcv.org/caffe/load?id='+response.id;
-            this.modalHeader = 'Your model url is:';
+            this.modalHeader = 'If you are logged in, your model has been saved to your account. Your model url is:';
             this.modalContent = (<a href={url}>{url}</a>);
             this.openModal();
           } else if (response.result == 'error') {
@@ -757,9 +765,11 @@ class Content extends React.Component {
     }
   }
   loadDb(id) {
+    this.closeModal();
     this.dismissAllErrors();
     const formData = new FormData();
     formData.append('proto_id', id);
+    this.setState({"modelID": id});
     $.ajax({
       url: '/caffe/load',
       dataType: 'json',
@@ -795,7 +805,7 @@ class Content extends React.Component {
   }
   zooModal() {
     this.modalHeader = null;
-    this.modalContent = <ModelZoo importNet={this.importNet}/>;
+    this.modalContent = <ModelZoo importNet={this.importNet} />;
     this.openModal();
   }
   setModelFramework(e) {
@@ -910,6 +920,8 @@ class Content extends React.Component {
               zooModal={this.zooModal}
               textboxModal={this.textboxModal}
              />
+             <h5 className="sidebar-heading">LOGIN</h5>
+             <Login loadDb={this.loadDb}></Login>
              <h5 className="sidebar-heading">INSERT LAYER</h5>
              <Pane 
              handleClick = {this.handleClick}
