@@ -258,10 +258,6 @@ def import_graph_def(request):
                     layer['params']['local_size'] = node.get_attr('depth_radius')
                 if ('bias' in node.node_def.attr):
                     layer['params']['k'] = node.get_attr('bias')
-                # as per documentation there was no mention for attribute
-                # to choose norm_region considering default setting as caffe
-                # can be improved later
-                layer['params']['norm_region'] = 'ACROSS_CHANNELS'
                 pass
 
             elif layer['type'][0] == 'Softmax':
