@@ -474,7 +474,7 @@ def Concat(layer):
     if (layer.concat_param.axis is not None):
         params['axis'] = layer.concat_param.axis
     else:
-        # default value for axis of dropout in caffe
+        # default value for axis of concat in caffe
         params['axis'] = 1
     return params
 
