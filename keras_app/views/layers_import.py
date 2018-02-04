@@ -54,11 +54,11 @@ def Activation(layer):
 
 def Dropout(layer):
     params = {}
-    if (not layer.rate is None):
+    if (layer.rate is not None):
         params['rate'] = layer.rate
-    if (not layer.seed is None):
+    if (layer.seed is not None):
         params['seed'] = layer.seed
-    if (not layer.trainable is None):
+    if (layer.trainable is not None):
         params['trainable'] = layer.trainable
     return jsonLayer('Dropout', params, layer)
 
