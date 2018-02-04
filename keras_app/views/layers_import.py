@@ -53,7 +53,14 @@ def Activation(layer):
 
 
 def Dropout(layer):
-    return jsonLayer('Dropout', {}, layer)
+    params = {}
+    if (not layer.rate is None):
+        params['rate'] = layer.rate
+    if (not layer.seed is None):
+        params['seed'] = layer.seed
+    if (not layer.trainable is None):
+        params['trainable'] = layer.trainable
+    return jsonLayer('Dropout', params, layer)
 
 
 def Flatten(layer):
@@ -370,7 +377,9 @@ def Embed(layer):
 
 # ********** Merge Layers **********
 def Concat(layer):
-    return jsonLayer('Concat', {}, layer)
+    params = {}
+    params['axis'] = layer.axis
+    return jsonLayer('Concat', params, layer)
 
 
 def Eltwise(layer):
