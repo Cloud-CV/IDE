@@ -10,7 +10,7 @@ class Error extends React.Component {
   }
   render() {
     return (
-      <div className="error" style={{ top: this.props.index * 35 + 5 }}>
+      <div className="error">
         <button type="button" className="close" onClick={this.dismissError}>
           <span aria-hidden="true">&times;</span>
         </button>
@@ -23,7 +23,7 @@ class Error extends React.Component {
 Error.propTypes = {
   text: React.PropTypes.string.isRequired,
   index: React.PropTypes.number,
-  dismissError: React.PropTypes.func,
+  dismissError: React.PropTypes.func
 };
 
 export default Error;

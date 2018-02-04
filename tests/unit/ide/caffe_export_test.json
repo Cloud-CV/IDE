@@ -1,0 +1,1032 @@
+{"net": { 
+	"AbsVal": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "AbsVal"
+        }, 
+        "params": {
+            "inplace": true,
+            "caffe": true
+        }
+    }, 
+    "Accuracy": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Accuracy"
+        }, 
+        "params": {
+            "axis": 1, 
+            "top_k": 1,
+            "caffe": true
+        }
+    }, 
+    "ArgMax": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "ArgMax"
+        }, 
+        "params": {
+            "axis": 0, 
+            "out_max_val": false, 
+            "top_k": 1,
+            "caffe": true
+        }
+    }, 
+    "BNLL": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "BNLL"
+        }, 
+        "params": {
+            "inplace": true,
+            "caffe": true
+        }
+    }, 
+    "BatchNorm": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "BatchNorm"
+        }, 
+        "params": {
+            "eps": 1e-05, 
+            "inplace": true, 
+            "moving_average_fraction": 0.999, 
+            "use_global_stats": true,
+            "caffe": true
+        }
+    }, 
+    "BatchReindex": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "BatchReindex"
+        }, 
+        "params": {
+            "caffe": true
+        }
+    }, 
+    "Bias": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Bias"
+        }, 
+        "params": {
+            "axis": 1, 
+            "filler": "constant", 
+            "num_axes": 1,
+            "caffe": true
+        }
+    }, 
+    "Concat": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Concat"
+        }, 
+        "params": {
+            "caffe": true
+        }
+    }, 
+    "ContrastiveLoss": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "ContrastiveLoss"
+        }, 
+        "params": {
+            "legacy_version": false, 
+            "margin": 1.0,
+            "caffe": true
+        }
+    }, 
+    "Convolution": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Convolution"
+        }, 
+        "params": {
+            "bias_filler": "constant", 
+            "kernel_h": 3, 
+            "kernel_w": 3,
+            "dilation_h": 1,
+            "dilation_w": 1, 
+            "num_output": 128, 
+            "pad_h": 1, 
+            "pad_w": 1, 
+            "stride_h": 1, 
+            "stride_w": 1, 
+            "weight_filler": "xavier",
+            "use_bias": true,
+            "caffe": true
+        }
+    }, 
+    "Crop": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Crop"
+        }, 
+        "params": {
+            "axis": 2, 
+            "offset": 2,
+            "caffe": true
+        }
+    }, 
+    "Data": {
+        "connection": {
+            "input": [], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Data"
+        }, 
+        "params": {
+            "backend": "LMDB", 
+            "batch_size": 32, 
+            "crop_size": 227, 
+            "force_color": false, 
+            "force_gray": false, 
+            "mean_value": "104, 117, 123", 
+            "mirror": true, 
+            "prefetch": 10, 
+            "rand_skip": 0, 
+            "scale": 1, 
+            "source": "/dummy/source/",
+            "caffe": true
+        }
+    }, 
+    "Deconvolution": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Deconvolution"
+        }, 
+        "params": {
+            "bias_filler": "constant", 
+            "kernel_h": 3, 
+            "kernel_w": 3,
+            "dilation_h": 1,
+            "dilation_w": 1, 
+            "num_output": 128, 
+            "pad_h": 1, 
+            "pad_w": 1, 
+            "stride_h": 1, 
+            "stride_w": 1, 
+            "weight_filler": "xavier",
+            "use_bias": true,
+            "caffe": true
+        }
+    }, 
+    "Dropout": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Dropout"
+        }, 
+        "params": {
+            "inplace": true,
+            "caffe": true
+        }
+    }, 
+    "DummyData": {
+        "connection": {
+            "input": [], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "DummyData"
+        }, 
+        "params": {
+            "dim": "10, 3, 224, 224", 
+            "type": "constant",
+            "caffe": true
+        }
+    }, 
+    "ELU": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "ELU"
+        }, 
+        "params": {
+            "alpha": 1.0, 
+            "inplace": true,
+            "caffe": true
+        }
+    }, 
+    "Eltwise": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Eltwise"
+        }, 
+        "params": {
+            "layer_type": "Product",
+            "caffe": true
+        }
+    }, 
+    "Embed": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Embed"
+        }, 
+        "params": {
+            "bias_term": false, 
+            "input_dim": 2, 
+            "num_output": 128, 
+            "weight_filler": "xavier",
+            "bias_filler": "constant",
+            "caffe": true
+        }
+    }, 
+    "EuclideanLoss": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "EuclideanLoss"
+        }, 
+        "params": {
+            "caffe": true
+        }
+    }, 
+    "Exp": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Exp"
+        }, 
+        "params": {
+            "base": -1.0, 
+            "inplace": true, 
+            "scale": 1.0, 
+            "shift": 0.0,
+            "caffe": true
+        }
+    }, 
+    "Filter": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Filter"
+        }, 
+        "params": {
+            "caffe": true
+        }
+    }, 
+    "Flatten": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Flatten"
+        }, 
+        "params": {
+            "axis": 1, 
+            "end_axis": -1,
+            "caffe": true
+        }
+    }, 
+    "HDF5Data": {
+        "connection": {
+            "input": [], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "HDF5Data"
+        }, 
+        "params": {
+            "batch_size": 32, 
+            "shuffle": false, 
+            "source": "/dummy/source/",
+            "caffe": true
+        }
+    }, 
+    "HDF5Output": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "HDF5Output"
+        }, 
+        "params": {
+            "file_name": "/dummy/filename",
+            "caffe": true
+        }
+    }, 
+    "HingeLoss": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "HingeLoss"
+        }, 
+        "params": {
+            "norm": 2,
+            "caffe": true
+        }
+    }, 
+    "ImageData": {
+        "connection": {
+            "input": [], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "ImageData"
+        }, 
+        "params": {
+            "batch_size": 32, 
+            "crop_size": 227, 
+            "force_color": false, 
+            "force_gray": false, 
+            "is_color": false, 
+            "mean_value": "104, 117, 123", 
+            "mirror": true, 
+            "new_height": 256, 
+            "new_width": 256, 
+            "rand_skip": 0, 
+            "root_folder": "/dummy/folder/", 
+            "scale": 1, 
+            "shuffle": false, 
+            "source": "/dummy/source/",
+            "caffe": true
+        }
+    }, 
+    "InfogainLoss": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "InfogainLoss"
+        }, 
+        "params": {
+            "axis": 1, 
+            "source": "/dummy/source/",
+            "caffe": true
+        }
+    }, 
+    "InnerProduct": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "InnerProduct"
+        }, 
+        "params": {
+            "bias_filler": "constant", 
+            "num_output": 128, 
+            "weight_filler": "xavier",
+            "use_bias": false,
+            "caffe": true
+        }
+    }, 
+    "Input": {
+        "connection": {
+            "input": [], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Input"
+        }, 
+        "params": {
+            "dim": "10, 3, 224, 224",
+            "caffe": true
+        }
+    }, 
+    "LRN": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "LRN"
+        }, 
+        "params": {
+            "alpha": 1.0, 
+            "beta": 0.75, 
+            "inplace": true, 
+            "k": 1.0, 
+            "local_size": 5, 
+            "norm_region": "WITHIN_CHANNEL",
+            "caffe": true
+        }
+    }, 
+    "LSTM": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "LSTM"
+        }, 
+        "params": {
+            "bias_filler": "constant", 
+            "debug_info": false, 
+            "expose_hidden": false, 
+            "num_output": 128, 
+            "weight_filler": "xavier",
+            "caffe": true
+        }
+    }, 
+    "Log": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Log"
+        }, 
+        "params": {
+            "base": -1.0, 
+            "inplace": true, 
+            "scale": 1.0, 
+            "shift": 0.0,
+            "caffe": true
+        }
+    }, 
+    "MVN": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "MVN"
+        }, 
+        "params": {
+            "across_channels": false, 
+            "eps": 1e-09, 
+            "inplace": true, 
+            "normalize_variance": true,
+            "caffe": true
+        }
+    }, 
+    "MemoryData": {
+        "connection": {
+            "input": [], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "MemoryData"
+        }, 
+        "params": {
+            "batch_size": 32, 
+            "channels": 3, 
+            "height": 224, 
+            "width": 224,
+            "caffe": true
+        }
+    }, 
+    "MultinomialLogisticLoss": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "MultinomialLogisticLoss"
+        }, 
+        "params": {
+            "caffe": true
+        }
+    }, 
+    "PReLU": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "PReLU"
+        }, 
+        "params": {
+            "channel_shared": false, 
+            "inplace": true,
+            "caffe": true
+        }
+    }, 
+    "Pooling": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Pooling"
+        }, 
+        "params": {
+            "kernel_h": 2, 
+            "kernel_w": 2, 
+            "pad_h": 0, 
+            "pad_w": 0, 
+            "pool": "MAX", 
+            "stride_h": 2, 
+            "stride_w": 2,
+            "caffe": true,
+            "layer_type": "2D"
+        }
+    }, 
+    "Power": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Power"
+        }, 
+        "params": {
+            "inplace": true, 
+            "power": 1.0, 
+            "scale": 1.0, 
+            "shift": 0.0,
+            "caffe": true
+        }
+    }, 
+    "PythonData": {
+        "info": {
+            "phase": null, 
+            "type": "Python"
+        }, 
+        "connection": {
+            "input": [], 
+            "output": []
+        }, 
+        "params": {
+            "pascal_root": "../data/pascal/VOC2007", 
+            "layer": "PascalMultilabelDataLayerSync",
+            "param_str": "", 
+            "module": "pascal_multilabel_datalayers", 
+            "im_shape": "227, 227", 
+            "batch_size": 128, 
+            "split": "train",
+            "caffe": true
+        }
+    },
+    "PythonLoss": {
+        "info": {
+            "phase": null, 
+            "type": "Python"
+        }, 
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "params": {
+            "layer": "EuclideanLossLayer", 
+            "loss_weight": 1.0, 
+            "endPoint": "0, 1", 
+            "module": "pyloss",
+            "caffe": true
+        }
+    },
+    "RNN": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "RNN"
+        }, 
+        "params": {
+            "bias_filler": "constant", 
+            "debug_info": false, 
+            "expose_hidden": false, 
+            "num_output": 128, 
+            "weight_filler": "xavier",
+            "caffe": true
+        }
+    }, 
+    "ReLU": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "ReLU"
+        }, 
+        "params": {
+            "inplace": true, 
+            "negative_slope": 0.0,
+            "caffe": true
+        }
+    }, 
+    "Recurrent": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Recurrent"
+        }, 
+        "params": {
+            "bias_filler": "constant", 
+            "debug_info": false, 
+            "expose_hidden": false, 
+            "num_output": 128, 
+            "weight_filler": "xavier",
+            "caffe": true
+        }
+    }, 
+    "Reduction": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Reduction"
+        }, 
+        "params": {
+            "axis": 0, 
+            "coeff": 1.0, 
+            "operation": "MEAN",
+            "caffe": true
+        }
+    }, 
+    "Reshape": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Reshape"
+        }, 
+        "params": {
+            "dim": "2, -1",
+            "caffe": true
+        }
+    }, 
+    "SPP": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "SPP"
+        }, 
+        "params": {
+            "pool": 1, 
+            "pyramid_height": 2,
+            "caffe": true
+        }
+    }, 
+    "Scale": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Scale"
+        }, 
+        "params": {
+            "bias_term": true,
+            "axis": 1,
+            "num_axes": 1,
+            "filler": "xavier",
+            "bias_filler": "constant",
+            "caffe": true
+        }
+    }, 
+    "Sigmoid": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Sigmoid"
+        }, 
+        "params": {
+            "inplace": true,
+            "caffe": true
+        }
+    }, 
+    "SigmoidCrossEntropyLoss": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "SigmoidCrossEntropyLoss"
+        }, 
+        "params": {
+            "caffe": true
+        }
+    }, 
+    "Silence": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Silence"
+        }, 
+        "params": {
+            "caffe": true
+        }
+    }, 
+    "Slice": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Slice"
+        }, 
+        "params": {
+            "axis": 1, 
+            "slice_dim": 1, 
+            "slice_point": "1, 2",
+            "caffe": true
+        }
+    }, 
+    "Softmax": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Softmax"
+        }, 
+        "params": {
+            "caffe": true
+        }
+    }, 
+    "SoftmaxWithLoss": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "SoftmaxWithLoss"
+        }, 
+        "params": {
+            "axis": 1,
+            "caffe": true
+        }
+    }, 
+    "Split": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Split"
+        }, 
+        "params": {
+            "caffe": true
+        }
+    }, 
+    "TanH": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "TanH"
+        }, 
+        "params": {
+            "inplace": true,
+            "caffe": true
+        }
+    }, 
+    "Threshold": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "Threshold"
+        }, 
+        "params": {
+            "inplace": true, 
+            "threshold": 1.0,
+            "caffe": true
+        }
+    }, 
+    "WindowData": {
+        "connection": {
+            "input": [], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "WindowData"
+        }, 
+        "params": {
+            "batch_size": 32, 
+            "bg_threshold": 0.5, 
+            "cache_images": false, 
+            "context_pad": 0, 
+            "crop_mode": "warp", 
+            "crop_size": 227, 
+            "fg_fraction": 0.25, 
+            "fg_threshold": 0.5, 
+            "force_color": false, 
+            "force_gray": false, 
+            "mean_value": "104, 117, 123", 
+            "mirror": true, 
+            "root_folder": "/dummy/folder/", 
+            "scale": 1, 
+            "source": "/dummy/source/",
+            "caffe": true
+        }
+    }
+
+}, "result": "success", "net_name": ""}

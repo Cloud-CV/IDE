@@ -8,6 +8,8 @@ class SetParams extends React.Component {
     this.changeParams = this.changeParams.bind(this);
     this.changeProps = this.changeProps.bind(this);
     this.trainOnly = this.trainOnly.bind(this);
+    this.close = this.close.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
   changeProps(prop, value) {
     const net = this.props.net;
@@ -20,13 +22,36 @@ class SetParams extends React.Component {
     const net = this.props.net;
     let layer = net[this.props.selectedLayer];
     layer = JSON.parse(JSON.stringify(layer));
-    layer.params[para] = value;
-    this.props.modifyLayer(layer);
+    var intParams = ["crop_size", "num_output", "new_height", "new_width", "height", "width", "kernel_h", "kernel_w",
+                      "kernel_d", "stride_h", "stride_w", "stride_d", "pad_h", "pad_w", "pad_d", "size_h", "size_w",
+                      "size_d", "n"];
+    if (intParams.includes(para)){
+      value = parseInt(value);
+      if(isNaN(value))
+        value = 0;
+    }
+    layer.params[para] = [value, false];
+    this.props.modifyLayer(this.props.adjustParameters(layer, para, value));
+  }
+  close() {
+    this.props.updateLayerWithShape(this.props.net[this.props.selectedLayer], this.props.selectedLayer);
+    this.props.changeSelectedLayer(null);
   }
   trainOnly(e) {
     if (e.target.checked) {
       this.props.trainOnly();
     }
+  }
+  handleKeyPress(event){
+     if (event.key == 'Delete'){
+      this.props.deleteLayer(this.props.selectedLayer);
+    }
+  }
+  componentDidMount(){
+    document.addEventListener("keydown", this.handleKeyPress, false);
+  }
+  componentWillUnmount(){
+    document.removeEventListener("keydown", this.handleKeyPress, false);
   }
   render() {
     if (this.props.selectedLayer) {
@@ -37,33 +62,36 @@ class SetParams extends React.Component {
       let trainOnlyCheckBox = null;
       if (this.props.selectedPhase === 0) {
         trainOnlyCheckBox = (
-          <div className="form-group" style={{ marginTop: '30px' }}>
-            <label
-              className="col-sm-6 control-label"
-            >
-              train only
+          <div style={{display: "flex"}}>
+            <label className="sidebar-heading" style={{fontSize:"0.85em"}}>
+              TRAIN ONLY
             </label>
-            <div className="col-sm-6">
+            <div className="paramsCheckbox">
               <input
                 type="checkbox"
                 onChange={this.trainOnly}
+                id="trainOnlyCheckBox"
               />
+              <label htmlFor={"trainOnlyCheckBox"}></label>
             </div>
           </div>
         );
       }
 
       Object.keys(data[layer.info.type].params).forEach(param => {
-        params.push(
-          <Field
-            id={param}
-            key={param}
-            data={data[layer.info.type].params[param]}
-            value={layer.params[param]}
-            disabled={(layer.info.phase === null) && (this.props.selectedPhase === 1) && (data[layer.info.type].learn)}
-            changeField={this.changeParams}
-          />
-        );
+        if (param != 'caffe'){
+          params.push(
+            <Field
+              id={param}
+              key={param}
+              data={data[layer.info.type].params[param]}
+              value={layer.params[param][0]}
+              disabled={((layer.info.phase === null) && (this.props.selectedPhase === 1) && (data[layer.info.type].learn)) || 
+                (layer.params[param][1])}
+              changeField={this.changeParams}
+            />
+          );
+        }
       });
 
       Object.keys(data[layer.info.type].props).forEach(prop => {
@@ -82,30 +110,29 @@ class SetParams extends React.Component {
 
       return (
         <div className="setparams setparamsActive" >
-
-          <div className="setHead" style={{ color: data[layer.info.type].color }}>
-            {layer.props.name} layer selected
+          <div className="setHead">
+            <h5 className="sidebar-heading">LAYER SELECTED</h5>
+            <h4>{layer.props.name}</h4>
+            <span className="glyphicon glyphicon-remove-sign closeSign" onClick={() => this.close()} aria-hidden="true"></span>
           </div>
           <div className="setContain">
             <form className="form-horizontal">
-              Properties
               {props}
             </form>
-            <br />
             <form className="form-horizontal">
-              Parameters
               {params}
             </form>
+            <br/>
+            {trainOnlyCheckBox}
+            <br/>
             <button
               type="button"
-              className="btn btn-danger"
+              className="btn btn-block deleteLayerButton sidebar-heading"
               disabled={(layer.info.phase === null) && (this.props.selectedPhase === 1) && (data[layer.info.type].learn)}
-              style={{ marginLeft: '80px', marginTop: '50px' }}
               onClick={() => this.props.deleteLayer(this.props.selectedLayer)}
             >
-              Delete this layer
+              DELETE LAYER
             </button>
-            {trainOnlyCheckBox}
           </div>
         </div>
       );
@@ -143,9 +170,12 @@ SetParams.propTypes = {
   net: React.PropTypes.object,
   deleteLayer: React.PropTypes.func,
   modifyLayer: React.PropTypes.func,
+  adjustParameters: React.PropTypes.func,
   trainOnly: React.PropTypes.func,
   selectedPhase: React.PropTypes.number,
   copyTrain: React.PropTypes.func,
+  changeSelectedLayer: React.PropTypes.func,
+  updateLayerWithShape: React.PropTypes.func
 };
 
 export default SetParams;
