@@ -11,7 +11,8 @@ from urlparse import urlparse
 # map from operation name(tensorflow) to layer name(caffe)
 op_layer_map = {'Placeholder': 'Input', 'Conv2D': 'Convolution', 'MaxPool': 'Pooling',
                 'MatMul': 'InnerProduct', 'Relu': 'ReLU', 'Softmax': 'Softmax', 'LRN': 'LRN',
-                'Concat': 'Concat', 'AvgPool': 'Pooling', 'Reshape': 'Flatten'}
+                'Concat': 'Concat', 'AvgPool': 'Pooling', 'Reshape': 'Flatten',
+                'LeakyRelu': 'ReLU'}
 name_map = {'flatten': 'Flatten', 'dropout': 'Dropout',
             'batch': 'BatchNorm', 'add': 'Eltwise', 'mul': 'Eltwise'}
 
@@ -224,7 +225,7 @@ def import_graph_def(request):
             elif layer['type'][0] == 'BatchNorm':
                 if re.match('.*\/batchnorm[_]?[0-9]?\/add.*', str(node.name)):
                     try:
-                        layer['params']['epsilon'] = node.get_attr(
+                        layer['params']['eps'] = node.get_attr(
                             'value').float_val[0]
                     except:
                         pass
@@ -242,7 +243,9 @@ def import_graph_def(request):
                     layer['params']['layer_type'] = 'Dot'
 
             elif layer['type'][0] == 'ReLU':
-                pass
+                # if layer is a LeakyReLU layer
+                if 'alpha' in node.node_def.attr:
+                    layer['params']['negative_slope'] = node.get_attr('alpha')
 
             elif layer['type'][0] == 'Concat':
                 if 'axis' in node.node_def.attr:
