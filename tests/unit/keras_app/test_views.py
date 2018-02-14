@@ -1096,7 +1096,7 @@ class DepthwiseExportTest(unittest.TestCase):
 
     def test_keras_export(self):
         tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
-                          'keras_export_test2.json'), 'r')
+                          'keras_export_test.json'), 'r')
         response = json.load(tests)
         tests.close()
         net = yaml.safe_load(json.dumps(response['net']))
