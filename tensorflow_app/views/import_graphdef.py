@@ -12,7 +12,8 @@ from urlparse import urlparse
 op_layer_map = {'Placeholder': 'Input', 'Conv2D': 'Convolution', 'MaxPool': 'Pooling',
                 'MatMul': 'InnerProduct', 'Relu': 'ReLU', 'Softmax': 'Softmax', 'LRN': 'LRN',
                 'Concat': 'Concat', 'AvgPool': 'Pooling', 'Reshape': 'Flatten',
-                'LeakyRelu': 'ReLU'}
+                'LeakyRelu': 'ReLU', 'Elu': 'ELU', 'Softsign': 'Softsign',
+                'Softplus': 'Softplus'}
 name_map = {'flatten': 'Flatten', 'dropout': 'Dropout',
             'batch': 'BatchNorm', 'add': 'Eltwise', 'mul': 'Eltwise'}
 
@@ -246,6 +247,16 @@ def import_graph_def(request):
                 # if layer is a LeakyReLU layer
                 if 'alpha' in node.node_def.attr:
                     layer['params']['negative_slope'] = node.get_attr('alpha')
+
+            elif layer['type'][0] == 'ELU':
+                # default value as tf.nn.elu layer computes exp(feature)-1 if < 0
+                layer['params']['alpha'] = 1
+
+            elif layer['type'][0] == 'Softplus':
+                pass
+
+            elif layer['type'][0] == 'Softsign':
+                pass
 
             elif layer['type'][0] == 'Concat':
                 if 'axis' in node.node_def.attr:
