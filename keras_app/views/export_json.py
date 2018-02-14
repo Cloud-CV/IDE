@@ -10,7 +10,7 @@ from keras.models import Model
 from layers_export import data, convolution, deconvolution, pooling, dense, dropout, embed,\
     recurrent, batch_norm, activation, flatten, reshape, eltwise, concat, upsample, locally_connected,\
     permute, repeat_vector, regularization, masking, gaussian_noise, gaussian_dropout, alpha_dropout, \
-    bidirectional, time_distributed
+    bidirectional, time_distributed, depthwise_conv
 BASE_DIR = os.path.dirname(
     os.path.dirname(
         os.path.dirname(
@@ -72,7 +72,8 @@ def export_json(request, is_tf=False):
             'AlphaDropout': alpha_dropout,
             'Scale': '',
             'TimeDistributed': time_distributed,
-            'Bidirectional': bidirectional
+            'Bidirectional': bidirectional,
+            'DepthwiseConv': depthwise_conv
         }
 
         # Remove any duplicate activation layers (timedistributed and bidirectional layers)
