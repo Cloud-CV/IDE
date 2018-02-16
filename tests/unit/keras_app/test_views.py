@@ -34,11 +34,13 @@ from keras_app.views.layers_export import data, convolution, deconvolution, \
     gaussian_dropout, alpha_dropout, depthwise_conv
 from ide.utils.shapes import get_shapes
 
+
 """
-Note:   DepthwiseConv (SeparableConv2D) is currently not supported for
-        Theano backend and it's corresponding import and export test
-        will be skipped if you test using Theano backend.
+#Note:   DepthwiseConv (SeparableConv2D) is currently not supported for
+#        Theano backend and it's corresponding import and export test
+#        will be skipped if you test using Theano backend.
 """
+
 
 class ImportJsonTest(unittest.TestCase):
     def setUp(self):
@@ -154,7 +156,8 @@ class ExportJsonTest(unittest.TestCase):
         response = json.loads(response.content)
         self.assertEqual(response['result'], 'error')
 
-#*********** Keras Backend Test **********
+
+# *********** Keras Backend Test **********
 class KerasBackendTest(unittest.TestCase):
     def setUp(self):
         self.client = Client()
@@ -168,7 +171,8 @@ class KerasBackendTest(unittest.TestCase):
             self.assertNotEqual(dim_order, 'th')
             self.assertEqual(dim_order, 'tf')
         else:
-            self.fail('%s backend not supported'%backend)
+            self.fail('%s backend not supported' % backend)
+
 
 # ********** Import json tests **********
 class HelperFunctions():
@@ -397,6 +401,7 @@ class ConvolutionImportTest(unittest.TestCase, HelperFunctions):
                          bias_constraint='max_norm', activation='relu', input_shape=(16, 16, 16, 1)))
         model.build()
         self.keras_param_test(model, 1, 17)
+
 
 @unittest.skipIf(K.backend() == 'theano', 'SeparableConv2D not available with theano backend')
 class DepthwiseConvolutionImportTest(unittest.TestCase, HelperFunctions):
@@ -1096,11 +1101,11 @@ class DepthwiseExportTest(unittest.TestCase):
 
     def test_keras_export(self):
         tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
-                          'keras_export_test.json'), 'r')
+                                  'keras_export_test.json'), 'r')
         response = json.load(tests)
         tests.close()
         net = yaml.safe_load(json.dumps(response['net']))
-        net = {'l0': net['Input'], 'l1': net['Input2'], 'l2': net['Input4'], 'l3': net['DepthwiseConv']}        
+        net = {'l0': net['Input'], 'l1': net['Input2'], 'l2': net['Input4'], 'l3': net['DepthwiseConv']}
         net['l0']['connection']['output'].append('l0')
         net['l3']['connection']['input'] = ['l0']
         net['l3']['params']['layer_type'] = '2D'

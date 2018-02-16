@@ -1,8 +1,8 @@
 import numpy as np
 
-"""
-Note: DepthwiseConv (SeparableConv2D) is currently not supported with Theano backend
-"""
+
+# Note: DepthwiseConv (SeparableConv2D) is currently not supported with Theano backend
+
 
 # ********** Data Layers **********
 def Input(layer):
