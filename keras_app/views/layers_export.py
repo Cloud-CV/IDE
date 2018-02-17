@@ -2,6 +2,7 @@ import numpy as np
 
 from keras.layers import Dense, Activation, Dropout, Flatten, Reshape, Permute, RepeatVector
 from keras.layers import ActivityRegularization, Masking
+from keras.layers import SeparableConv2D
 from keras.layers import Conv1D, Conv2D, Conv3D, Conv2DTranspose
 from keras.layers import UpSampling1D, UpSampling2D, UpSampling3D
 from keras.layers import MaxPooling1D, MaxPooling2D, MaxPooling3D
@@ -17,6 +18,10 @@ from keras.layers import GaussianNoise, GaussianDropout, AlphaDropout
 from keras.layers import Input
 from keras.layers import TimeDistributed, Bidirectional
 from keras import regularizers
+
+"""
+Note: DepthwiseConv (SeparableConv2D) is currently not supported with Theano backend
+"""
 
 fillerMap = {
     'constant': 'Constant',
@@ -241,9 +246,7 @@ def convolution(layer, layer_in, layerId, tensor=True):
     return out
 
 
-# Separable Convolution is currently not supported with Theano backend
-'''
-def depthwiseConv(layer, layer_in, layerId, tensor=True):
+def depthwise_conv(layer, layer_in, layerId, tensor=True):
     out = {}
     padding = get_padding(layer)
     filters = layer['params']['filters']
@@ -278,7 +281,7 @@ def depthwiseConv(layer, layer_in, layerId, tensor=True):
                                    depthwise_constraint=depthwise_constraint,
                                    pointwise_constraint=pointwise_constraint,
                                    bias_constraint=bias_constraint,)(*layer_in)
-    return out'''
+    return out
 
 
 def deconvolution(layer, layer_in, layerId, tensor=True):

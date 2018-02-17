@@ -1,6 +1,9 @@
 import numpy as np
 
 
+# Note: DepthwiseConv (SeparableConv2D) is currently not supported with Theano backend
+
+
 # ********** Data Layers **********
 def Input(layer):
     params = {}
@@ -151,8 +154,6 @@ def Convolution(layer):
     return jsonLayer('Convolution', params, layer)
 
 
-# Separable Convolution is currently not supported with Theano backend
-'''
 def DepthwiseConv(layer):
     params = {}
     params['filters'] = layer.filters
@@ -181,7 +182,7 @@ def DepthwiseConv(layer):
         params['pointwise_constraint'] = layer.pointwise_constraint.__class__.__name__
     if (layer.bias_constraint):
         params['bias_constraint'] = layer.bias_constraint.__class__.__name__
-    return jsonLayer('DepthwiseConv', params, layer)'''
+    return jsonLayer('DepthwiseConv', params, layer)
 
 
 def Deconvolution(layer):
