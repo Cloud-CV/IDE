@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^caffe/', include('caffe_app.urls')),
     url(r'^keras/', include('keras_app.urls')),
     url(r'^tensorflow/', include('tensorflow_app.urls')),
+    url(r'^pytorch/', include('pytorch_app.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^model_parameter/', calculate_parameter, name='calculate-parameter'),

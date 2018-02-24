@@ -65,6 +65,12 @@ class TopBar extends React.Component {
                         <input id="inputFiletensorflow" type="file" accept=".pbtxt" onChange={() => this.props.importNet('tensorflow', '')}/>
                         </a>
                     </li>
+                    <li>
+                        <a className="btn">
+                        <label htmlFor="inputFilepytorch">PyTorch</label>
+                        <input id="inputFilepytorch" type="file" accept=".pt" onChange={() => this.props.importNet('pytorch', '')}/>
+                        </a>
+                    </li>
                     <li><a className="btn" onClick={() => this.props.urlModal()}>URL</a></li>
                   </ul>
                 </div>
