@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import ModelElement from './modelElement';
 
 class ModelZoo extends React.Component {
@@ -8,6 +9,13 @@ class ModelZoo extends React.Component {
       this.state = {
         open:0,
         text:"Load More",
+        searchResult:[
+                      ["keras","v3","Frequently-used: Inception V3"],
+                      ["caffe","GoogleNet","Frequently-used: GoogLeNet"],
+                      ["caffe","alexnet","Frequently-used: AlexNet"],
+                      ["caffe","yolo_net","Frequently-used: YOLONet"],
+                      ["keras","textGeneration","Frequently-used: Text Generation"]
+                     ],
         Recognition:{ 
                       toDisplay:6,
                       models:[
@@ -49,12 +57,12 @@ class ModelZoo extends React.Component {
                           ["caffe","pix2pix","Pix2Pix"]
                         ]
                 },
-        VQA    :{
+        VQA:{
                   toDisplay:3,
                   models:[
-                            ["keras","VQA","VQA"],
-                            ["keras","VQA2","VQA2"],
-                            ["caffe","mlpVQA","VQS"]
+                            ["keras", "VQA", "VQA"],
+                            ["keras", "VQA2", "VQA2"],
+                            ["caffe", "mlpVQA", "VQS"]
                           ]
                 },
         Segmentation:{
@@ -63,10 +71,25 @@ class ModelZoo extends React.Component {
                               ["caffe","fcn2","Semantic Segmentation"],
                               ["keras","ZF_UNET_224","UNET"]
                             ]
-                }
+                },
+      Retrieval:{
+                    toDisplay:1,
+                    models:[
+                              ["caffe","siamese_mnist","MNIST Siamese"]
+                           ]
+
+              },
+      Caption:{
+                    toDisplay:1,
+                    models:[
+                            ["caffe","CoCo_Caption","CoCo Caption"]
+                          ]
+              }
       };
+
       this.handleClick = this.handleClick.bind(this);
   }
+
 
 
   handleClick(event){
@@ -80,9 +103,92 @@ class ModelZoo extends React.Component {
       this.setState({open:1-this.state.open});
   }
 
+
+  handleSearch(){
+    var bar = ReactDOM.findDOMNode(this.refs.searchBar);
+    var word = bar.value;
+    var result = [];
+
+    if(word ==""){
+      result.push(["keras","v3","Frequently-used: Inception V3"]);
+      result.push(["caffe","GoogleNet","Frequently-used: GoogLeNet"]);
+      result.push(["caffe","alexnet","Frequently-used: AlexNet"]);
+      result.push(["caffe","yolo_net","Frequently-used: YOLONet"]);
+      result.push(["keras","textGeneration","Frequently-used: Text Generation"]);
+      this.setState({searchResult:result});
+    }
+    else{
+      word = word.toLowerCase();
+
+      var allRecognition = this.state.Recognition.models;
+      for(var i=0; i<allRecognition.length; i++){
+        if(allRecognition[i][2].toLowerCase().indexOf(word)!=-1){
+          result.push(allRecognition[i]);
+        }
+      }
+
+      var allDetection = this.state.Detection.models;
+      for(i=0; i<allDetection.length; i++){
+        if(allDetection[i][2].toLowerCase().indexOf(word)!=-1){
+          result.push(allDetection[i]);
+        }
+      }
+
+      var allSeq2Seq = this.state.Seq2Seq.models;
+      for(i=0; i<allSeq2Seq.length; i++){
+        if(allSeq2Seq[i][2].toLowerCase().indexOf(word)!=-1){
+          result.push(allSeq2Seq[i]);
+        }
+      }
+
+      var allVQA = this.state.VQA.models;
+      for(i=0; i<allVQA.length; i++){
+       if(allVQA[i][2].toLowerCase().indexOf(word)!=-1){
+         result.push(allVQA[i]);
+       }
+      }
+
+      var allSegmentation = this.state.Segmentation.models;
+      for(i=0; i<allSegmentation.length; i++){
+       if(allSegmentation[i][2].toLowerCase().indexOf(word)!=-1){
+         result.push(allSegmentation[i]);
+        }
+      }
+
+      var allRetrieval = this.state.Retrieval.models;
+      for(i=0; i<allRetrieval.length; i++){
+        if(allRetrieval[i][2].toLowerCase().indexOf(word)!=-1){
+          result.push(allRetrieval[i]);
+        }
+      }
+
+      var allCaption = this.state.Caption.models;
+      for(i=0; i<allCaption.length; i++){
+        if(allCaption[i][2].toLowerCase().indexOf(word)!=-1){
+          result.push(allCaption[i]);
+        }
+      }
+    }
+    
+    this.setState({searchResult:result});
+  }
+
   render() {
+    var category = this.state.searchResult;
+    var renderSearch = [];
+    for(var i=0; i<category.length; i++){
+      renderSearch.push(
+        <div>
+          <ModelElement importNet = {this.props.importNet} framework =
+                      {category[i][0]} id = {category[i][1]}> {category[i][2]} </ModelElement>
+          <br/>
+        </div>
+        );
+    }
+
+
     const startIndex = 0;
-    var category = this.state.Recognition;
+    category = this.state.Recognition;
     var finalIndex = category.toDisplay*(1 - this.state.open)+this.state.open*category.models.length;
     var sliced = category.models.slice(startIndex, finalIndex);
     const renderRecognition = sliced.map((category) => {
@@ -94,7 +200,6 @@ class ModelZoo extends React.Component {
         </div>
         );
     });
-
 
     category = this.state.Detection;
     finalIndex = category.toDisplay*(1 - this.state.open)+this.state.open*category.models.length;
@@ -154,7 +259,9 @@ class ModelZoo extends React.Component {
         <div className="centered-zoo-modal">
           <div className="zoo-modal-model">
             <h2 className="zoo-modal-text">Load From Zoo</h2>
-            <input className="import-textbox-input" type="text" placeholder="Search..." />
+            <input className="zoo-textbox-input" ref='searchBar' onChange={this.handleSearch.bind(this)} type="text" placeholder="Search..." />
+            <h4 className="zoo-modal-text">Search Result</h4>
+            {renderSearch}
           </div>
           <div className="zoo-modal-model">
             <h3 className="zoo-modal-text">Recognition</h3>

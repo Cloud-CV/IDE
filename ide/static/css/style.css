@@ -457,6 +457,15 @@ input#netName.hidden {
   font-weight: bold;
 }
 
+textarea.zoo-textbox-input {
+  width: 100%;
+  height: 40rem;
+  max-height: 50vh;
+  max-height: calc(100vh - 30rem);
+  border: 2px solid #ccc;
+  outline: none;
+}
+
 .import-textbox-tabs {
   display: flex;
   height: 6rem;
@@ -1031,3 +1040,6 @@ input[type="file"] {
     transform: rotate(-45deg)
   }
 }
+
+ 
+
