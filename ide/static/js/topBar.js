@@ -36,6 +36,7 @@ class TopBar extends React.Component {
                     <li><a className="btn" href="#" onClick={() => this.props.exportNet('caffe')}>Caffe</a></li>
                     <li><a className="btn" href="#" onClick={() => this.props.exportNet('keras')}>Keras</a></li>
                     <li><a className="btn" href="#" onClick={() => this.props.exportNet('tensorflow')}>Tensorflow</a></li>
+                    <li><a className="btn" href="#" onClick={() => this.props.exportNet('pytorch')}>PyTorch</a></li>
                   </ul>
                 </div>
               </div>
@@ -63,6 +64,12 @@ class TopBar extends React.Component {
                         <a className="btn">
                         <label htmlFor="inputFiletensorflow">Tensorflow</label>
                         <input id="inputFiletensorflow" type="file" accept=".pbtxt" onChange={() => this.props.importNet('tensorflow', '')}/>
+                        </a>
+                    </li>
+                    <li>
+                        <a className="btn">
+                        <label htmlFor="inputFilepytorch">PyTorch</label>
+                        <input id="inputFilepytorch" type="file" accept=".pt" onChange={() => this.props.importNet('pytorch', '')}/>
                         </a>
                     </li>
                     <li><a className="btn" onClick={() => this.props.urlModal()}>URL</a></li>

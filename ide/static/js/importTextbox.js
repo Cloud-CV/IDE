@@ -28,6 +28,7 @@ class ImportTextbox extends React.Component {
           <button className={this.getTabClasses('caffe')} onClick={this.props.setModelFramework} data-framework="caffe">Caffe</button>
           <button className={this.getTabClasses('keras')} onClick={this.props.setModelFramework} data-framework="keras">Keras</button>
           <button className={this.getTabClasses('tensorflow')} onClick={this.props.setModelFramework} data-framework="tensorflow">TensorFlow</button>
+          <button className={this.getTabClasses('pytorch')} onClick={this.props.setModelFramework} data-framework="pytorch">PyTorch</button>
         </div>
         <textarea className="import-textbox-input" onChange={this.props.setModelConfig} defaultValue={this.props.modelConfig}></textarea>
         <div className="row">
