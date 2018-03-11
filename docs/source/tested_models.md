@@ -50,3 +50,7 @@
 ### Miscellaneous
 
 * Ranking CNN [\[Source\]](https://github.com/RankingCNN/Using-Ranking-CNN-for-Age-Estimation)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20171208121544acjpu)
+
+### Style
+
+* FlickrStyle [\[Source\]](https://gist.github.com/sergeyk/034c6ac3865563b69e60)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180311065921hqyih)
