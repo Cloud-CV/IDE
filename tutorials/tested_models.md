@@ -19,7 +19,11 @@
 * DeepYeast [\[Source\]](http://kodu.ut.ee/~leopoldp/2016_DeepYeast/code/caffe_model/)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180102135425bzkzy)
 * SpeechNet [\[Source\]](https://github.com/pannous/caffe-speech-recognition)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180102135032ctsho)
 * SENet [\[Source\]](https://github.com/hujie-frank/SENet) [\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180106091323ectck)
+<<<<<<< 8a9ff3dc63efa017dc81856ee7673a19b85cd521
 * SimpleNet [\[Source\]](https://github.com/Coderx7/SimpleNet) [\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180303031044putlf)
+=======
+* InceptionV4 [\[Source\]](https://github.com/kentsommer/keras-inceptionV4/blob/master/inception_v4.py)
+>>>>>>> rebased commits
 
 ### Detection
 * 48NET [\[Source\]](https://github.com/CongWeilin/mtcnn-caffe/tree/master/48net)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180110093832phqza)
