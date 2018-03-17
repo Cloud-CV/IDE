@@ -1,20 +1,23 @@
 import numpy as np
 
-
 def data(layer):
-    Input = []
-    if (layer['info']['type'] in ['ImageData', 'Data', 'WindowData']):
-        if (('crop_size' in layer['params']) and (layer['params']['crop_size'] != 0)):
-            Output = [3] + [layer['params']['crop_size']]*2
-        elif (('new_height' in layer['params']) and ('new_width' in layer['params'])):
-            Output = [3, layer['params']['new_height'], layer['params']['new_width']]
-    elif (layer['info']['type'] in ['Input', 'DummyData']):
-        Output = map(int, layer['params']['dim'].split(','))[1:]
-    elif (layer['info']['type'] == 'MemoryData'):
-        Output = [3, layer['params']['height'], layer['params']['width']]
-    else:
+    try:
+        Input = []
+        if (layer['info']['type'] in ['ImageData', 'Data', 'WindowData']):
+            if ('crop_size' in layer['params']):
+                Output = [3] + [layer['params']['crop_size']]*2
+            elif (('new_height' in layer['params']) and ('new_width' in layer['params'])):
+                Output = [3, layer['params']['new_height'], layer['params']['new_width']]
+        elif (layer['info']['type'] in ['Input', 'DummyData']):
+            dim = layer['params']['dim'] or '0'
+            Output = map(int, dim.split(','))[1:]
+        elif (layer['info']['type'] == 'MemoryData'):
+            Output = [3, layer['params']['height'], layer['params']['width']]
+        else:
+            raise Exception('Cannot determine shape of ' + layer['info']['type'] + ' layer.')
+        return Input, Output
+    except BaseException:
         raise Exception('Cannot determine shape of ' + layer['info']['type'] + ' layer.')
-    return Input, Output
 
 
 def identity(layer):

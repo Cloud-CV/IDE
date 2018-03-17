@@ -39,9 +39,8 @@ def fetch_layer_shape(request):
             # Obtain output shape of new layer
             if (net[layerId]['info']['type'] in dataLayers):
                 # handling Data Layers separately
-                if (len(net[layerId]['params']['dim'])):
-                    net[layerId]['shape']['input'], net[layerId]['shape']['output'] =\
-                            get_layer_shape(net[layerId])
+                net[layerId]['shape']['input'], net[layerId]['shape']['output'] =\
+                        get_layer_shape(net[layerId])
             else:
                 if (net[layerId]['shape']['input']):
                     net[layerId]['shape']['output'] = get_layer_shape(net[layerId])
