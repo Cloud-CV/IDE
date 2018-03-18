@@ -3,12 +3,6 @@ import ReactTooltip from 'react-tooltip';
 import data from './data';
 
 class TopBar extends React.Component {
-  isButtonDisabled(layer) {
-    if (layer)
-      return (layer.info.phase === null) && (this.props.selectedPhase === 1) && (data[layer.info.type].learn);
-    else return false;
-  }
-
   render() {
     var delete_button_options = null;
     var delete_button_data_tip = "Select a layer first"
