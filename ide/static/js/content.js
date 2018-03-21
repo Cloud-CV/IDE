@@ -11,7 +11,7 @@ import Modal from 'react-modal';
 import ModelZoo from './modelZoo';
 import ImportTextbox from './importTextbox';
 import UrlImportModal from './urlImportModal';
-import $ from 'jquery'
+import $ from 'jquery';
 
 const infoStyle = {
   content : {
@@ -46,7 +46,8 @@ class Content extends React.Component {
       modalIsOpen: false,
       totalParameters: 0,
       modelConfig: null,
-      modelFramework: 'caffe'
+      modelFramework: 'caffe',
+      deleteMode: false
     };
     this.addNewLayer = this.addNewLayer.bind(this);
     this.changeSelectedLayer = this.changeSelectedLayer.bind(this);
@@ -85,8 +86,7 @@ class Content extends React.Component {
     this.calculateParameters = this.calculateParameters.bind(this);
     this.getLayerParameters = this.getLayerParameters.bind(this);
     this.updateLayerShape = this.updateLayerShape.bind(this);
-    this.store_list_layers = this.store_list_layers.bind(this);
-    this.delete_selected_layers = this.delete_selected_layers.bind(this);
+    this.toggleDeleteMode = this.toggleDeleteMode.bind(this);
     this.modalContent = null;
     this.modalHeader = null;
     // Might need to improve the logic of clickEvent
@@ -242,7 +242,9 @@ class Content extends React.Component {
     });
     this.setState({ net, selectedLayer: null, nextLayerId: nextLayerId, totalParameters: totalParameters });
   }
-
+  toggleDeleteMode(){
+      this.setState({deleteMode: !this.state.deleteMode});
+  }
   updateLayerShape(net, layerId) {
     const netData = JSON.parse(JSON.stringify(net));
     Object.keys(netData[layerId].params).forEach(param => {
@@ -862,19 +864,6 @@ class Content extends React.Component {
     $('#sidebar').toggleClass('visible');
     $('.sidebar-button').toggleClass('close');
   }
-  store_list_layers(layerId){
-    var stored_list = this.state.multiple_layerId;
-    stored_list.push(layerId);
-    this.setState({multiple_layerId: stored_list});
-  }
-  delete_selected_layers(){
-    const layers = this.state.multiple_layerId;
-    layers.forEach(layerId => {
-      this.deleteLayer(layerId);
-    });
-    var multiple_layerId = [];
-    this.setState({multiple_layerId: multiple_layerId});
-  }
   zooModal() {
     this.modalHeader = null;
     this.modalContent = <ModelZoo importNet={this.importNet}/>;
@@ -1014,10 +1003,10 @@ class Content extends React.Component {
               textboxModal={this.textboxModal}
               urlModal={this.urlModal}
               net={this.state.net}
-              store_list_layers={this.store_list_layers}
-              delete_selected_layers={this.delete_selected_layers}
               selectedLayer={this.state.selectedLayer}
               selectedPhase={this.state.selectedPhase}
+              deleteMode={this.state.deleteMode}
+              toggleDeleteMode={this.toggleDeleteMode}
              />
              <h5 className="sidebar-heading">INSERT LAYER</h5>
              <Pane
@@ -1061,6 +1050,8 @@ class Content extends React.Component {
             draggingLayer={this.state.draggingLayer}
             setDraggingLayer={this.setDraggingLayer}
             selectedLayer={this.state.selectedLayer}
+            deleteLayer={this.deleteLayer}
+            deleteMode={this.state.deleteMode}
           />
           <SetParams
             net={this.state.net}

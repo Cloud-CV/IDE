@@ -4,21 +4,21 @@ import data from './data';
 
 class TopBar extends React.Component {
   render() {
-    var delete_button_options = null;
-    var delete_button_data_tip = "Select a layer first"
-    if (this.props.selectedLayer) {
+    //Delete button class options
+    var delete_button_class_options = "btn btn-default";
+    if (this.props.selectedLayer){
       const layer = this.props.net[this.props.selectedLayer];
-      var class_options = "btn";
       if ((layer.info.phase === null) && (this.props.selectedPhase === 1) && (data[layer.info.type].learn))
-        class_options = "btn disabled";
-      delete_button_options = (<ul className="dropdown-menu dropdown-menu-right">
-        <li><a className={class_options} href="#" onClick={() => this.props.store_list_layers(this.props.selectedLayer)}>
-        Add selected layer to 'delete' queue</a></li>
-        <li><a className={class_options} href="#" onClick={() => this.props.delete_selected_layers()}>
-        Empty 'delete' queue</a></li>
-      </ul>);
-      delete_button_data_tip = "";
+        delete_button_class_options = "btn btn-default disabled";
     }
+
+    //Delete button's span's class class_options
+    var delete_span_class_options = null;
+    if (!this.props.deleteMode)
+      delete_span_class_options = "	glyphicon glyphicon-remove";
+    else
+      delete_span_class_options = "	glyphicon glyphicon-remove text-warning";
+
 
     return (
       <div className="topBar">
@@ -98,11 +98,10 @@ class TopBar extends React.Component {
             <div className="topbar-col">
               <div className="form-group">
                 <div className="dropdown">
-                  <button id="topbar-icon" className="btn btn-default dropdown-toggle form-control float-left"  data-toggle="dropdown"
-                   data-tip={delete_button_data_tip}>
-                    <span className="	glyphicon glyphicon-remove" aria-hidden="true"></span>
+                  <button id="topbar-icon" className={delete_button_class_options}
+                  onClick={() => this.props.toggleDeleteMode()} data-tip="Select a layer to delete it">
+                    <span className={delete_span_class_options} aria-hidden="true"></span>
                   </button>
-                  {delete_button_options}
                 </div>
               </div>
             </div>
@@ -124,8 +123,8 @@ TopBar.propTypes = {
   zooModal: React.PropTypes.func,
   textboxModal: React.PropTypes.func,
   urlModal: React.PropTypes.func,
-  store_list_layers: React.PropTypes.func,
-  delete_selected_layers: React.PropTypes.func
+  deleteMode: React.PropTypes.bool,
+  toggleDeleteMode: React.PropTypes.func
 };
 
 export default TopBar;
