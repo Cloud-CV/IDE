@@ -41,7 +41,6 @@ class Content extends React.Component {
       rebuildNet: false,
       selectedPhase: 0,
       error: [],
-      multiple_layerId: [],
       load: false,
       modalIsOpen: false,
       totalParameters: 0,
