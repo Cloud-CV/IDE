@@ -211,7 +211,6 @@ class Canvas extends React.Component {
   clickLayerEvent(event, layerId) { // happens when layer is clicked and also dragged
     if (this.clickOrDraggedLayer === 0) {
       if (this.props.deleteMode){
-        console.log("Delete mode layer triggered");
         this.props.deleteLayer(layerId);
       }
       else
