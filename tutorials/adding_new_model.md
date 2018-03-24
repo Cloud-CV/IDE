@@ -22,5 +22,6 @@ Cheers!
 <li><ModelElement importNet={this.props.importNet} framework="keras" id="Sample">sample</ModelElement></li> 
 ```
 4. After making these changes, test if loading the model and exporting it to both or at least one framework is working fine and document it accordingly in your pull request.
-5. Create a pull request for the same and get reviewed by the mentors.
+5. If loading the model and exporting it works, add it to [tested_models.md](https://github.com/Cloud-CV/Fabrik/blob/master/tutorials/tested_models.md).
+6. Create a pull request for the same and get reviewed by the mentors.
 Cheers!

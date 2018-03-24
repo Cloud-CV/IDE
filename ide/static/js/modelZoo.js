@@ -47,6 +47,8 @@ class ModelZoo extends React.Component {
               <ModelElement importNet={this.props.importNet} framework="caffe" id="HED">HED</ModelElement>
             <h3 className="zoo-modal-text">Retrieval</h3>
               <ModelElement importNet={this.props.importNet} framework="caffe" id="siamese_mnist">MNIST Siamese</ModelElement>
+              <br/>
+              <ModelElement importNet={this.props.importNet} framework="keras" id="SAEH">Auto-encoder Hashing network</ModelElement>
           </div>
           <div className="zoo-modal-model">
             <h3 className="zoo-modal-text">Seq2Seq</h3>
@@ -61,6 +63,8 @@ class ModelZoo extends React.Component {
             <ModelElement importNet={this.props.importNet} framework="caffe" id="CoCo_Caption">CoCo Caption</ModelElement>
             <h3 className="zoo-modal-text">Segmentation</h3>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="fcn2">Semantic Segmentation</ModelElement>
+            <br/>
+            <ModelElement importNet={this.props.importNet} framework="keras" id="segnet">SegNet</ModelElement>
             <br/>
             <ModelElement importNet={this.props.importNet} framework="keras" id="ZF_UNET_224">UNET</ModelElement>
           </div>

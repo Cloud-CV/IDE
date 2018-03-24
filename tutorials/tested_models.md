@@ -33,7 +33,7 @@
 ### Retrieval
 
 * MNIST Siamese [\[Source\]](https://github.com/BVLC/caffe/tree/master/examples/siamese)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20171208113503xgnfd)
-
+* SAEH [\[Source\]](https://github.com/tangsanli5201/SAEH/)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180324120538hhlpm)
 ### Seq2Seq
 
 * Seq2Seq Translation [\[Source\]](https://github.com/fchollet/keras/blob/master/examples/lstm_seq2seq.py)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20171208115116hsfax)
@@ -50,7 +50,7 @@
 ## Segmentation
 * Image Segmentation CRF-RNN [\[Source\]](https://github.com/torrvision/crfasrnn/tree/master/python-scripts)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180111183110okaux)
 * UNET [\[Source\]](https://github.com/ZFTurbo/ZF_UNET_224_Pretrained_Model)[\[Visualise]](http://fabrik.cloudcv.org/caffe/load?id=20180116070834rggzh)
-
+* SegNet [\[Source\]](https://github.com/imlab-uiip/keras-segnet/blob/master/model_5l.json)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180324120308wcexe)
 ### Miscellaneous
 
 * Ranking CNN [\[Source\]](https://github.com/RankingCNN/Using-Ranking-CNN-for-Age-Estimation)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20171208121544acjpu)
