@@ -282,7 +282,7 @@ class Content extends React.Component {
     var weight_params = 0;
     var bias_params = 0;
 
-    var filter_layers = ["Convolution", "Deconvolution"];
+    var filter_layers = ["Convolution", "Deconvolution", "DepthwiseConv"];
     var fc_layers = ["InnerProduct", "Embed", "Recurrent", "LSTM"];
 
     if(filter_layers.includes(layer.info.type)) {
@@ -463,6 +463,8 @@ class Content extends React.Component {
     }
     data['Convolution']['params']['weight_filler']['options'] = fillers;
     data['Convolution']['params']['bias_filler']['options'] = fillers;
+    data['DepthwiseConv']['params']['weight_filler']['options'] = fillers;
+    data['DepthwiseConv']['params']['bias_filler']['options'] = fillers;
     data['Deconvolution']['params']['weight_filler']['options'] = fillers;
     data['Deconvolution']['params']['bias_filler']['options'] = fillers;
     data['Recurrent']['params']['weight_filler']['options'] = fillers;
@@ -531,7 +533,8 @@ class Content extends React.Component {
             layer.params[param] = [layer.params[param], false];
           }
         });
-        if (type == 'Convolution' || type == 'Pooling' || type == 'Upsample' || type == 'LocallyConnected' || type == 'Eltwise'){
+        if (type == 'Convolution' || type == 'Pooling' || type == 'Upsample' || type == 'LocallyConnected' ||
+            type == 'Eltwise' || type == 'DepthwiseConv'){
           layer = this.adjustParameters(layer, 'layer_type', layer.params['layer_type'][0]);
         }
         // layer.props = JSON.parse(JSON.stringify(data[type].props));
@@ -710,6 +713,15 @@ class Content extends React.Component {
         if (value == 'Average' || value == 'Dot'){
           layer.params['caffe'] = [false, false];
         }
+      }
+      else if (layer.info['type'] == 'DepthwiseConv'){
+        layer.params['caffe'] = [false, false];
+        layer.params['kernel_h'] = [layer.params['kernel_h'][0], false];
+        layer.params['kernel_d'] = [layer.params['kernel_d'][0], true];
+        layer.params['pad_h'] = [layer.params['pad_h'][0], false];
+        layer.params['pad_d'] = [layer.params['pad_d'][0], true];
+        layer.params['stride_h'] = [layer.params['stride_h'][0], false];
+        layer.params['stride_d'] = [layer.params['stride_d'][0], true];
       }
     }
     return layer;

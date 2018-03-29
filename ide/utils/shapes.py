@@ -26,7 +26,7 @@ def filter(layer):
         num_out = layer['shape']['input'][0]
     else:
         num_out = layer['params']['num_output']
-    if (layer['info']['type'] in ['Deconvolution', 'DepthwiseConv']):
+    if (layer['info']['type'] == 'Deconvolution'):
         _, i_h, i_w = layer['shape']['input']
         k_h, k_w = layer['params']['kernel_h'], layer['params']['kernel_w']
         s_h, s_w = layer['params']['stride_h'], layer['params']['stride_w']
@@ -42,7 +42,7 @@ def filter(layer):
             p_w = layer['params']['pad_w']
             o_w = int((i_w + 2 * p_w - k_w) / float(s_w) + 1)
             return [num_out, o_w]
-        elif (layer['params']['layer_type'] == '2D'):
+        elif (layer['params']['layer_type'] == '2D' or layer['info']['type'] == 'DepthwiseConv'):
             _, i_h, i_w = layer['shape']['input']
             k_h, k_w = layer['params']['kernel_h'], layer['params']['kernel_w']
             s_h, s_w = layer['params']['stride_h'], layer['params']['stride_w']

@@ -17,6 +17,7 @@ from keras.layers import ZeroPadding1D, ZeroPadding2D, ZeroPadding3D
 from keras.layers import LocallyConnected1D, LocallyConnected2D
 from keras.layers import SimpleRNN, LSTM, GRU
 from keras.layers import Embedding
+from keras.layers import SeparableConv2D
 from keras.layers import add, concatenate
 from keras.layers.advanced_activations import LeakyReLU, PReLU, \
     ELU, ThresholdedReLU
@@ -30,8 +31,15 @@ from keras_app.views.layers_export import data, convolution, deconvolution, \
     pooling, dense, dropout, embed, recurrent, batch_norm, activation, \
     flatten, reshape, eltwise, concat, upsample, locally_connected, permute, \
     repeat_vector, regularization, masking, gaussian_noise, \
-    gaussian_dropout, alpha_dropout
+    gaussian_dropout, alpha_dropout, depthwise_conv
 from ide.utils.shapes import get_shapes
+
+
+"""
+#Note:   DepthwiseConv (SeparableConv2D) is currently not supported for
+#        Theano backend and it's corresponding import and export test
+#        will be skipped if you test using Theano backend.
+"""
 
 
 class ImportJsonTest(unittest.TestCase):
@@ -395,11 +403,11 @@ class ConvolutionImportTest(unittest.TestCase, HelperFunctions):
         self.keras_param_test(model, 1, 17)
 
 
-# This is currently unavailable with Theano backend
-'''
+@unittest.skipIf(K.backend() == 'theano', 'SeparableConv2D not available with theano backend')
 class DepthwiseConvolutionImportTest(unittest.TestCase, HelperFunctions):
     def setUp(self):
         self.client = Client()
+
     def test_keras_import(self):
         model = Sequential()
         model.add(SeparableConv2D(32, 3, depthwise_regularizer=regularizers.l2(0.01),
@@ -407,8 +415,8 @@ class DepthwiseConvolutionImportTest(unittest.TestCase, HelperFunctions):
                                   bias_regularizer=regularizers.l2(0.01),
                                   activity_regularizer=regularizers.l2(0.01), depthwise_constraint='max_norm',
                                   bias_constraint='max_norm', pointwise_constraint='max_norm',
-                                  activation='relu', input_shape=(1, 16, 16)))
-        self.keras_param_test(model, 1, 12)'''
+                                  activation='relu', input_shape=(16, 16, 1)))
+        self.keras_param_test(model, 1, 12)
 
 
 class DeconvolutionImportTest(unittest.TestCase, HelperFunctions):
@@ -1084,6 +1092,29 @@ class ConvolutionExportTest(unittest.TestCase):
         temp = convolution(net['l3'], [inp], 'l3')
         model = Model(inp, temp['l3'])
         self.assertEqual(model.layers[2].__class__.__name__, 'Conv3D')
+
+
+@unittest.skipIf(K.backend() == 'theano', 'SeparableConv2D not available with theano backend')
+class DepthwiseExportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_keras_export(self):
+        tests = open(os.path.join(settings.BASE_DIR, 'tests', 'unit', 'keras_app',
+                                  'keras_export_test.json'), 'r')
+        response = json.load(tests)
+        tests.close()
+        net = yaml.safe_load(json.dumps(response['net']))
+        net = {'l0': net['Input'], 'l1': net['Input2'], 'l2': net['Input4'], 'l3': net['DepthwiseConv']}
+        net['l0']['connection']['output'].append('l0')
+        net['l3']['connection']['input'] = ['l0']
+        net['l3']['params']['layer_type'] = '2D'
+        net['l3']['shape']['input'] = net['l0']['shape']['output']
+        net['l3']['shape']['output'] = [128, 226, 226]
+        inp = data(net['l0'], '', 'l0')['l0']
+        temp = depthwise_conv(net['l3'], [inp], 'l3')
+        model = Model(inp, temp['l3'])
+        self.assertEqual(model.layers[2].__class__.__name__, 'SeparableConv2D')
 
 
 class DeconvolutionExportTest(unittest.TestCase):

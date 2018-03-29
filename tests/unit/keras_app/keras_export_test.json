@@ -96,7 +96,52 @@
                 224
             ]
         }
-    }, 
+    },
+    "DepthwiseConv": {
+        "connection": {
+            "input": [
+                "l0"
+            ], 
+            "output": []
+        }, 
+        "info": {
+            "phase": null, 
+            "type": "DepthwiseConv"
+        },
+        "params": {
+            "filters": 32,
+            "kernel_h": 3,
+            "kernel_w": 3,
+            "stride_h": 1,
+            "stride_w": 1,
+            "pad_h": 0,
+            "pad_w": 0,
+            "depth_multiplier": 1,
+            "use_bias": true,
+            "depthwise_initializer": "VarianceScaling",
+            "pointwise_initializer": "VarianceScaling",
+            "bias_initializer": "VarianceScaling",
+            "depthwise_regularizer": "L1L2",
+            "pointwise_regularizer": "L1L2",
+            "bias_regularizer": "L1L2",
+            "activity_regularizer": "L1L2",
+            "depthwise_constraint": "MaxNorm",
+            "pointwise_constraint": "MaxNorm",
+            "bias_constraint": "MaxNorm"
+        },
+        "shape": {
+            "input": [
+                3, 
+                224, 
+                224
+            ], 
+            "output": [
+                128, 
+                230, 
+                230
+            ]
+        }    
+    },    
     "Deconvolution": {
         "connection": {
             "input": [
