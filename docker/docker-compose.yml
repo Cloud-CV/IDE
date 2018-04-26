@@ -1,0 +1,25 @@
+PostgreSQL:
+  image: sameersbn/postgresql:9.6-2
+  hostname: postgres
+  restart: always
+  ports:
+    - "5432:5432"
+  environment:
+    - DEBUG=false
+    - DB_USER=admin
+    - DB_PASS=fabrik
+    - DB_NAME=fabrik
+
+Frontend:
+  image: frontend:latest
+  hostname: frontend
+  env_file: ./.environment
+  command: ["bash","/frontend_entrypoint.sh"]
+  volumes:
+   - ./frontend_entrypoint.sh:/frontend_entrypoint.sh
+   - ../:/code
+  links:
+    - PostgreSQL
+  ports:
+    - "8080:8080"
+
