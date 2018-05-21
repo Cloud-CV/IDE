@@ -17,6 +17,7 @@ from keras.layers import GaussianNoise, GaussianDropout, AlphaDropout
 from keras.layers import Input
 from keras.layers import TimeDistributed, Bidirectional
 from keras import regularizers
+from ..custom_layers.lrn import LRN
 
 fillerMap = {
     'constant': 'Constant',
@@ -642,6 +643,16 @@ def time_distributed(layerId, idNext, net, layer_in, layer_map):
     out = {}
     out[layerId] = TimeDistributed(
         layer_map[net[idNext]['info']['type']](net[idNext], layer_in, idNext, False)[idNext])(*layer_in)
+
+
+# LRN for Tensorflow export only
+def lrn(layer, layer_in, layerId):
+    alpha = layer['params']['alpha']
+    beta = layer['params']['beta']
+    k = layer['params']['beta']
+    n = layer['params']['local_size']
+    out = {}
+    out[layerId] = LRN(alpha=alpha, beta=beta, k=k, n=n)(*layer_in)
     return out
 
 

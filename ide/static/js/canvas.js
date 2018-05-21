@@ -3,6 +3,7 @@ import data from './data';
 import jsPlumbReady from './jsplumb';
 import Layer from './layer';
 import Error from './error';
+import Info from './info';
 import panZoom from './panZoom';
 import $ from 'jquery'
 
@@ -346,8 +347,10 @@ class Canvas extends React.Component {
   render() {
     const layers = [];
     const errors = [];
+    const infos = [];
     const net = this.props.net;
     const error = this.props.error;
+    const info = this.props.info;
     let placeholder = null;
     if (this.placeholder){
       placeholder = (<h4 className="text-center" id="placeholder">Load an existing model from the folder dropdown</h4>)
@@ -405,6 +408,17 @@ class Canvas extends React.Component {
         />
       );
     });
+    
+    info.forEach((infoContent, infoIndex) => {
+      infos.push(
+        <Info
+          content={infoContent}
+          key={infoIndex}
+          index={infoIndex}
+          dismissInfo={this.props.dismissInfo}
+        />
+      );
+    });
 
     return (
       <div
@@ -416,6 +430,7 @@ class Canvas extends React.Component {
         onScroll={this.scrollCanvas}
       >
         {errors}
+        {infos}
         {placeholder}
       <div
         id="jsplumbContainer"
@@ -461,6 +476,9 @@ Canvas.propTypes = {
   addError: React.PropTypes.func,
   dismissError: React.PropTypes.func,
   error: React.PropTypes.array,
+  addInfo: React.PropTypes.func,
+  dismissInfo: React.PropTypes.func,
+  info: React.PropTypes.array,
   placeholder: React.PropTypes.bool,
   clickEvent: React.PropTypes.bool,
   totalParameters: React.PropTypes.number,
