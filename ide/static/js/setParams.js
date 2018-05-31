@@ -131,8 +131,27 @@ class SetParams extends React.Component {
               disabled={(layer.info.phase === null) && (this.props.selectedPhase === 1) && (data[layer.info.type].learn)}
               onClick={() => this.props.deleteLayer(this.props.selectedLayer)}
             >
-              DELETE LAYER
+              DELETE LAYER 
             </button>
+            <button
+              type="button"
+              className="btn btn-block deleteLayerButton sidebar-heading"
+              disabled={(layer.info.phase === null) && (this.props.selectedPhase === 1) && (data[layer.info.type].learn)}
+              onClick={() => this.props.store_list_layers(this.props.selectedLayer)}
+            >
+              SELECT MULTIPLE LAYER
+            </button>
+            <button
+              type="button"
+              className="btn btn-block deleteLayerButton sidebar-heading"
+              disabled={(layer.info.phase === null) && (this.props.selectedPhase === 1) && (data[layer.info.type].learn)}
+              onClick={() => this.props.delete_selected_layers()}
+            >
+              DELETE SELECTED LAYERS
+            </button>
+
+
+
           </div>
         </div>
       );
@@ -175,7 +194,9 @@ SetParams.propTypes = {
   selectedPhase: React.PropTypes.number,
   copyTrain: React.PropTypes.func,
   changeSelectedLayer: React.PropTypes.func,
-  updateLayerWithShape: React.PropTypes.func
+  updateLayerWithShape: React.PropTypes.func,
+  store_list_layers: React.PropTypes.func,
+  delete_selected_layers: React.PropTypes.func
 };
 
 export default SetParams;

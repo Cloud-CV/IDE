@@ -41,11 +41,13 @@ class Content extends React.Component {
       rebuildNet: false,
       selectedPhase: 0,
       error: [],
+      multiple_layerId: [],
       load: false,
       modalIsOpen: false,
       totalParameters: 0,
       modelConfig: null,
       modelFramework: 'caffe'
+      
     };
     this.addNewLayer = this.addNewLayer.bind(this);
     this.changeSelectedLayer = this.changeSelectedLayer.bind(this);
@@ -89,6 +91,8 @@ class Content extends React.Component {
     // Might need to improve the logic of clickEvent
     this.clickEvent = false;
     this.handleClick = this.handleClick.bind(this);
+    this.store_list_layers = this.store_list_layers.bind(this);
+    this.delete_selected_layers = this.delete_selected_layers.bind(this);
   }
   openModal() {
     this.setState({modalIsOpen: true});
@@ -240,6 +244,27 @@ class Content extends React.Component {
     });
     this.setState({ net, selectedLayer: null, nextLayerId: nextLayerId, totalParameters: totalParameters });
   }
+
+  store_list_layers(layerId){
+    var stored_list = this.state.multiple_layerId;
+    stored_list.push(layerId);
+    this.setState({multiple_layerId: stored_list});
+    //console.log("Flag1");
+  }
+
+  delete_selected_layers(){
+    const layers = this.state.multiple_layerId;
+    layers.forEach(layerId => {
+      this.deleteLayer(layerId);
+    });
+    var multiple_layerId = [];
+    this.setState({multiple_layerId: multiple_layerId});
+
+  }
+
+
+
+
 
   updateLayerShape(net, layerId) {
     const netData = JSON.parse(JSON.stringify(net));
@@ -983,6 +1008,8 @@ class Content extends React.Component {
             copyTrain={this.copyTrain}
             trainOnly={this.trainOnly}
             updateLayerWithShape={this.modifyLayer}
+            store_list_layers={this.store_list_layers}
+            delete_selected_layers={this.delete_selected_layers}
           />
           <Tooltip
             id={'tooltip_text'}
