@@ -4,6 +4,8 @@ import unittest
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.test import Client
+from django.contrib.auth.models import User
+from caffe_app.models import Network
 
 
 class SaveToDBTest(unittest.TestCase):
@@ -17,19 +19,25 @@ class SaveToDBTest(unittest.TestCase):
         net = json.load(tests)['net']
         response = self.client.post(
             reverse('saveDB'),
-            {'net': net, 'net_name': 'netname'})
+            {'net': net, 'net_name': 'netname', 'networkId': 1})
         response = json.loads(response.content)
         self.assertEqual(response['result'], 'success')
 
     def test_load(self):
+        u_1 = User(id=1, username='user_1')
+        u_1.save()
+        u_2 = User(id=2, username='user_2')
+        u_2.save()
+        model = Network(name='net', network={})
+        model.save()
         response = self.client.post(
             reverse('saveDB'),
-            {'net': '{"net": "testnet"}', 'net_name': 'name'})
+            {'net': '{"net": "testnet"}', 'net_name': 'name', 'networkId': 1})
         response = json.loads(response.content)
         self.assertEqual(response['result'], 'success')
         self.assertTrue('id' in response)
         proto_id = response['id']
-        response = self.client.post(reverse('loadDB'), {'proto_id': proto_id})
+        response = self.client.post(reverse('loadDB'), {'proto_id': proto_id, 'user_id': 1})
         response = json.loads(response.content)
         self.assertEqual(response['result'], 'success')
         self.assertEqual(response['net_name'], 'name')

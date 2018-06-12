@@ -46,7 +46,10 @@ class Content extends React.Component {
       modalIsOpen: false,
       totalParameters: 0,
       modelConfig: null,
-      modelFramework: 'caffe'
+      modelFramework: 'caffe',
+      isShared: false,
+      networkId: 1,
+      socket: null
     };
     this.addNewLayer = this.addNewLayer.bind(this);
     this.changeSelectedLayer = this.changeSelectedLayer.bind(this);
@@ -87,11 +90,53 @@ class Content extends React.Component {
     this.calculateParameters = this.calculateParameters.bind(this);
     this.getLayerParameters = this.getLayerParameters.bind(this);
     this.updateLayerShape = this.updateLayerShape.bind(this);
+    this.onSocketConnect = this.onSocketConnect.bind(this);
+    this.sendSocketMessage = this.sendSocketMessage.bind(this);
+    this.onSocketMessage = this.onSocketMessage.bind(this);
+    this.onSocketOpen = this.onSocketOpen.bind(this);
+    this.onSocketError = this.onSocketError.bind(this);
+    this.waitForConnection = this.waitForConnection.bind(this);
     this.modalContent = null;
     this.modalHeader = null;
     // Might need to improve the logic of clickEvent
     this.clickEvent = false;
     this.handleClick = this.handleClick.bind(this);
+  }
+  onSocketConnect() {
+    const socket = this.state.socket;
+    socket.onopen = this.onSocketOpen;
+    socket.onmessage = this.onSocketMessage;
+    socket.onerror = this.onSocketError;
+  }
+  onSocketOpen() {
+    // socket opening goes here
+    //console.log('socket opened for RTC....');
+  }
+  onSocketMessage(message) {
+    // message received on socket
+    var data = JSON.parse(message['data']);
+
+    this.setState({ net: data['net'] })
+  }
+  sendSocketMessage(message) {
+    const socket = this.state.socket;
+    socket.send(JSON.stringify(message));
+  }
+  onSocketError(error) {
+    // socket error handling goes here
+    console.log('Socket error, disconnected....' + error);
+  }
+  waitForConnection(callback, interval=100) {
+    const socket = this.state.socket;
+    if (socket != null && socket.readyState === 1) {
+      callback();
+    }
+    else {
+      var that = this;
+      setTimeout(function () {
+          that.waitForConnection(callback, interval);
+      }, interval);
+    }
   }
   openModal() {
     this.setState({modalIsOpen: true});
@@ -161,6 +206,13 @@ class Content extends React.Component {
       oldLayerParams += net[layerId]['info']['parameters'];
     }
     this.setState({ net: net, totalParameters: oldLayerParams });
+    if (this.state.is_shared) {
+      this.sendSocketMessage({
+        action: "networkUpdate",
+        net: net,
+        networkId: this.state.networkId
+      });
+    }
   }
   modifyLayerParams(layer, layerId = this.state.selectedLayer) {
     const net = this.state.net;
@@ -751,11 +803,12 @@ class Content extends React.Component {
         type: 'POST',
         data: {
           net: JSON.stringify(netData),
-          net_name: this.state.net_name
+          net_name: this.state.net_name,
+          networkId: this.state.networkId
         },
         success : function (response) {
           if (response.result == 'success'){
-            var url = 'http://fabrik.cloudcv.org/caffe/load?id='+response.id;
+            var url = 'http://localhost:8000/caffe/load?id='+response.id;
             this.modalHeader = 'Your model url is:';
             this.modalContent = (<a href={url}>{url}</a>);
             this.openModal();
@@ -782,19 +835,26 @@ class Content extends React.Component {
     );
     if ('id' in urlParams){
       this.loadDb(urlParams['id']);
+      this.waitForConnection (this.onSocketConnect, 1000);
+      this.setState({
+        is_shared: true,
+        networkId: urlParams['id']
+      })
     }
   }
   loadDb(id) {
+    const socket = new WebSocket('ws://' + window.location.host + '/ws/connect');
+    this.setState({ socket: socket })
+
     this.dismissAllErrors();
-    const formData = new FormData();
-    formData.append('proto_id', id);
     $.ajax({
       url: '/caffe/load',
       dataType: 'json',
       type: 'POST',
-      data: formData,
-      processData: false,  // tell jQuery not to process the data
-      contentType: false,
+      data: {
+        proto_id: id,
+        user_id: 2
+      },
       success: function (response) {
         if (response.result === 'success'){
           this.initialiseImportedNet(response.net,response.net_name);
@@ -804,7 +864,10 @@ class Content extends React.Component {
         } else if (response.result === 'error'){
           this.addError(response.error);
         }
-        this.setState({ load: false });
+        this.setState({
+          load: false,
+          isShared: true
+        });
       }.bind(this),
       error() {
         this.setState({ load: false });
