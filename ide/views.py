@@ -2,6 +2,8 @@ import copy
 import sys
 import yaml
 
+from yaml import safe_load
+from caffe_app.models import Network
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -77,3 +79,44 @@ def calculate_parameter(request):
             return JsonResponse({
                 'result': 'error', 'error': str(sys.exc_info()[1])})
         return JsonResponse({'result': 'success', 'net': net})
+
+
+@csrf_exempt
+def save_to_db(request):
+    if request.method == 'POST':
+        net = request.POST.get('net')
+        net_name = request.POST.get('net_name')
+        if net_name == '':
+            net_name = 'Net'
+        try:
+            # randomId = datetime.now().strftime('%Y%m%d%H%M%S')+randomword(5)
+            # author and shared with fix users until a login feature is added
+            # author of model will be received in request object
+            # user with whom model is shared will be received in request object
+            model = Network(name=net_name, network=net, publicSharing=True)
+            model.save()
+
+            return JsonResponse({'result': 'success', 'id': model.id})
+        except:
+            return JsonResponse({'result': 'error', 'error': str(sys.exc_info()[1])})
+
+
+@csrf_exempt
+def load_from_db(request):
+    if request.method == 'POST':
+        if 'proto_id' in request.POST:
+            try:
+                model = Network.objects.get(id=int(request.POST['proto_id']))
+                net = safe_load(model.network)
+
+                # authorizing the user for access to model
+                if not model.publicSharing:
+                    return JsonResponse({'result': 'error',
+                                         'error': 'Permission denied for access to model'})
+            except Exception:
+                return JsonResponse({'result': 'error',
+                                     'error': 'No network file found'})
+            return JsonResponse({'result': 'success', 'net': net, 'net_name': model.name})
+
+    if request.method == 'GET':
+        return index(request)
