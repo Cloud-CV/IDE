@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'caffe_app.apps.CaffeAppConfig',
     'keras_app.apps.KerasAppConfig',
     'tensorflow_app.apps.TensorflowAppConfig',
+    'backendAPI.apps.BackendapiConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -33,6 +34,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.google'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -91,22 +94,27 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_ON_GET = True
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "asgi_redis.RedisChannelLayer",
         "CONFIG": {
             # replace redis hostname to localhost if running on local system
-            "hosts": [("redis", 6379)],
+            "hosts": [("localhost", 6379)],
             "prefix": u'fabrik:',
         },
         "ROUTING": "ide.routing.channel_routing",
     },
 }
-
-# celery settings
-BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = TIME_ZONE
