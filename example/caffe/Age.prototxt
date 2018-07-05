@@ -1,0 +1,350 @@
+name: "Age Classification"
+layer {
+  name: "blob1"
+  type: "Data"
+  top: "blob1"
+  include {
+    phase: TRAIN
+  }
+  transform_param {
+    scale: 1.0
+    mirror: true
+    crop_size: 227
+    mean_file: "https://github.com/GilLevi/AgeGenderDeepLearning/raw/master/models/mean.binaryproto"
+    force_color: false
+    force_gray: false
+  }
+  data_param {
+    source: "age_train_lmdb"
+    batch_size: 50
+    rand_skip: 0
+    backend: LMDB
+    prefetch: 4
+  }
+}
+layer {
+  name: "blob1"
+  type: "Data"
+  top: "blob1"
+  include {
+    phase: TEST
+  }
+  transform_param {
+    scale: 1.0
+    mirror: false
+    crop_size: 227
+    mean_file: "https://github.com/GilLevi/AgeGenderDeepLearning/raw/master/models/mean.binaryproto"
+    force_color: false
+    force_gray: false
+  }
+  data_param {
+    source: "age_val_lmdb"
+    batch_size: 50
+    rand_skip: 0
+    backend: LMDB
+    prefetch: 4
+  }
+}
+layer {
+  name: "blob2"
+  type: "Convolution"
+  bottom: "blob1"
+  top: "blob2"
+  param {
+    lr_mult: 1.0
+  }
+  param {
+    lr_mult: 2.0
+  }
+  convolution_param {
+    num_output: 96
+    bias_term: true
+    weight_filler {
+      type: "gaussian"
+    }
+    bias_filler {
+      type: "constant"
+    }
+    pad_h: 0
+    pad_w: 0
+    kernel_h: 7
+    kernel_w: 7
+    stride_h: 4
+    stride_w: 4
+    dilation: 1
+  }
+}
+layer {
+  name: "blob3"
+  type: "ReLU"
+  bottom: "blob2"
+  top: "blob2"
+  relu_param {
+    negative_slope: 0.0
+  }
+}
+layer {
+  name: "blob4"
+  type: "Pooling"
+  bottom: "blob2"
+  top: "blob4"
+  pooling_param {
+    pool: MAX
+    kernel_h: 3
+    kernel_w: 3
+    stride_h: 2
+    stride_w: 2
+    pad_h: 0
+    pad_w: 0
+  }
+}
+layer {
+  name: "blob5"
+  type: "LRN"
+  bottom: "blob4"
+  top: "blob4"
+  lrn_param {
+    local_size: 5
+    alpha: 9.99999974738e-05
+    beta: 0.75
+    norm_region: ACROSS_CHANNELS
+    k: 1.0
+  }
+}
+layer {
+  name: "blob6"
+  type: "Convolution"
+  bottom: "blob4"
+  top: "blob6"
+  param {
+    lr_mult: 1.0
+  }
+  param {
+    lr_mult: 2.0
+  }
+  convolution_param {
+    num_output: 256
+    bias_term: true
+    weight_filler {
+      type: "gaussian"
+    }
+    bias_filler {
+      type: "constant"
+    }
+    pad_h: 2
+    pad_w: 2
+    kernel_h: 5
+    kernel_w: 5
+    stride_h: 1
+    stride_w: 1
+    dilation: 1
+  }
+}
+layer {
+  name: "blob7"
+  type: "ReLU"
+  bottom: "blob6"
+  top: "blob6"
+  relu_param {
+    negative_slope: 0.0
+  }
+}
+layer {
+  name: "blob8"
+  type: "Pooling"
+  bottom: "blob6"
+  top: "blob8"
+  pooling_param {
+    pool: MAX
+    kernel_h: 3
+    kernel_w: 3
+    stride_h: 2
+    stride_w: 2
+    pad_h: 0
+    pad_w: 0
+  }
+}
+layer {
+  name: "blob9"
+  type: "LRN"
+  bottom: "blob8"
+  top: "blob8"
+  lrn_param {
+    local_size: 5
+    alpha: 9.99999974738e-05
+    beta: 0.75
+    norm_region: ACROSS_CHANNELS
+    k: 1.0
+  }
+}
+layer {
+  name: "blob10"
+  type: "Convolution"
+  bottom: "blob8"
+  top: "blob10"
+  param {
+    lr_mult: 1.0
+  }
+  param {
+    lr_mult: 2.0
+  }
+  convolution_param {
+    num_output: 384
+    bias_term: true
+    weight_filler {
+      type: "gaussian"
+    }
+    bias_filler {
+      type: "constant"
+    }
+    pad_h: 1
+    pad_w: 1
+    kernel_h: 3
+    kernel_w: 3
+    stride_h: 1
+    stride_w: 1
+    dilation: 1
+  }
+}
+layer {
+  name: "blob11"
+  type: "ReLU"
+  bottom: "blob10"
+  top: "blob10"
+  relu_param {
+    negative_slope: 0.0
+  }
+}
+layer {
+  name: "blob12"
+  type: "Pooling"
+  bottom: "blob10"
+  top: "blob12"
+  pooling_param {
+    pool: MAX
+    kernel_h: 3
+    kernel_w: 3
+    stride_h: 2
+    stride_w: 2
+    pad_h: 0
+    pad_w: 0
+  }
+}
+layer {
+  name: "blob13"
+  type: "InnerProduct"
+  bottom: "blob12"
+  top: "blob13"
+  param {
+    lr_mult: 1.0
+  }
+  param {
+    lr_mult: 2.0
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: true
+    weight_filler {
+      type: "gaussian"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "blob14"
+  type: "ReLU"
+  bottom: "blob13"
+  top: "blob13"
+  relu_param {
+    negative_slope: 0.0
+  }
+}
+layer {
+  name: "blob15"
+  type: "Dropout"
+  bottom: "blob13"
+  top: "blob13"
+}
+layer {
+  name: "blob16"
+  type: "InnerProduct"
+  bottom: "blob13"
+  top: "blob16"
+  param {
+    lr_mult: 1.0
+  }
+  param {
+    lr_mult: 2.0
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: true
+    weight_filler {
+      type: "gaussian"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "blob17"
+  type: "ReLU"
+  bottom: "blob16"
+  top: "blob16"
+  relu_param {
+    negative_slope: 0.0
+  }
+}
+layer {
+  name: "blob18"
+  type: "Dropout"
+  bottom: "blob16"
+  top: "blob16"
+}
+layer {
+  name: "blob19"
+  type: "InnerProduct"
+  bottom: "blob16"
+  top: "blob19"
+  param {
+    lr_mult: 1.0
+  }
+  param {
+    lr_mult: 2.0
+  }
+  inner_product_param {
+    num_output: 8
+    bias_term: true
+    weight_filler {
+      type: "gaussian"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "blob20"
+  type: "SoftmaxWithLoss"
+  bottom: "blob19"
+  top: "blob20"
+  softmax_param {
+    axis: 1
+  }
+}
+layer {
+  name: "blob21"
+  type: "Accuracy"
+  bottom: "blob19"
+  top: "blob21"
+  include {
+    phase: TEST
+  }
+  accuracy_param {
+    top_k: 1
+    axis: 1
+  }
+}
