@@ -1,0 +1,37 @@
+version: "3"
+services:
+  PostgreSQL:
+    image: sameersbn/postgresql:9.6-2
+    hostname: postgres
+    restart: always
+
+    ports:
+    - "${POSTGRES_PORT}:5432"
+    environment:
+    - DEBUG=false
+    - DB_USER=admin
+    - DB_PASS=fabrik
+    - DB_NAME=fabrik
+
+
+  Django:
+    image: palashtaneja/fabrik:alpha
+    hostname: frontend
+    depends_on:
+    - PostgreSQL
+    - NodeJS
+    command: ["bash","/frontend_entrypoint.sh"]
+    volumes:
+    - ./frontend_entrypoint.sh:/frontend_entrypoint.sh
+    - ../:/code
+
+    ports:
+    - "${WEB_PORT}:8080"
+  NodeJS:
+    image: jmfirth/webpack:latest
+    depends_on:
+    - PostgreSQL
+    volumes:
+    - ../:/code
+    - ./node-js_entrypoint.sh:/node-js_entrypoint.sh
+    command: ["bash", "/node-js_entrypoint.sh"]
