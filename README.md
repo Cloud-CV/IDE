@@ -32,7 +32,7 @@ Setting up Fabrik on your local machine is really easy. You can setup Fabrik usi
 3. Build and run the Docker containers. This might take a while. You should be able to access Fabrik at `0.0.0.0:8000`.
 
     ```
-    docker-compose up --build
+    sudo docker-compose up --build
     ```
 
 ### Using Virtual Environment
