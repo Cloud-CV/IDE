@@ -143,7 +143,7 @@ Models                                                                      | Ca
 [Pix2Pix](https://github.com/phillipi/pix2pix)                              |   √   |   ×   |     ×      |
 [VQA](https://github.com/iamaaditya/VQA_Demo)                               |   √   |   √   |     √      |
 
-Note: For models that use a custom LRN layer (Alexnet), Keras expects the custom layer to be passed when it is loaded from json. LRN.py is located in keras_app/custom_layers. * [Alexnet import for Keras](https://github.com/yashdusing/Fabrik/blob/master/tutorials/keras_custom_layer_usage.md)
+Note: For models that use a custom LRN layer (Alexnet), Keras expects the custom layer to be passed when it is loaded from json. LRN.py is located in keras_app/custom_layers. [Alexnet import for Keras](https://github.com/yashdusing/Fabrik/blob/master/tutorials/keras_custom_layer_usage.md)
 
 ### Documentation
 * [Using a Keras model exported from Fabrik](https://github.com/Cloud-CV/Fabrik/blob/master/tutorials/keras_json_usage_1.md)
