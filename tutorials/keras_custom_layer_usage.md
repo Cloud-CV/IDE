@@ -6,7 +6,7 @@
   ### Alexnet import for Keras
   ```
   from keras.models import model_from_json
-  from lrn import LRN
+  from keras_app.custom_layers.lrn import LRN
 
   model = open('alexnet.json', 'r')
   loadedModel = model.read()
