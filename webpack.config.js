@@ -12,6 +12,8 @@ module.exports = {
              exclude: /node_modules/,
              loaders: ['babel-loader', 'eslint-loader']
          },
+	  {test: /\.json$/,
+        loader: 'json-loader'},
          { test: /\.css$/, loaders: ["style", "css"] },
          {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file'},
         {test: /\.(otf|woff|woff2)$/, loader: 'url-loader?prefix=font/&limit=5000'},
