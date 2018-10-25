@@ -1,6 +1,7 @@
 import os
 import string
 import random
+import tensorflow as tf
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from keras_app.views.export_json import export_json
@@ -27,7 +28,8 @@ def export_to_tensorflow(request):
               randomId + '.json -output_file ' + randomId)
     
     tf.keras.backend.clear_session()
-   
+    tf.reset_default_graph()
+
     return JsonResponse({'result': 'success',
                          'id': randomId,
                          'name': randomId + '.pbtxt',
