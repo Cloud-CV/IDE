@@ -1,6 +1,5 @@
 from keras.datasets import cifar10
 from keras.models import model_from_json
-import os
 import sys
 
 # Get the command line arguments
@@ -24,10 +23,10 @@ loaded_model = model_from_json(loaded_model_json)
 loaded_model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 # Train the model
-loaded_model.fit(train_x, train_y, epochs=150, batch_size=10, verbose=0)
+loaded_model.fit(x_train, y_train, epochs=150, batch_size=10, verbose=0)
 
 # Evaluate the model
-scores = loaded_model.evaluate(test_x, test_y, verbose=0)
+scores = loaded_model.evaluate(x_test, y_test, verbose=0)
 
 # Print final accuracy
 print("%s: %.2f%%" % (loaded_model.metrics_names[1], scores[1] * 100))
