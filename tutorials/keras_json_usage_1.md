@@ -73,3 +73,5 @@ You should be getting around 76-78% accuracy.
 
 This code trains and evaluates the loaded model on the dataset.
 
+### Code template
+[train.py](../example/train.py)

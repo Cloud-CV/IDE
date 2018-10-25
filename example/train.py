@@ -1,0 +1,33 @@
+from keras.datasets import cifar10
+from keras.models import model_from_json
+import os
+import sys
+
+# Get the command line arguments
+model_file_name = ''
+try:
+    model_file_name = sys.argv[1]
+except IndexError:
+    print('Usage: python train.py model_json_file')
+    exit()
+
+# Load the dataset (keras.datasets.cifar10)
+(x_train, y_train), (x_test, y_test) = cifar10.load_data()
+
+# Load the model from JSON file
+json_file = open(model_file_name, 'r')
+loaded_model_json = json_file.read()
+json_file.close()
+loaded_model = model_from_json(loaded_model_json)
+
+# Configure model for training and testing with accuracy evaluation
+loaded_model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+# Train the model
+loaded_model.fit(train_x, train_y, epochs=150, batch_size=10, verbose=0)
+
+# Evaluate the model
+scores = loaded_model.evaluate(test_x, test_y, verbose=0)
+
+# Print final accuracy
+print("%s: %.2f%%" % (loaded_model.metrics_names[1], scores[1] * 100))
