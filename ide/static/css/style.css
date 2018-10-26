@@ -22,9 +22,11 @@ body {
   width: 20%;
   background-color: #F3F3F3;
 }
+
 .app-dark #sidebar {
   background-color: #455A64;
 }
+
 #sidebar-scroll {
   height: calc(100% - 50px);
   overflow-y: auto;
