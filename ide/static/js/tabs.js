@@ -11,15 +11,11 @@ class Tabs extends React.Component {
       }
     });
     $('#sidebar-scroll')[0].scrollLeft = 100;
-    $('.btn-mode-toggle').click(e => {
+    $('.btn-mode-toggle').click(() => {
       if (document.body.className.search('dark') == -1) {
         document.body.className = 'app-dark';
-        e.target.id = 'btn-dark';
-        e.target.innerHTML = 'Light Mode';
       } else {
         document.body.className = '';
-        e.target.id = 'btn-light';
-        e.target.innerHTML = 'Dark Mode';
       }
     })
   }
@@ -39,9 +35,14 @@ class Tabs extends React.Component {
           <button type="button" id="train" className={"btn "+trainClass}>Train</button>
           <button type="button" id="test" className={"btn "+testClass}>Test</button>
         </li>
-        <button className="btn-mode-toggle">
-          Dark Mode
-        </button>
+        <div className="mode-toggle">
+          <div className="sidebar-heading dark-mode-title">
+            DARK MODE
+          </div>
+          <div className="btn-mode-toggle">
+            <div id="toggle-circle"></div>
+          </div>
+        </div>
       </div>
     );
   }

@@ -362,12 +362,44 @@ input#netName.hidden {
   outline: none;
 }
 
+#toggle-circle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 0px;
+  left: 0px;
+  border-radius: 100px;
+  background: white;
+  box-shadow: 0px 0px 1px 1px;
+  transition: 0.1s;
+}
+
+.app-dark #toggle-circle {
+  left: 30px;
+}
+
+.mode-toggle {
+  position: relative;
+  height: 20px;
+  margin-top: 20px;
+}
+
+.dark-mode-title {
+  text-align: left;
+  padding: 0px;
+}
+
 .btn-mode-toggle {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 50px;
+  height: 20px;
   display: inline;
   padding: 7px 12px;
   margin-left: 6px;
   line-height: 1.42857143;
-  border-radius: 4px;
+  border-radius: 100px;
   font-size: 14px;
   background: rgb(205, 207, 210);
 }
