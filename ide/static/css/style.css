@@ -123,7 +123,8 @@ input#netName {
   border: none;
   position: absolute;
   top: 15px;
-  right: 305px;
+  left: 0;
+  right: 0;
   width: 100%;
   max-width: 20%;
   margin: auto;
@@ -142,7 +143,6 @@ input#netName {
 .app-dark input#netName {
   background: #78909C;
   color: white;
-  right: 273px;
   box-shadow: none;
 }
 
@@ -414,7 +414,7 @@ input#netName.hidden {
   flex: 1 1 auto;
   width: 100%;
   position: relative;
-  // overflow: scroll;
+  overflow: scroll;
   border: 1px solid #ddd;
   border-radius: 4px 4px 4px 4px;
 
