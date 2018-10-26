@@ -69,10 +69,10 @@ Setting up Fabrik on your local machine is really easy. You can setup Fabrik usi
 
 
 ### Using Virtual Environment
-1. First set up a virtualenv
+1. First set up a virtualenv. Fabrik runs on Python2.7.
     ```shell
     sudo apt-get install python-pip python-dev python-virtualenv
-    virtualenv --system-site-packages ~/Fabrik 
+    virtualenv --system-site-packages ~/Fabrik --python=python2.7
     source ~/Fabrik/bin/activate
     ```
 
