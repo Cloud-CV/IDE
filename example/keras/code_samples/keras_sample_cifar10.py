@@ -11,6 +11,7 @@ except IndexError:
     exit()
 
 # Load the dataset (keras.datasets.cifar10)
+# To use other datasets from keras.datasets, replace cifar10 in line 1 with your preferred dataset.
 (x_train, y_train), (x_test, y_test) = cifar10.load_data()
 
 # Load the model from JSON file
@@ -19,8 +20,11 @@ loaded_model_json = json_file.read()
 json_file.close()
 loaded_model = model_from_json(loaded_model_json)
 
+# Print the model summary
+loaded_model.summary()
+
 # Configure model for training and testing with accuracy evaluation
-loaded_model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+loaded_model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 # Train the model
 loaded_model.fit(x_train, y_train, epochs=150, batch_size=10, verbose=0)
