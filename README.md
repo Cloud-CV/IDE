@@ -19,19 +19,19 @@ Setting up Fabrik on your local machine is really easy. You can setup Fabrik usi
 
 1. Get the source code on to your machine via git.
 
-    ```shell
+    ```
     git clone https://github.com/Cloud-CV/Fabrik.git && cd Fabrik
     ```
 
 2. Rename `settings/dev.sample.py` as `dev.py`.
 
-    ```shell
+    ```
     cp settings/dev.sample.py settings/dev.py
     ```
 
-3. Build and run the Docker containers. This might take a while. You should be able to access Fabrik at `0.0.0.0:8000`.
+3. Build and run the Docker containers. This might take a while. You should be able to access Fabrik at <http://0.0.0.0:8000>.
 
-    ```shell
+    ```
     docker-compose up --build
     ```
 
@@ -48,7 +48,7 @@ Setting up Fabrik on your local machine is really easy. You can setup Fabrik usi
 
 4. Create a superuser in django service of docker container
 
-    ```shell
+    ```
     docker-compose run django python manage.py createsuperuser
     ```
     Note: Before creating make sure that django service of docker image is running, it can be done by executing ``` docker-compose up ``` followed by ``` Ctrl + C ``` to save docker configuration.
@@ -70,34 +70,34 @@ Setting up Fabrik on your local machine is really easy. You can setup Fabrik usi
 
 ### Using Virtual Environment
 1. First set up a virtualenv. Fabrik runs on Python2.7.
-    ```shell
+    ```
     sudo apt-get install python-pip python-dev python-virtualenv
     virtualenv --system-site-packages ~/Fabrik --python=python2.7
     source ~/Fabrik/bin/activate
     ```
 
-2. Clone the repository via git.
-    ```shell
+2. Clone the repository via git
+    ```
     git clone --recursive https://github.com/Cloud-CV/Fabrik.git && cd Fabrik
     ```
 
 3. Rename settings/dev.sample.py as settings/dev.py and change credential in settings/dev.py
-    ```shell
+    ```
     cp settings/dev.sample.py settings/dev.py
     ```
-    Replace the hostname to ``` localhost ``` in settings/dev.py line 14.
+    * Replace the hostname to ``` localhost ``` in settings/dev.py line 14.
     It should now look like this:  
-    ```python
+    ```
     'HOST': os.environ.get("POSTGRES_HOST", 'localhost'), 
     ```
 
-4. Install redis server.  
-    ```shell
+4. Install redis server  
+    ```
     sudo apt-get install redis-server
     ```
-    Replace the hostname to ``` localhost ``` in settings/common.py line 115.
+    * Replace the hostname to ``` localhost ``` in settings/common.py line 115.
 
-    ```python
+    ```
     "CONFIG": {
         # replace redis hostname to localhost if running on local system
         "hosts": [("localhost", 6379)],
@@ -105,28 +105,27 @@ Setting up Fabrik on your local machine is really easy. You can setup Fabrik usi
         },
     ```
 
-    Replace celery result backend in settings/common.py line 122 with localhost.
-    ```python
+    * Replace celery result backend in settings/common.py line 122 with localhost.
+    ```
     CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
     ```
-    Replace celery broker url and result backend hostname to ``` localhost ``` in ide/celery_app.py, line 8.
-    ```python
+    * Replace celery broker url and result backend hostname to ``` localhost ``` in ide/celery_app.py, line 8.
+    ```
     app = Celery('app', broker='redis://localhost:6379/0', backend='redis://localhost:6379/0', include=['ide.tasks'])
-
     ```
 
 5. If you have Caffe, Keras and Tensorflow already installed on your computer, skip this step
     * For Linux users
-        ```shell
+        ```
         cd Fabrik/requirements
         yes Y | sh caffe_tensorflow_keras_install.sh
         ```
         Open your ~/.bashrc file and append this line at the end
-        ```shell      
+        ```      
         export PYTHONPATH=~/caffe/caffe/python:$PYTHONPATH
         ```
         Save, exit and then run
-        ```shell
+        ```
         source ~/.bash_profile
         cd ..
         ```
@@ -136,11 +135,11 @@ Setting up Fabrik on your local machine is really easy. You can setup Fabrik usi
         * [Install Keras](https://keras.io/#installation)
 6. Install dependencies
 * For developers:
-    ```shell
+    ```
     pip install -r requirements/dev.txt
     ```
 * Others:
-    ```shell
+    ```
     pip install -r requirements/common.txt
     ```
 7. [Install postgres >= 9.5](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04)
@@ -148,7 +147,7 @@ Setting up Fabrik on your local machine is really easy. You can setup Fabrik usi
     * Start postgresql by typing ```sudo service postgresql start```
     * Now login as user postgres by running ```sudo -u postgres psql``` and type the commands below
 
-    ```sql
+    ```
       CREATE DATABASE fabrik;
       CREATE USER admin WITH PASSWORD 'fabrik';
       ALTER ROLE admin SET client_encoding TO 'utf8';
@@ -158,23 +157,31 @@ Setting up Fabrik on your local machine is really easy. You can setup Fabrik usi
     ```
     * Exit psql by typing in \q and hitting enter.
 * Migrate
-    ```python
+    ```
     python manage.py makemigrations caffe_app
     python manage.py migrate
     ```
 8. Install node modules
-```shell
-npm install
-npm install --save-dev json-loader
-sudo npm install -g webpack
-webpack --progress --watch --colors
-```
-
+    ```
+    npm install
+    npm install --save-dev json-loader
+    sudo npm install -g webpack
+    ```
+    * Run the command below in a separate terminal for hot-reloading, ie see the changes made to the UI in real time. 
+    ```
+    webpack --progress --watch --colors
+    ```
 9. Start celery worker
-```
-celery -A ide worker --app=ide.celery_app  --loglevel=info
-```
+    ```
+    celery -A ide worker --app=ide.celery_app  --loglevel=info
+    ```
+    The celery worker needs to be run parallel to the django server in a separate terminal.
 
+10. Start django application
+    ```
+    python manage.py runserver
+    ```
+    You should now be able to access Fabrik at <http://localhost:8000>.
 
 ### Setup Authenticaton for Virtual Environment
 1. Go to Github Developer Applications and create a new application. [here](https://github.com/settings/developers)
@@ -189,13 +196,13 @@ celery -A ide worker --app=ide.celery_app  --loglevel=info
 
 4. Create a superuser in django
 
-    ```shell
+    ```
     python manage.py createsuperuser
     ```
 
 5. Start the application
 
-    ```shell
+    ```
     python manage.py runserver
     ```
 
@@ -220,7 +227,7 @@ then, you will need to follow the same steps as above, but switch out the Github
 
 
 ### Usage
-```shell
+```
 python manage.py runserver
 ```
 
