@@ -18,7 +18,7 @@ from keras.backend import clear_session
 
 @csrf_exempt
 def import_json(request):
-    clear_session
+    clear_session()
     tf.reset_default_graph()
 
     loadFromText = False
