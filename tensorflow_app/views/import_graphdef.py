@@ -8,7 +8,7 @@ import math
 import re
 import urllib2
 from urlparse import urlparse
-from tensorflow.keras.backend import clear_session
+from keras.backend import clear_session
 
 # map from operation name(tensorflow) to layer name(caffe)
 op_layer_map = {'Placeholder': 'Input', 'Conv2D': 'Convolution', 'Conv3D': 'Convolution',
@@ -151,7 +151,7 @@ def import_graph_def(request):
         else:
             return JsonResponse({'result': 'error', 'error': 'No GraphDef model found'})
         
-        tf.keras.backend.clear_session()
+        clear_session()
         tf.reset_default_graph()
         graph_def = graph_pb2.GraphDef()
         d = {}

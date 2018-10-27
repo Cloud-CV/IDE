@@ -5,7 +5,7 @@ import tensorflow as tf
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from keras_app.views.export_json import export_json
-from tensorflow.keras.backend import clear_session
+from keras.backend import clear_session
 
 BASE_DIR = os.path.dirname(
     os.path.dirname(
@@ -27,7 +27,7 @@ def export_to_tensorflow(request):
     os.system('KERAS_BACKEND=tensorflow python json2pbtxt.py -input_file ' +
               randomId + '.json -output_file ' + randomId)
     
-    tf.keras.backend.clear_session()
+    clear_session()
     tf.reset_default_graph()
 
     return JsonResponse({'result': 'success',

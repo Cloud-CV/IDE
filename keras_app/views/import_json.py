@@ -1,8 +1,8 @@
 import json
 import os
 import urllib2
+import tensorflow as tf
 from urlparse import urlparse
-
 from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -14,10 +14,13 @@ from layers_import import Input, Convolution, Deconvolution, Pooling, Dense, Dro
 from keras.models import model_from_json, Sequential
 from keras.layers import deserialize
 from ..custom_layers.lrn import LRN
-
+from keras.backend import clear_session
 
 @csrf_exempt
 def import_json(request):
+    clear_session
+    tf.reset_default_graph()
+
     loadFromText = False
     if request.method == 'POST':
         if ('file' in request.FILES):

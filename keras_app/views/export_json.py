@@ -3,6 +3,7 @@ import os
 import random
 import string
 import yaml
+import tensorflow as tf
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -12,7 +13,7 @@ from layers_export import data, convolution, deconvolution, pooling, dense, drop
     permute, repeat_vector, regularization, masking, gaussian_noise, gaussian_dropout, alpha_dropout, \
     bidirectional, time_distributed, lrn, depthwiseConv
 from ..custom_layers import config as custom_layers_config
-
+from keras.backend import clear_session
 
 BASE_DIR = os.path.dirname(
     os.path.dirname(
@@ -26,6 +27,9 @@ def randomword(length):
 
 @csrf_exempt
 def export_json(request, is_tf=False):
+    clear_session
+    tf.reset_default_graph()
+
     # Note : Remove the views for export by adding unittest for celery tasks
     if request.method == 'POST':
         net = yaml.safe_load(request.POST.get('net'))
