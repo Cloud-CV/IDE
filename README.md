@@ -85,7 +85,7 @@ Setting up Fabrik on your local machine is really easy. You can setup Fabrik usi
     ```
     cp settings/dev.sample.py settings/dev.py
     ```
-    * Replace the hostname to ``` localhost ``` in settings/dev.py line 14.
+    * Replace the hostname to ``` localhost ``` in settings/dev.py line 15.
     It should now look like this:  
     ```
     'HOST': os.environ.get("POSTGRES_HOST", 'localhost'), 
