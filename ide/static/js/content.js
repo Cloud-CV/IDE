@@ -1104,14 +1104,14 @@ class Content extends React.Component {
     this.modalHeader = "Help/FAQ"
     this.modalContent = (<p><b>Q:</b> What is Fabrik?<br />
       <b>A:</b> Fabrik is an online platform, created by CloudCV, allowing AI researchers and enthusiasts to build and visualize deep learning models.<br />
-      <b>Q:</b> How do I open a model from zoo?<br />
-      <b>A:</b> Simply click the folder icon in the left corner of the toolbox and pick a model.<br />
-      <b>Q:</b> How do I access a block's settings?<br />
-      <b>A:</b> You just have to click on it and the Menu for that block will appear on the right side.<br />
+      <b>Q:</b> What is the model zoo?<br />
+      <b>A:</b> It is a collection of pre-built models You can use. To access it, simply click the folder icon in the left corner of the toolbox and pick a model. You can find the available models <a target="_blank" href="https://github.com/Cloud-CV/Fabrik/blob/master/docs/source/tested_models.md">here</a>.<br />
       <b>Q:</b> What do the Train/Test buttons mean?<br />
-      <b>A:</b> They are two different modes of Your model: Train and Test - respectively for training Your model with data and testing how and if it works.<br />
-      <b>Q:</b> What for and how can I use the export function?<br />
-      <b>A:</b> You can use it to download Your models, train them and test them directly on Your computer, using <a target="_blank" href="https://github.com/Cloud-CV/Fabrik/blob/master/docs/source/caffe_prototxt_usage_1.md">Caffe</a>, <a target="_blank" href="https://github.com/Cloud-CV/Fabrik/blob/master/docs/source/keras_json_usage_1.md">Keras</a> and Tensorflow.<br />
+      <b>A:</b> They are two different modes of your model: Train and Test - respectively for training your model with data and testing how and if it works.<br />
+      <b>Q:</b> What does the import fuction do?<br />
+      <b>A:</b> It allows You to import your previously created models in Caffe (.protoxt files), Keras (.json files) and TensorFlow (.pbtxt files)<br />
+      <b>Q:</b> What does the export function do?<br />
+      <b>A:</b> You can use it to download models from Fabrik. You can train and test them directly on your computer, using <a target="_blank" href="https://github.com/Cloud-CV/Fabrik/blob/master/docs/source/caffe_prototxt_usage_1.md">Caffe</a>, <a target="_blank" href="https://github.com/Cloud-CV/Fabrik/blob/master/docs/source/keras_json_usage_1.md">Keras</a> and TensorFlow.<br />
       <b>Q:</b> How can I help develop Fabrik?<br />
       <b>A:</b> Please see the instructions listed <a target="_blank" href="https://github.com/Cloud-CV/Fabrik/blob/master/README.md">here</a><br />
       <b>If You have anymore questions, please visit Fabrik's Github page available <a target="_blank" href="https://github.com/Cloud-CV/Fabrik">here</a> for more information.</b>
@@ -1303,10 +1303,10 @@ class Content extends React.Component {
               <Tabs selectedPhase={this.state.selectedPhase} changeNetPhase={this.changeNetPhase} />
              </div>
              <h5 className="sidebar-heading">EXTRAS</h5>
-             <a className="btn btn-block extra-buttons text-left" onClick={this.infoModal}>About Us</a>
+             <a className="btn btn-block extra-buttons text-left" onClick={this.faqModal}>Help</a>
              <a className="btn btn-block extra-buttons text-left" href="https://github.com/Cloud-CV/Fabrik" target="_blank">GitHub</a>
              <a className="btn btn-block extra-buttons text-left" href="http://cloudcv.org" target="_blank">CloudCV</a>
-             <a className="btn btn-block extra-buttons text-left" onClick={this.faqModal}>Help</a>
+             <a className="btn btn-block extra-buttons text-left" onClick={this.infoModal}>About Us</a>
           </div>
         </div>
       <div id="main">
