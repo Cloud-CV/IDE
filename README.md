@@ -165,7 +165,7 @@ Setting up Fabrik on your local machine is really easy. You can setup Fabrik usi
     ```
     npm install
     npm install --save-dev json-loader
-    sudo npm install -g webpack
+    sudo npm install -g webpack@1.15.0
     ```
     * Run the command below in a separate terminal for hot-reloading, ie see the changes made to the UI in real time. 
     ```
