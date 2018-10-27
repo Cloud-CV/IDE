@@ -73,35 +73,10 @@ class Pane extends React.Component {
             elem.style.display = 'none';
           }
         }
-        for (let elem of $('.panel-heading')) {
-          // console.log(elem.getBoundingClientRect().height);
-          // if (elem.getBoundingClientRect().height < 42) {
-          //   elem.style.display = 'none';
-          // } else {
-          //   elem.style.display = 'block';
-          // }
-        }
       }
       $('#layer-search-input').keyup((e) => {
         filter(e.target.value); 
       });
-
-      // $('#layer-search-icon').click((e) => {
-      //   if (e.target.innerHTML == 'search') {
-      //     e.target.innerHTML = 'close';
-      //     $('#layer-search-input')[0].className = 'layer-search-input-selected';
-      //     $('#insert-layer-sign')[0].style.display = 'none';
-      //     $('#layer-search-input').keyup((e) => {
-      //       filter(e.target.value); 
-      //     });
-      //   } else {
-      //     e.target.innerHTML = 'search';
-      //     $('#layer-search-input')[0].className = '';
-      //     $('#layer-search-input')[0].value = '';
-      //     $('#insert-layer-sign')[0].style.display = 'block';
-      //     filter('');
-      //   }
-      // })
     }
 
     render() {
