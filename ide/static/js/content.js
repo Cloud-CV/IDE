@@ -1113,7 +1113,8 @@ class Content extends React.Component {
       <b>Q:</b> What does the export function do?<br />
       <b>A:</b> You can use it to download models from Fabrik. You can train and test them directly on your computer, using <a target="_blank" href="https://github.com/Cloud-CV/Fabrik/blob/master/docs/source/caffe_prototxt_usage_1.md">Caffe</a>, <a target="_blank" href="https://github.com/Cloud-CV/Fabrik/blob/master/docs/source/keras_json_usage_1.md">Keras</a> and TensorFlow.<br />
       <b>Q:</b> How can I contribute to Fabrik?<br />
-      <b>A:</b> Please see the instructions listed <a target="_blank" href="https://github.com/Cloud-CV/Fabrik/blob/master/README.md">here</a><br />
+      <b>A:</b> Please see the instructions listed <a target="_blank" href="https://github.com/Cloud-CV/Fabrik/blob/master/README.md">here</a><br /><br />
+                         
       <b>If you have anymore questions, please visit Fabrik's Github page available <a target="_blank" href="https://github.com/Cloud-CV/Fabrik">here</a> for more information.</b>
       </p>);
     this.openModal();
