@@ -7,22 +7,78 @@
   <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" type="text/css" href="/static/lib/bootstrap-3.3.6-dist/css/bootstrap.css">
   <link rel="stylesheet" type="text/css" href="/static/fonts/font.css"/>
+  <link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
   <link rel="stylesheet" type="text/css" href="/static/lib/bootstrap-3.3.6-dist/css/bootstrap-social.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-110495971-1"></script>
-  <script>
+<script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'UA-110495971-1');
+</script>
+  <script>
+  function show(show, hide) {
+  document.getElementById(show).style.display='block';
+  document.getElementById(hide).style.display='none';
+  return false;
+}
   </script>
-
 </head>
 <body>
-  <div id="app"></div>
+  <div id="homepage" style="background-color: #455062; width: 100%; height: 100%">
+    <div class="indent"></div><div class="indent"></div>
+    <img src="/static/img/fabrik_t.png" class="homepageLogo">
+    <div class="indent"></div>
+    <div class="homepageMain">
+      <p style="font-size: 3rem">Welcome to Fabrik!</p>
+      <table>
+        <tr>
+
+            With Fabrik, you can create your own models, using the large database of built-in layers. You also have the ability to use
+            one of many built-in models. Another key feature of Fabrik is import and export of models to popular frameworks.
+            <br /><br  /><br />
+        </tr>
+        <tr>
+
+          <td>
+            <br />
+            <p>What is Fabrik?</p>
+          </td>
+          <td>
+            <br />
+            <p>Who created Fabrik?</p>
+          </td>
+        </tr>
+        <tr>
+        <td>
+          Fabrik is an online collaborative platform to build and visualize deep
+          learning models via a simple drag-and-drop interface. It allows researchers
+          to collaboratively develop and debug models using a web GUI that supports importing,
+          editing and exporting networks written in widely popular frameworks like Caffe, Keras, and TensorFlow.<br />
+
+        </td>
+        <td>
+          Fabrik was created by CloudCV - a young open source platform, aiming at making AI research more accessible.
+          CloudCV was established in 2013 by students and faculty from the Machine Learning and Perception Lab at Virginia Tech.
+          CloudCV's main goal is to make tools, which allow researchers and enthusiasts to build and compare machine learning models.<br />
+
+        </td>
+        </tr>
+      </table>
+    </div>
+    <div class="indent"></div><div class="indent"></div>
+    <div class="buttonHolder">
+      <button onclick="return show('main','homepage');" class="proceedButton">Proceed</a>
+    </div>
+    </div>
+ </div>
+ <div id="main" style="display:none">
+   <div id="app"></div>
   <a href="#" id="download" style="display:none;"> Download </a>
+ </div>
 </body>
 <script>var instance;</script>
 <script src="/static/lib/jquery.min.js"></script>
