@@ -51,6 +51,7 @@ class Pane extends React.Component {
         }
         for (let elem of $('.drowpdown-button')) {
           let sub = elem.innerText;
+          if (!sub) continue;
           let resp = layerCompability(pattern, sub);
           if (resp.full_match) {
             elem.style.display = 'block';
