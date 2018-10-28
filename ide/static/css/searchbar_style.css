@@ -8,7 +8,6 @@
 	position: absolute;
 	left: -5px;
 	top: 31px;
-	// color: rgb(69, 80, 97);
 }
 
 #layer-search-icon:hover {
@@ -23,7 +22,6 @@
 	background: none;
 	border: none;
 	color: rgb(69, 80, 97);
-	// border-bottom: 1px solid black;
 	outline: none;
 	opacity: 1;
 	transition: 0.3s;
@@ -35,5 +33,4 @@
 
 .matched-search-char {
 	color: rgb(69, 80, 97);
-	// text-decoration: underline;
 }
