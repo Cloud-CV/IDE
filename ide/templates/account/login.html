@@ -1,0 +1,60 @@
+{% extends "account/custom_base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+{% block extra_head %}
+<title>CloudCV Fabrik Login</title>
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="/static/lib/bootstrap-3.3.6-dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/static/fonts/font.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/lib/bootstrap-3.3.6-dist/css/bootstrap-social.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Custom styles for this page -->
+    <link rel="stylesheet" type="text/css" href="/static/css/signin.css">
+{% endblock %}
+{% block content %}
+  <div class="form-signin">
+        <img class="mb-4" src="/static/img/fabrik_t_d.png" alt="" height="96">
+  {% get_providers as socialaccount_providers %}
+
+  {% if socialaccount_providers %}
+  <p>{% blocktrans with site.name as site_name %}Please sign in with one
+  of your existing third party accounts:{% endblocktrans %}</p>
+  
+  <div class="socialaccount_ballot">
+  
+    <div class="socialaccount_providers">
+      {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+    </div>
+  
+    <p><div class="login-or">{% blocktrans with site.name as site_name %} Or, <a href="{{ signup_url }}">sign up</a>
+        for a {{ site_name }} account and sign in below:{% endblocktrans %}</div></p>
+  
+  </div>
+  
+  {% include "socialaccount/snippets/login_extra.html" %}
+  
+  {% else %}
+  <p>{% blocktrans %}If you have not created an account yet, then please
+  <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+  {% endif %}
+<form class="login" method="POST" action="{% url 'account_login' %}">
+        {% csrf_token %}
+        <label for="id_login" class="sr-only">{% trans 'Username:' %}</label>
+        <input autofocus="autofocus" class="form-control" id="id_login" maxlength="150" name="login" placeholder="Username" type="username" required>
+        <label for="id_password" class="sr-only">{% trans 'Password:' %}</label>
+        <input id="id_password" class="form-control" name="password" placeholder="Password" type="password" required>
+        <p><label for="id_remember">{% trans 'Remember Me:' %}</label> <input id="id_remember" name="remember" type="checkbox"></p>
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+    <button class="primaryAction btn btn btn-primary btn-block" type="submit" style="margin-bottom: 0.5rem;">{% trans "Sign In" %}</button>
+    <p><a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a></p>
+  </form>
+</div>
+
+{% endblock %}
