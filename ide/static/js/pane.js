@@ -49,12 +49,6 @@ class Pane extends React.Component {
             full_match: full_match 
           };
         }
-        for (let elem of $('.panel-heading')) {
-          let _p = pattern ? 'false' : 'true';
-          if (elem.getAttribute('aria-expanded') == _p) {
-            elem.click();
-          }
-        }
         for (let elem of $('.drowpdown-button')) {
           let sub = elem.innerText;
           let resp = layerCompability(pattern, sub);
@@ -71,6 +65,12 @@ class Pane extends React.Component {
             elem.innerHTML = final;
           } else {
             elem.style.display = 'none';
+          }
+        }
+        for (let elem of $('.panel-heading')) {
+          let _p = pattern ? 'false' : 'true';
+          if (elem.getAttribute('aria-expanded') == _p) {
+            elem.click();
           }
         }
       }
