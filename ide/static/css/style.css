@@ -180,6 +180,7 @@ input#netName.hidden {
   font-weight: bold;
   text-align: left;
   color: #333;
+  white-space: pre;
 }
 
 
@@ -1206,4 +1207,48 @@ input[type="file"] {
     background: white;
     transform: rotate(-45deg)
   }
+}
+
+.homepageLogo{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 10%;
+}
+
+.indent{
+    height: 5%;
+}
+
+.homepageMain{
+  color: white;
+  size: 1.5rem;
+  text-align: center;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+
+td{
+  padding: 1%;
+  margin: 1%;
+}
+
+.buttonHolder{
+    text-align: center;
+}
+
+.proceedButton{
+    background-color: #999999; /* Green */
+    border: none;
+    color: white;
+    padding: 1rem 2rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1.5rem;
+}
+
+.proceedButton:hover{
+  background-color: #BBBBBB;
+  color: black;
 }
