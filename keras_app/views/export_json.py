@@ -27,7 +27,7 @@ def randomword(length):
 
 @csrf_exempt
 def export_json(request, is_tf=False):
-    clear_session
+    clear_session()
     tf.reset_default_graph()
 
     # Note : Remove the views for export by adding unittest for celery tasks
@@ -144,7 +144,6 @@ def export_json(request, is_tf=False):
                 if processedLayer[layerId] is False:
                     return False
             return True
-
         # Finding the data layer
         for layerId in net:
             processedLayer[layerId] = False

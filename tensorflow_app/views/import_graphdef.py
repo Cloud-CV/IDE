@@ -150,7 +150,6 @@ def import_graph_def(request):
                 return JsonResponse({'result': 'error', 'error': 'Invalid URL\n'+str(ex)})
         else:
             return JsonResponse({'result': 'error', 'error': 'No GraphDef model found'})
-        
         clear_session()
         tf.reset_default_graph()
         graph_def = graph_pb2.GraphDef()

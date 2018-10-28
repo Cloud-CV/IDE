@@ -12,8 +12,10 @@ BASE_DIR = os.path.dirname(
         os.path.dirname(
             os.path.abspath(__file__))))
 
+
 def randomword(length):
     return ''.join(random.choice(string.lowercase) for i in range(length))
+
 
 @csrf_exempt
 def export_to_tensorflow(request):
@@ -26,7 +28,6 @@ def export_to_tensorflow(request):
     os.chdir(BASE_DIR + '/tensorflow_app/views/')
     os.system('KERAS_BACKEND=tensorflow python json2pbtxt.py -input_file ' +
               randomId + '.json -output_file ' + randomId)
-    
     clear_session()
     tf.reset_default_graph()
 
