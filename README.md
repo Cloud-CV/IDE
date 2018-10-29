@@ -70,8 +70,8 @@ Setting up Fabrik on your local machine is really easy. You can setup Fabrik usi
 
 
 ### Using Virtual Environment
+* For Windows 10 users, Install Ubuntu 14.04 or 16.04 using [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10) and follow the following instructions.
 1. First set up a virtualenv. Fabrik runs on Python2.7.
-
     ```
     sudo apt-get install python-pip python-dev python-virtualenv
     virtualenv --system-site-packages ~/Fabrik --python=python2.7
