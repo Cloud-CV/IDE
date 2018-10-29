@@ -93,7 +93,7 @@ Setting up Fabrik on your local machine is really easy. You can setup Fabrik usi
     * Replace the hostname to ``` localhost ``` in settings/dev.py line 15. It should now look like this:  
 
     ```
-    'HOST': os.environ.get("POSTGRES_HOST", 'localhost'), 
+    'HOST': os.environ.get("POSTGRES_HOST", 'localhost'),
     ```
 
 4. Install redis server  
@@ -195,7 +195,7 @@ Setting up Fabrik on your local machine is really easy. You can setup Fabrik usi
     sudo npm install -g webpack@1.15.0
     ```
 
-    * Run the command below in a separate terminal for hot-reloading, ie see the changes made to the UI in real time. 
+    * Run the command below in a separate terminal for hot-reloading, ie see the changes made to the UI in real time.
 
     ```
     webpack --progress --watch --colors
