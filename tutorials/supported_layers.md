@@ -118,10 +118,10 @@ Below is are table showing which layers are supported by Caffe, Keras, and Tenso
 | :-----------------------: | :-----------: | :----------: | :---------: |
 | Multinomial Logistic Loss | √             | ×            | ×           |
 | Infogain Loss             | √             | ×            | ×           |
-| Softmax with Loss         | √             | ×            | ×           |
+| Softmax with Loss         | √             | ×            | √           |
 | Sum-of-Squares/Euclidean  | √             | ×            | ×           |
-| Hinge / Margin            | √             | ×            | ×           |
-| Sigmoid Cross-Entropy Loss| √             | ×            | ×           |
+| Hinge / Margin            | √             | √            | √           |
+| Sigmoid Cross-Entropy Loss| √             | ×            | √           |
 | Accuracy / Top-k layer    | √             | ×            | ×           |
 | Contrastive Loss          | √             | ×            | ×           |
 
@@ -145,8 +145,9 @@ Below is are table showing which layers are supported by Caffe, Keras, and Tenso
 | TimeDistributed           | √×            | √            | √           |
 | Bidirectional             | √×            | √            | √           |
 
-
-
 ## Additional Notes:
-* Keras doesn't support the LRN layer used in Alexnet & many other models out of the box. To use the LRN layer refer to here: https://github.com/Cloud-CV/Fabrik/blob/master/tutorials/keras_custom_layer_usage.md.
+* Keras does not support the LRN layer used in Alexnet & many other models. To use the LRN layer refer to here: https://github.com/Cloud-CV/Fabrik/blob/master/tutorials/keras_custom_layer_usage.md.
 * Documentation for writing your own Keras layers is found here: https://keras.io/layers/writing-your-own-keras-layers/ 
+* Documentation for all Keras Layers is found here: https://keras.io/layers/about-keras-layers/
+* Documentation for all Caffe Layers is found here: http://caffe.berkeleyvision.org/tutorial/layers.html
+* Documentation for all Tensorflow Layers is found here: https://www.tensorflow.org/api_docs/python/tf/layers
