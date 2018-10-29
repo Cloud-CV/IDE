@@ -23,6 +23,7 @@ Below is are table showing which layers are supported by Caffe, Keras, and Tenso
 | :-----------------------: | :-----------: | :----------: | :---------: |
 | Conv1D                    | √×            | √            | √           |
 | Conv2D                    | √×            | √            | √           |
+| DepthwiseConv2D           | √×            | ×            | √           |
 | SeperableConv1D           | √×            | √            | √           |
 | SeperableConv2D           | √×            | √            | √           |
 | Conv2DTranspose           | √×            | √            | √           |
@@ -57,72 +58,74 @@ Below is are table showing which layers are supported by Caffe, Keras, and Tenso
 ### Locally-connected Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  |
 | :-----------------------: | :-----------: | :----------: | :---------: |
-| LocallyConnected1D        | √×            | √            | √×          |
-| LocallyConnected2D        | √×            | √            | √×          |
+| LocallyConnected1D        | √×            | √            | √           |
+| LocallyConnected2D        | √×            | √            | √           |
 
 ### Recurrent Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  |
 | :-----------------------: | :-----------: | :----------: | :---------: |
-| RNN                       | √             | √            | √×          |
-| SimpleRNN                 | ×             | √            | √×          |
-| GRU                       | ×             | √            | √×          |
-| LSTM                      | √             | √            | √×          |
-| ConvLSTM2D                | ×             | √            | √×          |
-| SimpleRNNCell             | ×             | √            | √×          |
-| GRUCell                   | ×             | √            | √×          |
-| LSTMCell                  | ×             | √            | √×          |
-| CuDDNGRU                  | ×             | √            | √×          |
-| CuDDNLSTM                 | ×             | √            | √×          |
+| RNN                       | √             | √            | √           |
+| SimpleRNN                 | ×             | √            | √           |
+| GRU                       | ×             | √            | √           |
+| LSTM                      | √             | √            | √           |
+| ConvLSTM2D                | ×             | √            | √           |
+| SimpleRNNCell             | ×             | √            | √           |
+| GRUCell                   | ×             | √            | √           |
+| LSTMCell                  | ×             | √            | √           |
+| CuDDNGRU                  | ×             | √            | √           |
+| CuDDNLSTM                 | ×             | √            | √           |
 | StackedRNNCell            | ×             | ×            | √           |
 
 ### Embedding Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  |
 | :-----------------------: | :-----------: | :----------: | :---------: |
-| Embedding                 | √             | √            | √×          |
+| Embedding                 | √             | √            | √           |
 
 ### Merge Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  |
 | :-----------------------: | :-----------: | :----------: | :---------: |
-| Add                       | √×            | √            | √×          |
-| Subtract                  | √×            | √            | √×          |
-| Multiply                  | √×            | √            | √×          |
-| Average                   | √×            | √            | √×          |
-| Maximum                   | √×            | √            | √×          |
-| Concatenate               | √×            | √            | √×          |
-| Dot                       | √×            | √            | √×          |
+| Add                       | √×            | √            | √           |
+| Subtract                  | √×            | √            | √           |
+| Multiply                  | √×            | √            | √           |
+| Average                   | √×            | √            | √           |
+| Minium                    | √×            | ×            | √           |
+| Maximum                   | √×            | √            | √           |
+| Concatenate               | √×            | √            | √           |
+| Dot                       | √×            | √            | √           |
 
 ### Activations Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  |
 | :-----------------------: | :-----------: | :----------: | :---------: |
-| ReLu                      | √             | √            | √×          |
-| LeakyReLu                 | √             | √            | √×          |
-| PReLU                     | √             | √            | √×          |
-| ELU                       | √             | √            | √×          |
-| ThresholdedReLU           | √             | √            | √×          |
-| Softmax                   | √             | √            | √×          |
-| Sigmoid                   | √             | √            | √×          |
-| TanH                      | √             | √            | √×          |
-| Absolute Value            | √             | ×            | √×          |
-| Power                     | √             | √            | √×          |
-| Exp                       | √             | √            | √×          |
-| Log                       | √             | √            | √×          |
-| BNLL                      | √             | ×            | √×          |
-| Bias                      | √             | ×            | √×          |
-| Scale                     | √             | ×            | √×          |
+| ReLu                      | √             | √            | √           |
+| LeakyReLu                 | √             | √            | √           |
+| PReLU                     | √             | √            | √           |
+| ELU                       | √             | √            | √           |
+| ThresholdedReLU           | √             | √            | √           |
+| Softmax                   | √             | √            | √           |
+| Sigmoid                   | √             | √            | √           |
+| TanH                      | √             | √            | √           |
+| Absolute Value            | √             | ×            | ×           |
+| Power                     | √             | √            | ×           |
+| Exp                       | √             | √            | ×           |
+| Linear                    | ×             | √            | √           |
+| Log                       | √             | √            | ×           |
+| BNLL                      | √             | ×            | ×           |
+| Bias                      | √             | ×            | ×           |
+| Scale                     | √             | ×            | ×           |
 
 ### Normalization Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  |
 | :-----------------------: | :-----------: | :----------: | :---------: |
-| BatchNormalization        | √             | √            | √×          |
-| LRN                       | √             | ×            | √×          |
-| MVN                       | √             | ×            | √×          |
+| BatchNormalization        | √             | √            | √           |
+| LRN                       | √             | ×            | ×           |
+| MVN                       | √             | ×            | ×           |
 
 ### Noise Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  |
 | :-----------------------: | :-----------: | :----------: | :---------: |
-| GaussianNoise             | ×             | √            | √×          |
-| GaussianDropout           | √             | √            | √×          |
-| AlphaDropout              | √             | √            | √×          |
+| GaussianNoise             | ×             | √            | √           |
+| GaussianDropout           | √             | √            | √           |
+| AlphaDropout              | √             | √            | √           |
 
 ### Layer Wrappers
 | Layer                     | Caffe         | Keras        | Tensorflow  |
