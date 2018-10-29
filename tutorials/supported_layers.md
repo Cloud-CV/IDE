@@ -1,7 +1,7 @@
 # Layers supported in Caffe, Keras, and Tensorflow
 Below is are table showing which layers are supported by Caffe, Keras, and Tensorflow:
 
-#### Core Layers
+### Core Layers
 | Layer                     | Caffe         | Keras        | Tensorflow    |
 | :-----------------------: | :-----------: | :----------: | :-----------: |
 | Activation                | √             | √            | √             |
@@ -38,7 +38,7 @@ Below is are table showing which layers are supported by Caffe, Keras, and Tenso
 | ZeroPadding 2D            | √             | √            | √             |
 | ZeroPadding 3D            | √             | √            | √             |
 
-#### Pooling Layers
+### Pooling Layers
 | Layer                     | Caffe         | Keras        | Tensorflow    |
 | :-----------------------: | :-----------: | :----------: | :-----------: |
 | MaxPooling1D              | √             | √            | √             |
@@ -54,13 +54,13 @@ Below is are table showing which layers are supported by Caffe, Keras, and Tenso
 | GlobalMaxPooling3D        | √             | √            | √             |
 | GlobalAveragePooling3D    | √             | √            | √             |
 
-#### Locally-connected Layers
+### Locally-connected Layers
 | Layer                     | Caffe         | Keras        | Tensorflow    |
 | :-----------------------: | :-----------: | :----------: | :-----------: |
 | LocallyConnected1D        | √             | √            | √             |
 | LocallyConnected2D        | √             | √            | √             |
 
-#### Recurrent Layers
+### Recurrent Layers
 | Layer                     | Caffe         | Keras        | Tensorflow    |
 | :-----------------------: | :-----------: | :----------: | :-----------: |
 | RNN                       | √             | √            | √             |
@@ -74,12 +74,12 @@ Below is are table showing which layers are supported by Caffe, Keras, and Tenso
 | CuDDNGRU                  | √             | √            | √             |
 | CuDDNLSTM                 | √             | √            | √             |
 
-#### Embedding Layers
+### Embedding Layers
 | Layer                     | Caffe         | Keras        | Tensorflow    |
 | :-----------------------: | :-----------: | :----------: | :-----------: |
 | Embedding                 | √             | √            | √             |
 
-#### Merge Layers
+### Merge Layers
 | Layer                     | Caffe         | Keras        | Tensorflow    |
 | :-----------------------: | :-----------: | :----------: | :-----------: |
 | Add              | √             | √            | √             |
@@ -90,7 +90,7 @@ Below is are table showing which layers are supported by Caffe, Keras, and Tenso
 | Concatenate          | √             | √            | √             |
 | Dot        | √             | √            | √             |
 
-#### Advanced Activations Layers
+### Advanced Activations Layers
 | Layer                     | Caffe         | Keras        | Tensorflow    |
 | :-----------------------: | :-----------: | :----------: | :-----------: |
 | ReLu                      | √             | √            | √             |
@@ -100,19 +100,19 @@ Below is are table showing which layers are supported by Caffe, Keras, and Tenso
 | ThresholdedReLU           | √             | √            | √             |
 | Softmax                   | √             | √            | √             |
 
-#### Normalization Layers
+### Normalization Layers
 | Layer                     | Caffe         | Keras        | Tensorflow    |
 | :-----------------------: | :-----------: | :----------: | :-----------: |
 | BatchNormalization        | √             | √            | √             |
 
-#### Noise Layers
+### Noise Layers
 | Layer                     | Caffe         | Keras        | Tensorflow    |
 | :-----------------------: | :-----------: | :----------: | :-----------: |
 | GaussianNoise             | √             | √            | √             |
 | GaussianDropout           | √             | √            | √             |
 | AlphaDropout              | √             | √            | √             |
 
-#### Layer Wrappers
+### Layer Wrappers
 | Layer                     | Caffe         | Keras        | Tensorflow    |
 | :-----------------------: | :-----------: | :----------: | :-----------: |
 | TimeDistributed           | √             | √            | √             |
