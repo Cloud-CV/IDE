@@ -113,6 +113,18 @@ Below is are table showing which layers are supported by Caffe, Keras, and Tenso
 | Bias                      | √             | ×            | ×           |
 | Scale                     | √             | ×            | ×           |
 
+### Loss Layers
+| Layer                     | Caffe         | Keras        | Tensorflow  |
+| :-----------------------: | :-----------: | :----------: | :---------: |
+| Multinomial Logistic Loss | √             | ×            | ×           |
+| Infogain Loss             | √             | ×            | ×           |
+| Softmax with Loss         | √             | ×            | ×           |
+| Sum-of-Squares/Euclidean  | √             | ×            | ×           |
+| Hinge / Margin            | √             | ×            | ×           |
+| Sigmoid Cross-Entropy Loss| √             | ×            | ×           |
+| Accuracy / Top-k layer    | √             | ×            | ×           |
+| Contrastive Loss          | √             | ×            | ×           |
+
 ### Normalization Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  |
 | :-----------------------: | :-----------: | :----------: | :---------: |
