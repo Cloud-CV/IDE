@@ -7,6 +7,7 @@ from views import load_from_db, save_to_db, fetch_model_history
 
 urlpatterns = [
     url(r'^$', index),
+    url(r'^login/', index),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^backendAPI/', include('backendAPI.urls')),
