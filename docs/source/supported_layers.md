@@ -1,5 +1,5 @@
 # Layers supported in Caffe, Keras, and Tensorflow
-Below is are table showing which layers are supported by Caffe, Keras, and Tensorflow:
+Below are tables showing which layers are supported by Caffe, Keras, and Tensorflow:
  ### Core Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  |
 | :-----------------------: | :-----------: | :----------: | :---------: |
@@ -134,7 +134,6 @@ Below is are table showing which layers are supported by Caffe, Keras, and Tenso
 | Layer                     | Caffe         | Keras        | Tensorflow  |
 | :-----------------------: | :-----------: | :----------: | :---------: |
 | BatchNormalization        | √             | √            | √           |
-| LRN                       | √             | ×            | ×           |
 | MVN                       | √             | ×            | ×           |
  ### Noise Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  |
@@ -148,14 +147,15 @@ Below is are table showing which layers are supported by Caffe, Keras, and Tenso
 | TimeDistributed           | ×             | √            | √           |
 | Bidirectional             | ×             | √            | √           |
  ### Custom Layers
-| Caffe         | Keras        | Tensorflow  |
-| :-----------: | :----------: | :---------: |
-| √             | √            | Use Keras API for custom layers |
+| Layer         | Caffe        | Keras       | Tensorflow  |
+| :-----------: | :----------: | :---------: | :---------: |
+| Custom Layers | √            | √           | Use Keras API for custom layers |
+| LRN           | √            | √           | √           |
+
  ## Additional Notes:
-* Keras does not support the LRN layer used in Alexnet & many other models. To use the LRN layer refer to here: https://github.com/Cloud-CV/Fabrik/blob/master/tutorials/keras_custom_layer_usage.md.
-* Documentation for writing your own Keras layers is found here: https://keras.io/layers/writing-your-own-keras-layers/ 
-* Caffe 3D layers can be used in Caffe 2.0
+* Keras does not support the LRN layer used in Alexnet & many other models. To use the LRN layer refer to [here](https://github.com/Cloud-CV/Fabrik/blob/master/tutorials/keras_custom_layer_usage.md.)
+* Documentation for writing your own Keras layers is found [here](https://keras.io/layers/writing-your-own-keras-layers/) 
  ## Documentation for Caffe, Keras, and Tensorflow layers
-* Documentation for all Keras Layers is found here: https://keras.io/layers/about-keras-layers/
-* Documentation for all Caffe Layers is found here: http://caffe.berkeleyvision.org/tutorial/layers.html
-* Documentation for all Tensorflow Layers is found here: https://www.tensorflow.org/api_docs/python/tf/layers
+* Documentation for all Keras Layers is found [here](https://keras.io/layers/about-keras-layers/)
+* Documentation for all Caffe Layers is found [here](http://caffe.berkeleyvision.org/tutorial/layers.html)
+* Documentation for all Tensorflow Layers is found [here](https://www.tensorflow.org/api_docs/python/tf/layers)
