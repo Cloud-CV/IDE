@@ -84,14 +84,14 @@ Below is are table showing which layers are supported by Caffe, Keras, and Tenso
 ### Merge Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  |
 | :-----------------------: | :-----------: | :----------: | :---------: |
-| Add                       | √×            | √            | √           |
-| Subtract                  | √×            | √            | √           |
-| Multiply                  | √×            | √            | √           |
-| Average                   | √×            | √            | √           |
-| Minium                    | √×            | ×            | √           |
-| Maximum                   | √×            | √            | √           |
-| Concatenate               | √×            | √            | √           |
-| Dot                       | √×            | √            | √           |
+| Add                       | ×             | √            | √           |
+| Subtract                  | ×             | √            | √           |
+| Multiply                  | ×             | √            | √           |
+| Average                   | ×             | √            | √           |
+| Minium                    | ×             | ×            | √           |
+| Maximum                   | ×             | √            | √           |
+| Concatenate               | √             | √            | √           |
+| Dot                       | ×             | √            | √           |
 
 ### Activations Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  |
@@ -142,8 +142,13 @@ Below is are table showing which layers are supported by Caffe, Keras, and Tenso
 ### Layer Wrappers
 | Layer                     | Caffe         | Keras        | Tensorflow  |
 | :-----------------------: | :-----------: | :----------: | :---------: |
-| TimeDistributed           | √×            | √            | √           |
-| Bidirectional             | √×            | √            | √           |
+| TimeDistributed           | ×             | √            | √           |
+| Bidirectional             | ×             | √            | √           |
+
+### Custom Layers
+| Caffe         | Keras        | Tensorflow  |
+| :-----------: | :----------: | :---------: |
+| √             | √            | Use Keras API for custom layers |
 
 ## Additional Notes:
 * Keras does not support the LRN layer used in Alexnet & many other models. To use the LRN layer refer to here: https://github.com/Cloud-CV/Fabrik/blob/master/tutorials/keras_custom_layer_usage.md.
