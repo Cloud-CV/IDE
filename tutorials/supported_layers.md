@@ -6,60 +6,64 @@ Below is are table showing which layers are supported by Caffe, Keras, and Tenso
 | :-----------------------: | :-----------: | :----------: | :---------: |
 | Activation                | √             | √            | √           |
 | ActivityRegularization    | √             | √            | √           |
-| Dense                     | √×            | √            | √           |
-| Dropout                   | √×            | √            | √           |
-| Flatten                   | √×            | √            | √           |
-| Lambda                    | √×            | √            | √           |
-| Masking                   | √×            | √            | √           |
-| Permute                   | √×            | √            | √           |
-| Repeat Vector             | √×            | √            | √           |
-| Reshape                   | √×            | √            | √           |
-| Spatial Dropout 1D        | √×            | √            | √           |
-| Spatial Dropout 2D        | √×            | √            | √           |
-| Spatial Dropout 3D        | √×            | √            | √           |
+| Dense                     | ×             | √            | √           |
+| Dropout                   | √             | √            | √           |
+| Flatten                   | √             | √            | √           |
+| Lambda                    | ×             | √            | √           |
+| Masking                   | √             | √            | √           |
+| Permute                   | ×             | √            | √           |
+| Repeat Vector             | ×             | √            | √           |
+| Reshape                   | √             | √            | √           |
+| Spatial Dropout 1D        | ×             | √            | √           |
+| Spatial Dropout 2D        | ×             | √            | √           |
+| Spatial Dropout 3D        | ×             | √            | √           |
 
 #### Convolutional Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  |
 | :-----------------------: | :-----------: | :----------: | :---------: |
-| Conv1D                    | √×            | √            | √           |
-| Conv2D                    | √×            | √            | √           |
-| DepthwiseConv2D           | √×            | ×            | √           |
-| SeperableConv1D           | √×            | √            | √           |
-| SeperableConv2D           | √×            | √            | √           |
-| Conv2DTranspose           | √×            | √            | √           |
-| Conv3D                    | √×            | √            | √           |
-| Conv3DTranspose           | √×            | √            | √           |
-| Cropping1D                | √×            | √            | √           |
-| Cropping2D                | √×            | √            | √           |
-| Cropping3D                | √×            | √            | √           |
-| Upsampling 1D             | √×            | √            | √           |
-| Upsampling 2D             | √×            | √            | √           |
-| Upsampling 3D             | √×            | √            | √           |
-| ZeroPadding 1D            | √×            | √            | √           |
-| ZeroPadding 2D            | √×            | √            | √           |
-| ZeroPadding 3D            | √×            | √            | √           |
+| Conv1D                    | √             | √            | √           |
+| Conv2D                    | √             | √            | √           |
+| DepthwiseConv2D           | ×             | ×            | √           |
+| SeperableConv1D           | ×             | √            | √           |
+| SeperableConv2D           | ×             | √            | √           |
+| Conv2DTranspose           | √             | √            | √           |
+| Conv3D                    | √             | √            | √           |
+| Conv3DTranspose           | √             | √            | √           |
+| Cropping1D                | √             | √            | √           |
+| Cropping2D                | √             | √            | √           |
+| Cropping3D                | √             | √            | √           |
+| Upsampling 1D             | √             | √            | √           |
+| Upsampling 2D             | √             | √            | √           |
+| Upsampling 3D             | √             | √            | √           |
+| ZeroPadding 1D            | ×             | √            | √           |
+| ZeroPadding 2D            | ×             | √            | √           |
+| ZeroPadding 3D            | ×             | √            | √           |
+| Im2Col                    | √             | ×            | ×           |
+| Spatial Pyramid Pooling   | √             | ×            | ×           |
+* Upsampling in Caffe can be done by using methods shown here: https://gist.github.com/tnarihi/54744612d35776f53278
 
 ### Pooling Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  |
 | :-----------------------: | :-----------: | :----------: | :---------: |
-| MaxPooling1D              | √×            | √            | √           |
-| MaxPooling2D              | √×            | √            | √           |
-| MaxPooling3D              | √×            | √            | √           |
-| AveragePooling1D          | √×            | √            | √           |
-| AveragePooling2D          | √×            | √            | √           |
-| AveragePooling3D          | √×            | √            | √           |
-| GlobalMaxPooling1D        | √×            | √            | √           |
-| GlobalAveragePooling1D    | √×            | √            | √           |
-| GlobalMaxPooling2D        | √×            | √            | √           |
-| GlobalAveragePooling2D    | √×            | √            | √           |
-| GlobalMaxPooling3D        | √×            | √            | √           |
-| GlobalAveragePooling3D    | √×            | √            | √           |
-
+| MaxPooling1D              | √             | √            | √           |
+| MaxPooling2D              | √             | √            | √           |
+| MaxPooling3D              | √             | √            | √           |
+| AveragePooling1D          | √             | √            | √           |
+| AveragePooling2D          | √             | √            | √           |
+| AveragePooling3D          | √             | √            | √           |
+| GlobalMaxPooling1D        | ×             | √            | √           |
+| GlobalAveragePooling1D    | ×             | √            | √           |
+| GlobalMaxPooling2D        | ×             | √            | √           |
+| GlobalAveragePooling2D    | ×             | √            | √           |
+| GlobalMaxPooling3D        | ×             | √            | √           |
+| GlobalAveragePooling3D    | ×             | √            | √           |
+| Stochastic Pooling        | √             | ×            | ×           |
+ 
 ### Locally-connected Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  |
 | :-----------------------: | :-----------: | :----------: | :---------: |
-| LocallyConnected1D        | √×            | √            | √           |
-| LocallyConnected2D        | √×            | √            | √           |
+| LocallyConnected1D        | ×             | √            | √           |
+| LocallyConnected2D        | ×             | √            | √           |
 
 ### Recurrent Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  |
@@ -102,6 +106,7 @@ Below is are table showing which layers are supported by Caffe, Keras, and Tenso
 | ELU                       | √             | √            | √           |
 | ThresholdedReLU           | √             | √            | √           |
 | Softmax                   | √             | √            | √           |
+| Argmax                    | √             | ×            | ×           |
 | Sigmoid                   | √             | √            | √           |
 | TanH                      | √             | √            | √           |
 | Absolute Value            | √             | ×            | ×           |
@@ -112,6 +117,16 @@ Below is are table showing which layers are supported by Caffe, Keras, and Tenso
 | BNLL                      | √             | ×            | ×           |
 | Bias                      | √             | ×            | ×           |
 | Scale                     | √             | ×            | ×           |
+
+### Utility Layers
+| Layer                     | Caffe         | Keras        | Tensorflow  |
+| :-----------------------: | :-----------: | :----------: | :---------: |
+| Argmax                    | √             | ×            | ×           |
+| Slicing                   | √             | ×            | ×           |
+| Eltwise                   | √             | ×            | ×           |
+| Parameter                 | √             | ×            | ×           |
+| Reduction                 | √             | ×            | ×           |
+| Silence                   | √             | ×            | ×           |
 
 ### Loss Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  |
@@ -153,6 +168,9 @@ Below is are table showing which layers are supported by Caffe, Keras, and Tenso
 ## Additional Notes:
 * Keras does not support the LRN layer used in Alexnet & many other models. To use the LRN layer refer to here: https://github.com/Cloud-CV/Fabrik/blob/master/tutorials/keras_custom_layer_usage.md.
 * Documentation for writing your own Keras layers is found here: https://keras.io/layers/writing-your-own-keras-layers/ 
+* Caffe 3D layers can be used in Caffe 2.0
+
+## Documentation for Caffe, Keras, and Tensorflow layers
 * Documentation for all Keras Layers is found here: https://keras.io/layers/about-keras-layers/
 * Documentation for all Caffe Layers is found here: http://caffe.berkeleyvision.org/tutorial/layers.html
 * Documentation for all Tensorflow Layers is found here: https://www.tensorflow.org/api_docs/python/tf/layers
