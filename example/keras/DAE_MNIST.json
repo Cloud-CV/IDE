@@ -570,7 +570,7 @@
                 "name": "conv2d_7"
             }
         ], 
-        "name": "model_1", 
+        "name": "Denoising Auto-Encoder", 
         "output_layers": [
             [
                 "conv2d_7", 
