@@ -38,7 +38,7 @@ Below are tables showing which layers are supported by Caffe, Keras, and Tensorf
 | ZeroPadding 3D            | ×             | √            | √           |
 | Im2Col                    | √             | ×            | ×           |
 | Spatial Pyramid Pooling   | √             | ×            | ×           |
-* Upsampling in Caffe can be done by using methods shown here: https://gist.github.com/tnarihi/54744612d35776f53278
+* Upsampling in Caffe can be done by using methods shown [here](https://gist.github.com/tnarihi/54744612d35776f53278)
  ### Pooling Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  |
 | :-----------------------: | :-----------: | :----------: | :---------: |
@@ -149,7 +149,7 @@ Below are tables showing which layers are supported by Caffe, Keras, and Tensorf
  ### Custom Layers
 | Layer         | Caffe        | Keras       | Tensorflow  |
 | :-----------: | :----------: | :---------: | :---------: |
-| Custom Layers | √            | √           | Use Keras API for custom layers |
+|               | √            | √           | Use Keras API for custom layers |
 | LRN           | √            | √           | √           |
 
  ## Additional Notes:
