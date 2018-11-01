@@ -1343,6 +1343,48 @@ export default {
     },
     learn: true
   },
+  CapsuleLayer: {
+    name:'capsule_layer',
+    color:'#ffeb3b',
+    endpoint:{
+        src:['Bottom'],
+        trg:['Top']
+    },
+    params: {
+        num_capsule: {
+            name:'No. of Capsules',
+            value: '',
+            type: 'number',
+            required: true
+        },
+        dim_capsule: {
+            name:'Dimension of the Capsule',
+            value: '',
+            type: 'number',
+            required: true
+        },
+        num_routing: {
+            name: 'No. of routings',
+            value: '',
+            type: 'number',
+            required: true
+        },
+        caffe: {
+            name: 'Available Caffe',
+            value: false,
+            type: 'checkbox',
+            required: false
+        }
+    },
+    props: {
+        name: {
+            name:'Name',
+            value: '',
+            type: 'text'
+        }
+    },
+    learn: true
+  },
   /* ********** Recurrent Layers ********** */
   Recurrent: { // Only Caffe
     name: 'recurrent',
@@ -3065,6 +3107,36 @@ export default {
     },
     learn: true
   },
+  Squash: {
+	name: 'squash',
+	color: '#0329f4',
+	endpoint: {
+		src: ['Bottom'],
+		trg: ['Top']
+	},
+	params: {
+		axis: {
+			name: 'Axis',
+			value: -1,
+			type: 'number',
+			required:false
+		},
+		caffe: {
+	name: 'Available Caffe',
+	value: false,
+	type: 'checkbox',
+	required: false
+		}
+	},
+	props:{
+		name: {
+			name:'Name',
+			value: '',
+			type: 'text'
+		}
+	},
+	learn: false
+	},
   /* ********** Utility Layers ********** */
   Flatten: {
     name: 'flatten',
@@ -3600,6 +3672,54 @@ export default {
         value: '',
         type: 'text'
       }
+    },
+    learn: false
+  },
+  Length: {
+    name:'length',
+    color: '#ffeb3c',
+    endpoint: {
+        src:['Bottom'],
+        trg:['Top']
+    },
+    params: {
+        caffe: {
+            name:'Available Caffe',
+            value: false,
+            type: 'checkbox',
+            required: false
+        }
+    },
+    props: {
+        name: {
+            name: 'Name',
+            value: '',
+            type: 'text'
+        }
+    },
+    learn: false
+  },
+  MaskCapsule: {
+    name:'mask_capsule',
+    color: '#ff98c0',
+    endpoint: {
+        src:['Bottom'],
+        trg:['Top']
+    },
+    params: {
+        caffe: {
+            name:'Available Caffe',
+            value: false,
+            type: 'checkbox',
+            required: false
+        }
+    },
+    props:{
+        name: {
+            name: "Name",
+            value: '',
+            type: 'text'
+        }
     },
     learn: false
   },

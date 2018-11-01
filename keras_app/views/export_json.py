@@ -10,7 +10,7 @@ from keras.models import Model
 from layers_export import data, convolution, deconvolution, pooling, dense, dropout, embed,\
     recurrent, batch_norm, activation, flatten, reshape, eltwise, concat, upsample, locally_connected,\
     permute, repeat_vector, regularization, masking, gaussian_noise, gaussian_dropout, alpha_dropout, \
-    bidirectional, time_distributed, lrn, depthwiseConv
+    bidirectional, time_distributed, lrn, depthwiseConv, capsule_layer, length, mask_capsule, squash
 from ..custom_layers import config as custom_layers_config
 
 
@@ -81,7 +81,11 @@ def export_json(request, is_tf=False):
         }
 
         custom_layers_map = {
-            'LRN': lrn
+            'LRN': lrn,
+            'CapsuleLayer': capsule_layer,
+            'Length': length,
+            'MaskCapsule': mask_capsule,
+            'Squash': squash
         }
 
         # Remove any duplicate activation layers (timedistributed and bidirectional layers)
