@@ -15,6 +15,7 @@ import UrlImportModal from './urlImportModal';
 import UserProfile from './UserProfile';
 import UpdateHistoryModal from './updateHistoryModal';
 import CommentSidebar from './CommentSidebar';
+import FilterBar from './filterbar';
 import $ from 'jquery'
 
 const infoStyle = {
@@ -1310,6 +1311,7 @@ class Content extends React.Component {
              <Login setUserId={this.setUserId} setUserName={this.setUserName}></Login>
              <h5 className="sidebar-heading insert-layer-title">
               <input id="layer-search-input" placeholder="Search for layer"></input>
+			  <FilterBar />
               <div id="insert-layer-sign">INSERT LAYER</div>
               <i className="material-icons" id="layer-search-icon">search</i>
              </h5>
