@@ -663,10 +663,6 @@ button.url-import-modal-button {
    transition: 0.3s;
 }
 
-.filter .btn{
-  width: 100%;
-}
-
 .commentTooltipModal:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
@@ -913,13 +909,6 @@ button.close {
     margin-top: 0;
     max-height: 500px;
     min-width: 30px;
-    background-color: #455062;
-}
-
-.filter .dropdown-menu {
-    margin-top: 0;
-    max-height: 500px;
-    width: 100%;
     background-color: #455062;
 }
 
