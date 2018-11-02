@@ -36,7 +36,6 @@ changeEvent(cbid) {
       var visible = [];
 
 	let CheckBox = document.getElementById(cbid);
-	console.log(cbid);
     CheckBox.checked = !CheckBox.checked;
 
       if(CheckBoxA.checked == false & CheckBoxB.checked == false & CheckBoxC.checked == false){
