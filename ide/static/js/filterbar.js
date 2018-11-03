@@ -8,24 +8,26 @@ class FilterBar extends React.Component {
     }
 
 changeEvent(cbid) {
-      var KerasLayers = ["RNN_Button", "GRU_Button", "LSTM_Button", "Embed_Button", "Eltwise_Button",
-      "ThresholdedReLU", "ReLU_Button", "PReLU_Button", "Softmax_Button", "BatchNorm_Button",
-      "GaussianNoise_Button", "GaussianDropout_Button", "AlphaDropout_Button", "TimeDistributed_Button",
+      var KerasLayers = ["RNN_Button", "GRU_Button", "LSTM_Button", "Embed_Button", "ELU_Button", "Sigmoid_Button",
+      "ThresholdedReLU", "ReLU_Button", "PReLU_Button", "Softmax_Button", "BatchNorm_Button", "SELU_Button",
+      "GaussianNoise_Button", "GaussianDropout_Button", "AlphaDropout_Button", "TimeDistributed_Button", "TanH_Button",
       "Bidirectional_Button", "RepeatVector_Button", "Masking_Button", "Permute_Button", "InnerProduct_Button",
       "Deconvolution_Button", "Regularization_Button", "Softsign_Button", "Upsample_Button", "Pooling_Button",
-      "LocallyConnected_Button", "Crop_Button", "Input_Button", "Convolution_Button"];
-      var TensorFlowLayers = ["RNN_Button", "GRU_Button", "LSTM_Button", "Embed_Button", "Eltwise_Button",
-      "ThresholdedReLU", "ReLU_Button", "PReLU_Button", "Softmax_Button", "BatchNorm_Button", "GaussianNoise_Button",
-      "GaussianDropout_Button", "AlphaDropout_Button", "TimeDistributed_Button", "Bidirectional_Button",
-      "RepeatVector_Button", "Masking_Button", "Permute_Button", "InnerProduct_Button", "Deconvolution_Button",
-      "Regularization_Button", "Softsign_Button", "Upsample_Button", "Pooling_Button", "LocallyConnected_Button",
-      "SoftmaxWithLoss_Button", "SigmoidCrossEntropyLoss_Button", "Crop_Button", "DepthwiseConv_Button", "Convolution_Button"];
+      "LocallyConnected_Button", "Input_Button", "Convolution_Button", "LRN_Button", "DepthwiseConv_Button", "Flatten_Button",
+      "Reshape_Button", "Concat_Button", "Softplus_Button", "HardSigmoid_Button", "Dropout_Button"];
+      var TensorFlowLayers = ["RNN_Button", "LSTM_Button", "Embed_Button",
+      "ThresholdedReLU", "ReLU_Button", "PReLU_Button", "Softmax_Button", "BatchNorm_Button",
+      "GaussianDropout_Button", "TimeDistributed_Button", "Bidirectional_Button",
+      "InnerProduct_Button", "Deconvolution_Button", "ELU_Button", "Dropout_Button",
+      "Pooling_Button", "LocallyConnected_Button", "Sigmoid_Button",
+      "Convolution_Button", "TanH_Button",
+      "Input_Button", "Flatten_Button", "Reshape_Button", "Concat_Button"];
       var CaffeLayers = ["ImageData_Button", "HDF5Data_Button", "HDF5Output_Button", "Input_Button", "WindowData_Button",
       "MemoryData_Button", "DummyData_Button", "Convolution_Button", "Pooling_Button", "SPP_Button", "Deconvolution_Button",
       "Recurrent_Button", "RNN_Button", "LSTM_Button", "LRN_Button", "MVN_Button", "BatchNorm_Button",
       "InnerProduct_Button", "Dropout_Button", "Embed_Button", "ReLU_Button", "PReLU_Button", "ELU_Button",
       "Sigmoid_Button", "TanH_Button", "AbsVal_Button", "Power_Button", "Exp_Button", "Log_Button", "BNLL_Button",
-      "Threshold_Button", "Bias_Button", "Scale_Button", "Softplus_Button", "HardSigmoid_Button", "Flatten_Button",
+      "Threshold_Button", "Bias_Button", "Scale_Button", "Flatten_Button",
       "Reshape_Button", "BatchReindex_Button", "Split_Button", "Concat_Button", "Eltwise_Button", "Filter_Button",
       "Reduction_Button", "Silence_Button", "ArgMax_Button", "Softmax_Button", "MultinomialLogisticLoss_Button",
       "InfogainLoss_Button", "SoftmaxWithLoss_Button", "EuclideanLoss_Button", "HingeLoss_Button",
@@ -35,7 +37,7 @@ changeEvent(cbid) {
       var CheckBoxC = document.getElementById("CheckBoxC");
       var visible = [];
 
-	let CheckBox = document.getElementById(cbid);
+    let CheckBox = document.getElementById(cbid);
     CheckBox.checked = !CheckBox.checked;
 
       if(CheckBoxA.checked == false & CheckBoxB.checked == false & CheckBoxC.checked == false){
