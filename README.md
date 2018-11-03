@@ -261,7 +261,7 @@ then, you will need to follow the same steps as above, but switch out the Github
 
 ### Using Virtual Environment on Windows
 1. Installing Python 2.7. Fabrik runs on Python 2.7.
-    * Download (Python 2.7 installer for Windows)[https://www.python.org/downloads/release/python-279/] and choose Windows x86-64 MSI installer.  (make sure it has “64” as the other one is for servers). Run it.
+    * Download [Python 2.7 installer for Windows](https://www.python.org/downloads/release/python-279/) and choose Windows x86-64 MSI installer.  (make sure it has “64” as the other one is for servers). Run it.
     * Now you need to add Python to your PATH, open “control panel -> System and Security -> System -> Advanced System Settings -> Environment Variables -> Selecting Path -> Edit ->” and add these two lines “C:\Python27” and “C:\Python27\Scripts”
     * Pip has been automatically installed with Python 2.7, but you can check by opening command prompt and running “pip --version”
     
@@ -275,7 +275,7 @@ then, you will need to follow the same steps as above, but switch out the Github
     * To activate the Fabrik environment enter ```C:\Users\<name of user>\Fabrik\Scripts\activate```, you should see ```(Fabrik)``` on the left of your prompt
 
 3. Cloning the repository
-    * Download the (Git installer)[ https://git-scm.com/download/win] as you are going to need it in the next step.
+    * Download the [Git installer](https://git-scm.com/download/win) as you are going to need it in the next step.
     * Run the installer, click “Next” to most things, except choose “Use Windows’ default console window”, and then click install. Open and close command prompt before continuing to the next step, when Git has finished installation.
 
 **This is not finished yet**
