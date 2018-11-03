@@ -1322,7 +1322,7 @@ class Content extends React.Component {
              setDraggingLayer = {this.setDraggingLayer}
              />
              <div className="text-center">
-                <Tabs selectedPhase={this.state.selectedPhase} changeNetPhase={this.changeNetPhase} />
+             <Tabs selectedPhase={this.state.selectedPhase} changeNetPhase={this.changeNetPhase} />
              </div>
              <h5 className="sidebar-heading">EXTRAS</h5>
              <a className="btn btn-block extra-buttons text-left" onClick={this.faqModal}>Help</a>
