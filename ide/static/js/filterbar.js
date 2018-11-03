@@ -72,7 +72,7 @@ changeEvent(cbid) {
     render() {
       return (
             <div>
-              <div className="form-group pull-right">
+              <div className="form-group pull-right filter-button">
                 <div className="dropdown">
                   <button id="topbar-icon" className="btn btn-default dropdown-toggle form-control" data-toggle="dropdown">
                     <span className="glyphicon glyphicon-filter" aria-hidden="true"></span>
