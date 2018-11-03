@@ -259,6 +259,27 @@ Setting up Fabrik on your local machine is really easy. You can setup Fabrik usi
 Note: For testing, you will only need one authentication backend. However, if you want to try out Google's authentication
 then, you will need to follow the same steps as above, but switch out the Github for google.
 
+### Using Virtual Environment on Windows
+1. Installing Python 2.7. Fabrik runs on Python 2.7.
+    * Download (Python 2.7 installer for Windows)[https://www.python.org/downloads/release/python-279/] and choose Windows x86-64 MSI installer.  (make sure it has “64” as the other one is for servers). Run it.
+    * Now you need to add Python to your PATH, open “control panel -> System and Security -> System -> Advanced System Settings -> Environment Variables -> Selecting Path -> Edit ->” and add these two lines “C:\Python27” and “C:\Python27\Scripts”
+    * Pip has been automatically installed with Python 2.7, but you can check by opening command prompt and running “pip --version”
+    
+2. Setting up the virtual environment
+    * Open command promp and run:
+    ```
+    pip install virtualenv
+    pip install virtualenvwrapper-win
+    ```
+    * Run ```virtualenv --system-site-packages Fabrik --python=C:\Python27\python.exe``` to create the environment (if you get an error telling you that it not a valid path, run```where python``` and select the path for Python 2.7)
+    * To activate the Fabrik environment enter ```C:\Users\<name of user>\Fabrik\Scripts\activate```, you should see ```(Fabrik)``` on the left of your prompt
+
+3. Cloning the repository
+    * Download the (Git installer)[ https://git-scm.com/download/win] as you are going to need it in the next step.
+    * Run the installer, click “Next” to most things, except choose “Use Windows’ default console window”, and then click install. Open and close command prompt before continuing to the next step, when Git has finished installation.
+
+**This is not finished yet**
+    
 
 ### Usage
 
