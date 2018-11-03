@@ -7,7 +7,8 @@
 #layer-search-icon {
 	position: absolute;
 	left: -5px;
-	top: 31px;
+	top: 0px;
+	float: left;
 }
 
 #layer-search-icon:hover {
@@ -16,8 +17,8 @@
 
 #layer-search-input {
 	position: absolute;
-	top: 36px;
-	left: 20px;
+	top: 2px;
+	left: 15px;
 	font-size: 15px;
 	background: none;
 	border: none;
@@ -25,6 +26,12 @@
 	outline: none;
 	opacity: 1;
 	transition: 0.3s;
+}
+
+.filter-button {
+	position: absolute;
+	right: 0px;
+	top: -10px;
 }
 
 .layer-search-input-selected {
