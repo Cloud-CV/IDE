@@ -281,6 +281,7 @@ Models                                                                      | Ca
 [Inception V4](http://arxiv.org/abs/1512.00567)                             |   √   |   √   |     √      |
 [ResNet 101](https://arxiv.org/abs/1512.03385)                              |   √   |   √   |     √      |
 [VGG 16](http://arxiv.org/abs/1409.1556.pdf)                                |   √   |   √   |     √      |
+[VGG 19](http://arxiv.org/abs/1409.1556.pdf)                                |   √   |   √   |     ×      |
 [GoogLeNet](https://arxiv.org/pdf/1610.02357.pdf)                           |   √   |   ×   |     ×      |
 [SqueezeNet](https://arxiv.org/pdf/1602.07360)                              |   √   |   ×   |     ×      |
 [DenseNet](https://arxiv.org/abs/1608.06993)                                |   √   |   ×   |     ×      |
