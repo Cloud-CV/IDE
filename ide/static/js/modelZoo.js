@@ -18,7 +18,7 @@ class ModelZoo extends React.Component {
               <br/>
               <ModelElement importNet={this.props.importNet} framework="caffe" id="vgg16">VGG 16</ModelElement>
               <br/>
-	      <ModelElement importNet={this.props.importNet} framework="caffe" id="vgg19">VGG 19</ModelElement>
+              <ModelElement importNet={this.props.importNet} framework="caffe" id="vgg19">VGG 19</ModelElement>
               <br/>
               <ModelElement importNet={this.props.importNet} framework="caffe" id="densenet">DenseNet</ModelElement>
               <br/>
