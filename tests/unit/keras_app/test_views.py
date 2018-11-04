@@ -285,7 +285,7 @@ class ActivationImportTest(unittest.TestCase, HelperFunctions):
         model.add(ThresholdedReLU(theta=1, input_shape=(15,)))
         model.build()
         self.keras_type_test(model, 0, 'ThresholdedReLU')
-        #Linear
+        # Linear
         model = Sequential()
         model.add(Activation('linear', input_shape=(15,)))
         model.build()
