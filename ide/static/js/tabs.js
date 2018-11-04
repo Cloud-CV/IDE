@@ -10,14 +10,6 @@ class Tabs extends React.Component {
         this.props.changeNetPhase(1);
       }
     });
-    $('#sidebar-scroll')[0].scrollLeft = 100;
-    $('.btn-mode-toggle').click(() => {
-      if (document.body.className.search('dark') == -1) {
-        document.body.className = 'app-dark';
-      } else {
-        document.body.className = '';
-      }
-    })
   }
   render() {
     let trainClass = 'btn-primary',
@@ -30,20 +22,10 @@ class Tabs extends React.Component {
       testClass = 'btn-primary';
     }
     return (
-      <div>
-        <li className="btn-group" role="group" id="phaseTabs">
-          <button type="button" id="train" className={"btn "+trainClass}>Train</button>
-          <button type="button" id="test" className={"btn "+testClass}>Test</button>
-        </li>
-        <div className="mode-toggle">
-          <div className="sidebar-heading dark-mode-title">
-            DARK MODE
-          </div>
-          <div className="btn-mode-toggle">
-            <div id="toggle-circle"></div>
-          </div>
-        </div>
-      </div>
+      <li className="btn-group" role="group" id="phaseTabs">
+        <button type="button" id="train" className={"btn "+trainClass}>Train</button>
+        <button type="button" id="test" className={"btn "+testClass}>Test</button>
+      </li>
     );
   }
 }

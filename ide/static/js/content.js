@@ -9,7 +9,7 @@ import data from './data';
 import netLayout from './netLayout_vertical';
 import Modal from 'react-modal';
 import ModelZoo from './modelZoo';
-import Login from './login';
+import Login from './loginPage';
 import ImportTextbox from './importTextbox';
 import UrlImportModal from './urlImportModal';
 import UserProfile from './UserProfile';
@@ -1306,7 +1306,6 @@ class Content extends React.Component {
               urlModal={this.urlModal}
               updateHistoryModal={this.updateHistoryModal}
              />
-             <h5 className="sidebar-heading">LOGIN</h5>
              <Login setUserId={this.setUserId} setUserName={this.setUserName}></Login>
              <h5 className="sidebar-heading insert-layer-title">
               <input id="layer-search-input" placeholder="Search for layer"></input>
