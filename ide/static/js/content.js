@@ -9,7 +9,7 @@ import data from './data';
 import netLayout from './netLayout_vertical';
 import Modal from 'react-modal';
 import ModelZoo from './modelZoo';
-import Login from './loginPage';
+import Login from './login';
 import ImportTextbox from './importTextbox';
 import UrlImportModal from './urlImportModal';
 import UserProfile from './UserProfile';

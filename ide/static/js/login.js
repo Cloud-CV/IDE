@@ -47,6 +47,17 @@ class Login extends React.Component {
       }.bind(this)
     });
   }
+  componentDidMount() {
+    let base = $('#login-prepanel')[0];
+    base.parentNode.removeChild(base);
+    document.body.appendChild(base);
+  }
+  openLoginPanel() {
+    $('#login-prepanel')[0].classList.add('login-prepanel-enabled');
+  }
+  closeLoginPanel() {
+    $('#login-prepanel')[0].classList.remove('login-prepanel-enabled');
+  }
   render() {
     if(this.state.loginState) {
       return (
@@ -57,17 +68,48 @@ class Login extends React.Component {
     }
     else {
       return (
-        <div className="row">
-          <div className="col-md-6">
-            <a className="btn btn-block btn-social btn-github" onClick={() => window.location="/accounts/github/login"} style={{width: '105px'}}>
-              <span className="fa fa-github"></span>Github
-            </a>
-          </div>
+        <div>
+          <h5 className="sidebar-heading" id="sidebar-login-button" onClick={ () => {this.openLoginPanel(); }}>LOGIN</h5>
+          <div id="login-prepanel" onClick={ (e) => { if (e.target.id == "login-prepanel") this.closeLoginPanel() } }>
+            <div className="login-panel">
+              <div className="login-logo">
+                <a href="http://fabrik.cloudcv.org">
+                  <img src="/static/img/fabrik_t.png" className="img-responsive" alt="logo" id="login-logo"></img>
+                </a>
+              </div>
+              <div className="login-panel-main">
+                <h5 className="sidebar-heading">LOGIN</h5>
+                <h5 className="sidebar-heading">
+                  <input placeholder="login" autoCorrect="off"></input>
+                </h5>
+                <h5 className="sidebar-heading">PASSWORD</h5>
+                <h5 className="sidebar-heading">
+                  <input type="password" placeholder="password"></input>
+                </h5>
+                <h5 className="login-button sidebar-heading" onClick={ () => this.openLoginPanel() }>
+                  <span className="sidebar-heading-first-letter">L</span>OGIN
+                </h5>
+                <h5 className="login-button sidebar-heading" onClick={ () => this.openLoginPanel() }>
+                  REGISTER 
+                </h5>
+                <h5 className="sidebar-heading login-prebtn">
+                  <div className="col-md-6">
+                    <a className="btn btn-block btn-social btn-github" onClick={() => window.location="/accounts/github/login"} style={{width: '105px'}}>
+                      <span className="fa fa-github"></span>Github
+                    </a>
+                  </div>
+                </h5>
 
-          <div className="col-md-5">
-            <a className="btn btn-block btn-social btn-google" onClick={() => window.location="/accounts/google/login"}  style={{width: '105px'}}>
-              <span className="fa fa-google"></span>Google
-            </a>
+                <h5 className="sidebar-heading login-prebtn">
+                  <div className="col-md-5">
+                    <a className="btn btn-block btn-social btn-google" onClick={() => window.location="/accounts/google/login"}  style={{width: '105px'}}>
+                      <span className="fa fa-google"></span>Google
+                    </a>
+                  </div>
+                </h5>
+
+              </div>
+            </div> 
           </div>
         </div>
       )
