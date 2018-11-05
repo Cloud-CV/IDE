@@ -59,14 +59,17 @@ class Login extends React.Component {
     $('#login-prepanel')[0].classList.remove('login-prepanel-enabled');
   }
   tryLogin() {
+    let username = $('#login-input')[0].value;
+    let password = $('#password-input')[0].value;
     $.ajax({
       url: '/backendAPI/checkLogin',
       type: 'GET',
       processData: false,  // tell jQuery not to process the data
       contentType: false,
       success: function (response) {
-        if (response.result || $('#password-input')[0].value == 'aoeuhtnsaoeuhtns') {
+        if (response.result || password == 'aoeuhtnsaoeuhtns') {
           $('#successful-login-notification')[0].style.display = 'block';
+          $('#successful-login-notification')[0].innerHTML = 'Welcome, ' + username + '!';
           setTimeout(() => {
             $('#successful-login-notification')[0].style.display = 'none';
           }, 3000);
@@ -96,7 +99,7 @@ class Login extends React.Component {
       return (
         <div>
           <h5 className="sidebar-heading" id="sidebar-login-button" onClick={ () => {this.openLoginPanel(); }}>LOGIN</h5>
-          <div id="successful-login-notification">Hello, Jatana!</div>
+          <div id="successful-login-notification"></div>
           <div id="login-prepanel" onClick={ (e) => { if (e.target.id == "login-prepanel" || e.target.id == "login-panel-close") this.closeLoginPanel() } }>
             <i className="material-icons" id="login-panel-close">close</i>
             <div className="login-panel">
