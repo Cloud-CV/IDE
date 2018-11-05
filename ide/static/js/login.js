@@ -115,14 +115,35 @@ class Login extends React.Component {
                 <h5 className="sidebar-heading">
                   <input type="password" placeholder="password"></input>
                 </h5>
-                <h5 className="login-button sidebar-heading" onClick={ () => this.tryLogin() }>
+                {/*<h5 className="login-button sidebar-heading" onClick={ () => this.tryLogin() }>
                   <span className="sidebar-heading-first-letter">L</span>OGIN&nbsp;
                   <i className="material-icons login-action-icon">vpn_key</i>
                 </h5>
                 <h5 className="login-button sidebar-heading" onClick={ () => this.openLoginPanel() }>
-                  REGISTER 
+                  REGISTER
                   <i className="material-icons login-action-icon">add</i>
+                </h5>*/}
+
+                <h5 className="sidebar-heading login-prebtn">
+                  <div className="col-md-6 login-button" id="login-button">
+                    <a className="btn btn-block btn-social" onClick={ () => this.tryLogin() } style={{width: '105px'}}>
+                      <i className="material-icons">keyboard_arrow_right</i>Login
+                    </a>
+                  </div>
                 </h5>
+
+                <h5 className="sidebar-heading login-prebtn">
+                  <div className="col-md-5 login-button">
+                    <a className="btn btn-block btn-social" onClick={() => window.location="/accounts/google/login"}  style={{width: '105px'}}>
+                      <i className="material-icons">add</i>Register
+                    </a>
+                  </div>
+                </h5>
+
+                <h5 className="sidebar-heading extra-login">
+                  EXTRA
+                </h5>
+
                 <h5 className="sidebar-heading login-prebtn">
                   <div className="col-md-6">
                     <a className="btn btn-block btn-social btn-github" onClick={() => window.location="/accounts/github/login"} style={{width: '105px'}}>
