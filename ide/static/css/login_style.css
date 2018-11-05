@@ -126,6 +126,19 @@
 	cursor: pointer;
 }
 
+.login-button .btn-social {
+	box-shadow: none !important;
+	color: #9ea2a9;
+}
+
+.login-button .btn-social:hover {
+	color: rgb(69, 80, 97);
+}
+
+.btn-social i {
+	border-right: none !important;
+}
+
 .extra-login {
 	margin-bottom: 10px !important;
 }
