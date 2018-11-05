@@ -35,6 +35,18 @@
 	opacity: 1 !important;
 }
 
+#login-panel-close {
+	position: absolute;
+	right: 20px;
+	top: 20px;
+	font-size: 40px;
+	color: white;
+}
+
+#login-panel-close:hover {
+	cursor: pointer;
+}
+
 @keyframes frames-logo-appear {
 	from {
 		top: 10px;
@@ -92,20 +104,29 @@
 .login-button {
     background: #9ea2a9;
     background: linear-gradient(45deg, #9ea2a9, #b3b3b3);
+    background: rgb(205, 207, 210);
     box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.6);
     color: white !important;
+    color: rgb(51, 51, 51) !important;
     text-align: center;
-    opacity: 0.6;
+    opacity: 0.95;
     transition: 0.2s;
     margin-top: 13px !important;
-    padding: 10px;
+    padding: 8px !important;
     margin-bottom: 13px !important;
 }
 
 .login-button:hover {
-	opacity: 0.7;
+	opacity: 1;
 	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.6);
 	cursor: pointer;
+}
+
+.login-action-icon {
+	position: relative;
+	top: 5px;
+	font-size: 22px;
+	line-height: 10px;
 }
 
 .login-panel input {

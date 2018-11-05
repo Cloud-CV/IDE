@@ -70,7 +70,8 @@ class Login extends React.Component {
       return (
         <div>
           <h5 className="sidebar-heading" id="sidebar-login-button" onClick={ () => {this.openLoginPanel(); }}>LOGIN</h5>
-          <div id="login-prepanel" onClick={ (e) => { if (e.target.id == "login-prepanel") this.closeLoginPanel() } }>
+          <div id="login-prepanel" onClick={ (e) => { if (e.target.id == "login-prepanel" || e.target.id == "login-panel-close") this.closeLoginPanel() } }>
+            <i className="material-icons" id="login-panel-close">close</i>
             <div className="login-panel">
               <div className="login-logo">
                 <a href="http://fabrik.cloudcv.org">
@@ -87,10 +88,12 @@ class Login extends React.Component {
                   <input type="password" placeholder="password"></input>
                 </h5>
                 <h5 className="login-button sidebar-heading" onClick={ () => this.openLoginPanel() }>
-                  <span className="sidebar-heading-first-letter">L</span>OGIN
+                  <span className="sidebar-heading-first-letter">L</span>OGIN&nbsp;
+                  <i className="material-icons login-action-icon">vpn_key</i>
                 </h5>
                 <h5 className="login-button sidebar-heading" onClick={ () => this.openLoginPanel() }>
                   REGISTER 
+                  <i className="material-icons login-action-icon">add</i>
                 </h5>
                 <h5 className="sidebar-heading login-prebtn">
                   <div className="col-md-6">
