@@ -62,6 +62,19 @@ Below are tables showing which layers are supported by Caffe, Keras, and Tensorf
 | GlobalAveragePooling3D    | ×             | √            | √           | ×             | ×               | ×                    |
 | Stochastic Pooling        | √             | ×            | ×           | √             | ×               | ×                    |
  
+ ### Data Layers
+| Layer                     | Caffe         | Keras        | Tensorflow  | Fabrik Caffe  | Fabrik Keras    | Fabrik Tensorflow  |
+| :-----------------------: | :-----------: | :----------: | :---------: | :-----------: | :--------------: | :-----------------: | 
+| Image Data                | √             | √            | √           | √             | √               | √                    |
+| Data                      | √             | √            | √           | √             | √               | √                    |
+| HDF5 Data                 | √             | √            | √           | √             | √               | √                    |
+| HDF5 Output Data          | √             | √            | √           | √             | √               | √                    |
+| Input                     | √             | √            | √           | √             | √               | √                    |
+| Window Data               | √             | ×            | ×           | √             | ×               | ×                    |
+| Memory Data               | √             | √            | √           | √             | √               | √                    |
+| Dummy Data                | √             | ×            | ×           | √             | ×               | ×                    |
+| Python                    | √             | √            | √           | √             | √               | √                    |
+ 
 ### Locally-connected Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  | Fabrik Caffe  | Fabrik Keras    | Fabrik Tensorflow  |
 | :-----------------------: | :-----------: | :----------: | :---------: | :-----------: | :--------------: | :-----------------: | 
