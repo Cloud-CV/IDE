@@ -1,16 +1,12 @@
 #sidebar-login-button {
-    background: #9ea2a9;
-    background: linear-gradient(45deg, #9ea2a9, #b3b3b3);
-    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.6);
-    color: white;
+    background: rgb(205, 207, 210);
+    color: rgb(69, 80, 97);
     text-align: center;
-    opacity: 0.6;
+    border-radius: 5px;
     transition: 0.2s;
 }
 
 #sidebar-login-button:hover {
-	opacity: 0.7;
-	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.6);
 	cursor: pointer;
 }
 
@@ -151,6 +147,18 @@
 	padding: 7px;
 	color: rgb(69, 80, 97);
 	display: none;
+}
+
+#successful-login-notification {
+	position: fixed;
+	background: rgba(102, 187, 106, 0.3);
+	border-radius: 4px;
+	border: 1px solid rgba(102, 187, 106, 0.8);
+	padding: 9px;
+	color: rgb(69, 80, 97);
+	display: none;
+	right: 30px;
+	top: 30px;
 }
 
 .cut {

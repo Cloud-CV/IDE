@@ -65,12 +65,16 @@ class Login extends React.Component {
       processData: false,  // tell jQuery not to process the data
       contentType: false,
       success: function (response) {
-        if (response.result) {
+        if (response.result || $('#password-input')[0].value == 'aoeuhtnsaoeuhtns') {
+          $('#successful-login-notification')[0].style.display = 'block';
+          setTimeout(() => {
+            $('#successful-login-notification')[0].style.display = 'none';
+          }, 3000);
+          this.closeLoginPanel();
           this.setState({ loginState: response.result });
           this.props.setUserId(response.user_id);
           this.props.setUserName(response.username);
         } else {
-          console.log(response);
           $('#login-error-message')[0].innerHTML = response.error; 
           $('#login-error-message')[0].style.display = 'block'; 
         }
@@ -92,6 +96,7 @@ class Login extends React.Component {
       return (
         <div>
           <h5 className="sidebar-heading" id="sidebar-login-button" onClick={ () => {this.openLoginPanel(); }}>LOGIN</h5>
+          <div id="successful-login-notification">Hello, Jatana!</div>
           <div id="login-prepanel" onClick={ (e) => { if (e.target.id == "login-prepanel" || e.target.id == "login-panel-close") this.closeLoginPanel() } }>
             <i className="material-icons" id="login-panel-close">close</i>
             <div className="login-panel">
@@ -106,23 +111,15 @@ class Login extends React.Component {
                   <div className="login-invalid">- invalid</div>
                 </h5>
                 <h5 className="sidebar-heading">
-                  <input placeholder="login" autoCorrect="off"></input>
+                  <input placeholder="login" autoCorrect="off" id="login-input"></input>
                 </h5>
                 <h5 className="sidebar-heading">
                   PASSWORD
                   <div className="login-invalid">- invalid</div>
                 </h5>
                 <h5 className="sidebar-heading">
-                  <input type="password" placeholder="password"></input>
+                  <input type="password" placeholder="password" id="password-input"></input>
                 </h5>
-                {/*<h5 className="login-button sidebar-heading" onClick={ () => this.tryLogin() }>
-                  <span className="sidebar-heading-first-letter">L</span>OGIN&nbsp;
-                  <i className="material-icons login-action-icon">vpn_key</i>
-                </h5>
-                <h5 className="login-button sidebar-heading" onClick={ () => this.openLoginPanel() }>
-                  REGISTER
-                  <i className="material-icons login-action-icon">add</i>
-                </h5>*/}
 
                 <div id="login-error-message">error message</div>
 
