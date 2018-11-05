@@ -7,20 +7,20 @@
 Below are tables showing which layers are supported by Caffe, Keras, and Tensorflow:
  ### Core Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  | Fabrik Caffe  | Fabrik Keras    | Fabrik Tensorflow  |
-| :-----------------------: | :-----------: | :----------: | :---------: | :-----------: | :--------------: | :-----------------: | 
-| Activation                | √             | √            | √           | √             | √                | √                   | 
-| ActivityRegularization    | √             | √            | √           | ×             | √                | ×                   |
-| Dense                     | ×             | √            | √           | ×             | √                | ×                   |
-| Dropout                   | √             | √            | √           | √             | √                | √                   |
-| Flatten                   | √             | √            | √           | √             | √                | ×                   |
-| Lambda                    | ×             | √            | √           | ×             | ×                | ×                   |
-| Masking                   | √             | √            | √           | ×             | √                | ×                   |
-| Permute                   | ×             | √            | √           | ×             | √                | ×                   |
-| Repeat Vector             | ×             | √            | √           | ×             | √                | √                   |
-| Reshape                   | √             | √            | √           | √             | √                | ×                   |
-| Spatial Dropout 1D        | ×             | √            | √           | ×             | ×                | ×                   |
-| Spatial Dropout 2D        | ×             | √            | √           | ×             | ×                | ×                   |
-| Spatial Dropout 3D        | ×             | √            | √           | ×             | ×                | ×                   |
+| :-----------------------: | :-----------: | :----------: | :---------: | :-----------: | :--------------: | :---------------: | 
+| Activation                | ×             | √            | √           | ×             | √                | √                 | 
+| ActivityRegularization    | ×             | √            | √           | ×             | √                | ×                 |
+| Inner Product             | √             | √ (Dense     | √           | √             | √                | ×                 |
+| Dropout                   | √             | √            | √           | √             | √                | √                 |
+| Flatten                   | √             | √            | √           | √             | √                | ×                 |
+| Lambda                    | ×             | √            | √           | ×             | ×                | ×                 |
+| Masking                   | √             | √            | √           | ×             | √                | ×                 |
+| Permute                   | ×             | √            | √           | ×             | √                | ×                 |
+| Repeat Vector             | ×             | √            | √           | ×             | √                | √                 |
+| Reshape                   | √             | √            | √           | √             | √                | ×                 |
+| Spatial Dropout 1D        | ×             | √            | √           | ×             | ×                | ×                 |
+| Spatial Dropout 2D        | ×             | √            | √           | ×             | ×                | ×                 |
+| Spatial Dropout 3D        | ×             | √            | √           | ×             | ×                | ×                 |
  #### Convolutional Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  | Fabrik Caffe  | Fabrik Keras    | Fabrik Tensorflow  |
 | :-----------------------: | :-----------: | :----------: | :---------: | :-----------: | :--------------: | :-----------------: | 
@@ -65,15 +65,15 @@ Below are tables showing which layers are supported by Caffe, Keras, and Tensorf
  ### Data Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  | Fabrik Caffe  | Fabrik Keras    | Fabrik Tensorflow  |
 | :-----------------------: | :-----------: | :----------: | :---------: | :-----------: | :--------------: | :-----------------: | 
-| Image Data                | √             | √            | √           | √             | √               | √                    |
-| Data                      | √             | √            | √           | √             | √               | √                    |
-| HDF5 Data                 | √             | √            | √           | √             | √               | √                    |
-| HDF5 Output Data          | √             | √            | √           | √             | √               | √                    |
+| Image Data                | √             | √            | √           | √             | ×               | ×                    |
+| Data                      | √             | √            | √           | √             | ×               | ×                    |
+| HDF5 Data                 | √             | √            | √           | √             | ×               | ×                    |
+| HDF5 Output Data          | √             | √            | √           | √             | ×               | ×                    |
 | Input                     | √             | √            | √           | √             | √               | √                    |
 | Window Data               | √             | ×            | ×           | √             | ×               | ×                    |
-| Memory Data               | √             | √            | √           | √             | √               | √                    |
+| Memory Data               | √             | √            | √           | √             | ×               | ×                    |
 | Dummy Data                | √             | ×            | ×           | √             | ×               | ×                    |
-| Python                    | √             | √            | √           | √             | √               | √                    |
+| Python                    | √             | √            | √           | √             | ×               | ×                    |
  
 ### Locally-connected Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  | Fabrik Caffe  | Fabrik Keras    | Fabrik Tensorflow  |
@@ -130,24 +130,24 @@ Below are tables showing which layers are supported by Caffe, Keras, and Tensorf
 | Log                       | √             | √            | ×           | √             | ×                | ×                   |
 | BNLL                      | √             | ×            | ×           | √             | ×                | ×                   |
 | Bias                      | √             | ×            | ×           | √             | √                | √                   |
-| Scale                     | √             | ×            | ×           | √             | √                | √                   |
+| Scale                     | √             | ×            | ×           | √             | ×                | ×                   |
  ### Utility Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  | Fabrik Caffe  | Fabrik Keras    | Fabrik Tensorflow  |
-| :-----------------------: | :-----------: | :----------: | :---------: | :-----------: | :--------------: | :-----------------: | 
-| Slicing                   | √             | ×            | ×           | √             | ×                | ×                   |
-| Eltwise                   | √             | ×            | ×           | √             | √                | √                   |
-| Parameter                 | √             | ×            | ×           | √             | ×                | √                   |
-| Reduction                 | √             | ×            | ×           | √             | ×                | ×                  |
-| Silence                   | √             | ×            | ×           | ×             | ×                | ×                   |
+| :-----------------------: | :-----------: | :----------: | :---------: | :-----------: | :--------------: | :---------------: | 
+| Slicing                   | √             | ×            | ×           | √             | ×                | ×                 |
+| Eltwise                   | √             | ×            | ×           | √             | √                | √                 |
+| Parameter                 | √             | ×            | ×           | √             | ×                | √                 |
+| Reduction                 | √             | ×            | ×           | √             | ×                | ×                 |
+| Silence                   | √             | ×            | ×           | √             | ×                | ×                 |
  ### Loss Layers
 | Layer                     | Caffe         | Keras        | Tensorflow  | Fabrik Caffe  | Fabrik Keras    | Fabrik Tensorflow  |
 | :-----------------------: | :-----------: | :----------: | :---------: | :-----------: | :--------------: | :-----------------: | 
-| Multinomial Logistic Loss | √             | ×            | ×           | ×             | ×                | ×                   |
+| Multinomial Logistic Loss | √             | ×            | ×           | √             | ×                | ×                   |
 | Infogain Loss             | √             | ×            | ×           | √             | ×                | ×                   |
 | Softmax with Loss         | √             | ×            | √           | √             | ×                | ×                   |
-| Sum-of-Squares/Euclidean  | √             | ×            | ×           | ×             | ×                | ×                   |
+| Sum-of-Squares/Euclidean  | √             | ×            | ×           | √             | ×                | ×                   |
 | Hinge / Margin            | √             | √            | √           | √             | ×                | ×                   |
-| Sigmoid Cross-Entropy Loss| √             | ×            | √           | ×             | ×                | ×                   |
+| Sigmoid Cross-Entropy Loss| √             | ×            | √           | √             | ×                | ×                   |
 | Accuracy / Top-k layer    | √             | ×            | ×           | √             | ×                | ×                   |
 | Contrastive Loss          | √             | ×            | ×           | √             | ×                | ×                   |
  ### Normalization Layers
