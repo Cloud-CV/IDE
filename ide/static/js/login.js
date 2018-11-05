@@ -58,6 +58,28 @@ class Login extends React.Component {
   closeLoginPanel() {
     $('#login-prepanel')[0].classList.remove('login-prepanel-enabled');
   }
+  tryLogin() {
+    $.ajax({
+      url: '/backendAPI/checkLogin',
+      type: 'GET',
+      processData: false,  // tell jQuery not to process the data
+      contentType: false,
+      success: function (response) {
+        if (response.result) {
+          this.setState({ loginState: response.result });
+          this.props.setUserId(response.user_id);
+          this.props.setUserName(response.username);
+        } else {
+          for (let elem of $('.login-invalid')) {
+            elem.classList.add('login-invalid-enabled');
+          }
+        }
+      }.bind(this),
+      error: function () {
+        this.setState({ loginState: false });
+      }.bind(this)
+    });
+  }
   render() {
     if(this.state.loginState) {
       return (
@@ -79,15 +101,21 @@ class Login extends React.Component {
                 </a>
               </div>
               <div className="login-panel-main">
-                <h5 className="sidebar-heading">LOGIN</h5>
+                <h5 className="sidebar-heading">
+                  LOGIN
+                  <div className="login-invalid">- invalid</div>
+                </h5>
                 <h5 className="sidebar-heading">
                   <input placeholder="login" autoCorrect="off"></input>
                 </h5>
-                <h5 className="sidebar-heading">PASSWORD</h5>
+                <h5 className="sidebar-heading">
+                  PASSWORD
+                  <div className="login-invalid">- invalid</div>
+                </h5>
                 <h5 className="sidebar-heading">
                   <input type="password" placeholder="password"></input>
                 </h5>
-                <h5 className="login-button sidebar-heading" onClick={ () => this.openLoginPanel() }>
+                <h5 className="login-button sidebar-heading" onClick={ () => this.tryLogin() }>
                   <span className="sidebar-heading-first-letter">L</span>OGIN&nbsp;
                   <i className="material-icons login-action-icon">vpn_key</i>
                 </h5>

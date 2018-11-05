@@ -129,6 +129,24 @@
 	line-height: 10px;
 }
 
+#login-prepanel h5 {
+	position: relative;
+}
+
+.login-invalid {
+	position: absolute;
+	right: 20px;
+	top: 10px;
+	color: #ff7676;
+	opacity: 0;
+	transition: 0.3s;
+}
+
+.login-invalid-enabled {
+	right: 10px;
+	opacity: 1;
+}
+
 .login-panel input {
 	outline: none;
 	background: none;
