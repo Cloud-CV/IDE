@@ -1,7 +1,3 @@
-.sidebar-heading-first-letter {
-	// color: rgb(43, 160, 212);
-}
-
 #sidebar-login-button {
     background: #9ea2a9;
     background: linear-gradient(45deg, #9ea2a9, #b3b3b3);
@@ -20,7 +16,6 @@
 
 #login-prepanel {
 	background: rgba(51, 51, 51, 0.7);
-    // background: linear-gradient(45deg, #9ea2a9, #b3b3b3);
 
 	position: fixed;
 	top: 0px;
@@ -73,7 +68,6 @@
 
 .login-logo {
 	text-align: center;
-	/*background: rgba(100, 100, 100, 0.3);*/
 	background: rgb(71, 80, 97);
 	padding: 20px;
 	box-shadow: 0px 1px 1px 1px rgba(100, 100, 100, 0.3);
