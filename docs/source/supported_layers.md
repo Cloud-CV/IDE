@@ -10,7 +10,7 @@ Below are tables showing which layers are supported by Caffe, Keras, and Tensorf
 | :-----------------------: | :-----------: | :----------: | :---------: | :-----------: | :--------------: | :---------------: | 
 | Activation                | ×             | √            | √           | ×             | √                | √                 | 
 | ActivityRegularization    | ×             | √            | √           | ×             | √                | ×                 |
-| Inner Product             | √             | √ (Dense     | √           | √             | √                | ×                 |
+| Inner Product             | √             | √ (Dense)     | √           | √             | √                | ×                 |
 | Dropout                   | √             | √            | √           | √             | √                | √                 |
 | Flatten                   | √             | √            | √           | √             | √                | ×                 |
 | Lambda                    | ×             | √            | √           | ×             | ×                | ×                 |
