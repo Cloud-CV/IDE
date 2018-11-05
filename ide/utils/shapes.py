@@ -139,6 +139,15 @@ def repeat(layer):
     return shape
 
 
+def capsule(layer):
+    if (layer['info']['type'] == "CapsuleLayer"):
+        return [layer['params']['dim_capsule'], layer['params']['num_capsule']]
+    elif (layer['info']['type'] == "MaskCapsule"):
+        return [layer['shape']['input'][0][0] * layer['shape']['input'][0][1]]
+    else:
+        return [layer['shape']['input'][0]]
+
+
 def handle_concat_layer(outputLayer, inputLayer):
     if('input' not in outputLayer['shape']):
         shape = inputLayer['shape']['output'][:]
@@ -147,6 +156,17 @@ def handle_concat_layer(outputLayer, inputLayer):
         shape = inputLayer['shape']['output'][:]
         shape[0] += old_num_output
     return shape
+
+
+def handle_mask_capsule_layer_input(inlayer, masklayer):
+    if inlayer['info']['type'] == "CapsuleLayer":
+        shape = inlayer['shape']['output'][:]
+        return shape
+    else:
+        shape = []
+        shape.append(masklayer['shape']['input'][:])
+        shape.append(inlayer['shape']['output'][:])
+        return shape
 
 
 def get_layer_shape(layer):
@@ -160,6 +180,9 @@ def get_layer_shape(layer):
 
     elif(layer['info']['type'] in ['Convolution', 'Pooling', 'Deconvolution', 'DepthwiseConv']):
         return filter(layer)
+
+    elif(layer['info']['type'] in ['CapsuleLayer', 'Length', 'MaskCapsule']):
+        return capsule(layer)
 
     elif(layer['info']['type'] in ['InnerProduct', 'Recurrent', 'RNN', 'LSTM', 'Embed']):
         return output(layer)
@@ -208,7 +231,6 @@ def get_shapes(net):
     while(len(queue)):
         # using deque as stack
         layerId = queue.pop()
-
         if(net[layerId]['info']['type'] in dataLayers):
             net[layerId]['shape']['input'], net[layerId]['shape']['output'] = get_layer_shape(net[layerId])
         else:
@@ -219,6 +241,9 @@ def get_shapes(net):
                 # Handling Concat layer separately
                 if (net[outputId]['info']['type'] == "Concat"):
                     net[outputId]['shape']['input'] = handle_concat_layer(net[outputId], net[layerId])
+                elif (net[outputId]['info']['type'] == "MaskCapsule"):
+                    net[outputId]['shape']['input'] = handle_mask_capsule_layer_input(net[layerId],
+                                                                                      net[outputId])
                 else:
                     net[outputId]['shape']['input'] = net[layerId]['shape']['output'][:]
 

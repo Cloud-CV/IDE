@@ -27,6 +27,9 @@ class CapsuleLayer(Layer):
         self.b = self.add_weight(shape=[input_shape[1], self.num_capsule],
                                  initializer=self.bias_initializer,
                                  name='b')
+        self.c = self.add_weight(shape=[input_shape[1], self.num_capsule],
+                                 initializer=self.bias_initializer,
+                                 name='c')
         super(CapsuleLayer, self).build(input_shape)
 
     def call(self, inputs, training=None):
@@ -36,6 +39,8 @@ class CapsuleLayer(Layer):
         input_shape = K.shape(inputs_hat)
         b = self.b
         b = K.expand_dims(b, axis=0)
+        c = self.c
+        c = K.expand_dims(c, axis=0)
         assert self.num_routing > 0
         for i in range(self.num_routing):
             c = K.softmax(b)

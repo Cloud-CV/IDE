@@ -136,6 +136,7 @@ def squash(layer, layer_in, layerId):
     axis = layer['params']['axis']
     out = {}
     out[layerId] = Squash(axis=axis)(*layer_in)
+    return out
 
 
 def dropout(layer, layer_in, layerId, tensor=True):
