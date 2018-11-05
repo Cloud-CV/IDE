@@ -15,7 +15,7 @@ import UrlImportModal from './urlImportModal';
 import UserProfile from './UserProfile';
 import UpdateHistoryModal from './updateHistoryModal';
 import CommentSidebar from './CommentSidebar';
-import FilterBar from './filterbar';
+import FilterBar from './filterBar';
 import $ from 'jquery'
 
 const infoStyle = {
@@ -1313,9 +1313,9 @@ class Content extends React.Component {
              <div id="insert-layer-sign">INSERT LAYER</div>
              </h5>
              <h5 className="sidebar-heading insert-layer-title">
-              <input id="layer-search-input" placeholder="Search for layer"></input>
-              <i className="material-icons" id="layer-search-icon">search</i>
-              <FilterBar />
+             <input id="layer-search-input" placeholder="Search for layer"></input>
+             <i className="material-icons" id="layer-search-icon">search</i>
+             <FilterBar />
              </h5>
              <Pane
              handleClick = {this.handleClick}
