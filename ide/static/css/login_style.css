@@ -61,7 +61,6 @@
 .login-panel {
 	position: relative;
 	width: 350px;
-	height: 420px;
 	background: rgba(243, 243, 243, 0.99);
 	box-shadow: 0px 0px 2px 1px rgb(100, 100, 100);
 	margin: auto;
@@ -71,6 +70,7 @@
 
 	animation-name: frames-logo-appear;
 	animation-duration: 0.5s;
+	padding-bottom: 35px;
 }
 
 .login-panel-main {
@@ -128,7 +128,8 @@
 
 .login-button .btn-social {
 	box-shadow: none !important;
-	color: #9ea2a9;
+	color: rgb(69, 80, 97);
+	background: rgb(205, 207, 210);
 }
 
 .login-button .btn-social:hover {
@@ -141,6 +142,15 @@
 
 .extra-login {
 	margin-bottom: 10px !important;
+}
+
+#login-error-message {
+	background: rgba(221, 75, 57, 0.3);
+	border-radius: 4px;
+	border: 1px solid rgba(221, 75, 57, 0.8);
+	padding: 7px;
+	color: rgb(69, 80, 97);
+	display: none;
 }
 
 .cut {

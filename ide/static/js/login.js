@@ -70,9 +70,9 @@ class Login extends React.Component {
           this.props.setUserId(response.user_id);
           this.props.setUserName(response.username);
         } else {
-          for (let elem of $('.login-invalid')) {
-            elem.classList.add('login-invalid-enabled');
-          }
+          console.log(response);
+          $('#login-error-message')[0].innerHTML = response.error; 
+          $('#login-error-message')[0].style.display = 'block'; 
         }
       }.bind(this),
       error: function () {
@@ -124,6 +124,8 @@ class Login extends React.Component {
                   <i className="material-icons login-action-icon">add</i>
                 </h5>*/}
 
+                <div id="login-error-message">error message</div>
+
                 <h5 className="sidebar-heading login-prebtn">
                   <div className="col-md-6 login-button" id="login-button">
                     <a className="btn btn-block btn-social" onClick={ () => this.tryLogin() } style={{width: '105px'}}>
@@ -135,7 +137,7 @@ class Login extends React.Component {
                 <h5 className="sidebar-heading login-prebtn">
                   <div className="col-md-5 login-button">
                     <a className="btn btn-block btn-social" onClick={() => window.location="/accounts/google/login"}  style={{width: '105px'}}>
-                      <i className="material-icons">add</i>Register
+                      <i className="material-icons">add</i>Sign up
                     </a>
                   </div>
                 </h5>
