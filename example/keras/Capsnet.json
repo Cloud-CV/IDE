@@ -408,7 +408,7 @@
                 0
             ]
         ], 
-        "name": "model_1"
+        "name": "CapsNet"
     }, 
     "backend": "tensorflow"
 }
