@@ -60,7 +60,6 @@ class Login extends React.Component {
   }
   tryLogin() {
     let username = $('#login-input')[0].value;
-    let password = $('#password-input')[0].value;
     $.ajax({
       url: '/backendAPI/checkLogin',
       type: 'GET',
@@ -76,7 +75,7 @@ class Login extends React.Component {
           }, 3000);
 
           this.closeLoginPanel();
-          $('#sidebar-login-button')[0].style.display = 'none';
+          $('#sidebar-login-button')[0].innerHTML = 'LOGOUT';
 
           this.setState({ loginState: response.result });
           this.props.setUserId(response.user_id);
@@ -108,7 +107,12 @@ class Login extends React.Component {
             <i className="material-icons">done</i>
             <div id="successful-login-notification-message"></div>
           </div>
-          <div id="login-prepanel" onClick={ (e) => { if (e.target.id == "login-prepanel" || e.target.id == "login-panel-close") this.closeLoginPanel() } }>
+          <div id="login-prepanel" onClick={
+              (e) => {
+                if (e.target.id == "login-prepanel" || e.target.id == "login-panel-close")
+                  this.closeLoginPanel()
+              }
+            }>
             <div className="login-panel">
               <i className="material-icons" id="login-panel-close">close</i>
               <div className="login-logo">
@@ -159,7 +163,9 @@ class Login extends React.Component {
 
                 <h5 className="sidebar-heading login-prebtn">
                   <div className="col-md-6">
-                    <a className="btn btn-block btn-social btn-github" onClick={() => window.location="/accounts/github/login"} style={{width: '105px'}}>
+                    <a className="btn btn-block btn-social btn-github" onClick={
+                        () => window.location="/accounts/github/login"
+                      } style={{width: '105px'}}>
                       <span className="fa fa-github"></span>Github
                     </a>
                   </div>
@@ -167,7 +173,9 @@ class Login extends React.Component {
 
                 <h5 className="sidebar-heading login-prebtn">
                   <div className="col-md-5">
-                    <a className="btn btn-block btn-social btn-google" onClick={() => window.location="/accounts/google/login"}  style={{width: '105px'}}>
+                    <a className="btn btn-block btn-social btn-google" onClick={
+                        () => window.location="/accounts/google/login"
+                      }  style={{width: '105px'}}>
                       <span className="fa fa-google"></span>Google
                     </a>
                   </div>
