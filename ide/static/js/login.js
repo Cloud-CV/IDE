@@ -8,7 +8,9 @@ class Login extends React.Component {
   }
   componentWillMount() {
     this.setState({ loginState: false });
-    this.checkLogin();
+  }
+  componentDidMount() {
+    this.tryLogin(false);
   }
   checkLogin() {
     $.ajax({
@@ -39,6 +41,8 @@ class Login extends React.Component {
           this.setState({ loginState: false });
           this.props.setUserId(null);
           this.props.setUserName(null);
+
+          $('#login-prepanel')[0].style.display = 'none';
         }
       }.bind(this),
       error: function () {
@@ -54,7 +58,7 @@ class Login extends React.Component {
   closeLoginPanel() {
     $('#login-prepanel')[0].classList.remove('login-prepanel-enabled');
   }
-  tryLogin() {
+  tryLogin(showNotification) {
     let username = $('#login-input')[0].value;
     $.ajax({
       url: '/backendAPI/checkLogin',
@@ -63,21 +67,21 @@ class Login extends React.Component {
       contentType: false,
       success: function (response) {
         if (response.result) {
-          this.closeLoginPanel();
-
           this.setState({ loginState: response.result });
           this.props.setUserId(response.user_id);
           this.props.setUserName(response.username);
 
-          $('#successful-login-notification')[0].style.display = 'block';
-          $('#successful-login-notification-message')[0].innerHTML = 'Welcome, ' + username + '!';
+          if (showNotification) {
+            $('#successful-login-notification')[0].style.display = 'block';
+            $('#successful-login-notification-message')[0].innerHTML = 'Welcome, ' + username + '!';
 
-          setTimeout(() => {
-            let elem = $('#successful-login-notification')[0];
-            if (elem) {
-              elem.style.display = 'none';
-            }
-          }, 3000);
+            setTimeout(() => {
+              let elem = $('#successful-login-notification')[0];
+              if (elem) {
+                elem.style.display = 'none';
+              }
+            }, 3000);
+          }
         }
         else {
           $('#login-error-message-text')[0].innerHTML = response.error; 
@@ -94,7 +98,8 @@ class Login extends React.Component {
       return (
         <div>
           <h5 className="sidebar-heading" id="sidebar-login-button" onClick={
-            () => { this.logoutUser();
+            () => {
+              this.logoutUser();
           }}>
           <div>LOGOUT</div>
           </h5>
@@ -111,13 +116,16 @@ class Login extends React.Component {
           <h5 className="sidebar-heading" id="sidebar-login-button" onClick={
             () => {
               this.openLoginPanel();
+              console.log('open');
             }}>
             <div>LOGIN</div>
           </h5>
           <div id="login-prepanel" onClick={
               (e) => {
-                if (e.target.id == "login-prepanel" || e.target.id == "login-panel-close")
-                  this.closeLoginPanel()
+                if (e.target.id == "login-prepanel" || e.target.id == "login-panel-close") {
+                  this.closeLoginPanel();
+                  console.log('close');
+                }
               }
             }>
             <div className="login-panel">
@@ -150,7 +158,7 @@ class Login extends React.Component {
 
                 <h5 className="sidebar-heading login-prebtn">
                   <div className="col-md-6 login-button" id="login-button">
-                    <a className="btn btn-block btn-social" onClick={ () => this.tryLogin() } style={{width: '105px'}}>
+                    <a className="btn btn-block btn-social" onClick={ () => this.tryLogin(true) } style={{width: '105px'}}>
                       <span className="fa fa-sign-in"></span>Login
                     </a>
                   </div>
