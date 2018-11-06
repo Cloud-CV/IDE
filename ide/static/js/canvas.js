@@ -15,6 +15,7 @@ class Canvas extends React.Component {
     this.scrollCanvas = this.scrollCanvas.bind(this);
     this.clickCanvas = this.clickCanvas.bind(this);
     this.clickLayerEvent = this.clickLayerEvent.bind(this);
+    this.clickMultipleLayerEvent = this.clickMultipleLayerEvent.bind(this);
     this.hoverLayerEvent = this.hoverLayerEvent.bind(this);
     // whether a layer was clicked or dragged
     this.clickOrDraggedLayer = 0;
@@ -235,7 +236,14 @@ class Canvas extends React.Component {
   allowDrop(event) {
     event.preventDefault();
   }
+  clickMultipleLayerEvent(event, layerId) {
+    event.preventDefault();
+    if (event.target.tagName.toLowerCase() == 'div') {
+      this.props.addLayerToMultipleSelection(layerId);
+    }
+  }
   clickLayerEvent(event, layerId) { // happens when layer is clicked and also dragged
+    event.preventDefault();
     if (event.target.tagName.toLowerCase() == 'div') {
       if (this.clickOrDraggedLayer === 0) {
         this.props.changeSelectedLayer(layerId); // clicked
@@ -420,6 +428,7 @@ class Canvas extends React.Component {
             top={layer.state.top}
             left={layer.state.left}
             click={this.clickLayerEvent}
+            onContextMenu={this.clickMultipleLayerEvent}
             hover={this.hoverLayerEvent}
             layer={layer}
             net={this.props.net}

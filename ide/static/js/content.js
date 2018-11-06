@@ -41,6 +41,7 @@ class Content extends React.Component {
       networkId: 0,
       draggingLayer: null,
       selectedLayer: null,
+      selectedLayers: [],
       commentOnLayer: null,
       hoveredLayer: null,
       nextLayerId: 0,
@@ -61,6 +62,7 @@ class Content extends React.Component {
     };
     this.addNewLayer = this.addNewLayer.bind(this);
     this.changeSelectedLayer = this.changeSelectedLayer.bind(this);
+    this.addLayerToMultipleSelection = this.addLayerToMultipleSelection.bind(this);
     this.changeHoveredLayer = this.changeHoveredLayer.bind(this);
     this.componentWillMount = this.componentWillMount.bind(this);
     this.modifyLayer = this.modifyLayer.bind(this);
@@ -383,32 +385,60 @@ class Content extends React.Component {
       commentOnLayer: layerId
     });
   }
+  updateLayerCSSClasses(layerId) {
+    let cl = ' noselect';
+    if (this.state.selectedLayer == layerId) {
+      cl += ' selected';
+    }
+    if (this.state.hoveredLayer == layerId) {
+      cl += ' hover';
+    }
+    if (this.state.selectedLayers.indexOf(layerId) != -1) {
+      cl += ' multi-selected';
+    }
+    this.state.net[layerId].info.class = cl;
+  }
+  updateLayersCSSClasses() {
+    let net = this.state.net;
+    let ids = [];
+    for (let id in net) {
+      ids[ids.length] = id;
+    }
+    for (let id of ids) {
+      this.updateLayerCSSClasses(id);
+    }
+  }
+  addLayerToMultipleSelection(layerId) {
+    const net = this.state.net;
+
+    if (layerId) {
+      let l = this.state.selectedLayers || [];
+
+      let ind = l.indexOf(layerId);
+      if (ind != -1) {
+        l.splice(ind, 1);
+      } else {
+        l[l.length] = layerId;
+      }
+      this.state.selectedLayers = l;
+      this.updateLayersCSSClasses();
+      this.setState({ net, selectedLayers: l });
+    }
+  }
   changeSelectedLayer(layerId) {
     const net = this.state.net;
-    if (this.state.selectedLayer) {
-      // remove css from previously selected layer
-      net[this.state.selectedLayer].info.class = '';
-    }
-    if (layerId) {
-      // css when layer is selected
-      net[layerId].info.class = 'selected';
-    }
     if (this.state.isShared && !this.state.isForked) {
       this.addHighlightOnLayer(layerId, this.state.selectedLayer);
     }
-    this.setState({ net, selectedLayer: layerId });
+    this.state.selectedLayer = layerId;
+    this.updateLayersCSSClasses();
+    this.setState({ net });
   }
   changeHoveredLayer(layerId) {
     const net = this.state.net;
-    if (this.state.hoveredLayer && this.state.hoveredLayer in net) {
-      // remove css from previously selected layer
-      net[this.state.hoveredLayer].info.class = '';
-    }
-    if (layerId) {
-      // css when layer is selected
-      net[layerId].info.class = 'hover';
-    }
-    this.setState({ net, hoveredLayer: layerId });
+    this.state.hoveredLayer = layerId;
+    this.updateLayersCSSClasses();
+    this.setState({ net });
   }
 
   modifyLayer(layer, layerId = this.state.selectedLayer) {
@@ -1342,6 +1372,7 @@ class Content extends React.Component {
             addNewLayer={this.addNewLayer}
             nextLayerId={this.state.nextLayerId}
             changeSelectedLayer={this.changeSelectedLayer}
+            addLayerToMultipleSelection={this.addLayerToMultipleSelection}
             changeHoveredLayer={this.changeHoveredLayer}
             modifyLayer={this.modifyLayer}
             changeNetStatus={this.changeNetStatus}

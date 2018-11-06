@@ -738,8 +738,17 @@ button.url-import-modal-button {
       resize: none;
 }
 
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
 
-.layer{
+.layer {
   font-size: 22px;
   width: 130px;
   padding: 5px 0px 5px 0px;
@@ -752,11 +761,15 @@ button.url-import-modal-button {
   cursor: pointer;
 }
 
-.selected{
+.selected {
   box-shadow: 0px 0px 30px #aaa;
   -o-box-shadow: 0px 0px 30px #aaa;
   -webkit-box-shadow: 0px 0px 30px #aaa;
   -moz-box-shadow: 0px 0px 30px #aaa;
+}
+
+.multi-selected {
+  border: 2px solid #29B6F6 !important;
 }
 
 .highlighted {
