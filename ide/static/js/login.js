@@ -102,7 +102,14 @@ class Login extends React.Component {
     else {
       return (
         <div>
-          <h5 className="sidebar-heading" id="sidebar-login-button" onClick={ () => {this.openLoginPanel(); }}>LOGIN</h5>
+          <h5 className="sidebar-heading" id="sidebar-login-button" onClick={
+            () => {
+              if (!this.state.loginState) {
+                this.openLoginPanel();
+              } else {
+                this.logoutUser();
+              }
+          }}>LOGIN</h5>
           <div id="successful-login-notification">
             <i className="material-icons">done</i>
             <div id="successful-login-notification-message"></div>
