@@ -3,7 +3,7 @@ import React from 'react';
 class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.checkLogin = this.checkLogin.bind(this);
+    this.tryLogin = this.tryLogin.bind(this);
     this.logoutUser = this.logoutUser.bind(this);
   }
   componentWillMount() {
@@ -11,24 +11,6 @@ class Login extends React.Component {
   }
   componentDidMount() {
     this.tryLogin(false);
-  }
-  checkLogin() {
-    $.ajax({
-      url: '/backendAPI/checkLogin',
-      type: 'GET',
-      processData: false,  // tell jQuery not to process the data
-      contentType: false,
-      success: function (response) {
-        if (response.result) {
-          this.setState({ loginState: response.result });
-          this.props.setUserId(response.user_id);
-          this.props.setUserName(response.username);
-        }
-      }.bind(this),
-      error: function () {
-        this.setState({ loginState: false });
-      }.bind(this)
-    });
   }
   logoutUser() {
     $.ajax({
@@ -60,11 +42,16 @@ class Login extends React.Component {
   }
   tryLogin(showNotification) {
     let username = $('#login-input')[0].value;
+    let password = $('#password-input')[0].value;
+
     $.ajax({
       url: '/backendAPI/checkLogin',
       type: 'GET',
-      processData: false,  // tell jQuery not to process the data
       contentType: false,
+      data: {
+        username: username,
+        password: password 
+      },
       success: function (response) {
         if (response.result) {
           this.setState({ loginState: response.result });
@@ -84,8 +71,10 @@ class Login extends React.Component {
           }
         }
         else {
-          $('#login-error-message-text')[0].innerHTML = response.error; 
-          $('#login-error-message')[0].style.display = 'block'; 
+          if (showNotification) {
+            $('#login-error-message-text')[0].innerHTML = response.error; 
+            $('#login-error-message')[0].style.display = 'block'; 
+          }
         }
       }.bind(this),
       error: function () {
@@ -116,7 +105,6 @@ class Login extends React.Component {
           <h5 className="sidebar-heading" id="sidebar-login-button" onClick={
             () => {
               this.openLoginPanel();
-              console.log('open');
             }}>
             <div>LOGIN</div>
           </h5>
@@ -124,7 +112,6 @@ class Login extends React.Component {
               (e) => {
                 if (e.target.id == "login-prepanel" || e.target.id == "login-panel-close") {
                   this.closeLoginPanel();
-                  console.log('close');
                 }
               }
             }>

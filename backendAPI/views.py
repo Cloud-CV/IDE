@@ -6,9 +6,10 @@ from django.contrib.auth.models import User
 
 def check_login(request):
     try:
-        user = User.objects.get(username=request.user.username)
+        username = request.GET['username']
+        password = request.GET['password']
+        user = User.objects.get(username=username, password=password)
         user_id = user.id
-        username = 'Anonymous'
 
         is_authenticated = user.is_authenticated()
         if (is_authenticated):
@@ -17,7 +18,7 @@ def check_login(request):
         return JsonResponse({
             'result': is_authenticated,
             'user_id': user_id,
-            'username': username
+            'username': username,
         })
     except Exception as e:
         return JsonResponse({
