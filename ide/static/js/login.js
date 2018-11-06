@@ -81,8 +81,8 @@ class Login extends React.Component {
           this.setState({ loginState: response.result });
           this.props.setUserId(response.user_id);
           this.props.setUserName(response.username);
-       
-        } else {
+        }
+        else {
           $('#login-error-message-text')[0].innerHTML = response.error; 
           $('#login-error-message')[0].style.display = 'block'; 
         }
