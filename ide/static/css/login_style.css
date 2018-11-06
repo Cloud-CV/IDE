@@ -4,10 +4,18 @@
     text-align: center;
     border-radius: 5px;
     transition: 0.2s;
+    position: relative;
 }
 
 #sidebar-login-button:hover {
 	cursor: pointer;
+}
+
+#sidebar-login-button span {
+	position: absolute;
+	left: 9px;
+	font-size: 20px;
+	top: 7px;
 }
 
 #login-prepanel {

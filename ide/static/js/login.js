@@ -75,7 +75,9 @@ class Login extends React.Component {
           }, 3000);
 
           this.closeLoginPanel();
-          $('#sidebar-login-button')[0].innerHTML = 'LOGOUT';
+          $('#sidebar-login-button div')[0].innerHTML = 'LOGOUT';
+          $('#sidebar-login-button span')[0].classList.remove('fa-sign-in');
+          $('#sidebar-login-button span')[0].classList.add('fa-sign-out');
 
           this.setState({ loginState: response.result });
           this.props.setUserId(response.user_id);
@@ -109,7 +111,11 @@ class Login extends React.Component {
               } else {
                 this.logoutUser();
               }
-          }}>LOGIN</h5>
+          }}>
+            <span className="fa fa-sign-in">
+            </span>
+            <div>LOGIN</div>
+          </h5>
           <div id="successful-login-notification">
             <i className="material-icons">done</i>
             <div id="successful-login-notification-message"></div>
