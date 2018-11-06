@@ -101,8 +101,8 @@ class Login extends React.Component {
           <h5 className="sidebar-heading" id="sidebar-login-button" onClick={ () => {this.openLoginPanel(); }}>LOGIN</h5>
           <div id="successful-login-notification"></div>
           <div id="login-prepanel" onClick={ (e) => { if (e.target.id == "login-prepanel" || e.target.id == "login-panel-close") this.closeLoginPanel() } }>
-            <i className="material-icons" id="login-panel-close">close</i>
             <div className="login-panel">
+              <i className="material-icons" id="login-panel-close">close</i>
               <div className="login-logo">
                 <a href="http://fabrik.cloudcv.org">
                   <img src="/static/img/fabrik_t.png" className="img-responsive" alt="logo" id="login-logo"></img>
