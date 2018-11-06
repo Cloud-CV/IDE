@@ -72,10 +72,12 @@ changeEvent(cbid) {
     render() {
       return (
             <div>
-              <div className="form-group pull-right filter-button">
+              <input id="layer-search-input" placeholder="Search for layer"></input>
+              <i className="material-icons" id="layer-search-icon">search</i>
+              <div className="form-group pull-right">
                 <div className="dropdown">
-                  <button id="topbar-icon" className="btn btn-default dropdown-toggle form-control" data-toggle="dropdown">
-                    <span className="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                  <button id="topbar-icon" className="btn btn-default dropdown-toggle form-control filter-button" data-toggle="dropdown">
+                    <span className="glyphicon glyphicon-filter filter-glyphicon" aria-hidden="true"></span>
                   </button>
                   <ul className="dropdown-menu pull-right">
                     <li>
