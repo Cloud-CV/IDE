@@ -67,16 +67,21 @@ class Login extends React.Component {
       processData: false,  // tell jQuery not to process the data
       contentType: false,
       success: function (response) {
-        if (response.result || password == 'aoeuhtnsaoeuhtns') {
+        if (response.result) {
           $('#successful-login-notification')[0].style.display = 'block';
           $('#successful-login-notification-message')[0].innerHTML = 'Welcome, ' + username + '!';
+
           setTimeout(() => {
             $('#successful-login-notification')[0].style.display = 'none';
           }, 3000);
+
           this.closeLoginPanel();
+          $('#sidebar-login-button')[0].style.display = 'none';
+
           this.setState({ loginState: response.result });
           this.props.setUserId(response.user_id);
           this.props.setUserName(response.username);
+       
         } else {
           $('#login-error-message-text')[0].innerHTML = response.error; 
           $('#login-error-message')[0].style.display = 'block'; 
@@ -149,7 +154,7 @@ class Login extends React.Component {
                 </h5>
 
                 <h5 className="sidebar-heading extra-login">
-                  EXTRA
+                  OTHER
                 </h5>
 
                 <h5 className="sidebar-heading login-prebtn">
