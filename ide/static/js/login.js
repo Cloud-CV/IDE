@@ -69,7 +69,7 @@ class Login extends React.Component {
       success: function (response) {
         if (response.result || password == 'aoeuhtnsaoeuhtns') {
           $('#successful-login-notification')[0].style.display = 'block';
-          $('#successful-login-notification')[0].innerHTML = 'Welcome, ' + username + '!';
+          $('#successful-login-notification-message')[0].innerHTML = 'Welcome, ' + username + '!';
           setTimeout(() => {
             $('#successful-login-notification')[0].style.display = 'none';
           }, 3000);
@@ -78,7 +78,7 @@ class Login extends React.Component {
           this.props.setUserId(response.user_id);
           this.props.setUserName(response.username);
         } else {
-          $('#login-error-message')[0].innerHTML = response.error; 
+          $('#login-error-message-text')[0].innerHTML = response.error; 
           $('#login-error-message')[0].style.display = 'block'; 
         }
       }.bind(this),
@@ -99,7 +99,10 @@ class Login extends React.Component {
       return (
         <div>
           <h5 className="sidebar-heading" id="sidebar-login-button" onClick={ () => {this.openLoginPanel(); }}>LOGIN</h5>
-          <div id="successful-login-notification"></div>
+          <div id="successful-login-notification">
+            <i className="material-icons">done</i>
+            <div id="successful-login-notification-message"></div>
+          </div>
           <div id="login-prepanel" onClick={ (e) => { if (e.target.id == "login-prepanel" || e.target.id == "login-panel-close") this.closeLoginPanel() } }>
             <div className="login-panel">
               <i className="material-icons" id="login-panel-close">close</i>
@@ -124,12 +127,15 @@ class Login extends React.Component {
                   <input type="password" placeholder="password" id="password-input"></input>
                 </h5>
 
-                <div id="login-error-message">error message</div>
+                <div id="login-error-message">
+                  <i className="material-icons">close</i>
+                  <div id="login-error-message-text"></div>
+                </div>
 
                 <h5 className="sidebar-heading login-prebtn">
                   <div className="col-md-6 login-button" id="login-button">
                     <a className="btn btn-block btn-social" onClick={ () => this.tryLogin() } style={{width: '105px'}}>
-                      <i className="material-icons">keyboard_arrow_right</i>Login
+                      <span className="fa fa-sign-in"></span>Login
                     </a>
                   </div>
                 </h5>
@@ -137,7 +143,7 @@ class Login extends React.Component {
                 <h5 className="sidebar-heading login-prebtn">
                   <div className="col-md-5 login-button">
                     <a className="btn btn-block btn-social" onClick={() => window.location="/accounts/google/login"}  style={{width: '105px'}}>
-                      <i className="material-icons">add</i>Sign up
+                      <span className="fa fa-user-plus"></span>Sign up
                     </a>
                   </div>
                 </h5>
