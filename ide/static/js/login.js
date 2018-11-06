@@ -51,7 +51,7 @@ class Login extends React.Component {
       data: {
         username: username,
         password: password,
-        isOAuth: (!showNotification).toString()
+        isOAuth: (!showNotification)
       },
       success: function (response) {
         if (response.result) {

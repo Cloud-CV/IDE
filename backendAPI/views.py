@@ -9,8 +9,14 @@ def check_login(request):
         if request.GET.get('isOAuth') == 'false':
             username = request.GET['username']
             password = request.GET['password']
-            user = User.objects.get(username=username, password=password)
+            user = User.objects.get(username=username)
             user_id = user.id
+
+            if not user.check_password(password):
+                return JsonResponse({
+                    'result': False,
+                    'error': 'incorrect password'
+                })
 
             is_authenticated = user.is_authenticated()
             if (is_authenticated):
