@@ -51,7 +51,7 @@ class Login extends React.Component {
       data: {
         username: username,
         password: password,
-        fabrik_login_system: true
+        isOAuth: true
       },
       success: function (response) {
         if (response.result) {
