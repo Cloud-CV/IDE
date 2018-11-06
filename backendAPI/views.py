@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 def check_login(request):
     try:
-        if request.GET.get('isOAuth', False):
+        if request.GET.get('isOAuth') == 'false':
             username = request.GET['username']
             password = request.GET['password']
             user = User.objects.get(username=username, password=password)
