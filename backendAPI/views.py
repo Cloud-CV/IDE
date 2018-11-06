@@ -15,7 +15,7 @@ def check_login(request):
             if not user.check_password(password):
                 return JsonResponse({
                     'result': False,
-                    'error': 'incorrect password'
+                    'error': 'Please enter valid credentials'
                 })
 
             is_authenticated = user.is_authenticated()
