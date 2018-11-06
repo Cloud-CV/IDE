@@ -1,3 +1,7 @@
+#sidebar {
+	z-index: 1000;
+}
+
 #sidebar-login-button {
     background: rgb(205, 207, 210);
     color: rgb(69, 80, 97);

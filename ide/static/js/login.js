@@ -47,13 +47,9 @@ class Login extends React.Component {
       }.bind(this)
     });
   }
-  componentDidMount() {
-    let base = $('#login-prepanel')[0];
-    base.parentNode.removeChild(base);
-    document.body.appendChild(base);
-  }
   openLoginPanel() {
     $('#login-prepanel')[0].classList.add('login-prepanel-enabled');
+    $('#login-prepanel')[0].style.display = 'block';
   }
   closeLoginPanel() {
     $('#login-prepanel')[0].classList.remove('login-prepanel-enabled');
@@ -67,21 +63,21 @@ class Login extends React.Component {
       contentType: false,
       success: function (response) {
         if (response.result) {
-          $('#successful-login-notification')[0].style.display = 'block';
-          $('#successful-login-notification-message')[0].innerHTML = 'Welcome, ' + username + '!';
-
-          setTimeout(() => {
-            $('#successful-login-notification')[0].style.display = 'none';
-          }, 3000);
-
           this.closeLoginPanel();
-          $('#sidebar-login-button div')[0].innerHTML = 'LOGOUT';
-          $('#sidebar-login-button span')[0].classList.remove('fa-sign-in');
-          $('#sidebar-login-button span')[0].classList.add('fa-sign-out');
 
           this.setState({ loginState: response.result });
           this.props.setUserId(response.user_id);
           this.props.setUserName(response.username);
+
+          $('#successful-login-notification')[0].style.display = 'block';
+          $('#successful-login-notification-message')[0].innerHTML = 'Welcome, ' + username + '!';
+
+          setTimeout(() => {
+            let elem = $('#successful-login-notification')[0];
+            if (elem) {
+              elem.style.display = 'none';
+            }
+          }, 3000);
         }
         else {
           $('#login-error-message-text')[0].innerHTML = response.error; 
@@ -97,7 +93,15 @@ class Login extends React.Component {
     if(this.state.loginState) {
       return (
         <div>
-          <a className="btn btn-block extra-buttons text-left" onClick={ () => this.logoutUser() }>Logout</a>
+          <h5 className="sidebar-heading" id="sidebar-login-button" onClick={
+            () => { this.logoutUser();
+          }}>
+          <div>LOGOUT</div>
+          </h5>
+          <div id="successful-login-notification">
+            <i className="material-icons">done</i>
+            <div id="successful-login-notification-message"></div>
+          </div>
         </div>
       )
     }
@@ -106,20 +110,10 @@ class Login extends React.Component {
         <div>
           <h5 className="sidebar-heading" id="sidebar-login-button" onClick={
             () => {
-              if (!this.state.loginState) {
-                this.openLoginPanel();
-              } else {
-                this.logoutUser();
-              }
-          }}>
-            <span className="fa fa-sign-in">
-            </span>
+              this.openLoginPanel();
+            }}>
             <div>LOGIN</div>
           </h5>
-          <div id="successful-login-notification">
-            <i className="material-icons">done</i>
-            <div id="successful-login-notification-message"></div>
-          </div>
           <div id="login-prepanel" onClick={
               (e) => {
                 if (e.target.id == "login-prepanel" || e.target.id == "login-panel-close")
