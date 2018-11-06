@@ -17,6 +17,8 @@
 	position: relative;
 	top: 0px;
 	left: 0px;
+	width: 60%;
+	height: 25px;
 	font-size: 15px;
 	background: none;
 	border: none;
@@ -27,11 +29,12 @@
 }
 
 .filter-button {
-	position: absolute;
-	right: 0px;
-	top: 0px;
+	height: 24px !important;
 }
 
+.filter-glyphicon {
+	top: 0px;
+}
 .layer-search-input-selected {
 	opacity: 1 !important;
 }
