@@ -175,6 +175,9 @@ def export_json(request, is_tf=False):
                 if (net[layerId]['info']['type'] != 'Scale'):
                     layer_in = [net_out[inputId]
                                 for inputId in net[layerId]['connection']['input']]
+                    if (net[layerId]['info']['type'] == 'MaskCapsule'):
+                        layer_in = [[net_out[inputId]
+                                     for inputId in net[layerId]['connection']['input']]]
                 # Need to check if next layer is Scale
                 if (net[layerId]['info']['type'] == 'BatchNorm'):
                     idNext = net[layerId]['connection']['output'][0]
