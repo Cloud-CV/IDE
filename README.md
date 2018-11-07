@@ -16,7 +16,26 @@ This app is presently under active development and welcomes contributions. Pleas
 Setting up Fabrik on your local machine is very easy. You can setup Fabrik using two methods:
 
 ### Using Docker
+First , we need to download and install docker. If you already have docker on your system , you can skip this section
+FOR WINDOWS USERS :
 
+1) Double-click Docker for Windows Installer.exe to run the installer.
+If you haven’t already downloaded the installer (Docker for Windows Installer.exe), you can get it from download.docker.com. It typically downloads to your Downloads folder, or you can run it from the recent downloads bar at the bottom of your web browser.
+
+2) Follow the install wizard to accept the license, authorize the installer, and proceed with the install.
+
+3) You are asked to authorize Docker.app with your system password during the install process. Privileged access is needed to install networking components, links to the Docker apps, and manage the Hyper-V VMs.
+
+4) Click Finish on the setup complete dialog to launch Docker.
+
+NOTE :(this works for MAC users also) For users whose systems do not satisfy the following criteria (OR are using MAC) : Windows 10 64bit- Pro, Enterprise or Education and a minimum of 4GB RAM -
+1) https://docs.docker.com/toolbox/overview/ Use this web-link to install the required tool box (click on the downlaod link for windows or mac respectively)
+
+2) Run the DockerToolBox file which should be in your downloads folder . If not then go to settings of your browser -> downloads and    find the downloaded file from there .
+
+3) Follow the setup wizard and once done click finish . Docker should load up . If not then you should find 3 shortcuts on your desktop(VirtualBox , Kitematic and Docker QuickStart). Click the one named Docker Quickstart . this should complete all the remaining tasks for you .
+
+INSTALLING FABRIK:
 1. Get the source code on to your machine via git.
 
     ```
