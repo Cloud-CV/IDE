@@ -37,7 +37,7 @@ sudo apt-get -y install python-pip python-dev google-perftools libgoogle-glog-de
 export LD_PRELOAD="/usr/lib/libtcmalloc.so.4"
 
 echo "Installing Tensorflow"
-pip install tensorflow==1.10.1
+pip install tensorflow==1.12.0
 
 echo "#################### Tensorflow Install Complete! ####################"
 
