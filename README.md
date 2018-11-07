@@ -4,11 +4,11 @@
 [![Build Status](https://travis-ci.org/Cloud-CV/Fabrik.svg?branch=master)](https://travis-ci.org/Cloud-CV/Fabrik)
 [![Coverage Status](https://coveralls.io/repos/github/Cloud-CV/Fabrik/badge.svg?branch=master)](https://coveralls.io/github/Cloud-CV/Fabrik?branch=master)
 
-Fabrik is an online collaborative platform which allows one to build, visualize and train deep learning models via a simple drag-and-drop interface. It allows researchers to collectively develop and debug models using a web GUI which supports importing, editing and exporting networks written using popular frameworks like Caffe, Keras, and TensorFlow.
+Fabrik is an online collaborative platform to build, visualize and train deep learning models via a simple drag-and-drop interface. It allows researchers to collectively develop and debug models using a web GUI that supports importing, editing and exporting networks to popular frameworks like Caffe, Keras, and TensorFlow.
 
 <img src="/example/fabrik_demo.gif?raw=true">
 
-This app is presently under active development and welcomes contributions. Please check out our [issues thread](https://github.com/Cloud-CV/IDE/issues) to find things to work on, or ping us on [Gitter](https://gitter.im/Cloud-CV/IDE).
+This app is presently under active development and we welcome contributions. Please check out our [issues thread](https://github.com/Cloud-CV/IDE/issues) to find things to work on, or ping us on [Gitter](https://gitter.im/Cloud-CV/IDE).
 
 
 ## Installation Instructions
@@ -16,26 +16,10 @@ This app is presently under active development and welcomes contributions. Pleas
 Setting up Fabrik on your local machine is very easy. You can setup Fabrik using two methods:
 
 ### Using Docker
-First , we need to download and install docker. If you already have docker on your system , you can skip this section
-FOR WINDOWS USERS :
+If you haven't installed Docker already:
+[click on this link](https://docs.docker.com/docker-for-windows/install/) if you are using Windows.
+[click on this link](https://docs.docker.com/docker-for-mac/install/) if you are using a Mac.
 
-1) Double-click Docker for Windows Installer.exe to run the installer.
-If you haven’t already downloaded the installer (Docker for Windows Installer.exe), you can get it from download.docker.com. It typically downloads to your Downloads folder, or you can run it from the recent downloads bar at the bottom of your web browser.
-
-2) Follow the install wizard to accept the license, authorize the installer, and proceed with the install.
-
-3) You are asked to authorize Docker.app with your system password during the install process. Privileged access is needed to install networking components, links to the Docker apps, and manage the Hyper-V VMs.
-
-4) Click Finish on the setup complete dialog to launch Docker.
-
-NOTE :(this works for MAC users also) For users whose systems do not satisfy the following criteria (OR are using MAC) : Windows 10 64bit- Pro, Enterprise or Education and a minimum of 4GB RAM -
-1) https://docs.docker.com/toolbox/overview/ Use this web-link to install the required tool box (click on the downlaod link for windows or mac respectively)
-
-2) Run the DockerToolBox file which should be in your downloads folder . If not then go to settings of your browser -> downloads and    find the downloaded file from there .
-
-3) Follow the setup wizard and once done click finish . Docker should load up . If not then you should find 3 shortcuts on your desktop(VirtualBox , Kitematic and Docker QuickStart). Click the one named Docker Quickstart . this should complete all the remaining tasks for you .
-
-INSTALLING FABRIK:
 1. Get the source code on to your machine via git.
 
     ```
@@ -143,7 +127,7 @@ INSTALLING FABRIK:
         app = Celery('app', broker='redis://localhost:6379/0', backend='redis://localhost:6379/0', include=['ide.tasks'])
         ```
 
-5. If you have Caffe, Keras and Tensorflow already installed on your computer, skip this step.
+5. If you already have Caffe, Keras and Tensorflow installed on your computer, skip this step.
 * For Linux users
     * Install Caffe, Keras and Tensorflow
 
@@ -152,7 +136,7 @@ INSTALLING FABRIK:
         yes Y | sh caffe_tensorflow_keras_install.sh
         ```
 
-    * Open your ~/.bashrc file and add this line in the end
+    * Open your ~/.bashrc file and append this line to the end
 
         ```      
         export PYTHONPATH=~/caffe/caffe/python:$PYTHONPATH
@@ -186,7 +170,7 @@ INSTALLING FABRIK:
 7. [Install postgres >= 9.5](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04)
 * Setup postgres database
     * Start postgresql by typing ```sudo service postgresql start```
-    * Now login as user postgres by running ```sudo -u postgres psql``` and type the commands below
+    * Now login as user postgres by running ```sudo -u postgres psql``` and type the commands below:
 
         ```
         CREATE DATABASE fabrik;
@@ -214,7 +198,7 @@ INSTALLING FABRIK:
     sudo npm install -g webpack@1.15.0
     ```
 
-    * Run the command below in a separate terminal for hot-reloading, ie see the changes made to the UI in real time. 
+    * Run the command below in a separate terminal for hot-reloading, i.e. see the changes made to the UI in real time. 
 
     ```
     webpack --progress --watch --colors
@@ -226,7 +210,7 @@ INSTALLING FABRIK:
     celery -A ide worker --app=ide.celery_app  --loglevel=info
     ```
 
-    The celery worker needs to be run parallel to the django server in a separate terminal.
+    The celery worker needs to be run in parallel to the django server in a separate terminal.
 
 10. Start django application
 
@@ -245,7 +229,7 @@ INSTALLING FABRIK:
     * Application description: Fabrik
     * Authorization callback URL: http://localhost:8000/accounts/github/login/callback/
 
-3. Github will provide you with a client ID and secret, save these.
+3. Github will provide you with a client ID and secret Key, save these.
 
 4. Create a superuser in django
 
@@ -263,7 +247,7 @@ INSTALLING FABRIK:
 
 7. Login with the credentials from step 4.
 
-8. Setting up Social Accounts in django admin
+8. Setting up Social Accounts in django admin :
 
     * Under ```Social Accounts``` open ``` Social applications ```, click on ``` Add Social Application ```.
 
@@ -317,7 +301,7 @@ Note: For models that use a custom LRN layer (Alexnet), Keras expects the custom
 * [Using a Keras model exported from Fabrik](https://github.com/Cloud-CV/Fabrik/blob/master/tutorials/keras_json_usage_1.md)
 * [Loading a Keras model exported from Fabrik and printing its summary](https://github.com/Cloud-CV/Fabrik/blob/master/tutorials/keras_json_usage_2.md)
 * [Using an Exported Caffe Model](https://github.com/Cloud-CV/Fabrik/blob/master/tutorials/caffe_prototxt_usage_1.md)
-* [Loading a caffe model in python and printing its parameters and output size](https://github.com/Cloud-CV/Fabrik/blob/master/tutorials/caffe_prototxt_usage_2.md)
+* [Loading a Caffe model in python and printing its parameters and output size](https://github.com/Cloud-CV/Fabrik/blob/master/tutorials/caffe_prototxt_usage_2.md)
 * [List of models tested with Fabrik](https://github.com/Cloud-CV/Fabrik/blob/master/tutorials/tested_models.md)
 * [Adding model to the Fabrik model zoo](https://github.com/Cloud-CV/Fabrik/blob/master/tutorials/adding_new_model.md)
 * [Adding new layers](https://github.com/Cloud-CV/Fabrik/blob/master/tutorials/adding_new_layers.md)
