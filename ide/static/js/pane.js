@@ -473,10 +473,10 @@ class Pane extends React.Component {
               </div>
         </div>
 
-
       );
   }
 }
+
 Pane.propTypes = {
   handleClick: React.PropTypes.func.isRequired,
   setDraggingLayer: React.PropTypes.func.isRequired
