@@ -2,6 +2,8 @@
 from __future__ import unicode_literals
 from django.http import JsonResponse
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+
 
 
 def check_login(request):
@@ -12,21 +14,22 @@ def check_login(request):
             user = User.objects.get(username=username)
             user_id = user.id
 
-            if not user.check_password(password):
+            user = authenticate(username='john', password='secret')
+            if user is None : 
                 return JsonResponse({
                     'result': False,
                     'error': 'Please enter valid credentials'
                 })
 
             is_authenticated = user.is_authenticated()
-            if (is_authenticated):
+            if user is not None : 
                 username = user.username
 
-            return JsonResponse({
+                 return JsonResponse({
                 'result': is_authenticated,
                 'user_id': user_id,
                 'username': username,
-            })
+               })
         else:
             user = User.objects.get(username=request.user.username)
             user_id = user.id
