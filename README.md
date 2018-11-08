@@ -17,7 +17,9 @@ Setting up Fabrik on your local machine is very easy. You can setup Fabrik using
 
 ### Using Docker
 If you haven't installed Docker already: 
+
 [Use this link](https://docs.docker.com/docker-for-windows/install/) if you are using Windows. 
+
 [Use this link](https://docs.docker.com/docker-for-mac/install/) if you are using a Mac.
 
 1. Get the source code on to your machine via git.
