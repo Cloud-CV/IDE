@@ -41,6 +41,26 @@ def fetch_network_version(netObj):
     return network_version
 
 
+def update_data(data, required_data, version_id=None):
+    """
+        Parses data to include only required keys and returns the required object
+    """
+
+    updated_data = {key: data[key] for key in required_data}
+    group_data = updated_data.copy()
+    group_data['action'] = data['action']
+
+    if ('randomId' in data):
+        group_data['randomId'] = data['randomId']
+
+    if version_id is not None:
+        group_data['version_id'] = version_id
+
+    group_data = {"text": json.dumps(group_data)}
+
+    return updated_data, group_data
+
+
 @channel_session_user_from_http
 def ws_connect(message):
     print('connection being established...')
@@ -69,37 +89,23 @@ def ws_receive(message):
     data = yaml.safe_load(message['text'])
     action = data['action']
 
-    each_data = {
-        'UpdateParam': ['layerId', 'param', 'value', 'isProp', 'randomId'],
+    required_keys = {
+        'UpdateHighlight': ['addHighlightTo', 'removeHighlightFrom', 'userId', 'highlightColor', 'username'],
+        'UpdateParam': ['layerId', 'param', 'value', 'isProp'],
         'DeleteLayer': ['layerId'],
         'AddLayer': ['layer', 'layerId', 'prevLayerId', 'nextLayerId'],
         'AddComment': ['layerId', 'comment']
     }
-
-    def update_data(required_data, version_id=None):
-
-        '''Parses data to include only required keys and return the required object'''
-
-        updated_data = {key: data[key] for key in required_data}
-        group_data = updated_data.copy()
-        group_data['action'] = action
-
-        if ('randomId' in data):
-            group_data['randomId'] = data['randomId']
-
-        if version_id is not None:
-            group_data['version_id'] = version_id
-
-        group_data = {"text": json.dumps(group_data)}
-
-        return updated_data, group_data
 
     if ('networkId' in message.channel_session):
         networkId = message.channel_session['networkId']
 
     if (action == 'ExportNet'):
         # async export call
-        framework, net, net_name = data['framework'], data['net'], data['net_name']
+        framework = data['framework']
+        net = data['net']
+        net_name = data['net_name']
+
         reply_channel = message.reply_channel.name
 
         if (framework == 'caffe'):
@@ -110,15 +116,15 @@ def ws_receive(message):
             export_keras_json.delay(net, net_name, True, reply_channel)
 
     elif (action == 'UpdateHighlight'):
-        group_data = update_data(['addHighlightTo', 'removeHighlightFrom', 'userId', 'highlightColor', 'username'])[1]
+        group_data = update_data(data, required_keys['UpdateHighlight'])[1]
 
         Group('model-{0}'.format(networkId)).send(group_data)
-    elif action in each_data:
+    elif action in required_keys:
         # get the net object on which update is made
         netObj = Network.objects.get(id=int(networkId))
         network_version = fetch_network_version(netObj)
 
-        updated_data, group_data = update_data(each_data[action], 0)
+        updated_data, group_data = update_data(data, required_keys[action], 0)
 
         network_update = create_network_update(network_version, json.dumps(updated_data), data['action'])
         network_update.save()
