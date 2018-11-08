@@ -15,14 +15,16 @@ op_layer_map = {'Placeholder': 'Input', 'Conv2D': 'Convolution', 'Conv3D': 'Conv
                 'DepthwiseConv2dNative': 'DepthwiseConv', 'MatMul': 'InnerProduct',
                 'Prod': 'InnerProduct', 'LRN': 'LRN', 'Concat': 'Concat',
                 'AvgPool': 'Pooling', 'Reshape': 'Flatten', 'FusedBatchNorm': 'BatchNorm',
-                'Conv2DBackpropInput': 'Deconvolution'}
+                'Conv2DBackpropInput': 'Deconvolution', 'CapsuleLayer': 'CapsuleLayer',
+                'MaskCapsule': 'MaskCapsule', 'Length': 'Length', 'Squash': 'Squash'}
 
 activation_map = {'Sigmoid': 'Sigmoid', 'Softplus': 'Softplus', 'Softsign': 'Softsign',
                   'Elu': 'ELU', 'LeakyRelu': 'ReLU', 'Softmax': 'Softmax',
                   'Relu': 'ReLU', 'Tanh': 'TanH', 'SELU': 'SELU'}
 
 name_map = {'flatten': 'Flatten', 'dropout': 'Dropout', 'lrn': 'LRN', 'concatenate': 'Concat',
-            'batch': 'BatchNorm', 'add': 'Eltwise', 'mul': 'Eltwise'}
+            'batch': 'BatchNorm', 'add': 'Eltwise', 'mul': 'Eltwise', 'capsule_layer': 'CapsuleLayer',
+            'mask_capsule': 'MaskCapsule', 'length': 'Length', 'squash': 'Squash'}
 
 initializer_map = {'random_uniform': 'RandomUniform', 'random_normal': 'RandomNormal',
                    'Const': 'Constant', 'zeros': 'Zeros', 'ones': 'Ones',
@@ -514,6 +516,24 @@ def import_graph_def(request):
                     layer['params']['seed'] = node.get_attr('seed')
                 if ('training' in node.node_def.attr):
                     layer['params']['trainable'] = node.get_attr('training')
+
+            elif layer['type'][0] == 'CapsuleLayer':
+                if ('num_capsule' in node.node_def.attr):
+                    layer['params']['num_capsule'] = node.get_attr('num_capsule')
+                if ('dim_capsule' in node.node_def.attr):
+                    layer['params']['dim_capsule'] = node.get_attr('dim_capsule')
+                if ('num_routing' in node.node_def.attr):
+                    layer['params']['num_routing'] = node.get_attr('num_routing')
+
+            elif layer['type'][0] == 'Squash':
+                if ('axis' in node.node_def.attr):
+                    layer['params']['axis'] = node.get_attr('axis')
+
+            elif layer['type'][0] == 'MaskCapsule':
+                pass
+
+            elif layer['type'][0] == 'Length':
+                pass
         net = {}
         batch_norms = []
         for key in d.keys():

@@ -125,3 +125,26 @@ class LRNImportTest(unittest.TestCase):
         response = self.client.post(reverse('tf-import'), {'file': model_file})
         response = json.loads(response.content)
         self.assertEqual(response['result'], 'success')
+
+
+class CapsuleLayersImportTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_tf_export(self):
+        model_file = open(os.path.join(settings.BASE_DIR, 'example/keras',
+                                       'Capsnet.json'), 'r')
+        response = self.client.post(reverse('keras-import'), {'file': model_file})
+        response = json.loads(response.content)
+        net = get_shapes(response['net'])
+        response = self.client.post(reverse('tf-export'), {'net': json.dumps(net),
+                                                           'net_name': ''})
+        response = json.loads(response.content)
+        self.assertEqual(response['result'], 'success')
+
+    def test_custom_CapsuleLayers_tf_import(self):
+        model_file = open(os.path.join(settings.BASE_DIR, 'example/tensorflow',
+                          'Capsulelayers.pbtxt'), 'r')
+        response = self.client.post(reverse('tf-import'), {'file': model_file})
+        response = json.loads(response.content)
+        self.assertEqual(response['result'], 'success')
