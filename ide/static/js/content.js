@@ -71,6 +71,8 @@ class Content extends React.Component {
     this.adjustParameters = this.adjustParameters.bind(this);
     this.modifyLayerParams = this.modifyLayerParams.bind(this);
     this.deleteLayer = this.deleteLayer.bind(this);
+    this.getLayerCSSClasses = this.getLayerCSSClasses.bind(this);
+    this.smartDeleteLayers = this.smartDeleteLayers.bind(this);
     this.exportPrep = this.exportPrep.bind(this);
     this.exportNet = this.exportNet.bind(this);
     this.importNet = this.importNet.bind(this);
@@ -385,7 +387,7 @@ class Content extends React.Component {
       commentOnLayer: layerId
     });
   }
-  updateLayerCSSClasses(layerId) {
+  getLayerCSSClasses(layerId) {
     let cl = ' noselect';
     if (this.state.selectedLayer == layerId) {
       cl += ' selected';
@@ -396,7 +398,7 @@ class Content extends React.Component {
     if (this.state.selectedLayers.indexOf(layerId) != -1) {
       cl += ' multi-selected';
     }
-    this.state.net[layerId].info.class = cl;
+    return cl;
   }
   updateLayersCSSClasses() {
     let net = this.state.net;
@@ -420,8 +422,6 @@ class Content extends React.Component {
       } else {
         l[l.length] = layerId;
       }
-      this.state.selectedLayers = l;
-      this.updateLayersCSSClasses();
       this.setState({ net, selectedLayers: l });
     }
   }
@@ -430,15 +430,11 @@ class Content extends React.Component {
     if (this.state.isShared && !this.state.isForked) {
       this.addHighlightOnLayer(layerId, this.state.selectedLayer);
     }
-    this.state.selectedLayer = layerId;
-    this.updateLayersCSSClasses();
-    this.setState({ net });
+    this.setState({ net, selectedLayer: layerId });
   }
   changeHoveredLayer(layerId) {
     const net = this.state.net;
-    this.state.hoveredLayer = layerId;
-    this.updateLayersCSSClasses();
-    this.setState({ net });
+    this.setState({ net, hoveredLayer: layerId });
   }
 
   modifyLayer(layer, layerId = this.state.selectedLayer) {
@@ -517,6 +513,19 @@ class Content extends React.Component {
       this.setState({ net });
     }
   }
+  smartDeleteLayers() {
+    if (this.state.selectedLayers.length) {
+      let all = [];
+      for (let layer of this.state.selectedLayers) {
+        all[all.length] = layer;
+      }
+      for (let layer of all) {
+        this.deleteLayer(layer);
+      }
+    } else if (this.state.selectedLayer) {
+      this.deleteLayer(this.state.selectedLayer);
+    }
+  }
   deleteLayer(layerId, publishUpdate=true) {
     const net = this.state.net;
     const input = net[layerId].connection.input;
@@ -536,7 +545,20 @@ class Content extends React.Component {
       index = net[outputId].connection.input.indexOf(layerId);
       net[outputId].connection.input.splice(index, 1);
     });
-    this.setState({ net, selectedLayer: null, nextLayerId: nextLayerId, totalParameters: totalParameters });
+    let _selectedLayer = this.state.selectedLayer; 
+    let _selectedLayers = this.state.selectedLayers;
+    if (_selectedLayer == layerId) {
+      _selectedLayer = null;
+    } else if (_selectedLayers.indexOf(layerId) != -1) {
+      _selectedLayers.splice(_selectedLayers.indexOf(layerId), 1);
+    }
+    this.setState( {
+      net,
+      selectedLayer: _selectedLayer,
+      selectedLayers: _selectedLayers,
+      nextLayerId: nextLayerId,
+      totalParameters: totalParameters
+    });
     // if model is in RTC mode send updates to respective sockets
     // to avoid infinite loop of deletion over multiple session
     if (this.state.isShared && !this.state.isForked && publishUpdate == true) {
@@ -1373,8 +1395,10 @@ class Content extends React.Component {
             nextLayerId={this.state.nextLayerId}
             changeSelectedLayer={this.changeSelectedLayer}
             addLayerToMultipleSelection={this.addLayerToMultipleSelection}
+            getLayerCSSClasses={this.getLayerCSSClasses}
             changeHoveredLayer={this.changeHoveredLayer}
             modifyLayer={this.modifyLayer}
+            deleteLayer={this.deleteLayer}
             changeNetStatus={this.changeNetStatus}
             error={this.state.error}
             dismissError={this.dismissError}
@@ -1401,6 +1425,7 @@ class Content extends React.Component {
             adjustParameters={this.adjustParameters}
             changeSelectedLayer={this.changeSelectedLayer}
             deleteLayer={this.deleteLayer}
+            smartDeleteLayers={this.smartDeleteLayers}
             selectedPhase={this.state.selectedPhase}
             copyTrain={this.copyTrain}
             trainOnly={this.trainOnly}

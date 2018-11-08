@@ -80,7 +80,7 @@ class Layer extends React.Component {
     }
     return (
       <div
-        className={`layer ${this.props.class} ${highlightClass}`}
+        className={`layer ${this.props.getLayerCSSClasses(this.props.id)} ${highlightClass}`}
         id={this.props.id}
         style={{
           top:this.props.top,
@@ -112,6 +112,8 @@ Layer.propTypes = {
   left: React.PropTypes.string.isRequired,
   class: React.PropTypes.string,
   click: React.PropTypes.func,
+  getLayerCSSClasses: React.PropTypes.func,
+  onContextMenu: React.PropTypes.func,
   hover: React.PropTypes.func,
   layer: React.PropTypes.object,
   net: React.PropTypes.object,

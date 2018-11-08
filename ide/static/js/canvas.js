@@ -425,6 +425,7 @@ class Canvas extends React.Component {
             key={layerId}
             type={layer.info.type}
             class={layer.info.class}
+            getLayerCSSClasses={this.props.getLayerCSSClasses}
             top={layer.state.top}
             left={layer.state.left}
             click={this.clickLayerEvent}
@@ -471,6 +472,7 @@ class Canvas extends React.Component {
         onDrop={this.drop}
         onClick={this.clickCanvas}
         onScroll={this.scrollCanvas}
+        onKeyDown={this.onKeyDown}
       >
         {errors}
         {infos}
@@ -520,7 +522,9 @@ Canvas.propTypes = {
   dismissError: React.PropTypes.func,
   error: React.PropTypes.array,
   addInfo: React.PropTypes.func,
+  addLayerToMultipleSelection: React.PropTypes.func,
   dismissInfo: React.PropTypes.func,
+  getLayerCSSClasses: React.PropTypes.func,
   info: React.PropTypes.array,
   placeholder: React.PropTypes.bool,
   clickEvent: React.PropTypes.bool,

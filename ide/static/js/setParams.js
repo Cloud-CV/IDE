@@ -46,7 +46,8 @@ class SetParams extends React.Component {
   }
   handleKeyPress(event){
      if (event.key == 'Delete'){
-      this.props.deleteLayer(this.props.selectedLayer);
+      // this.props.deleteLayer(this.props.selectedLayer);
+      this.props.smartDeleteLayers();
     }
   }
   componentDidMount(){
@@ -172,6 +173,7 @@ SetParams.propTypes = {
   net: React.PropTypes.object,
   deleteLayer: React.PropTypes.func,
   modifyLayer: React.PropTypes.func,
+  smartDeleteLayers: React.PropTypes.func,
   adjustParameters: React.PropTypes.func,
   trainOnly: React.PropTypes.func,
   selectedPhase: React.PropTypes.number,
