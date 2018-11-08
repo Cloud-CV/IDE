@@ -59,27 +59,47 @@ def ws_connect(message):
 def ws_disconnect(message):
     networkId = message.channel_session['networkId']
     Group('model-{0}'.format(networkId)).discard(message.reply_channel)
-    print('disconnected...')
+    print('Disconnected...')
 
 
 @channel_session_user
 def ws_receive(message):
-    print('message received...')
+    print('Message received...')
     # param initialization
     data = yaml.safe_load(message['text'])
     action = data['action']
 
-    if ('randomId' in data):
-        randomId = data['randomId']
+    each_data = {
+        'UpdateParam': ['layerId', 'param', 'value', 'isProp', 'randomId'],
+        'DeleteLayer': ['layerId'],
+        'AddLayer': ['layer', 'layerId', 'prevLayerId', 'nextLayerId'],
+        'AddComment': ['layerId', 'comment']
+    }
+
+    def update_data(required_data, version_id=None):
+
+        '''Parses data to include only required keys and return the required object'''
+
+        updated_data = {key: data[key] for key in required_data}
+        group_data = updated_data.copy()
+        group_data['action'] = action
+
+        if ('randomId' in data):
+            group_data['randomId'] = data['randomId']
+
+        if version_id is not None:
+            group_data['version_id'] = version_id
+
+        group_data = {"text": json.dumps(group_data)}
+
+        return updated_data, group_data
 
     if ('networkId' in message.channel_session):
         networkId = message.channel_session['networkId']
 
     if (action == 'ExportNet'):
         # async export call
-        framework = data['framework']
-        net = data['net']
-        net_name = data['net_name']
+        framework, net, net_name = data['framework'], data['net'], data['net_name']
         reply_channel = message.reply_channel.name
 
         if (framework == 'caffe'):
@@ -90,103 +110,17 @@ def ws_receive(message):
             export_keras_json.delay(net, net_name, True, reply_channel)
 
     elif (action == 'UpdateHighlight'):
-        add_highlight_to = data['addHighlightTo']
-        remove_highlight_from = data['removeHighlightFrom']
-        user_id = data['userId']
-        highlight_color = data['highlightColor']
-        username = data['username']
+        group_data = update_data(['addHighlightTo', 'removeHighlightFrom', 'userId', 'highlightColor', 'username'])[1]
 
-        Group('model-{0}'.format(networkId)).send({
-            'text': json.dumps({
-                'addHighlightTo': add_highlight_to,
-                'removeHighlightFrom': remove_highlight_from,
-                'userId': user_id,
-                'action': action,
-                'randomId': randomId,
-                'highlightColor': highlight_color,
-                'username': username
-            })
-        })
-    else:
-        # save changes to database to maintain consistency
+        Group('model-{0}'.format(networkId)).send(group_data)
+    elif action in each_data:
         # get the net object on which update is made
         netObj = Network.objects.get(id=int(networkId))
         network_version = fetch_network_version(netObj)
 
-        if (action == 'UpdateParam'):
-            updated_data = {}
-            updated_data['layerId'] = data['layerId']
-            updated_data['param'] = data['param']
-            updated_data['value'] = data['value']
-            updated_data['isProp'] = data['isProp']
-            updated_data['nextLayerId'] = data['nextLayerId']
+        updated_data, group_data = update_data(each_data[action], 0)
 
-            network_update = create_network_update(network_version, json.dumps(updated_data), data['action'])
-            network_update.save()
-            # sending update made by one user over all the sessions of open network
-            # Note - conflict resolution still pending
-            Group('model-{0}'.format(networkId)).send({
-                'text': json.dumps({
-                    'layerId': updated_data['layerId'],
-                    'param': updated_data['param'],
-                    'value': updated_data['value'],
-                    'isProp': updated_data['isProp'],
-                    'action': action,
-                    'version_id': 0,
-                    'randomId': randomId
-                })
-            })
-        elif (data['action'] == 'DeleteLayer'):
-            updated_data = {}
-            updated_data['layerId'] = data['layerId']
-            updated_data['nextLayerId'] = data['nextLayerId']
+        network_update = create_network_update(network_version, json.dumps(updated_data), data['action'])
+        network_update.save()
 
-            network_update = create_network_update(network_version, json.dumps(updated_data), data['action'])
-            network_update.save()
-
-            # Note - conflict resolution still pending
-            Group('model-{0}'.format(networkId)).send({
-                'text': json.dumps({
-                    'layerId': updated_data['layerId'],
-                    'action': action,
-                    'version_id': 0,
-                    'randomId': randomId
-                })
-            })
-        elif (action == 'AddLayer'):
-            updated_data = {}
-            updated_data['prevLayerId'] = data['prevLayerId']
-            updated_data['layer'] = data['layer']
-            updated_data['layerId'] = data['layerId']
-            updated_data['nextLayerId'] = data['nextLayerId']
-
-            network_update = create_network_update(network_version, json.dumps(updated_data), data['action'])
-            network_update.save()
-            # sending update made by one user over all the sessions of open network
-            # Note - conflict resolution still pending
-            Group('model-{0}'.format(networkId)).send({
-                'text': json.dumps({
-                    'layer': updated_data['layer'],
-                    'prevLayerId': updated_data['prevLayerId'],
-                    'action': action,
-                    'version_id': 0,
-                    'randomId': randomId
-                })
-            })
-        elif (action == 'AddComment'):
-            updated_data = {}
-            updated_data['layerId'] = data['layerId']
-            updated_data['comment'] = data['comment']
-
-            network_update = create_network_update(network_version, json.dumps(updated_data), data['action'])
-            network_update.save()
-
-            Group('model-{0}'.format(networkId)).send({
-                'text': json.dumps({
-                    'layerId': updated_data['layerId'],
-                    'comment': updated_data['comment'],
-                    'action': action,
-                    'version_id': 0,
-                    'randomId': randomId
-                })
-            })
+        Group('model-{0}'.format(networkId)).send(group_data)
