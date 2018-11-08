@@ -317,8 +317,16 @@ def export_keras_json(net, net_name, is_tf, reply_channel):
 
         json_str = json_str.strip("'<>() ").replace('\'', '\"')
         lrnLayer = imp.load_source('LRN', BASE_DIR + '/keras_app/custom_layers/lrn.py')
+        capsuleLayer = imp.load_source('CapsuleLayer', BASE_DIR + '/keras_app/custom_layers/capsule_layer.py')
+        maskcapsuleLayer = imp.load_source('MaskCapsule',
+                                           BASE_DIR + '/keras_app/custom_layers/mask_capsule.py')
+        squashLayer = imp.load_source('Squash', BASE_DIR + '/keras_app/custom_layers/squash.py')
+        lengthLayer = imp.load_source('Length', BASE_DIR + '/keras_app/custom_layers/length.py')
 
-        model = model_from_json(json_str, {'LRN': lrnLayer.LRN})
+        model = model_from_json(json_str, {'LRN': lrnLayer.LRN, 'CapsuleLayer': capsuleLayer.CapsuleLayer,
+                                           'MaskCapsule': maskcapsuleLayer.MaskCapsule,
+                                           'Length': lengthLayer.Length,
+                                           'Squash': squashLayer.Squash})
 
         sess = K.get_session()
         tf.train.write_graph(sess.graph.as_graph_def(add_shapes=True), output_fld,
