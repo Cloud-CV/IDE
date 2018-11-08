@@ -41,10 +41,10 @@ def fetch_network_version(netObj):
     return network_version
 
 
-def update_data(data, required_data, version_id=None):
-    """
+def update_data(data, required_data, version_id=0):
+    '''
         Parses data to include only required keys and returns the required object
-    """
+    '''
 
     updated_data = {key: data[key] for key in required_data}
     group_data = updated_data.copy()
@@ -52,9 +52,7 @@ def update_data(data, required_data, version_id=None):
 
     if ('randomId' in data):
         group_data['randomId'] = data['randomId']
-
-    if version_id is not None:
-        group_data['version_id'] = version_id
+    group_data['version_id'] = version_id
 
     group_data = {"text": json.dumps(group_data)}
 
@@ -63,7 +61,7 @@ def update_data(data, required_data, version_id=None):
 
 @channel_session_user_from_http
 def ws_connect(message):
-    print('connection being established...')
+    print('Connection being established...')
     message.reply_channel.send({
         'accept': True
     })
@@ -89,7 +87,7 @@ def ws_receive(message):
     data = yaml.safe_load(message['text'])
     action = data['action']
 
-    required_keys = {
+    update_params = {
         'UpdateHighlight': ['addHighlightTo', 'removeHighlightFrom', 'userId', 'highlightColor', 'username'],
         'UpdateParam': ['layerId', 'param', 'value', 'isProp'],
         'DeleteLayer': ['layerId'],
@@ -116,15 +114,15 @@ def ws_receive(message):
             export_keras_json.delay(net, net_name, True, reply_channel)
 
     elif (action == 'UpdateHighlight'):
-        group_data = update_data(data, required_keys['UpdateHighlight'])[1]
+        group_data = update_data(data, update_params['UpdateHighlight'])[1]
 
         Group('model-{0}'.format(networkId)).send(group_data)
-    elif action in required_keys:
+    elif (action in update_params):
         # get the net object on which update is made
         netObj = Network.objects.get(id=int(networkId))
         network_version = fetch_network_version(netObj)
 
-        updated_data, group_data = update_data(data, required_keys[action], 0)
+        updated_data, group_data = update_data(data, update_params[action])
 
         network_update = create_network_update(network_version, json.dumps(updated_data), data['action'])
         network_update.save()
