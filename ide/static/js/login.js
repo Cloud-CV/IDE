@@ -39,6 +39,7 @@ class Login extends React.Component {
   }
   closeLoginPanel() {
     $('#login-prepanel')[0].classList.remove('login-prepanel-enabled');
+    $('#login-prepanel')[0].style.display = 'none';
   }
   tryLogin(showNotification) {
     let username = $('#login-input')[0].value;
