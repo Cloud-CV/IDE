@@ -558,6 +558,7 @@ class Content extends React.Component {
 
     var filter_layers = ["Convolution", "Deconvolution"];
     var fc_layers = ["InnerProduct", "Embed", "Recurrent", "LSTM"];
+    var capsule_layer = ["CapsuleLayer"];
 
     if(filter_layers.includes(layer.info.type)) {
       // if layer is Conv or DeConv calculating total parameter of the layer using:
@@ -572,6 +573,16 @@ class Content extends React.Component {
 
       weight_params = layer.shape['input'][0] * kernel_params * layer.params['num_output'][0];
       bias_params += layer.params['num_output'][0];
+    }
+    else if(capsule_layer.includes(layer.info.type)) {
+      // if layer is CapsuleLayer calculating total parameters of the layer using:
+      // Weight parameters: In_caps * Out_caps * In_dim * Out_dim
+      // Bias parameters: 2 * In_caps * Out_caps
+      var w_shape = [layer.shape['input'][1], layer.params['num_capsule'][0],
+                     layer.shape['input'][0], layer.params['dim_capsule'][0]]
+      var b_shape = [layer.shape['input'][1], layer.params['num_capsule'][0]]
+      weight_params = w_shape[0] * w_shape[1] * w_shape[2] * w_shape[3]
+      bias_params = 2 * b_shape[0] * b_shape[1]
     }
     else if(fc_layers.includes(layer.info.type)) {
       // if layer is one of Recurrent layer or Fully Connected layers calculate parameters using:
