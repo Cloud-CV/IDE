@@ -24,6 +24,12 @@ class ModelZoo extends React.Component {
               <br/>
               <ModelElement importNet={this.props.importNet} framework="caffe" id="resnet101">ResNet 101</ModelElement>
               <br/>
+              <ModelElement importNet={this.props.importNet} framework="caffe" id="resnext50">ResNeXt 50</ModelElement>
+              <br/>
+              <ModelElement importNet={this.props.importNet} framework="caffe" id="resnext101">ResNeXt 101</ModelElement>
+              <br/>
+              <ModelElement importNet={this.props.importNet} framework="caffe" id="resnext152">ResNeXt 152</ModelElement>
+              <br/>
               <ModelElement importNet={this.props.importNet} framework="keras" id="v3">Inception V3</ModelElement>
               <br/>
               <ModelElement importNet={this.props.importNet} framework="keras" id="v4">Inception V4</ModelElement>
