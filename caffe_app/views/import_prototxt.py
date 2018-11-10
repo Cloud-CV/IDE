@@ -705,5 +705,9 @@ def import_prototxt(request):
             jsonLayer['connection']['input'] = input
             net[id] = jsonLayer
             i = i + 1
+	
+	# Specify framework for all layers
+	for node in net:
+	    net[node]['framework'] = 'caffe'
 
         return JsonResponse({'result': 'success', 'net': net, 'net_name': net_name})

@@ -234,4 +234,8 @@ def import_json(request):
             net[node]['connection']['input'] = net[node]['connection']['input'][::-1]
     for node in zeroPad:
         net.pop(node, None)
+
+    # Specify framework for all layers
+    for node in net:
+        net[node]['framework'] = 'keras'
     return JsonResponse({'result': 'success', 'net': net, 'net_name': model.name})
