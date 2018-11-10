@@ -92,6 +92,7 @@ class Layer extends React.Component {
         onClick={(event) => this.props.click(event, this.props.id)}
         onContextMenu={(event) => this.props.onContextMenu(event, this.props.id)}
         onMouseEnter={(event) => this.props.hover(event, this.props.id)}
+        onMouseUp={(event) => this.props.mouseUp(event, this.props.id)}
         data-tip='tooltip'
         data-for='getContent'
       >
@@ -115,6 +116,7 @@ Layer.propTypes = {
   getLayerCSSClasses: React.PropTypes.func,
   onContextMenu: React.PropTypes.func,
   hover: React.PropTypes.func,
+  mouseUp: React.PropTypes.func,
   layer: React.PropTypes.object,
   net: React.PropTypes.object,
   addSharedComment: React.PropTypes.func,
