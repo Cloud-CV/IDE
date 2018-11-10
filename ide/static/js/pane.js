@@ -250,6 +250,9 @@ class Pane extends React.Component {
                     <PaneElement setDraggingLayer={this.props.setDraggingLayer}
                       handleClick={this.props.handleClick}
                       id="Masking_Button">Masking</PaneElement>
+                    <PaneElement setDraggingLayer={this.props.setDraggingLayer}
+                      handleClick={this.props.handleClick}
+                      id="Slice_Button">Slice</PaneElement>
                   </div>
                 </div>
               </div>
@@ -319,6 +322,9 @@ class Pane extends React.Component {
                     <PaneElement setDraggingLayer={this.props.setDraggingLayer}
                       handleClick={this.props.handleClick}
                       id="Scale_Button">Scale</PaneElement>
+                    <PaneElement setDraggingLayer={this.props.setDraggingLayer}
+                      handleClick={this.props.handleClick}
+                      id="Linear_Button">Linear</PaneElement>
                   </div>
                 </div>
               </div>
@@ -461,10 +467,10 @@ class Pane extends React.Component {
               </div>
         </div>
 
-
       );
   }
 }
+
 Pane.propTypes = {
   handleClick: React.PropTypes.func.isRequired,
   setDraggingLayer: React.PropTypes.func.isRequired

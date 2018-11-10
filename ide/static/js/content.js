@@ -15,12 +15,13 @@ import UrlImportModal from './urlImportModal';
 import UserProfile from './UserProfile';
 import UpdateHistoryModal from './updateHistoryModal';
 import CommentSidebar from './CommentSidebar';
+import FilterBar from './filterBar';
 import $ from 'jquery'
 
 const infoStyle = {
   content : {
     top                   : '50%',
-    left                  : '50%',
+    left                  : '55%',
     right                 : '60%',
     bottom                : 'auto',
     marginRight           : '-50%',
@@ -994,7 +995,7 @@ class Content extends React.Component {
       },
       success : function (response) {
         if (response.result == 'success') {
-          var url = 'http://' + window.location.host + ':80/load?id=' + response.id;
+          var url = 'http://' + window.location.host + '/load?id=' + response.id;
           this.modalHeader = 'Your model url is';
           this.modalContent = (<a href={url}>{url}</a>);
           this.openModal();
@@ -1306,19 +1307,17 @@ class Content extends React.Component {
               urlModal={this.urlModal}
               updateHistoryModal={this.updateHistoryModal}
              />
-             <h5 className="sidebar-heading">LOGIN</h5>
              <Login setUserId={this.setUserId} setUserName={this.setUserName}></Login>
-             <h5 className="sidebar-heading insert-layer-title">
-              <input id="layer-search-input" placeholder="Search for layer"></input>
-              <div id="insert-layer-sign">INSERT LAYER</div>
-              <i className="material-icons" id="layer-search-icon">search</i>
-             </h5>
+             <h5 className="sidebar-heading">INSERT LAYER</h5>
+             <div className="sidebar-heading">
+             <FilterBar />
+             </div>
              <Pane
              handleClick = {this.handleClick}
              setDraggingLayer = {this.setDraggingLayer}
              />
              <div className="text-center">
-              <Tabs selectedPhase={this.state.selectedPhase} changeNetPhase={this.changeNetPhase} />
+             <Tabs selectedPhase={this.state.selectedPhase} changeNetPhase={this.changeNetPhase} />
              </div>
              <h5 className="sidebar-heading">EXTRAS</h5>
              <a className="btn btn-block extra-buttons text-left" onClick={this.faqModal}>Help</a>
