@@ -546,8 +546,8 @@ def import_graph_def(request):
                 'params': d[key]['params']
             }
 
-	# Specify framework for all layers
-	for node in net:
-	    net[node]['framework'] = 'tensorflow'
+        # Specify framework for all layers
+        for node in net:
+            net[node]['framework'] = 'tensorflow'
 
         return JsonResponse({'result': 'success', 'net': net, 'net_name': ''})

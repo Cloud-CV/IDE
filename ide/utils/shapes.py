@@ -60,13 +60,13 @@ def filter(layer):
         s_h, s_w = layer['params']['stride_h'], layer['params']['stride_w']
         p_h, p_w = layer['params']['pad_h'], layer['params']['pad_w']
 
-	o_h = int(math.ceil((i_h + 2 * p_h - k_h) / float(s_h) + 1))
-	o_w = int(math.ceil((i_w + 2 * p_w - k_w) / float(s_w) + 1))
+        o_h = int(math.ceil((i_h + 2 * p_h - k_h) / float(s_h) + 1))
+        o_w = int(math.ceil((i_w + 2 * p_w - k_w) / float(s_w) + 1))
 
-	p_h = int(math.ceil(((o_h - 1) * s_h + k_h - i_h) / 2.0))
-	p_w = int(math.ceil(((o_w - 1) * s_w + k_w - i_w) / 2.0))
-	layer['params']['pad_h'] = p_h
-	layer['params']['pad_w'] = p_w
+        p_h = int(math.ceil(((o_h - 1) * s_h + k_h - i_h) / 2.0))
+        p_w = int(math.ceil(((o_w - 1) * s_w + k_w - i_w) / 2.0))
+        layer['params']['pad_h'] = p_h
+        layer['params']['pad_w'] = p_w
 
         return [num_out, o_h, o_w]
     else:
