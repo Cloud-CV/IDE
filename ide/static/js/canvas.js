@@ -485,6 +485,14 @@ class Canvas extends React.Component {
       >
         {layers}
       </div>
+      <div id='layers-delete' className={`${this.props.getDeleteButtonStyle()}`} onClick={ () => this.props.smartDeleteLayers() }>
+        <p>delete</p>
+        <div>
+          <button className="btn btn-default text-center" id='btn-remove' disabled={this.disableZoom}>
+            <span className="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div> 
       <div id='modelParameter'>
         <p>Total Parameters</p>
         <div id="content">
@@ -523,6 +531,8 @@ Canvas.propTypes = {
   error: React.PropTypes.array,
   addInfo: React.PropTypes.func,
   addLayerToMultipleSelection: React.PropTypes.func,
+  getDeleteButtonStyle: React.PropTypes.func,
+  smartDeleteLayers: React.PropTypes.func,
   dismissInfo: React.PropTypes.func,
   getLayerCSSClasses: React.PropTypes.func,
   info: React.PropTypes.array,

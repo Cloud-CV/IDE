@@ -72,6 +72,7 @@ class Content extends React.Component {
     this.modifyLayerParams = this.modifyLayerParams.bind(this);
     this.deleteLayer = this.deleteLayer.bind(this);
     this.getLayerCSSClasses = this.getLayerCSSClasses.bind(this);
+    this.getDeleteButtonStyle = this.getDeleteButtonStyle.bind(this);
     this.smartDeleteLayers = this.smartDeleteLayers.bind(this);
     this.exportPrep = this.exportPrep.bind(this);
     this.exportNet = this.exportNet.bind(this);
@@ -424,6 +425,10 @@ class Content extends React.Component {
       }
       this.setState({ net, selectedLayers: l });
     }
+  }
+  getDeleteButtonStyle() {
+    if (this.state.selectedLayers.length) return '';
+    return 'hidden';
   }
   changeSelectedLayer(layerId) {
     const net = this.state.net;
@@ -1395,10 +1400,12 @@ class Content extends React.Component {
             nextLayerId={this.state.nextLayerId}
             changeSelectedLayer={this.changeSelectedLayer}
             addLayerToMultipleSelection={this.addLayerToMultipleSelection}
+            getDeleteButtonStyle={this.getDeleteButtonStyle}
             getLayerCSSClasses={this.getLayerCSSClasses}
             changeHoveredLayer={this.changeHoveredLayer}
             modifyLayer={this.modifyLayer}
             deleteLayer={this.deleteLayer}
+            smartDeleteLayers={this.smartDeleteLayers}
             changeNetStatus={this.changeNetStatus}
             error={this.state.error}
             dismissError={this.dismissError}
