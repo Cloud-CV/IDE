@@ -1363,6 +1363,8 @@ class Content extends React.Component {
               textboxModal={this.textboxModal}
               urlModal={this.urlModal}
               updateHistoryModal={this.updateHistoryModal}
+              smartDeleteLayers={this.smartDeleteLayers}
+              getDeleteButtonStyle={this.getDeleteButtonStyle}
              />
              <Login setUserId={this.setUserId} setUserName={this.setUserName}></Login>
              <h5 className="sidebar-heading">INSERT LAYER</h5>

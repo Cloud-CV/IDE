@@ -148,6 +148,7 @@ input#netName.hidden {
 
 .hidden {
   opacity: 0;
+  display: none !important;
 }
 
 #icon-plus{
@@ -186,7 +187,7 @@ input#netName.hidden {
   width: 180px;
 }
 
-#layers-delete  > p{
+#layers-delete  > p {
   margin: 0px;
   color: #9ea2a9;
 }

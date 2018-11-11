@@ -106,6 +106,18 @@ class TopBar extends React.Component {
             </div>
             {content}
         </div>
+        <div className="topbar-row">
+          <div className={`topbar-col ${this.props.getDeleteButtonStyle()}`}>
+            <div className="form-group">
+                <div className="dropdown">
+                  <button id="topbar-icon" className="btn btn-default dropdown-toggle form-control" data-toggle="dropdown"
+                  onClick={() => this.props.smartDeleteLayers()} data-tip="delete layers">
+                    <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                  </button>
+                </div>
+            </div>
+          </div>
+        </div>
       <ReactTooltip type="dark" multiline={true}/>
       </div>
     );
@@ -119,8 +131,10 @@ TopBar.propTypes = {
   loadDb: React.PropTypes.func,
   zooModal: React.PropTypes.func,
   textboxModal: React.PropTypes.func,
+  getDeleteButtonStyle: React.PropTypes.func,
   urlModal: React.PropTypes.func,
-  updateHistoryModal: React.PropTypes.func
+  updateHistoryModal: React.PropTypes.func,
+  smartDeleteLayers: React.PropTypes.func
 };
 
 export default TopBar;

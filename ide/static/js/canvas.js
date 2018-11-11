@@ -247,10 +247,14 @@ class Canvas extends React.Component {
   clickLayerEvent(event, layerId) { // happens when layer is clicked and also dragged
     event.preventDefault();
     if (event.target.tagName.toLowerCase() == 'div') {
-      if (this.clickOrDraggedLayer === 0) {
-        this.props.changeSelectedLayer(layerId); // clicked
-      } else if (this.clickOrDraggedLayer === 1) {
-        this.clickOrDraggedLayer = 0; // dragged
+      if (event.shiftKey) {
+        this.props.addLayerToMultipleSelection(layerId);
+      } else {
+        if (this.clickOrDraggedLayer === 0) {
+          this.props.changeSelectedLayer(layerId); // clicked
+        } else if (this.clickOrDraggedLayer === 1) {
+          this.clickOrDraggedLayer = 0; // dragged
+        }
       }
     }
     event.stopPropagation();
@@ -493,14 +497,6 @@ class Canvas extends React.Component {
       >
         {layers}
       </div>
-      <div id='layers-delete' className={`${this.props.getDeleteButtonStyle()}`} onClick={ () => this.props.smartDeleteLayers() }>
-        <p>delete</p>
-        <div>
-          <button className="btn btn-default text-center" id='btn-remove' disabled={this.disableZoom}>
-            <span className="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
-          </button>
-        </div>
-      </div> 
       <div id='modelParameter'>
         <p>Total Parameters</p>
         <div id="content">
