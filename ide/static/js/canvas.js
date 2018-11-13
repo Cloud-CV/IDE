@@ -277,6 +277,7 @@ class Canvas extends React.Component {
       if (this.props.selectedLayer!=null)
         this.props.modifyLayer(this.props.net[this.props.selectedLayer], this.props.selectedLayer);
       this.props.changeSelectedLayer(null);
+      this.props.deselectMultipleSelection();
     }
     this.mouseState.pan = false;
     this.mouseState.click = false;
@@ -489,6 +490,19 @@ class Canvas extends React.Component {
         {errors}
         {infos}
         {placeholder}
+      <div className={`info layers-selection-property ${this.props.getDeleteButtonStyle()}`}>
+        <span>
+          <span>
+            {this.props.selectedLayersNumber} Layers selected
+          </span>
+          <span>
+            &nbsp; | &nbsp;
+          </span>
+          <span>
+            <a className="layers-smart-delete-button" onClick={ () => this.props.smartDeleteLayers() }>Remove</a>
+          </span>
+        </span>
+      </div>
       <div
         id="jsplumbContainer"
         data-zoom="1"
@@ -537,6 +551,8 @@ Canvas.propTypes = {
   addLayerToMultipleSelection: React.PropTypes.func,
   getDeleteButtonStyle: React.PropTypes.func,
   smartDeleteLayers: React.PropTypes.func,
+  deselectMultipleSelection: React.PropTypes.func,
+  selectedLayersNumber: React.PropTypes.number,
   dismissInfo: React.PropTypes.func,
   getLayerCSSClasses: React.PropTypes.func,
   info: React.PropTypes.array,

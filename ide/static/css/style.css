@@ -892,6 +892,24 @@ button.url-import-modal-button {
     cursor: pointer;
 }
 
+.layers-selection-property {
+  background: rgb(205, 207, 210);
+  width: auto;
+  right: 2% !important;
+  left: unset;
+  position: fixed;
+  font-weight: bold;
+  color: rgb(69, 80, 97);
+}
+
+a.layers-smart-delete-button {
+  text-decoration: none !important;
+  font-weight: bold;
+  background: #f44336 !important;
+  border-radius: 3px;
+  padding: 5px;
+}
+
 .alert-dismissible .close {
     position: relative;
     top: -2px;

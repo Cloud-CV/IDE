@@ -75,6 +75,7 @@ class Content extends React.Component {
     this.getLayerCSSClasses = this.getLayerCSSClasses.bind(this);
     this.getDeleteButtonStyle = this.getDeleteButtonStyle.bind(this);
     this.smartDeleteLayers = this.smartDeleteLayers.bind(this);
+    this.deselectMultipleSelection = this.deselectMultipleSelection.bind(this);
     this.exportPrep = this.exportPrep.bind(this);
     this.exportNet = this.exportNet.bind(this);
     this.importNet = this.importNet.bind(this);
@@ -520,17 +521,23 @@ class Content extends React.Component {
     }
   }
   smartDeleteLayers() {
+    let net = this.state.net;
     if (this.state.selectedLayers.length) {
       let all = [];
       for (let layer of this.state.selectedLayers) {
         all[all.length] = layer;
       }
       for (let layer of all) {
-        this.deleteLayer(layer);
+        if (layer in net) {
+          this.deleteLayer(layer);
+        }
       }
     } else if (this.state.selectedLayer) {
       this.deleteLayer(this.state.selectedLayer);
     }
+  }
+  deselectMultipleSelection() {
+    this.setState({selectedLayers: []});
   }
   deleteLayer(layerId, publishUpdate=true) {
     const net = this.state.net;
@@ -1408,11 +1415,13 @@ class Content extends React.Component {
             modifyLayer={this.modifyLayer}
             deleteLayer={this.deleteLayer}
             smartDeleteLayers={this.smartDeleteLayers}
+            deselectMultipleSelection={this.deselectMultipleSelection}
             changeNetStatus={this.changeNetStatus}
             error={this.state.error}
             dismissError={this.dismissError}
             addError={this.addError}
             info={this.state.info}
+            selectedLayersNumber={this.state.selectedLayers.length}
             dismissInfo={this.dismissInfo}
             addInfo={this.addInfo}
             clickEvent={this.clickEvent}
