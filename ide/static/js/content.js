@@ -425,6 +425,7 @@ class Content extends React.Component {
       } else {
         l[l.length] = layerId;
       }
+      this.changeSelectedLayer(null);
       this.setState({ net, selectedLayers: l });
     }
   }

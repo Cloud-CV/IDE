@@ -250,6 +250,7 @@ class Canvas extends React.Component {
       if (event.shiftKey) {
         this.props.addLayerToMultipleSelection(layerId);
       } else {
+        this.props.deselectMultipleSelection();
         if (this.clickOrDraggedLayer === 0) {
           this.props.changeSelectedLayer(layerId); // clicked
         } else if (this.clickOrDraggedLayer === 1) {
