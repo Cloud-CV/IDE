@@ -278,8 +278,8 @@ class Canvas extends React.Component {
       if (this.props.selectedLayer!=null)
         this.props.modifyLayer(this.props.net[this.props.selectedLayer], this.props.selectedLayer);
       this.props.changeSelectedLayer(null);
-      this.props.deselectMultipleSelection();
     }
+    this.props.deselectMultipleSelection();
     this.mouseState.pan = false;
     this.mouseState.click = false;
     event.stopPropagation();
