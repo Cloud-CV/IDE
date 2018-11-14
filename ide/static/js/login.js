@@ -18,6 +18,10 @@ class Login extends React.Component {
   logoutUser() {
     $.ajax({
       url: '/accounts/logout',
+      headers: { 
+        'X-Content-Type-Options' : 'nosniff',
+        'X-XSS-Protection' : '1; mode=block' 
+      },
       type: 'GET',
       processData: false,  // tell jQuery not to process the data
       contentType: false,
@@ -56,6 +60,10 @@ class Login extends React.Component {
 
     $.ajax({
       url: '/backendAPI/checkLogin',
+      headers: { 
+        'X-Content-Type-Options' : 'nosniff',
+        'X-XSS-Protection' : '1; mode=block' 
+      },
       type: 'GET',
       contentType: false,
       data: {
