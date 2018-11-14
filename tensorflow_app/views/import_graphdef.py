@@ -8,6 +8,12 @@ import math
 import re
 import urllib2
 from urlparse import urlparse
+import logging
+
+logging.basicConfig(level=logging.DEBUG,
+                    filename="tensorflow_test.log", 
+                    filemode='w') 
+
 
 # map from operation name(tensorflow) to layer name(caffe)
 op_layer_map = {'Placeholder': 'Input', 'Conv2D': 'Convolution', 'Conv3D': 'Convolution',
@@ -127,7 +133,11 @@ def get_padding(node, layer, session, input_layer_name, input_layer_dim):
 
 @csrf_exempt
 def import_graph_def(request):
+    logging.debug('Starting \n')
+    #logging.info('Starting info \n')
     if request.method == 'POST':
+        logging.debug("Hello, NEW TENSORFLOW APP LOGGING \n")
+        #logging.info("Hello, NEW TENSORFLOW APP LOGGING \n")
         if ('file' in request.FILES) and \
            (request.FILES['file'].content_type == 'application/octet-stream' or
                 request.FILES['file'].content_type == 'text/plain'):
@@ -168,6 +178,10 @@ def import_graph_def(request):
 
         for node in graph.get_operations():
             name = get_layer_name(node.name)
+            logging.debug(name)
+            logging.debug('\n')
+            logging.debug(str(node))
+            logging.debug('\n')
             if node.type == 'NoOp':
                 # if init ops is found initialize graph_def
                 init_op = session.graph.get_operation_by_name(node.name)
