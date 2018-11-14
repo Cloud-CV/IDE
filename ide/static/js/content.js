@@ -528,6 +528,20 @@ class Content extends React.Component {
       for (let layer of this.state.selectedLayers) {
         all[all.length] = layer;
       }
+
+      let key = (id) => {
+        for (let i = 0; i < id.length; i++) {
+          if ('0' <= id[i] && id[i] <= '9') {
+            let c = -parseInt(id.substring(i, id.length));
+            return c;
+          }
+        }
+      };
+      all.sort((a, b) => {
+        if (key(a) < key(b)) return -1;
+        if (key(a) == key(b)) return 0;
+        return 1;
+      });
       for (let layer of all) {
         if (layer in net) {
           this.deleteLayer(layer);
@@ -573,6 +587,7 @@ class Content extends React.Component {
       nextLayerId: nextLayerId,
       totalParameters: totalParameters
     });
+    this.state.nextLayerId = nextLayerId;
     // if model is in RTC mode send updates to respective sockets
     // to avoid infinite loop of deletion over multiple session
     if (this.state.isShared && !this.state.isForked && publishUpdate == true) {
