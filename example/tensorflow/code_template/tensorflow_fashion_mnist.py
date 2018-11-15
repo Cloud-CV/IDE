@@ -65,17 +65,9 @@ def get_batch_acc(sess, feature_batch, label_batch, accuracy):
                     })
 
 
-# print stats of epoch
-def print_stats(epoch, train_losses, train_accs, valid_losses, valid_accs):
-    print((
-        'Epoch {} summary: '
-        'train loss: {:4}, train acc: {:4},'
-        'valid loss: {:4}, valid acc: {:4}'
-    ).format(
-        epoch,
-        train_losses.mean(), train_accs.mean(),
-        valid_losses.mean(), valid_accs.mean()
-    ))
+# writes stats of loss and accuracy over certain dataset
+def metrics_summary(dataset, losses, acc):
+    return '{0} loss: {1:.4f}, {0} acc: {2:.4f}'.format(dataset, losses.mean(), acc.mean())
 
 
 (train_x, train_y), (valid_x, valid_y) = fashion_mnist.load_data()
@@ -136,4 +128,6 @@ with tf.Session() as sess:
             valid_losses[batch_i] = get_batch_loss(sess, valid_features, valid_labels, cost)
             valid_accs[batch_i] = get_batch_acc(sess, valid_features, valid_labels, accuracy)
 
-        print_stats(epoch + 1, train_losses, train_accs, valid_losses, valid_accs)
+        print('Epoch %d summary:' % (epoch + 1),
+              metrics_summary('train', train_losses, train_accs) + ',',
+              metrics_summary('valid', valid_losses, valid_accs))
