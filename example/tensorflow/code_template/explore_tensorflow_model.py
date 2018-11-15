@@ -17,4 +17,5 @@ tensors = [n for n in tf.get_default_graph().as_graph_def().node]
 print("Variables: ", [n.name for n in tensors if n.op == "VariableV2"])
 print("Placeholders: ", [n.name for n in tensors if n.op == "Placeholder"])
 
-# TODO: model usage sample when export model bug fixed
+# TODO: Once graph export bug is fixed, usage functionality from mnist training can be inserted here
+# See `tensorflow_fashion_mnist.py`
