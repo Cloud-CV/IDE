@@ -15,13 +15,6 @@ class ModelElement extends React.Component {
             </div>
           </div>
         </div>
-        // <a
-          // style={{color: "#848a92"}}
-          // className="btn"
-          // onClick={() => this.props.importNet('sample'+this.props.framework, this.props.id)}
-          // >
-          // {this.props.children}
-        // </a>
       );
     }
     else
