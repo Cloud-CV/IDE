@@ -7,7 +7,7 @@
 
     ![](select_tensorflow_red.png)
 3. Rename the file to `model.pbtxt`
-4. In the folder with model file this code:
+4. In the folder with model file execute this code:
     ```python
     import tensorflow as tf
     from google.protobuf import text_format
@@ -26,6 +26,8 @@
 
 ## Code template
 [explore_tensorflow_model.py](../example/tensorflow/code_template/explore_tensorflow_model.py) - finds variables and placeholders in model.
+
+[tensorflow_fashion_mnist.py](../example/tensorflow/code_template/tensorflow_fashion_mnist.py) - training CNN on Fashion MNIST dataset. Before you run this file don't forget to install `tqdm` package. It enhances the output with progress bars to watch the training and evaluation process.
 
 ## Reference
 [Towards Data Science blog](https://towardsdatascience.com/cifar-10-image-classification-in-tensorflow-5b501f7dc77c) - how to build neural network with low-level API.
