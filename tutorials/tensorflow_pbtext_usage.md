@@ -1,6 +1,6 @@
 # How to use pbtxt to import tensorflow model
 
-1. Select the 3nd button in the Actions section:
+1. Select the 3rd button in the Actions section:
 
     ![](select_export_new.png)
 2. In appeared dropdown list select Tensorflow. This should download a `.pbtxt` file
