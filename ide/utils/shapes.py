@@ -1,6 +1,7 @@
 import numpy as np
 from collections import deque
 
+
 def data(layer):
     Input = []
     if (layer['info']['type'] in ['ImageData', 'Data', 'WindowData']):
