@@ -100,8 +100,8 @@ optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
 correct_pred = tf.equal(tf.argmax(logits, 1), tf.argmax(one_hot_y, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32), name='accuracy')
 
-train_n_batches = train_x.shape[0] // batch_size + 1
-valid_n_batches = valid_x.shape[0] // batch_size + 1
+train_n_batches = (train_x.shape[0] - 1) // batch_size + 1
+valid_n_batches = (valid_x.shape[0] - 1) // batch_size + 1
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
 
