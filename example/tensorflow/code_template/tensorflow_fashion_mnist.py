@@ -35,7 +35,7 @@ def conv_net(x, keep_prob, train_shape):
     return out
 
 
-# Train neural network over batch
+# trains neural network over batch
 def train_neural_network(sess, optimizer, keep_probability, feature_batch, label_batch):
     sess.run(optimizer,
              feed_dict={
@@ -45,7 +45,7 @@ def train_neural_network(sess, optimizer, keep_probability, feature_batch, label
              })
 
 
-# get loss over batch
+# gets loss over batch
 def get_batch_loss(sess, feature_batch, label_batch, cost):
     return sess.run(cost,
                     feed_dict={
@@ -55,7 +55,7 @@ def get_batch_loss(sess, feature_batch, label_batch, cost):
                     })
 
 
-# get accuracy over batch
+# gets accuracy over batch
 def get_batch_acc(sess, feature_batch, label_batch, accuracy):
     return sess.run(accuracy,
                     feed_dict={
@@ -70,9 +70,14 @@ def metrics_summary(dataset, losses, acc):
     return '{0} loss: {1:.4f}, {0} acc: {2:.4f}'.format(dataset, losses.mean(), acc.mean())
 
 
-(train_x, train_y), (valid_x, valid_y) = fashion_mnist.load_data()
+# retrieves a batch from features and labels at the given batchh index and size
+def get_batch(features, labels, batch_i, batch_size):
+    start = batch_i*batch_size
+    end = start+batch_size
+    return features[start:end], labels[start:end]
 
-train_shape = train_x[0].shape
+
+(train_x, train_y), (valid_x, valid_y) = fashion_mnist.load_data()
 
 epochs = 10
 batch_size = 128
@@ -86,7 +91,7 @@ y = tf.placeholder(tf.uint8, shape=(None,), name='output_y')
 one_hot_y = tf.one_hot(y, depth)
 keep_prob = tf.placeholder(tf.float32, name='keep_prob')
 
-logits = conv_net(x, keep_prob, train_shape)
+logits = conv_net(x, keep_prob, train_x[0].shape)
 
 # cost is loss function
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=one_hot_y))
@@ -100,7 +105,7 @@ valid_n_batches = valid_x.shape[0] // batch_size + 1
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
 
-    # Training cycle
+    # training cycle
     for epoch in range(epochs):
         train_losses = np.zeros(train_n_batches)
         train_accs = np.zeros(train_n_batches)
@@ -109,21 +114,16 @@ with tf.Session() as sess:
 
         print('Epoch %d' % (epoch + 1))
         for batch_i in tqdm(range(train_n_batches), desc="Train", ncols=80):
-            batch_start = batch_i*batch_size
-            batch_end = batch_start+batch_size
-            train_features = train_x[batch_start:batch_end]
-            train_labels = train_y[batch_start:batch_end]
+            train_features, train_labels = get_batch(train_x, train_y, batch_i, batch_size)
 
             train_neural_network(sess, optimizer, keep_probability, train_features, train_labels)
 
             train_losses[batch_i] = get_batch_loss(sess, train_features, train_labels, cost)
             train_accs[batch_i] = get_batch_acc(sess, train_features, train_labels, accuracy)
 
+        # batch evaluation over validation set
         for batch_i in tqdm(range(valid_n_batches), desc="Valid", ncols=80):
-            batch_start = batch_i*batch_size
-            batch_end = batch_start+batch_size
-            valid_features = valid_x[batch_start:batch_end]
-            valid_labels = valid_y[batch_start:batch_end]
+            valid_features, valid_labels = get_batch(valid_x, valid_y, batch_i, batch_size)
 
             valid_losses[batch_i] = get_batch_loss(sess, valid_features, valid_labels, cost)
             valid_accs[batch_i] = get_batch_acc(sess, valid_features, valid_labels, accuracy)
