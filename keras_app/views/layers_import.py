@@ -1,5 +1,4 @@
 import numpy as np
-import math
 
 
 # ********** Data Layers **********
@@ -508,22 +507,22 @@ def get_padding(params, input_shape, output_shape, pad_type, type):
         if (pad_type == 'valid'):
             return 0
         else:
-            pad_w = int(math.ceil(((output_shape[1] - 1) * s_w + k_w - input_shape[1]) / 2.0))
+            pad_w = int(np.ceil(((output_shape[1] - 1) * s_w + k_w - input_shape[1]) / 2.0))
             return pad_w
     elif (type == '2D'):
         if (pad_type == 'valid'):
             return [0, 0]
         else:
-            pad_h = int(math.ceil(((output_shape[2] - 1) * s_h + k_h - input_shape[2]) / 2.0))
-            pad_w = int(math.ceil(((output_shape[1] - 1) * s_w + k_w - input_shape[1]) / 2.0))
+            pad_h = int(np.ceil(((output_shape[2] - 1) * s_h + k_h - input_shape[2]) / 2.0))
+            pad_w = int(np.ceil(((output_shape[1] - 1) * s_w + k_w - input_shape[1]) / 2.0))
             return (pad_h, pad_w)
     else:
         if (pad_type == 'valid'):
             return [0, 0, 0]
         else:
-            pad_h = int(math.ceil(((output_shape[2] - 1) * s_h + k_h - input_shape[2]) / 2.0))
-            pad_w = int(math.ceil(((output_shape[1] - 1) * s_w + k_w - input_shape[1]) / 2.0))
-            pad_d = int(math.ceil(((output_shape[3] - 1) * s_d + k_d - input_shape[3]) / 2.0))
+            pad_h = int(np.ceil(((output_shape[2] - 1) * s_h + k_h - input_shape[2]) / 2.0))
+            pad_w = int(np.ceil(((output_shape[1] - 1) * s_w + k_w - input_shape[1]) / 2.0))
+            pad_d = int(np.ceil(((output_shape[3] - 1) * s_d + k_d - input_shape[3]) / 2.0))
             return (pad_h, pad_w, pad_d)
 
 
