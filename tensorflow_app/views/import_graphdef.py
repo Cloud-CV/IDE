@@ -168,10 +168,6 @@ def import_graph_def(request):
 
         for node in graph.get_operations():
             name = get_layer_name(node.name)
-            logging.debug(name)
-            logging.debug('\n')
-            logging.debug(str(node))
-            logging.debug('\n')
             if node.type == 'NoOp':
                 # if init ops is found initialize graph_def
                 init_op = session.graph.get_operation_by_name(node.name)
