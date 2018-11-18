@@ -14,6 +14,7 @@ class ModelZoo extends React.Component {
       this.refs.caption.className = "hide";
       this.refs.segmentation.className = "hide";
       this.refs.vqa.className = "hide";
+      this.refs.poseEstimation.className = "hide";
       $('#sidebar-nav li a').removeClass();
       event.currentTarget.className = "bold";
       if (id == "all") {
@@ -24,6 +25,7 @@ class ModelZoo extends React.Component {
         this.refs.caption.className = " ";
         this.refs.segmentation.className = " ";
         this.refs.vqa.className = " ";
+        this.refs.poseEstimation.className = "";
       }
       else if (id == "recognition")
       {
@@ -52,6 +54,10 @@ class ModelZoo extends React.Component {
       else if (id == "vqa")
       {
           this.refs.vqa.className = " ";
+      }
+      else if (id == "poseEstimation")
+      {
+          this.refs.poseEstimation.className = " ";
       }
     }
 
@@ -129,6 +135,9 @@ class ModelZoo extends React.Component {
               <li>
                 <a onClick={(event) => this.mouseClick(event, "vqa")}>VQA</a>
               </li>
+              <li>
+                <a onClick={(event) => this.mouseClick(event, "poseEstimation")}>Pose Estimation</a>
+              </li>
             </ul>
           </div>
         </div>
@@ -177,9 +186,8 @@ class ModelZoo extends React.Component {
             <ModelElement importNet={this.props.importNet} framework="keras" id="VQA2" displayName="VQA2"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="mlpVQA" displayName="VQS"> </ModelElement>
           </div>
-          <div className="zoo-modal-model">
-            <h3 className="zoo-modal-text">Pose Estimation</h3>
-            <ModelElement importNet={this.props.importNet} framework="caffe" id="vnect_net">VNECT</ModelElement>
+          <div ref="poseEstimation">
+            <ModelElement importNet={this.props.importNet} framework="caffe" id="vnect_net" displayName="Vnect"> </ModelElement>
           </div>
         </div>
       </div>
