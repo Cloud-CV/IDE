@@ -24,7 +24,7 @@ def export_to_tensorflow(request):
     randomId = response['randomId']
     customLayers = response['customLayers']
     os.chdir(BASE_DIR + '/tensorflow_app/views/')
-    os.system('KERAS_BACKEND=tensorflow python json2pbtxt.py -input_file ' +
+    os.system('KERAS_BACKEND=tensorflow python json2meta.py -input_file ' +
               randomId + '.json -output_file ' + randomId)
     return JsonResponse({'result': 'success',
                          'id': randomId,
