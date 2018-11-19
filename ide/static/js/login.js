@@ -143,7 +143,7 @@ class Login extends React.Component {
 
                 <h5 className="sidebar-heading login-prebtn">
                   <div className="col-md-5 login-button">
-                    <a className="btn btn-block btn-social" onClick={() => window.location="/accounts/google/login"}  style={{width: '105px'}}>
+                    <a className="btn btn-block btn-social" onClick={() => window.location="/accounts/signup"}  style={{width: '105px'}}>
                       <span className="fa fa-user-plus"></span>Sign up
                     </a>
                   </div>
