@@ -3,7 +3,9 @@
 {% load account socialaccount %}
 
 {% block head_title %}Sign in{% endblock %}
-{% block extra_head %}<link href="/static/css/auth.css" rel="stylesheet">{% endblock %}
+{% block extra_head %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="/static/css/auth.css" rel="stylesheet">{% endblock %}
 {% block content %}
 <div class="limiter">
   <div class="container-login">
@@ -14,8 +16,8 @@
                         <img class="logo" src="/static/img/logo.png">
                     </span>
 
-        <div class="wrap-input validate-input" data-validate="{{ form.username.errors }}">
-          {{ form.username }}
+        <div class="wrap-input validate-input" data-validate="{{ form.username.login }}">
+          {{ form.login }}
           <span class="focus-input"></span>
         </div>
 

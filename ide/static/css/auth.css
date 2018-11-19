@@ -205,7 +205,7 @@ button:hover {
   transform: translateY(-50%);
 }
 
-.contact-form-checkbox input:checked + .contact-form-checkbox label::before {
+.contact-form-checkbox input:checked + label::before {
   color: #359dd7;
 }
 
