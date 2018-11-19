@@ -29,12 +29,11 @@
         <div class="wrap-input validate-input" data-validate="{{ form.password1.errors }}">
             {{ form.password1 }}
             <span class="focus-input"></span>
-          </div>
+        </div>
 
         <div class="wrap-input validate-input" data-validate="{{ form.password2.errors }}">
             {{ form.password2 }}
             <span class="focus-input"></span>
-          </div>
         </div>
 
         <div class="container-login-form-btn">
@@ -50,7 +49,7 @@
           Google
         </a>
         <div class="txt2">
-          Already have an account?<a href="{{ login_url }}">Log in!</a>
+          Already have an account? <a href="{{ login_url }}">Log in!</a>
         </div>
         {% if redirect_field_value %}
           <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
