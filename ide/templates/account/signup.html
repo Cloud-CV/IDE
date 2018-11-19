@@ -16,29 +16,29 @@
           <img class="logo" src="/static/img/logo.png">
         </span>
 
-        <div class="wrap-input validate-input" data-validate="{{ form.login.errrors }}">
-          {{ form.login }}
+        <div class="wrap-input validate-input" data-validate="{{ form.username.errrors }}">
+          {{ form.username }}
           <span class="focus-input"></span>
         </div>
 
-        <div class="wrap-input validate-input" data-validate="{{ form.password.errors }}">
-          {{ form.password }}
+        <div class="wrap-input validate-input" data-validate="{{ form.email.errors }}">
+          {{ form.email }}
           <span class="focus-input"></span>
         </div>
 
-        <div class="flex-sb-m w-full p-t-3 p-b-24">
-          <div class="contact-form-checkbox">
-            {{ form.remember }}
-            {{ form.remember.label_tag }}
+        <div class="wrap-input validate-input" data-validate="{{ form.password1.errors }}">
+            {{ form.password1 }}
+            <span class="focus-input"></span>
           </div>
 
-          <div>
-            <a href="{% url 'account_reset_password' %}" class="txt1">Forgot password?</a>
+        <div class="wrap-input validate-input" data-validate="{{ form.password2.errors }}">
+            {{ form.password2 }}
+            <span class="focus-input"></span>
           </div>
         </div>
 
         <div class="container-login-form-btn">
-          <button class="login-form-btn">Login</button>
+          <button class="login-form-btn">Sign Up</button>
         </div>
         <div class="txt2">Or sign up with</div>
         <a href="#" class="btn-github">
@@ -50,7 +50,7 @@
           Google
         </a>
         <div class="txt2">
-          New user? <a href="{{ signup_url }}">Sign up!</a>
+          Already have an account?<a href="{{ login_url }}">Log in!</a>
         </div>
         {% if redirect_field_value %}
           <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
