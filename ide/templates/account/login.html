@@ -1,0 +1,64 @@
+{% extends "account/base.html" %}
+
+{% load account socialaccount %}
+
+{% block head_title %}Sign in{% endblock %}
+{% block extra_head %}<link href="/static/css/auth.css" rel="stylesheet">{% endblock %}
+{% block content %}
+<div class="limiter">
+  <div class="container-login">
+    <div class="wrap-login">
+      <form class="login-form validate-form">
+        {% csrf_token %}
+        <span class="login-form-title">
+                        <img class="logo" src="/static/img/logo.png">
+                    </span>
+
+        <div class="wrap-input validate-input" data-validate="{{ form.username.errors }}">
+          {{ form.username }}
+          <span class="focus-input"></span>
+        </div>
+
+        <div class="wrap-input validate-input" data-validate="{{ form.password.errors }}">
+          {{ form.password }}
+          <span class="focus-input"></span>
+        </div>
+
+        <div class="flex-sb-m w-full p-t-3 p-b-24">
+          <div class="contact-form-checkbox">
+            {{ form.remember }}
+            {{ form.remember.label_tag }}
+          </div>
+
+          <div>
+            <a href="{% url 'account_reset_password' %}" class="txt1">
+                                Forgot password?
+                            </a>
+          </div>
+        </div>
+
+        <div class="container-login-form-btn">
+          <button class="login-form-btn">
+                            Login
+                        </button>
+        </div>
+<div class="txt2">
+                            Or login with
+</div>
+        <a href="#" class="btn-github">
+                        <i class="fa fa-github"></i>
+                        Github
+                    </a>
+        <a href="#" class="btn-google">
+                        <i class="fa fa-google"></i>
+                        Google
+                    </a>
+        <div class="txt2">
+    New user? <a href="{{ signup_url }}">Sign up!</a>
+                        </span>
+</div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
