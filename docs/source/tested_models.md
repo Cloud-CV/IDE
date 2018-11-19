@@ -49,7 +49,7 @@
 * UNET [\[Source\]](https://github.com/ZFTurbo/ZF_UNET_224_Pretrained_Model)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180116070834rggzh)
 
 ## Pose Estimation
-* Vnect [\[Source\]](http://gvv.mpi-inf.mpg.de/projects/VNect/)[\[Visualise\]](http://fabrik.cloudcv.org)
+* Vnect [\[Source\]](http://gvv.mpi-inf.mpg.de/projects/VNect/)
 
 ### Miscellaneous
 
