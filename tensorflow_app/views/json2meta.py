@@ -9,7 +9,7 @@ parser = argparse.ArgumentParser(description='set input arguments')
 parser.add_argument('-input_file', action="store",
                     dest='input_file', type=str, default='model.json')
 parser.add_argument('-output_file', action="store",
-                    dest='output_file', type=str, default='model.pbtxt')
+                    dest='output_file', type=str, default='model.meta')
 args = parser.parse_args()
 input_file = args.input_file
 output_file = args.output_file

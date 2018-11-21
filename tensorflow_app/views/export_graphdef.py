@@ -28,6 +28,6 @@ def export_to_tensorflow(request):
               randomId + '.json -output_file ' + randomId)
     return JsonResponse({'result': 'success',
                          'id': randomId,
-                         'name': randomId + '.pbtxt',
-                         'url': '/media/' + randomId + '.pbtxt',
+                         'name': randomId + '.meta',
+                         'url': '/media/' + randomId + '.meta',
                          'customLayers': customLayers})
