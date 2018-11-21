@@ -32,7 +32,7 @@
   <li><a href="{{ signup_url }}">Sign up</a></li>
 </ul>
 <div class="h-full valign-wrapper">
-  <div class="mtop container">
+  <div class="container">
     <div class="row">
       <div class="col s12 m8 offset-m2 l6 offset-l3">
         <div class="card">
@@ -53,4 +53,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script src="{% static 'js/auth.js' %}"></script>
+<script>
+  {% if messages %}
+    {% for message in messages %}
+      M.toast({
+        html: "{{ message }}",
+        displayLength: 6666
+      });
+    {% endfor %}
+  {% endif %}
+</script>
 {% endblock %}
