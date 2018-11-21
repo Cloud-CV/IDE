@@ -49,31 +49,35 @@
               <div class="input-field col s12">
                 <i class="material-icons prefix">person_outline</i>
                 {{ form.username }}
-                <label for="username">Username</label>
+                {{ form.username.label_tag }}
+                <span class="helper-text" data-error="Ouch! Try again" data-success="Looks good!">{{ form.username.errrors }}</span>
               </div>
 
               <div class="input-field col s12">
                 <i class="material-icons prefix">mail_outline</i>
                 {{ form.email }}
-                <label for="email">Email</label>
+                {{ form.email.label_tag }}
+                <span class="helper-text" data-error="Enter a valid email" data-success="Perfect!">{{ form.email.errors }}</span>
               </div>
               <div class="input-field col s12">
                 <i class="material-icons prefix">lock_outline</i>
                 {{ form.password1 }}
-                <label for="password1">Password</label>
+                {{ form.password1.label_tag }}
+                <span class="helper-text" data-error="Ouch! Try again">{{ form.password1.errors }}</span>
               </div>
               <div class="input-field col s12">
                 <i class="material-icons prefix">lock_outline</i>
                 {{ form.password2 }}
-                <label for="password2">Confirm Password</label>
+                {{ form.password2.label_tag }}
+                <span class="helper-text" data-error="Passwords do not match" data-success="You're good to go :)">{{ form.password2.errors }}</span>
               </div>
 
               <div class="input-field col s12">
                 <button class="btn-large waves-effect waves-light submit light-blue darken-4" type="submit" id="submit">Sign up</button>
                 <div class="moreops">or sign up with</div>
                 <div class="social-login">
-                  <button class="github"><i class="fa fa-github"></i></button>
-                  <button class="google"><i class="fa fa-google"></i></button>
+                  <a href="{% provider_login_url 'github' %}" class="github"><i class="fa fa-github"></i></a>
+                  <a href="{% provider_login_url 'google' %}" class="google"><i class="fa fa-google"></i></a>
                 </div>
               </div>
               {% if redirect_field_value %}
@@ -86,61 +90,17 @@
     </div>
   </div>
 </div>
-<!-- <div class="limiter">
-  <div class="container-login">
-    <div class="wrap-login">
-      <form class="login-form validate-form">
-        {% csrf_token %}
-        <span class="login-form-title">
-          <img class="logo" src="/static/img/logo.png">
-        </span>
-
-        <div class="wrap-input validate-input" data-validate="{{ form.username.errrors }}">
-          {{ form.username }}
-          <span class="focus-input"></span>
-        </div>
-
-        <div class="wrap-input validate-input" data-validate="{{ form.email.errors }}">
-          {{ form.email }}
-          <span class="focus-input"></span>
-        </div>
-
-        <div class="wrap-input validate-input" data-validate="{{ form.password1.errors }}">
-            {{ form.password1 }}
-            <span class="focus-input"></span>
-        </div>
-
-        <div class="wrap-input validate-input" data-validate="{{ form.password2.errors }}">
-            {{ form.password2 }}
-            <span class="focus-input"></span>
-        </div>
-
-        <div class="container-login-form-btn">
-          <button class="login-form-btn">Sign Up</button>
-        </div>
-        <div class="txt2">Or sign up with</div>
-        <a href="/accounts/github/login" class="btn-github">
-          <i class="fa fa-github"></i>
-          Github
-        </a>
-        <a href="/accounts/google/login" class="btn-google">
-          <i class="fa fa-google"></i>
-          Google
-        </a>
-        <div class="txt2">
-          Already have an account? <a href="{{ login_url }}">Log in!</a>
-        </div>
-        {% if redirect_field_value %}
-          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-        {% endif %}
-      </form>
-    </div>
-  </div>
-</div> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script>
   $(".dropdown-trigger").dropdown();
-  $('.sidenav').sidenav();
+  $(".sidenav").sidenav();
+
+  $("#password2").one("focusin", function(e) {
+    $("#password1, #password2").on("keyup", function(ev) {
+      var samePasswords = $("#password1").val() == $("#password2").val();
+      $("#password2").toggleClass("valid", samePasswords).toggleClass("invalid", !samePasswords);
+    });
+  });
 </script>
 {% endblock %}

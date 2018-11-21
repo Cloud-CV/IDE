@@ -39,53 +39,57 @@ h4 {
   width: 100%;
 }
 
-.tabs .tab a{
-    color:#00ACC1;
+.tabs .tab a {
+  color: #00acc1;
 }
-.tabs .tab a:hover,.tabs .tab a.active {
-	background-color:transparent;
-	color:#008B9B;
+.tabs .tab a:hover,
+.tabs .tab a.active {
+  background-color: transparent;
+  color: #008b9b;
 }
-.tabs .tab a:focus, .tabs .tab a:focus.active {
-    background-color: rgba(102,147,153,0.1);
-    outline: none;
+.tabs .tab a:focus,
+.tabs .tab a:focus.active {
+  background-color: rgba(102, 147, 153, 0.1);
+  outline: none;
 }
-.tabs .tab.disabled a,.tabs .tab.disabled a:hover {
-	color: rgba(102,147,153,0.7);	
+.tabs .tab.disabled a,
+.tabs .tab.disabled a:hover {
+  color: rgba(102, 147, 153, 0.7);
 }
 .tabs .indicator {
-	background-color:#009BAD;
+  background-color: #009bad;
 }
 
 .social-login {
-    display: flex;
-    margin-top: 20px;
+  display: flex;
+  margin-top: 20px;
   justify-content: space-between;
 }
-.social-login button {
-    width: 100%;
-        padding: 10px;
-    outline: none;
-    border: none;
-    transition: background 0.5s;
-    cursor: pointer;
+.social-login a {
+  text-align: center;
+  width: 100%;
+  padding: 10px;
+  outline: none;
+  border: none;
+  transition: background 0.5s;
+  cursor: pointer;
 }
 .social-login .github {
-    background-color: #444;
+  background-color: #444;
 }
 .social-login .google {
-    background-color: #dd4b39;
+  background-color: #dd4b39;
 }
 .social-login .github:hover {
-    background-color: #2b2b2b;
+  background-color: #2b2b2b;
 }
 .social-login .google:hover {
-    background-color: #c23321;
+  background-color: #c23321;
 }
 
-.social-login button i {
-    font-size: 21px;
-    color: white;
+.social-login a i {
+  font-size: 21px;
+  color: white;
 }
 
 .moreops {
