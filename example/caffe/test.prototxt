@@ -1,0 +1,116 @@
+name: "TestNet"
+layer {
+    name: "data"
+    type: "Data"
+    top: "data"
+    input_param { shape: { dim: 1 dim: 1 dim: 28 dim: 28 } }
+}
+layer {
+    name: "conv1"
+    type: "Convolution"
+    bottom: "data"
+    top: "conv1"
+    param {
+        lr_mult: 1
+	    decay_mult: 1
+    }
+    param {
+	    lr_mult: 2
+	    decay_mult: 0
+    }
+    convolution_param {
+	    num_output: 16
+        kernel_h: 1
+        kernel_w: 24
+        stride_h: 1
+        stride_w: 1
+        pad_h: 0
+        pad_w: 12
+        weight_filler {
+            type: "xavier" 
+        }
+        bias_filler {
+            type: "constant" 
+            value: 0
+        }
+    }
+}
+layer {
+    name: "relu1"
+    type: "ReLU"
+    bottom: "conv1"
+    top: "conv1"
+}
+layer {
+    name: "pool1"
+    type: "Pooling"
+    bottom: "conv1"
+    top: "pool1"
+    pooling_param {
+        pool: MAX
+            kernel_h: 1
+            kernel_w: 102
+            stride_h: 1
+            stride_w: 2
+    }
+}
+layer {
+    name: "fc1"
+    type: "InnerProduct"
+    bottom: "pool1"
+    top: "fc1"
+    param {
+        lr_mult: 1
+        decay_mult: 1
+    }
+    param {
+        lr_mult: 21
+        decay_mult: 0
+    }
+    inner_product_param {
+        num_output: 32
+        weight_filler {
+            type: "xavier"
+        }
+        bias_filler {
+            type: "constant"
+            value: 0
+        }
+    }
+}
+layer {
+    name: "relu2"
+    type: "ReLU"
+    bottom: "fc1"
+    top: "fc1"
+}
+layer {
+    name: "fc2"
+    type: "InnerProduct"
+    bottom: "fc1"
+    top: "fc2"
+    param {
+        lr_mult: 1
+        decay_mult: 1
+    }
+    param {
+        lr_mult: 2
+        decay_mult: 0
+    }
+    inner_product_param {
+        num_output: 2
+        weight_filler {
+            type: "xavier"
+        }
+        bias_filler {
+            type: "constant"
+            value: 0
+        }
+    }
+}
+layer {
+    name: "loss1"
+    type: "SoftmaxWithLoss"
+    bottom: "fc2"
+    top: "loss1"
+}
