@@ -2,61 +2,46 @@
 
 {% load account socialaccount %}
 
-{% block head_title %}Sign in{% endblock %}
-{% block extra_head %}
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-<link href="/static/css/auth.css" rel="stylesheet">{% endblock %}
-{% block content %}
-<div class="limiter">
-  <div class="container-login">
-    <div class="wrap-login">
-      <form class="login-form validate-form">
-        {% csrf_token %}
-        <span class="login-form-title">
-          <img class="logo" src="/static/img/logo.png">
-        </span>
+{% block head_title_extra %}Log in{% endblock %}
 
-        <div class="wrap-input validate-input" data-validate="{{ form.login.errrors }}">
-          {{ form.login }}
-          <span class="focus-input"></span>
-        </div>
+{% block form_content %}
+<h4 class="center">Log in to fabrik</h4>
+<form class="row nomb" method="POST">
+  {% csrf_token %}
+  <div class="input-field col s12">
+    <i class="material-icons prefix">person_outline</i>
+    {{ form.login }}
+    {{ form.login.label_tag }}
+    <span class="helper-text" data-error="Is this valid?" data-success="Looks good!">{{ form.login.errrors }}</span>
+  </div>
 
-        <div class="wrap-input validate-input" data-validate="{{ form.password.errors }}">
-          {{ form.password }}
-          <span class="focus-input"></span>
-        </div>
 
-        <div class="flex-sb-m w-full p-t-3 p-b-24">
-          <div class="contact-form-checkbox">
-            {{ form.remember }}
-            {{ form.remember.label_tag }}
-          </div>
+  <div class="input-field col s12">
+    <i class="material-icons prefix">lock_outline</i>
+    {{ form.password }}
+    {{ form.password.label_tag }}
+    <span class="helper-text" data-error="Enter a valid password">{{ form.password.errors }}</span>
+  </div>
 
-          <div>
-            <a href="{% url 'account_reset_password' %}" class="txt1">Forgot password?</a>
-          </div>
-        </div>
+  <div class="input-field col s12">
+    <p>
+      <label>
+        {{ form.remember }}
+        <span>Remember me</span>
+      </label>
+    </p>
+  </div>
 
-        <div class="container-login-form-btn">
-          <button class="login-form-btn">Login</button>
-        </div>
-        <div class="txt2">Or sign up with</div>
-        <a href="/accounts/github/login" class="btn-github">
-          <i class="fa fa-github"></i>
-          Github
-        </a>
-        <a href="/accounts/google/login" class="btn-google">
-          <i class="fa fa-google"></i>
-          Google
-        </a>
-        <div class="txt2">
-          New user? <a href="{{ signup_url }}">Sign up!</a>
-        </div>
-        {% if redirect_field_value %}
-          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-        {% endif %}
-      </form>
+  <div class="input-field col s12">
+    <button class="btn-large waves-effect waves-light submit light-blue darken-4" type="submit" id="submit">Log in</button>
+    <div class="moreops">or log in with</div>
+    <div class="social-login">
+      <a href="{% provider_login_url 'github' %}" class="github"><i class="fa fa-github"></i></a>
+      <a href="{% provider_login_url 'google' %}" class="google"><i class="fa fa-google"></i></a>
     </div>
   </div>
-</div>
+  {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+</form>
 {% endblock %}

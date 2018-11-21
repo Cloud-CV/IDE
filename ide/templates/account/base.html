@@ -1,9 +1,56 @@
-<html>
-  <head>
-    <title>{% block head_title %}Fabrik{% endblock %}</title>
-    {% block extra_head %}{% endblock %}
-  </head>
-  <body>
-    {% block content %}{% endblock %}
-  </body>
-</html>
+{% extends "base.html" %}
+
+{% load account socialaccount %}
+{% load static %}
+
+{% block head_title %}Fabric - {% block head_title_extra %}Welcome{% endblock %}{% endblock %}
+{% block extra_head %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="{% static 'css/auth.css' %}" rel="stylesheet">{% endblock %}
+{% block content %}
+<ul id="dropdown1" class="dropdown-content">
+  <li><a href="{{ login_url }}">Login</a></li>
+  <li><a href="{{ signup_url }}">Sign up</a></li>
+</ul>
+
+<nav class="light-blue darken-4">
+  <div class="nav-wrapper">
+    <a href="#!" class="brand-logo"><img class="logo" src="{% static '/img/fabrik_t.png' %}"></a>
+    <a href="#" data-target="mobile-demo" class="sidenav-trigger">
+        <i class="material-icons">menu</i>
+      </a>
+    <ul class="right hide-on-med-and-down">
+      <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">My account<i class="material-icons right">arrow_drop_down</i></a></li>
+    </ul>
+  </div>
+</nav>
+
+<ul class="sidenav" id="mobile-demo">
+  <li><a href="{{ login_url }}">Login</a></li>
+  <li><a href="{{ signup_url }}">Sign up</a></li>
+</ul>
+<div class="h-full valign-wrapper">
+  <div class="mtop container">
+    <div class="row">
+      <div class="col s12 m8 offset-m2 l6 offset-l3">
+        <div class="card">
+          <div class="card-tabs">
+            <ul class="tabs tabs-fixed-width ">
+              <li class="tab"><a href="{{ login_url }}">Login</a></li>
+              <li class="tab"><a href="{{ signup_url }}">Sign Up</a></li>
+            </ul>
+          </div>
+          <div class="card-content">
+            {% block form_content %}{% endblock %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="{% static 'js/auth.js' %}"></script>
+{% endblock %}

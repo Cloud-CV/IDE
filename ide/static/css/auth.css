@@ -19,12 +19,8 @@ body {
 }
 
 .h-full {
-  margin-top: 64px;
-  height: 90%;
-}
-
-.mtop {
-  margin-top: 64px;
+  margin-top: 24px;
+  min-height: 85%;
 }
 
 h4 {
