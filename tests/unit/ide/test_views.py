@@ -1224,3 +1224,5 @@ class ShapeCalculationTest(unittest.TestCase):
         self.keras_test(os.path.join(settings.BASE_DIR, 'example/keras', 'shapeCheck2D.json'))
         # Test 8
         self.keras_test(os.path.join(settings.BASE_DIR, 'example/keras', 'shapeCheck3D.json'))
+        # Test 9
+        self.keras_test(os.path.join(settings.BASE_DIR, 'example/keras', 'shapeCheck2D-2.json'))
