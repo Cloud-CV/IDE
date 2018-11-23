@@ -53,6 +53,21 @@ def filter(layer):
         o_w = int((i_w - 1)*s_w + k_w - 2*p_w)
 
         return [num_out, o_h, o_w]
+    elif (layer['info']['type'] == 'Pooling' and 'framework' in layer and layer['framework'] == 'caffe'):
+        _, i_h, i_w = layer['shape']['input']
+        k_h, k_w = layer['params']['kernel_h'], layer['params']['kernel_w']
+        s_h, s_w = layer['params']['stride_h'], layer['params']['stride_w']
+        p_h, p_w = layer['params']['pad_h'], layer['params']['pad_w']
+
+        o_h = int(np.ceil((i_h + 2 * p_h - k_h) / float(s_h) + 1))
+        o_w = int(np.ceil((i_w + 2 * p_w - k_w) / float(s_w) + 1))
+
+        p_h = int(np.ceil(((o_h - 1) * s_h + k_h - i_h) / 2.0))
+        p_w = int(np.ceil(((o_w - 1) * s_w + k_w - i_w) / 2.0))
+        layer['params']['pad_h'] = p_h
+        layer['params']['pad_w'] = p_w
+
+        return [num_out, o_h, o_w]
     else:
         if (layer['params']['layer_type'] == '1D'):
             try:
