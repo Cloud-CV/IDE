@@ -18,7 +18,7 @@
 * SpeechNet [\[Source\]](https://github.com/pannous/caffe-speech-recognition)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180102135032ctsho)
 * SENet [\[Source\]](https://github.com/hujie-frank/SENet) [\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180106091323ectck)
 * ZFNet [\[Source\]](https://github.com/dandxy89/ImageModels/blob/master/ZFNet.ipynb)
-
+* CifarResNext [\[Source\]](https://github.com/arunpatala/cifarSOTA/blob/master/code/caffe-super-convergence/architectures/ResNeXt56.prototxt)
 ### Detection
 
 * Vanilla CNN [\[Source\]](https://github.com/ishay2b/VanillaCNN)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180103153019dogjt)
