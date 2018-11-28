@@ -30,7 +30,7 @@ def order(pairIndex):
     m = 0
     for item in pairIndex:
         if item[1] == '':
-            orderedLayers.append([item[0], pairIndex.index(item)])   #  adds the first layer
+            orderedLayers.append([item[0], pairIndex.index(item)])   # adds the first layer
     while m < len(pairIndex):
         sort(pairIndex, orderedLayers)
         m += 1
