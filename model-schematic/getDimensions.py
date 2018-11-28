@@ -1,3 +1,4 @@
+# flake8: noqa
 import json
 with open('data2.json') as f:
     data = json.load(f)
