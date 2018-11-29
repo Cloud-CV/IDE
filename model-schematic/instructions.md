@@ -19,4 +19,5 @@ Modify [NN-SVG](https://github.com/zfrenchee/NN-SVG) to generate a network diagr
 ### Step 4:
 Add a button on the Fabrik page to run the code from Step 2 and open the modified NN-SVG in a new tab.
 
+Right now we are exporting the internal json representation of the model(for testing purposes), but this means people who don't have Fabrik installed on local machine can run it. Ideally, the getDimensions function should be able to be called from the import function so that there is no need to create a json model file.
 
