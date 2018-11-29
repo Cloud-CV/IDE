@@ -58,17 +58,19 @@ for item in sortedLayers:
             architecture.append(x)
         elif 'batch_size' in data['net'][item[0]]['params']:
             x = int(data['net'][item[0]]['params']['batch_size'])
-            architecture.append([x, 64, 64])
+            architecture.append([x])
     elif data['net'][item[0]]['info']['type'] == 'Convolution':
-        if data['net'][item[0]]['params']['layer_type'] == '2D':
-            numberOfSquares = int(data['net'][item[0]]['params']['num_output'])
-            if 'padding_w' in data['net'][item[0]]['params']:
-                paddingWidth = int(data['net'][item[0]]['info']['type']['padding_w'])
-                kernelWidth = int(data['net'][item[0]]['info']['type']['kernel_w'])
-                squareWidth = paddingWidth + kernelWidth
-            else:
-                squareWidth = int(data['net'][item[0]]['params']['kernel_w'])
-            stride = int(data['net'][item[0]]['params']['stride_w'])
-            architecture.append([numberOfSquares, squareWidth, stride])
+        numberOfSquares = int(data['net'][item[0]]['params']['num_output'])
+        if 'padding_w' in data['net'][item[0]]['params']:
+            paddingWidth = int(data['net'][item[0]]['info']['type']['padding_w'])
+            kernelWidth = int(data['net'][item[0]]['info']['type']['kernel_w'])
+            squareWidth = paddingWidth + kernelWidth
+        else:
+            squareWidth = int(data['net'][item[0]]['params']['kernel_w'])
+        stride = int(data['net'][item[0]]['params']['stride_w'])
+        architecture.append([numberOfSquares, squareWidth, stride])
+    elif data['net'][item[0]]['info']['type'] == 'InnerProduct':
+        architecture.append([data['net'][item[0]]['params']['num_output']])
 
-print(architecture)
+print(data["net_name"], architecture)
+
