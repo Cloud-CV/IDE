@@ -73,4 +73,3 @@ for item in sortedLayers:
         architecture.append([data['net'][item[0]]['params']['num_output']])
 
 print(data["net_name"], architecture)
-
