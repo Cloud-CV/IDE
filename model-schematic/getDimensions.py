@@ -42,11 +42,9 @@ combinedLayers = ['ReLU', 'PReLU', 'LRN', 'TanH', 'BatchNorm', 'Dropout', 'Scale
 dataLayers = ['ImageData', 'Data', 'HDF5Data', 'Input', 'WindowData', 'MemoryData', 'DummyData']
 if data['net'][sortedLayers[1][0]]['info']['type'] in dataLayers:
     sortedLayers.remove(sortedLayers[1])
-for item in sortedLayers:
-    print(data['net'][item[0]]['info']['type'], data['net'][item[0]]['params'])
+
+
 architecture = []
-
-
 for item in sortedLayers:
     if data['net'][item[0]]['info']['type'] in combinedLayers:
         pass
@@ -57,8 +55,7 @@ for item in sortedLayers:
             del x[0]
             architecture.append(x)
         elif 'batch_size' in data['net'][item[0]]['params']:
-            x = int(data['net'][item[0]]['params']['batch_size'])
-            architecture.append([x])
+            pass
     elif data['net'][item[0]]['info']['type'] == 'Convolution':
         numberOfSquares = int(data['net'][item[0]]['params']['num_output'])
         if 'padding_w' in data['net'][item[0]]['params']:
@@ -72,4 +69,9 @@ for item in sortedLayers:
     elif data['net'][item[0]]['info']['type'] == 'InnerProduct':
         architecture.append([data['net'][item[0]]['params']['num_output']])
 
-print(data["net_name"], architecture)
+
+exportArchitecture=[]
+for list in architecture:
+    for item in list:
+        exportArchitecture.append(item)
+print(data["net_name"],exportArchitecture)
