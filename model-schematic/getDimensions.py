@@ -70,8 +70,8 @@ for item in sortedLayers:
         architecture.append([data['net'][item[0]]['params']['num_output']])
 
 
-exportArchitecture=[]
+exportArchitecture = []
 for list in architecture:
     for item in list:
         exportArchitecture.append(item)
-print(data["net_name"],exportArchitecture)
+print(data["net_name"], exportArchitecture)
