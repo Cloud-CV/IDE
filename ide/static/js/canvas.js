@@ -10,7 +10,11 @@ import $ from 'jquery'
 class Canvas extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      selectCount : 0
+    }
     this.allowDrop = this.allowDrop.bind(this);
+    this.deleteLayers = this.deleteLayers.bind(this);
     this.drop = this.drop.bind(this);
     this.scrollCanvas = this.scrollCanvas.bind(this);
     this.clickCanvas = this.clickCanvas.bind(this);
@@ -380,6 +384,27 @@ class Canvas extends React.Component {
     }
     this.props.setDraggingLayer(null);
   }
+  addLayerToSelectedList(id) {
+    this.props.selectedLayers.push(id);
+    this.setState({
+      selectCount:this.state.selectCount+1
+    });
+  }
+  removeLayerFromSelectedList(id) {
+    var index = this.props.selectedLayers.indexOf(id);
+    if (index > -1) {
+        this.props.selectedLayers.splice(index, 1);
+        this.setState({
+          selectCount:this.state.selectCount-1
+        });
+    }
+  }
+  deleteLayers() {
+    this.props.deleteMultipleLayers()
+    this.setState({
+      selectCount:0
+    });
+  }
   render() {
     const layers = [];
     const errors = [];
@@ -415,11 +440,12 @@ class Canvas extends React.Component {
             }
           });
         }
-
       }
       if ((layer.info.phase === this.props.selectedPhase) || (layer.info.phase === null)) {
         layers.push(
           <Layer
+            addLayerToSelectedList={(id) => this.addLayerToSelectedList(id)}
+            removeLayerFromSelectedList={(id) => this.removeLayerFromSelectedList(id)}
             id={layerId}
             key={layerId}
             type={layer.info.type}
@@ -500,12 +526,46 @@ class Canvas extends React.Component {
             <span className="glyphicon glyphicon glyphicon-minus" aria-hidden="true"></span>
         </button>
       </div>
+      <div className='main-container' style={{ visibility:this.state.selectCount > 0? 'visible': 'hidden'}}
+       id="deleteSelected" >
+      <button
+        type="button"
+        className="btn btn-block deleteLayerButton sidebar-heading"
+        data-toggle="modal" data-target="#prompt"
+        >DELETE { this.state.selectCount > 1? this.state.selectCount+' LAYERS': 'LAYER' }
+        </button>
+      </div>
+      <div className="modal fade" id="prompt" tabIndex="-1" role="dialog" aria-labelledby="promptLabel" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <button type="button" className="close" data-dismiss="modal">
+              <span aria-hidden="true">&times;</span>
+              <span className="sr-only">Close</span></button>
+              <h4 className="modal-title" id="myModalLabel"><strong>Are You Sure ?</strong></h4>
+            </div>
+            <div className="modal-body">
+              THIS ACTION WILL DELETE { this.state.selectCount > 1? this.state.selectCount+' LAYERS': 'A LAYER' }
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-warning" data-dismiss="modal">Cancel</button>
+              <button onClick={() => this.deleteLayers()}
+              data-dismiss="modal"
+              type="button" className="btn btn-danger">
+              DELETE
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
       </div>
     );
   }
 }
 
 Canvas.propTypes = {
+  deleteMultipleLayers: React.PropTypes.func,
+  selectedLayers:React.PropTypes.array,
   nextLayerId: React.PropTypes.number,
   selectedPhase: React.PropTypes.number,
   net: React.PropTypes.object.isRequired,
