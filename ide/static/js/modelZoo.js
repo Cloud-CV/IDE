@@ -78,7 +78,7 @@ class ModelZoo extends React.Component {
             full_match: full_match 
           };
         }
-        for (let elem of $('.col-sm-6')) {
+        for (let elem of $('.col-sm-4')) {
           let sub = elem.id;
           if (!sub) continue;
           let resp = layerCompability(pattern, sub);
@@ -135,6 +135,8 @@ class ModelZoo extends React.Component {
       <div id="page-content-wrapper">
         <div className="row" ref="ContentPage">
           <div ref="recognition">
+            <ModelElement importNet={this.props.importNet} framework="keras" id="zfnet" displayName="ZFNet"> </ModelElement>
+            <ModelElement importNet={this.props.importNet} framework="caffe" id="resnext" displayName="ResNeXt"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="lenet" displayName="MNIST LeNet"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="cifar10_full" displayName="Cifar10 CNN"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="alexnet" displayName="AlexNet"> </ModelElement>
@@ -149,7 +151,6 @@ class ModelZoo extends React.Component {
             <ModelElement importNet={this.props.importNet} framework="caffe" id="SENet" displayName="SENet"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="keras" id="imdb_cnn_lstm" displayName="IMDB CNN LSTM"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="simpleNet" displayName="SimpleNet"> </ModelElement>
-            <ModelElement importNet={this.props.importNet} framework="caffe" id="simpleNet" displayName="ResNeXt"> </ModelElement>
           </div>
           <div ref="detection">
             <ModelElement importNet={this.props.importNet} framework="caffe" id="vanilla" displayName="Vanilla CNN"> </ModelElement>
