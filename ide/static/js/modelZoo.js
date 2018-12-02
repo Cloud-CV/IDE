@@ -140,7 +140,6 @@ class ModelZoo extends React.Component {
             <ModelElement importNet={this.props.importNet} framework="caffe" id="alexnet" displayName="AlexNet"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="All_CNN" displayName="All CNN"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="vgg16" displayName="VGG 16"> </ModelElement>
-            <ModelElement importNet={this.props.importNet} framework="keras" id="zfnet" displayName="ZFNet"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="densenet" displayName="DenseNet"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="GoogleNet" displayName="GoogLeNet"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="resnet101" displayName="ResNet 101"> </ModelElement>
@@ -150,6 +149,7 @@ class ModelZoo extends React.Component {
             <ModelElement importNet={this.props.importNet} framework="caffe" id="SENet" displayName="SENet"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="keras" id="imdb_cnn_lstm" displayName="IMDB CNN LSTM"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="simpleNet" displayName="SimpleNet"> </ModelElement>
+            <ModelElement importNet={this.props.importNet} framework="caffe" id="simpleNet" displayName="ResNeXt"> </ModelElement>
           </div>
           <div ref="detection">
             <ModelElement importNet={this.props.importNet} framework="caffe" id="vanilla" displayName="Vanilla CNN"> </ModelElement>
