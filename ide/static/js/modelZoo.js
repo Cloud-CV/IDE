@@ -78,7 +78,7 @@ class ModelZoo extends React.Component {
             full_match: full_match 
           };
         }
-        for (let elem of $('.col-sm-4')) {
+        for (let elem of $('.col-sm-6')) {
           let sub = elem.id;
           if (!sub) continue;
           let resp = layerCompability(pattern, sub);
