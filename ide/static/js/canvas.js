@@ -385,18 +385,22 @@ class Canvas extends React.Component {
     this.props.setDraggingLayer(null);
   }
   addLayerToSelectedList(id) {
-    this.props.selectedLayers.push(id);
-    this.setState({
-      selectCount:this.state.selectCount+1
-    });
+    if(this.props.selectedLayer != id) {
+      this.props.selectedLayers.push(id);
+      this.setState({
+        selectCount:this.state.selectCount+1
+      });
+    }
   }
   removeLayerFromSelectedList(id) {
-    var index = this.props.selectedLayers.indexOf(id);
-    if (index > -1) {
-        this.props.selectedLayers.splice(index, 1);
-        this.setState({
-          selectCount:this.state.selectCount-1
-        });
+    if(this.props.selectedLayer != id) {
+      var index = this.props.selectedLayers.indexOf(id);
+      if (index > -1) {
+          this.props.selectedLayers.splice(index, 1);
+          this.setState({
+            selectCount:this.state.selectCount-1
+          });
+      }
     }
   }
   deleteLayers() {
@@ -458,6 +462,7 @@ class Canvas extends React.Component {
             layer={layer}
             net={this.props.net}
             addSharedComment={this.props.addSharedComment}
+            selectedLayer={this.props.selectedLayer}
             isShared={this.props.isShared}
             isForked={this.props.isForked}
             changeCommentOnLayer={this.props.changeCommentOnLayer}
@@ -542,7 +547,7 @@ class Canvas extends React.Component {
               <button type="button" className="close" data-dismiss="modal">
               <span aria-hidden="true">&times;</span>
               <span className="sr-only">Close</span></button>
-              <h4 className="modal-title" id="myModalLabel"><strong>Are You Sure ?</strong></h4>
+              <h4 className="modal-title" id="promptLabel"><strong>Are You Sure ?</strong></h4>
             </div>
             <div className="modal-body">
               THIS ACTION WILL DELETE { this.state.selectCount > 1? this.state.selectCount+' LAYERS': 'A LAYER' }

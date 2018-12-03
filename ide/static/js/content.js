@@ -494,7 +494,6 @@ class Content extends React.Component {
     const net = this.state.net;
     const input = net[layerId].connection.input;
     const output = net[layerId].connection.output;
-    //if last layer was deleted nextLayerId is replaced by deleted layer's id
     var totalParameters = this.state.totalParameters;
     let index;
     totalParameters -= this.getLayerParameters(net[layerId], net);
@@ -508,7 +507,13 @@ class Content extends React.Component {
       net[outputId].connection.input.splice(index, 1);
     });
     let layersIds = Object.keys(net);
-    const nextLayerId = parseInt(layersIds[layersIds.length - 1].substring(1,layersIds.length))+1;
+    //if a layer was deleted nextLayerId is replaced by index of last layer id in the net
+    let nextLayerId;
+    if(layersIds[layersIds.length - 1]) {
+      nextLayerId = parseInt(layersIds[layersIds.length - 1].substring(1,layersIds.length))+1;
+    } else {
+      nextLayerId = 0;
+    }
     this.setState({ net, selectedLayer: null, nextLayerId: nextLayerId, totalParameters: totalParameters });
     // if model is in RTC mode send updates to respective sockets
     // to avoid infinite loop of deletion over multiple session

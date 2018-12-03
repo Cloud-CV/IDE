@@ -43,14 +43,16 @@ class Layer extends React.Component {
     this.props.changeCommentOnLayer(this.props.id);
   }
   select(event,id) {
-  event.preventDefault();
-  if(this.state.isSelected) {
-    this.props.removeLayerFromSelectedList(id);
-    this.setState({isSelected:false});
-  } else {
-    this.props.addLayerToSelectedList(id);
-    this.setState({isSelected:true});
-  }
+    event.preventDefault();
+    if(!this.props.selectedLayer) {
+      if(this.state.isSelected) {
+        this.props.removeLayerFromSelectedList(id);
+        this.setState({isSelected:false});
+      } else {
+        this.props.addLayerToSelectedList(id);
+        this.setState({isSelected:true});
+      }
+    }
 }
 leftClick(event) {
   if(this.state.isSelected) {
@@ -143,7 +145,8 @@ Layer.propTypes = {
   addSharedComment: React.PropTypes.func,
   isShared: React.PropTypes.bool,
   isForked: React.PropTypes.bool,
-  changeCommentOnLayer: React.PropTypes.func
+  changeCommentOnLayer: React.PropTypes.func,
+  selectedLayer: React.PropTypes.string
 };
 
 export default Layer;
