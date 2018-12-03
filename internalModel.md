@@ -80,5 +80,8 @@ Here is an example:
     "pool": "MAX"}
 ```
 
-
+### Example JSON Model File: 
+* [AllCNN.json](https://github.com/rpalakkal/Fabrik/blob/rpalakkal-internalModel/model-schematic/allCNN.json)
+* [LeNet.json](https://github.com/rpalakkal/Fabrik/blob/rpalakkal-internalModel/model-schematic/LeNet.json)
+* [Cifar10CNN](https://github.com/rpalakkal/Fabrik/blob/rpalakkal-internalModel/model-schematic/cifar10cnn.json)
 
