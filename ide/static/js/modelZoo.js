@@ -144,6 +144,8 @@ class ModelZoo extends React.Component {
       <div id="page-content-wrapper">
         <div className="row" ref="ContentPage">
           <div ref="recognition">
+            <ModelElement importNet={this.props.importNet} framework="keras" id="zfnet" displayName="ZFNet"> </ModelElement>
+            <ModelElement importNet={this.props.importNet} framework="caffe" id="resnext" displayName="ResNeXt"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="lenet" displayName="MNIST LeNet"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="cifar10_full" displayName="Cifar10 CNN"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="alexnet" displayName="AlexNet"> </ModelElement>
