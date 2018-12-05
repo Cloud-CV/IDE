@@ -3,6 +3,7 @@
 [![Join the chat at https://gitter.im/Cloud-CV/Fabrik](https://badges.gitter.im/Cloud-CV/Fabrik.svg)](https://gitter.im/Cloud-CV/Fabrik?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/Cloud-CV/Fabrik.svg?branch=master)](https://travis-ci.org/Cloud-CV/Fabrik)
 [![Coverage Status](https://coveralls.io/repos/github/Cloud-CV/Fabrik/badge.svg?branch=master)](https://coveralls.io/github/Cloud-CV/Fabrik?branch=master)
+[![Documentation Status](https://readthedocs.org/projects/markdown-guide/badge/?version=latest)](http://fabrik.readthedocs.io/en/latest/)
 
 Fabrik is an online collaborative platform to build, visualize and train deep learning models via a simple drag-and-drop interface. It allows researchers to collectively develop and debug models using a web GUI that supports importing, editing and exporting networks to popular frameworks like Caffe, Keras, and TensorFlow.
 
@@ -43,7 +44,7 @@ To install Docker for Mac [click here](https://docs.docker.com/docker-for-mac/in
     docker-compose up --build
     ```
 
-### Setup Authenticaton for Docker Environment
+### Setup Authentication for Docker Environment
 1. Go to Github Developer Applications and create a new application. [here](https://github.com/settings/developers)
 
 2. For local deployments,the following should be used in the options:
@@ -126,13 +127,13 @@ To install Docker for Mac [click here](https://docs.docker.com/docker-for-mac/in
         CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
         ```
 
-    * Change celery broker url and result backend hostname to ``` localhost ``` in ide/celery_app.py, line 8.
+    * Change celery broker URL and result backend hostname to ``` localhost ``` in ide/celery_app.py, line 8.
 
         ```
         app = Celery('app', broker='redis://localhost:6379/0', backend='redis://localhost:6379/0', include=['ide.tasks'])
         ```
 
-5. If you already have Caffe, Keras and Tensorflow installed on your computer, skip this step.
+5. If you already have Caffe, Keras and TensorFlow installed on your computer, skip this step.
 * For Linux users
     * Install Caffe, Keras and Tensorflow
 
@@ -166,7 +167,7 @@ To install Docker for Mac [click here](https://docs.docker.com/docker-for-mac/in
     pip install -r requirements/dev.txt
     ```
 
-* Others:
+* For others:
 
     ```
     pip install -r requirements/common.txt
@@ -225,7 +226,7 @@ To install Docker for Mac [click here](https://docs.docker.com/docker-for-mac/in
 
     You should now be able to access Fabrik at <http://localhost:8000>.
 
-### Setup Authenticaton for Virtual Environment
+### Setup Authentication for Virtual Environment
 1. Go to Github Developer Applications and create a new application. [here](https://github.com/settings/developers)
 
 2. For local deployments, the following should be used in the options:
@@ -260,12 +261,12 @@ To install Docker for Mac [click here](https://docs.docker.com/docker-for-mac/in
 
     * Add the sites available to the right side, so github is allowed for the current site. This should be `localhost:8000` for local deployment.
 
-    * Copy and paste your ``` Client ID ``` and ``` Secret Key ``` into the apppropriate fields and Save.
+    * Copy and paste your ``` Client ID ``` and ``` Secret Key ``` into the appropriate fields and Save.
 
 9. From the django admin home page, go to `Sites` under the `Sites` category and update ``` Domain name ``` to ``` localhost:8000 ```.
 
 Note: For testing, you will only need one authentication backend. However, if you want to try out Google's authentication,
-then, you will need to follow the same steps as above, but switch out the Github for google.
+then, you will need to follow the same steps as above, but switch out the Github for Google.
 
 
 ### Usage
@@ -275,9 +276,9 @@ python manage.py runserver
 ```
 
 ### Example
-* Use `example/tensorflow/GoogleNet.pbtxt` for tensorflow import
-* Use `example/caffe/GoogleNet.prototxt` for caffe import
-* Use `example/keras/vgg16.json` for keras import
+* Use `example/tensorflow/GoogleNet.pbtxt` for TensorFlow import
+* Use `example/caffe/GoogleNet.prototxt` for Caffe import
+* Use `example/keras/vgg16.json` for Keras import
 
 ### Tested models
 
