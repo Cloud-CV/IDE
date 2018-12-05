@@ -19,7 +19,7 @@
 * SENet [\[Source\]](https://github.com/hujie-frank/SENet) [\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180106091323ectck)
 
 ### Detection
-
+* CaffeNet [\[Source\]](https://github.com/BVLC/caffe/blob/master/examples/finetune_pascal_detection/pascal_finetune_trainval_test.prototxt)
 * Vanilla CNN [\[Source\]](https://github.com/ishay2b/VanillaCNN)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180103153019dogjt)
 * FCN32 Pascal [\[Source\]](https://github.com/shelhamer/fcn.berkeleyvision.org)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20171208113426rgyqo)
 * RCNN [\[Source\]](https://github.com/rbgirshick/rcnn)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20171208120915yxabc)

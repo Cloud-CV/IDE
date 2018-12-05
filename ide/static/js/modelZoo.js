@@ -24,37 +24,37 @@ class ModelZoo extends React.Component {
         this.refs.caption.className = " ";
         this.refs.segmentation.className = " ";
         this.refs.vqa.className = " ";
-      } 
+      }
       else if (id == "recognition")
       {
           this.refs.recognition.className = " ";
-      } 
+      }
       else if (id == "detection")
-      {  
+      {
           this.refs.detection.className = " ";
-      } 
+      }
       else if (id == "retrieval")
       {
           this.refs.retrieval.className = " ";
-      } 
+      }
       else if (id == "seq2seq")
       {
           this.refs.seq2seq.className = " ";
-      } 
+      }
       else if (id == "caption")
       {
           this.refs.caption.className = " ";
-      } 
+      }
       else if (id == "segmentation")
       {
           this.refs.segmentation.className = " ";
-      } 
+      }
       else if (id == "vqa")
       {
           this.refs.vqa.className = " ";
-      }	  
+      }
     }
-    
+
     componentDidMount() {
       let filter = (pattern) => {
         let layerCompability = (searchQuery, layerName) => {
@@ -75,7 +75,7 @@ class ModelZoo extends React.Component {
           }
           return {
             match: seq,
-            full_match: full_match 
+            full_match: full_match
           };
         }
         for (let elem of $('.col-sm-6')) {
@@ -90,12 +90,12 @@ class ModelZoo extends React.Component {
         }
       }
       $('#model-search-input').keyup((e) => {
-        filter(e.target.value); 
+        filter(e.target.value);
       });
     }
-    
+
   render() {
-      
+
     return (
       <div className="sidebar-content">
         <div id="wrapper" className="toggle" ref="wrapper1">
@@ -151,6 +151,7 @@ class ModelZoo extends React.Component {
             <ModelElement importNet={this.props.importNet} framework="caffe" id="simpleNet" displayName="SimpleNet"> </ModelElement>
           </div>
           <div ref="detection">
+            <ModelElement importNet={this.props.importNet} framework="caffe" id="pascal_finetune_trainval_test" displayName="CaffeNet"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="vanilla" displayName="Vanilla CNN"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="fcn" displayName="FCN32 Pascal"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="yolo_net" displayName="YOLONet"> </ModelElement>
