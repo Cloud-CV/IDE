@@ -24,37 +24,37 @@ class ModelZoo extends React.Component {
         this.refs.caption.className = " ";
         this.refs.segmentation.className = " ";
         this.refs.vqa.className = " ";
-      } 
+      }
       else if (id == "recognition")
       {
           this.refs.recognition.className = " ";
-      } 
+      }
       else if (id == "detection")
-      {  
+      {
           this.refs.detection.className = " ";
-      } 
+      }
       else if (id == "retrieval")
       {
           this.refs.retrieval.className = " ";
-      } 
+      }
       else if (id == "seq2seq")
       {
           this.refs.seq2seq.className = " ";
-      } 
+      }
       else if (id == "caption")
       {
           this.refs.caption.className = " ";
-      } 
+      }
       else if (id == "segmentation")
       {
           this.refs.segmentation.className = " ";
-      } 
+      }
       else if (id == "vqa")
       {
           this.refs.vqa.className = " ";
-      }	  
+      }
     }
-    
+
     componentDidMount() {
       let filter = (pattern) => {
         let layerCompability = (searchQuery, layerName) => {
@@ -75,7 +75,7 @@ class ModelZoo extends React.Component {
           }
           return {
             match: seq,
-            full_match: full_match 
+            full_match: full_match
           };
         }
         for (let elem of $('.col-sm-6')) {
@@ -90,12 +90,12 @@ class ModelZoo extends React.Component {
         }
       }
       $('#model-search-input').keyup((e) => {
-        filter(e.target.value); 
+        filter(e.target.value);
       });
     }
-    
+
   render() {
-      
+
     return (
       <div className="sidebar-content">
         <div id="wrapper" className="toggle" ref="wrapper1">
@@ -142,6 +142,7 @@ class ModelZoo extends React.Component {
             <ModelElement importNet={this.props.importNet} framework="caffe" id="alexnet" displayName="AlexNet"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="All_CNN" displayName="All CNN"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="vgg16" displayName="VGG 16"> </ModelElement>
+            <ModelElement importNet={this.props.importNet} framework="caffe" id="vgg19" displayName="VGG 19"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="densenet" displayName="DenseNet"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="GoogleNet" displayName="GoogLeNet"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="resnet101" displayName="ResNet 101"> </ModelElement>
