@@ -2,7 +2,7 @@
 
 In order to export a Caffe Model from Fabrik:
 
-1. Select the 2nd button from the left in the Actions section of the sidebar.
+1. Select the second button from the left in the Actions section of the sidebar.
 <img src="https://raw.githubusercontent.com/Cloud-CV/Fabrik/master/tutorials/exportbutton.png">
 
 2. A drop-down list should appear. Select Caffe.
