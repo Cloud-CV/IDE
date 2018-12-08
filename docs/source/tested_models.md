@@ -49,6 +49,9 @@
 * Image Segmentation CRF-RNN [\[Source\]](https://github.com/torrvision/crfasrnn/tree/master/python-scripts)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180111183110okaux)
 * UNET [\[Source\]](https://github.com/ZFTurbo/ZF_UNET_224_Pretrained_Model)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20180116070834rggzh)
 
+## Pose Estimation
+* Vnect [\[Source\]](http://gvv.mpi-inf.mpg.de/projects/VNect/)
+
 ### Miscellaneous
 
 * Ranking CNN [\[Source\]](https://github.com/RankingCNN/Using-Ranking-CNN-for-Age-Estimation)[\[Visualise\]](http://fabrik.cloudcv.org/caffe/load?id=20171208121544acjpu)

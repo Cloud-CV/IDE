@@ -37,6 +37,7 @@ class Content extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      selectedLayers:[],
       net: {},
       net_name: 'Untitled',
       networkId: 0,
@@ -70,6 +71,7 @@ class Content extends React.Component {
     this.adjustParameters = this.adjustParameters.bind(this);
     this.modifyLayerParams = this.modifyLayerParams.bind(this);
     this.deleteLayer = this.deleteLayer.bind(this);
+    this.deleteMultipleLayers = this.deleteMultipleLayers.bind(this);
     this.exportPrep = this.exportPrep.bind(this);
     this.exportNet = this.exportNet.bind(this);
     this.importNet = this.importNet.bind(this);
@@ -488,13 +490,10 @@ class Content extends React.Component {
       this.setState({ net });
     }
   }
-  deleteLayer(layerId, publishUpdate=true) {
+ deleteLayer(layerId, publishUpdate=true) {
     const net = this.state.net;
     const input = net[layerId].connection.input;
     const output = net[layerId].connection.output;
-    const layerIdNum = parseInt(layerId.substring(1,layerId.length)); //numeric value of the layerId
-    const nextLayerId = this.state.nextLayerId - 1 == layerIdNum ? layerIdNum : this.state.nextLayerId;
-    //if last layer was deleted nextLayerId is replaced by deleted layer's id
     var totalParameters = this.state.totalParameters;
     let index;
     totalParameters -= this.getLayerParameters(net[layerId], net);
@@ -507,6 +506,14 @@ class Content extends React.Component {
       index = net[outputId].connection.input.indexOf(layerId);
       net[outputId].connection.input.splice(index, 1);
     });
+    let layersIds = Object.keys(net);
+    //if a layer was deleted nextLayerId is replaced by index of last layer id in the net
+    let nextLayerId;
+    if(layersIds[layersIds.length - 1]) {
+      nextLayerId = parseInt(layersIds[layersIds.length - 1].substring(1,layersIds.length))+1;
+    } else {
+      nextLayerId = 0;
+    }
     this.setState({ net, selectedLayer: null, nextLayerId: nextLayerId, totalParameters: totalParameters });
     // if model is in RTC mode send updates to respective sockets
     // to avoid infinite loop of deletion over multiple session
@@ -1113,7 +1120,7 @@ class Content extends React.Component {
       <a target="_blank" href="https://github.com/Cloud-CV/Fabrik/blob/master/docs/source/tested_models.md"> here</a>.
       <br />
       <b>Q:</b> What do the Train/Test buttons mean?<br />
-      <b>A:</b> They are two different modes of your model: 
+      <b>A:</b> They are two different modes of your model:
       Train and Test - respectively for training your model with data and testing how and if it works.<br />
       <b>Q:</b> What does the import fuction do?<br />
       <b>A:</b> It allows you to import your previously created models in Caffe (.protoxt files),
@@ -1127,7 +1134,7 @@ class Content extends React.Component {
       <b>A:</b> Please see the instructions listed
       <a target="_blank" href="https://github.com/Cloud-CV/Fabrik/blob/master/README.md"> here</a>
       <br /><br />
-                         
+
       <b>If you have anymore questions, please visit Fabrik's Github page available
        <a target="_blank" href="https://github.com/Cloud-CV/Fabrik"> here</a> for more information.</b>
       </p>);
@@ -1282,6 +1289,37 @@ class Content extends React.Component {
       this.addNewLayer(layer);
     }
   }
+  deleteMultipleLayers() {
+    var net = this.state.net;
+    var totalParameters = this.state.totalParameters;
+    // var layerIdNum;
+    var _nextLayerId = this.state.nextLayerId;
+    if(this.state.selectedLayers.length > 0) {
+      this.state.selectedLayers.forEach((layerId)=>{
+        const input = net[layerId].connection.input;
+        const output = net[layerId].connection.output;
+        let index;
+        totalParameters -= this.getLayerParameters(net[layerId], net);
+        delete net[layerId];
+        input.forEach(inputId => {
+          index = net[inputId].connection.output.indexOf(layerId);
+          net[inputId].connection.output.splice(index, 1);
+        });
+        output.forEach(outputId => {
+          index = net[outputId].connection.input.indexOf(layerId);
+          net[outputId].connection.input.splice(index, 1);
+        });
+      });
+      var layersIds = Object.keys(net);
+      if(layersIds[layersIds.length - 1]) {
+        _nextLayerId = parseInt(layersIds[layersIds.length - 1].substring(1,layersIds.length))+1;
+      } else {
+        _nextLayerId = 0;
+      }
+      this.setState({ net, nextLayerId: _nextLayerId, totalParameters: totalParameters });
+      this.state.selectedLayers.splice(0,this.state.selectedLayers.length);
+    }
+  }
   render() {
     let loader = null;
     if (this.state.load) {
@@ -1338,6 +1376,8 @@ class Content extends React.Component {
           {loader}
           <Canvas
             net={this.state.net}
+            deleteMultipleLayers={this.deleteMultipleLayers}
+            selectedLayers={this.state.selectedLayers}
             rebuildNet={this.state.rebuildNet}
             addNewLayer={this.addNewLayer}
             nextLayerId={this.state.nextLayerId}

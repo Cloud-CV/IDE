@@ -6,9 +6,12 @@ import AddCommentModal from './addCommentModal'
 class Layer extends React.Component {
   constructor(props) {
     super(props);
+    this.defaultColor = data[this.props.type].color;
     this.state = {
       addCommentModalIsOpen: false
     }
+    this.leftClick = this.leftClick.bind(this);
+    this.select = this.select.bind(this);
     this.onAddComment = this.onAddComment.bind(this);
     this.onCloseCommentModal = this.onCloseCommentModal.bind(this);
     this.doSharedUpdate = this.doSharedUpdate.bind(this);
@@ -39,6 +42,25 @@ class Layer extends React.Component {
   openCommentSidebar() {
     this.props.changeCommentOnLayer(this.props.id);
   }
+  select(event,id) {
+    event.preventDefault();
+    if(!this.props.selectedLayer) {
+      if(this.state.isSelected) {
+        this.props.removeLayerFromSelectedList(id);
+        this.setState({isSelected:false});
+      } else {
+        this.props.addLayerToSelectedList(id);
+        this.setState({isSelected:true});
+      }
+    }
+}
+leftClick(event) {
+  if(this.state.isSelected) {
+    this.setState({isSelected:false});
+    this.props.removeLayerFromSelectedList(this.props.id);
+  }
+  this.props.click(event, this.props.id);
+}
   render() {
     let comments = [];
     let addCommentModal = null;
@@ -46,7 +68,7 @@ class Layer extends React.Component {
     let highlightUser = null;
     let highlightClass = '';
     let highlightColor = '#000';
- 
+
 
     if(this.props.layer.highlight && this.props.layer.highlight.length > 0) {
       highlightClass = 'highlighted';
@@ -78,19 +100,21 @@ class Layer extends React.Component {
                             </span>
                         </a>);
     }
+    const layerStyle = {
+      top:this.props.top,
+      left:this.props.left,
+      background: this.defaultColor,
+      borderColor: highlightColor
+    }
     return (
       <div
-        className={`layer ${this.props.class} ${highlightClass}`}
+        className={`layer ${this.props.class} ${highlightClass} ${this.state.isSelected?'selected-layer':''}`}
         id={this.props.id}
-        style={{
-          top:this.props.top,
-          left:this.props.left,
-          background: data[this.props.type].color,
-          borderColor: highlightColor
-        }}
+        style={layerStyle}
         data-type={this.props.type}
-        onClick={(event) => this.props.click(event, this.props.id)}
+        onClick={(event) => this.leftClick(event)}
         onMouseEnter={(event) => this.props.hover(event, this.props.id)}
+        onContextMenu={(event) => this.select(event, this.props.id)}
         onMouseUp={(event) => this.props.mouseUp(event, this.props.id)}
         data-tip='tooltip'
         data-for='getContent'
@@ -116,10 +140,13 @@ Layer.propTypes = {
   mouseUp: React.PropTypes.func,
   layer: React.PropTypes.object,
   net: React.PropTypes.object,
+  addLayerToSelectedList:React.PropTypes.func,
+  removeLayerFromSelectedList:React.PropTypes.func,
   addSharedComment: React.PropTypes.func,
   isShared: React.PropTypes.bool,
   isForked: React.PropTypes.bool,
-  changeCommentOnLayer: React.PropTypes.func
+  changeCommentOnLayer: React.PropTypes.func,
+  selectedLayer: React.PropTypes.string
 };
 
 export default Layer;

@@ -14,6 +14,7 @@ class ModelZoo extends React.Component {
       this.refs.caption.className = "hide";
       this.refs.segmentation.className = "hide";
       this.refs.vqa.className = "hide";
+      this.refs.poseEstimation.className = "hide";
       $('#sidebar-nav li a').removeClass();
       event.currentTarget.className = "bold";
       if (id == "all") {
@@ -24,37 +25,42 @@ class ModelZoo extends React.Component {
         this.refs.caption.className = " ";
         this.refs.segmentation.className = " ";
         this.refs.vqa.className = " ";
-      } 
+        this.refs.poseEstimation.className = "";
+      }
       else if (id == "recognition")
       {
           this.refs.recognition.className = " ";
-      } 
+      }
       else if (id == "detection")
-      {  
+      {
           this.refs.detection.className = " ";
-      } 
+      }
       else if (id == "retrieval")
       {
           this.refs.retrieval.className = " ";
-      } 
+      }
       else if (id == "seq2seq")
       {
           this.refs.seq2seq.className = " ";
-      } 
+      }
       else if (id == "caption")
       {
           this.refs.caption.className = " ";
-      } 
+      }
       else if (id == "segmentation")
       {
           this.refs.segmentation.className = " ";
-      } 
+      }
       else if (id == "vqa")
       {
           this.refs.vqa.className = " ";
-      }	  
+      }
+      else if (id == "poseEstimation")
+      {
+          this.refs.poseEstimation.className = " ";
+      }
     }
-    
+
     componentDidMount() {
       let filter = (pattern) => {
         let layerCompability = (searchQuery, layerName) => {
@@ -75,7 +81,7 @@ class ModelZoo extends React.Component {
           }
           return {
             match: seq,
-            full_match: full_match 
+            full_match: full_match
           };
         }
         for (let elem of $('.col-sm-6')) {
@@ -90,12 +96,12 @@ class ModelZoo extends React.Component {
         }
       }
       $('#model-search-input').keyup((e) => {
-        filter(e.target.value); 
+        filter(e.target.value);
       });
     }
-    
+
   render() {
-      
+
     return (
       <div className="sidebar-content">
         <div id="wrapper" className="toggle" ref="wrapper1">
@@ -128,6 +134,9 @@ class ModelZoo extends React.Component {
               </li>
               <li>
                 <a onClick={(event) => this.mouseClick(event, "vqa")}>VQA</a>
+              </li>
+              <li>
+                <a onClick={(event) => this.mouseClick(event, "poseEstimation")}>Pose Estimation</a>
               </li>
             </ul>
           </div>
@@ -178,6 +187,9 @@ class ModelZoo extends React.Component {
             <ModelElement importNet={this.props.importNet} framework="keras" id="VQA" displayName="VQA"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="keras" id="VQA2" displayName="VQA2"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="mlpVQA" displayName="VQS"> </ModelElement>
+          </div>
+          <div ref="poseEstimation">
+            <ModelElement importNet={this.props.importNet} framework="caffe" id="vnect_net" displayName="Vnect"> </ModelElement>
           </div>
         </div>
       </div>
