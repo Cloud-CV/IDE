@@ -29,7 +29,7 @@ We want to export our model for Keras from Fabrik.
 ### Example<sup>[1](https://machinelearningmastery.com/save-load-keras-deep-learning-models/)</sup>
 1. [Export](http://fabrik.cloudcv.org/caffe/load?id=20171207035101pfjnz) this example Keras model (name it ```model.json```).
 
-2. [Download](http://archive.ics.uci.edu/ml/machine-learning-databases/pima-indians-diabetes/pima-indians-diabetes.data) this data set that we will use to train on (name it ```pima-indians-diabetes.csv```).
+2. [Download](http://archive.ics.uci.edu/ml/machine-learning-databases/pima-indians-diabetes/pima-indians-diabetes.data) this dataset that we will use to train on (name it ```pima-indians-diabetes.csv```).
 
 3. Create a python file (name it ```kerasJSONLoader.py```) and insert the following code:
    ```
@@ -72,4 +72,3 @@ We want to export our model for Keras from Fabrik.
 You should be getting around 76-78% accuracy.
 
 This code trains and evaluates the loaded model on the dataset.
-
