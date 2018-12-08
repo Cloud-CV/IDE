@@ -3,7 +3,7 @@ Frontend Design
 ### Architecture
 ```app.js``` hosts the main app and calls ```content.js```, which loads up the main app. This file contains a few functions:
 ### ```content.js```
-(The top most bullet contains the name of the method and the inner bullets are params.)
+(The topmost bullet contains the name of the method and the inner bullets are params.)
 * ```openModal```
 * ```closeModal```
 * ```addNewLayer``` - invoked by ```handleClick``` and passed in a JS object with layer information. 
@@ -12,7 +12,7 @@ Frontend Design
   * layerId
 * ```changeHoveredLayer``` - changes which layer has the hover class on it, which outlines layer to emphasize a "hover"
   * layerId
-* ```modifyLayer``` - modifies layer, passed in layer is the new layer, and layer id is the id it needs to be replaced at. 
+* ```modifyLayer``` - modifies a layer, passed in the layer is the new layer, and layer id is the id it needs to be replaced at. 
   * layer
   * layerId
 * ```modifyLayerParams``` - modify layer params based on layer and layerId, invoked by setParams
@@ -28,7 +28,7 @@ Frontend Design
 * ```loadLayerShapes``` - AJAXs to backend to model parameters
 * ```exportNet``` - AJAXs to backend and then passes back error/success
   * framework
-* ```importNet``` - AJAXs to backend and then passes back error/success
+* ```importNet``` - AJAXs to the backend and then passes back error/success
   * framework
   * id
 * ```initialiseImportedNet``` - starts prepping layer to be displayed by Fabrik, positions layers
@@ -54,7 +54,7 @@ Frontend Design
 * ```saveDb```
 * ```loadDb```
   * id
-* ```infoModal``` - sets info into state, and then open's modal
+* ```infoModal``` - sets info into the state, and then open's modal
 * ```toggleSidebar```
 * ```zooModal```
 * ```handleClick``` - handles a click based on an event handles connections and adding layers. 
@@ -83,18 +83,18 @@ Frontend Design
 * ```drop```
   * event
 ```canvas.js``` also contains the code that decides whether a node's line needs to be rerouted if it is cutting through another node. 
-### ```canvas.js```'s placement algorithm
+### ```canvas.js``` placement algorithm
 The method it uses is the following:
 ```checkIfCuttingLine``` is passed in a positional block that includes x and y coordinates (it assumes a px is at the end of each x and y) for each endpoint of the line it is checking. 
 Specifically, it is checking if the line formed with the coordinates in the positional block will cut into any other nodes between them.
 
-```checkIfCuttingLine``` creates then creates an equation from the x and y points by calculating the slope and using point slope form. 
+```checkIfCuttingLine``` creates then creates an equation from the x and y points by calculating the slope and using point-slope form. 
 
 After this, it calls ```getBetween``` to get the nodes between the x and y coordinates of the created line. 
 
-The ```getBetween``` also serves the purpose of returning which direction in which the majority of the blocks between are. This is purely for performance, otherwise it would be seperated into a seperate function. 
+The ```getBetween``` also serves the purpose of returning which direction in which the majority of the blocks between are. This is purely for performance, otherwise, it would be separated into a separate function. 
 
-After ```getBetween``` returns with the id's of the nodes are between the x and y coordinate pair, check if cutting line loops through them to check whether or not the resultant line will cut through the in between node.
+After ```getBetween``` returns with the id's of the nodes are between the x and y coordinate pair, check if cutting line loops through them to check whether or not the resultant line will cut through the in-between node.
 
 If it does, it will return the direction the line needs to be shifted to the parent function, ```checkIfCuttingNet```, to iterate once again 80 pixels to either the left or right (depending on the return.) 
 
@@ -110,14 +110,14 @@ If it does, it will return the direction the line needs to be shifted to the par
 ```pane.js``` invokes ```paneElement.js``` to render out each element. 
 ```toggleClass``` toggles classes for the dropdown on the sidebar for layer selection. 
 ### ```paneElement.js``` 
-```paneElement.js``` renders out each element of the pane, it is invoked by ```pane.js```
+```paneElement.js``` render out each element of the pane, it is invoked by ```pane.js```
 ```pane.js``` renders out all of the layers for selection by the user.
 ### ```tabs.js```
 ```tabs.js``` contains no methods and is used to switch between Train and Test layers. 
 ### ```layer.js```
 ```layer.js``` contains no methods. It is invoked by the ```canvas.js``` and it displays the actual layering on the jsplumb container. The position of each layer is set in the state of the layer. 
 ### ```jsplumb.js```
-The ```jsplumb.js``` file contains code that handles the arrangement and the dragging/connecting of the layers. A new custom connector is created. There is an if function to check whether the node it is connecting is needing to be routed through an extension. A global variable stores this information, and the actual calculation is handled in ```checkIfCuttingNet``` and ```checkIfCuttingLine```. The global variable contains the amount of pixels it needs to move over, and it will contain direction it needs to go in (based on whether it is positive or 
+The ```jsplumb.js``` file contains code that handles the arrangement and the dragging/connecting of the layers. A new custom connector is created. There is an if function to check whether the node it is connecting is needing to be routed through an extension. A global variable stores this information, and the actual calculation is handled in ```checkIfCuttingNet``` and ```checkIfCuttingLine```. The global variable contains the number of pixels it needs to move over, and it will contain direction it needs to go in (based on whether it is positive or 
 negative.)
 
 Please refer to the jsplumb documentation here to learn more about this API set. https://jsplumbtoolkit.com/docs.html
@@ -136,9 +136,9 @@ The method change is used to change the state of checkboxes, and it is passed in
 ### ```modelElement.js``` 
 ```modelElement.js``` contains the component that renders out each model in the model zoo. It includes logic that onClick will trigger an importNet, as defined in ```content.js```.
 ### ```modelZoo.js```
-```modelZoo.js``` contains the rendering of the modelZoo, it invokes modelElement to render the actual listing of the model.
+```modelZoo.js``` contains the rendering of the model zoo, it invokes modelElement to render the actual listing of the model.
 ### ```netLayout_vertical.js``` and ```netLayout.js```
-Both of these files contain code that determines positioning and layout of net. It is invoked by ```content.js```
+Both of these files contain code that determines the positioning and layout of the net. It is invoked by ```content.js```
 ### ```setParams.js```
 Contains the following methods:
 * ```changeProps```
@@ -152,9 +152,9 @@ Contains the following methods:
     * e
     
 ### ```setParams.js``` 
-allows users to change layer parameters and reads paramters through ```data.js```
+allows users to change layer parameters and reads parameters through ```data.js```
 ### ```tooltip.js``` and ```tooltipData.js```
-Both of these files contains code for tooltips and the ```tooltipData.js``` contains the actual tooltips that are rendered.
+Both of these files contain code for tooltips and the ```tooltipData.js``` contains the actual tooltips that are rendered.
 
 note: tooltips are "hover" messages, they tell more information about something when a user hovers over an object.
  
