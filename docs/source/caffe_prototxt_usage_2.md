@@ -1,4 +1,4 @@
-## Use exported model in Caffe
+## Use the exported model in Caffe
 
 ### To export the model for Caffe in Fabrik
 

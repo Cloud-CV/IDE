@@ -1,4 +1,4 @@
-## Use exported model in Keras
+## Use the exported model in Keras
 
 ### To export the model for Keras in Fabrik
 

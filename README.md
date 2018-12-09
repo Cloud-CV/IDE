@@ -47,7 +47,7 @@ To install Docker for Mac [click here](https://docs.docker.com/docker-for-mac/in
 ### Setup Authentication for Docker Environment
 1. Go to Github Developer Applications and create a new application. [here](https://github.com/settings/developers)
 
-2. For local deployments,the following should be used in the options:
+2. For local deployments, the following should be used in the options:
     * Application name: Fabrik
     * Homepage URL: http://0.0.0.0:8000
     * Application description: Fabrik
@@ -55,25 +55,25 @@ To install Docker for Mac [click here](https://docs.docker.com/docker-for-mac/in
 
 3. Github will provide you with a Client ID and a Secret Key. Save these.
 
-4. Create a superuser in django service of docker container
+4. Create a superuser in Django service of Docker container
 
     ```
-    docker-compose run django python manage.py createsuperuser
+    docker-compose run Django python manage.py createsuperuser
     ```
 
-    Note: Before creating the superuser, make sure that django service of docker image is running. This can be done by executing ``` docker-compose up ``` followed by ``` Ctrl + C ``` to save docker configuration.
+    Note: Before creating the superuser, make sure that Django service of docker image is running. This can be done by executing ``` docker-compose up ``` followed by ``` Ctrl + C ``` to save docker configuration.
 
 5. Open http://0.0.0.0:8000/admin and login with the credentials from step 4.
 
-6. Setting up Social Accounts in django admin
+6. Setting up Social Accounts in Django admin
 
     * Under ``` Social Accounts ```, open ``` Social applications ``` and click on ``` Add Social Application ```.
 
-    * Choose  the ``` Provider ``` of social application as ``` Github ``` and  name it ``` Github ```.
+    * Choose the ``` Provider ``` of the social application as ``` Github ``` and name it ``` Github ```.
 
-    * Add the sites available to the right side, so github is allowed for the current site.
+    * Add the sites available to the right side, so GitHub is allowed for the current site.
 
-    * Copy and paste your ``` Client ID ``` and ``` Secret Key ``` into the apppropriate fields and Save.
+    * Copy and paste your ``` Client ID ``` and ``` Secret Key ``` into the appropriate fields and Save.
 
 7. Go to ``` Sites ``` tab and update the ``` Domain name ``` to ``` 0.0.0.0:8000 ```.
 
@@ -135,7 +135,7 @@ To install Docker for Mac [click here](https://docs.docker.com/docker-for-mac/in
 
 5. If you already have Caffe, Keras and TensorFlow installed on your computer, skip this step.
 * For Linux users
-    * Install Caffe, Keras and Tensorflow
+    * Install Caffe, Keras, and Tensorflow
 
         ```
         cd Fabrik/requirements
@@ -216,9 +216,9 @@ To install Docker for Mac [click here](https://docs.docker.com/docker-for-mac/in
     celery -A ide worker --app=ide.celery_app  --loglevel=info
     ```
 
-    The celery worker needs to be run in parallel to the django server in a separate terminal.
+    The celery worker needs to be run in parallel to the Django server in a separate terminal.
 
-10. Start django application
+10. Start Django application
 
     ```
     python manage.py runserver
@@ -237,7 +237,7 @@ To install Docker for Mac [click here](https://docs.docker.com/docker-for-mac/in
 
 3. Github will provide you with a client ID and secret Key, save these.
 
-4. Create a superuser in django
+4. Create a superuser in Django
 
     ```
     python manage.py createsuperuser
@@ -253,17 +253,17 @@ To install Docker for Mac [click here](https://docs.docker.com/docker-for-mac/in
 
 7. Login with the credentials from step 4.
 
-8. Setting up Social Accounts in django admin :
+8. Setting up Social Accounts in Django admin :
 
     * Under ```Social Accounts``` open ``` Social applications ```, click on ``` Add Social Application ```.
 
-    * Choose  the ``` Provider ``` of social application as ``` Github ``` &  name it ``` Github ```.
+    * Choose the ``` Provider ``` of the social application as ``` Github ``` &  name it ``` Github ```.
 
-    * Add the sites available to the right side, so github is allowed for the current site. This should be `localhost:8000` for local deployment.
+    * Add the sites available to the right side, so GitHub is allowed for the current site. This should be `localhost:8000` for local deployment.
 
     * Copy and paste your ``` Client ID ``` and ``` Secret Key ``` into the appropriate fields and Save.
 
-9. From the django admin home page, go to `Sites` under the `Sites` category and update ``` Domain name ``` to ``` localhost:8000 ```.
+9. From the Django admin home page, go to `Sites` under the `Sites` category and update ``` Domain name ``` to ``` localhost:8000 ```.
 
 Note: For testing, you will only need one authentication backend. However, if you want to try out Google's authentication,
 then, you will need to follow the same steps as above, but switch out the Github for Google.
