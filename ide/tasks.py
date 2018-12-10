@@ -311,19 +311,22 @@ def export_keras_json(net, net_name, is_tf, reply_channel):
         json_str = json_str.strip("'<>() ").replace('\'', '\"')
         lrnLayer = imp.load_source('LRN', BASE_DIR + '/keras_app/custom_layers/lrn.py')
 
+        # clear clutter from previous graph built by keras to avoid duplicates
+        K.clear_session()
+
         model = model_from_json(json_str, {'LRN': lrnLayer.LRN})
 
-        sess = K.get_session()
-        tf.train.write_graph(sess.graph.as_graph_def(add_shapes=True), output_fld,
-                             output_file + '.pbtxt', as_text=True)
+        tf.train.export_meta_graph(
+            os.path.join(output_fld, output_file + '.meta'),
+            as_text=True)
 
         Channel(reply_channel).send({
             'text': json.dumps({
                 'result': 'success',
                 'action': 'ExportNet',
                 'id': 'randomId',
-                'name': randomId + '.pbtxt',
-                'url': '/media/' + randomId + '.pbtxt',
+                'name': randomId + '.meta',
+                'url': '/media/' + randomId + '.meta',
                 'customLayers': custom_layers_response
             })
         })

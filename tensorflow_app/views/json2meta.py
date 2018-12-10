@@ -9,7 +9,7 @@ parser = argparse.ArgumentParser(description='set input arguments')
 parser.add_argument('-input_file', action="store",
                     dest='input_file', type=str, default='model.json')
 parser.add_argument('-output_file', action="store",
-                    dest='output_file', type=str, default='model.pbtxt')
+                    dest='output_file', type=str, default='model.meta')
 args = parser.parse_args()
 input_file = args.input_file
 output_file = args.output_file
@@ -30,6 +30,6 @@ json_str = json_str.strip("'<>() ").replace('\'', '\"')
 lrn = imp.load_source('LRN', BASE_DIR + '/keras_app/custom_layers/lrn.py')
 model = model_from_json(json_str, {'LRN': lrn.LRN})
 
-sess = K.get_session()
-tf.train.write_graph(sess.graph.as_graph_def(add_shapes=True), output_fld,
-                     output_file + '.pbtxt', as_text=True)
+tf.train.export_meta_graph(
+    os.path.join(output_fld, output_file + '.meta'),
+    as_text=True)

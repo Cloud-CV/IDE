@@ -125,3 +125,31 @@ class LRNImportTest(unittest.TestCase):
         response = self.client.post(reverse('tf-import'), {'file': model_file})
         response = json.loads(response.content)
         self.assertEqual(response['result'], 'success')
+
+
+class ExportMetaGraphTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_tf_export(self):
+        model_file = open(os.path.join(settings.BASE_DIR, 'example/keras',
+                                       'AlexNet.json'), 'r')
+        response = self.client.post(reverse('keras-import'), {'file': model_file})
+        response = json.loads(response.content)
+        net = get_shapes(response['net'])
+        response = self.client.post(reverse('tf-export'), {'net': json.dumps(net),
+                                                           'net_name': ''})
+        response = json.loads(response.content)
+        self.assertEqual(response['result'], 'success')
+
+
+class ImportMetaGraphTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_tf_import(self):
+        model_file = open(os.path.join(settings.BASE_DIR, 'tests/unit/tensorflow_app',
+                                       'vgg16_import_test.meta'), 'r')
+        response = self.client.post(reverse('tf-import'), {'file': model_file})
+        response = json.loads(response.content)
+        self.assertEqual(response['result'], 'success')

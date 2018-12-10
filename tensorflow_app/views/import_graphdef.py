@@ -1,7 +1,6 @@
 import numpy as np
 import tensorflow as tf
 from google.protobuf import text_format
-from tensorflow.core.framework import graph_pb2
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import math
@@ -125,6 +124,46 @@ def get_padding(node, layer, session, input_layer_name, input_layer_dim):
         return int(pad_h), int(pad_w)
 
 
+def get_graph_def_from(model_protobuf):
+    """
+    Parses and returns a GraphDef from input protobuf.
+
+    Args:
+        model_protobuf: a binary or text protobuf message.
+
+    Returns:
+        a tf.GraphDef object with the GraphDef from model_protobuf
+
+    Raises:
+        ValueError: if a GraphDef cannot be parsed from model_protobuf
+    """
+    try:
+        meta_graph_def = text_format.Merge(model_protobuf, tf.MetaGraphDef())
+        graph_def = meta_graph_def.graph_def
+        return graph_def
+    except (text_format.ParseError, UnicodeDecodeError):
+        # not a valid text metagraphdef
+        pass
+    try:
+        graph_def = text_format.Merge(model_protobuf, tf.GraphDef())
+        return graph_def
+    except (text_format.ParseError, UnicodeDecodeError):
+        pass
+    try:
+        graph_def = tf.GraphDef()
+        graph_def.ParseFromString(model_protobuf)
+        return graph_def
+    except Exception:
+        pass
+    try:
+        meta_graph_def = tf.MetaGraphDef()
+        meta_graph_def.ParseFromString(model_protobuf)
+        return meta_graph_def.graph_def
+    except Exception:
+        pass
+    raise ValueError('Invalid model protobuf')
+
+
 @csrf_exempt
 def import_graph_def(request):
     if request.method == 'POST':
@@ -151,15 +190,14 @@ def import_graph_def(request):
             return JsonResponse({'result': 'error', 'error': 'No GraphDef model found'})
 
         tf.reset_default_graph()
-        graph_def = graph_pb2.GraphDef()
         d = {}
         order = []
         input_layer_name = ''
         input_layer_dim = []
 
         try:
-            text_format.Merge(config, graph_def)
-        except Exception:
+            graph_def = get_graph_def_from(config)
+        except ValueError:
             return JsonResponse({'result': 'error', 'error': 'Invalid GraphDef'})
 
         tf.import_graph_def(graph_def, name='')
