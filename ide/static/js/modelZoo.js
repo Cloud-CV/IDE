@@ -130,7 +130,6 @@ class ModelZoo extends React.Component {
                 <a onClick={(event) => this.mouseClick(event, "vqa")}>VQA</a>
               </li>
             </ul>
->>>>>>> bd7ecadcceba337d7751fc1d41ce2ba23768a545
           </div>
         </div>
       <div id="page-content-wrapper">
@@ -152,6 +151,7 @@ class ModelZoo extends React.Component {
             <ModelElement importNet={this.props.importNet} framework="caffe" id="SENet" displayName="SENet"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="keras" id="imdb_cnn_lstm" displayName="IMDB CNN LSTM"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="simpleNet" displayName="SimpleNet"> </ModelElement>
+            <ModelElement importNet={this.props.importNet} framework="keras" id="capsnet" displayName="CapsuleNet"> </ModelElement>
           </div>
           <div ref="detection">
             <ModelElement importNet={this.props.importNet} framework="caffe" id="vanilla" displayName="Vanilla CNN"> </ModelElement>
