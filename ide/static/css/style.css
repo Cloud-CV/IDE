@@ -25,18 +25,18 @@ body {
   height: calc(100% - 50px);
   overflow-y: auto;
 }
-#sidebar-content{
+#sidebar-content {
   padding: 0 5% 0 5%;
 }
 
-.sidebar-heading{
+.sidebar-heading {
   font-family: 'ProximaNova-Bold', sans-serif;
   color: #9ea2a9;
   margin: 0px;
   padding: 10px 0px 10px 0px;
 }
 
-.sidebar-badge{
+.sidebar-badge {
   padding: 10px;
   border-radius: 3px;
   margin-right: 10px;
@@ -132,7 +132,7 @@ input#netName.hidden {
   right: 4%;
 }
 
-#deleteSelected{
+#deleteSelected {
   margin: 0px;
   position: fixed;
   bottom: 15%;
@@ -153,7 +153,7 @@ input#netName.hidden {
   box-shadow: 0px 0px 0px 6px #4483DA;
 }
 
-.canvas-icon > p{
+.canvas-icon > p {
   margin: 0px;
   color: #9ea2a9;
 }
