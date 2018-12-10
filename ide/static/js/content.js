@@ -37,7 +37,7 @@ class Content extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedLayers:[],
+      selectedLayers: [],
       net: {},
       net_name: 'Untitled',
       networkId: 0,
