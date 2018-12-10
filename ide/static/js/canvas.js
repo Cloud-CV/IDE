@@ -388,7 +388,7 @@ class Canvas extends React.Component {
     if(this.props.selectedLayer != id) {
       this.props.selectedLayers.push(id);
       this.setState({
-        selectCount:this.state.selectCount+1
+        selectCount: this.state.selectCount+1
       });
     }
   }
@@ -398,7 +398,7 @@ class Canvas extends React.Component {
       if (index > -1) {
           this.props.selectedLayers.splice(index, 1);
           this.setState({
-            selectCount:this.state.selectCount-1
+            selectCount: this.state.selectCount-1
           });
       }
     }
@@ -406,7 +406,7 @@ class Canvas extends React.Component {
   deleteLayers() {
     this.props.deleteMultipleLayers()
     this.setState({
-      selectCount:0
+      selectCount: 0
     });
   }
   render() {
