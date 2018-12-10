@@ -101,8 +101,8 @@ leftClick(event) {
                         </a>);
     }
     const layerStyle = {
-      top:this.props.top,
-      left:this.props.left,
+      top: this.props.top,
+      left: this.props.left,
       background: this.defaultColor,
       borderColor: highlightColor
     }
