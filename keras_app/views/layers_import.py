@@ -349,6 +349,8 @@ def Recurrent(layer):
         params['recurrent_constraint'] = layer.recurrent_constraint.__class__.__name__
     if (layer.bias_constraint):
         params['bias_constraint'] = layer.bias_constraint.__class__.__name__
+    if (layer.activation):
+        params['activation'] = layer.activation.func_name
     params['use_bias'] = layer.use_bias
     params['dropout'] = layer.dropout
     params['recurrent_dropout'] = layer.recurrent_dropout

@@ -1531,6 +1531,19 @@ export default {
         type: 'number',
         required: false
       },
+      return_sequences: { // Only Keras
+        name: 'Return Sequences',
+        value: false,
+        type: 'checkbox',
+        required: false
+      },
+      activation: { // Only Keras
+        name: 'Activation',
+        value: 'None',
+        type: 'select',
+        options: ['softmax', 'elu', 'selu', 'softplus', 'softsign', 'relu', 'tanh', 'sigmoid', 'hard_sigmoid', 'linear'],
+        required: false
+      },
       caffe: {
         name: 'Available Caffe',
         value: true,
@@ -1675,6 +1688,19 @@ export default {
         name: 'Recurrent Dropout',
         value: 0.0,
         type: 'number',
+        required: false
+      },
+      return_sequences: { // Only Keras
+        name: 'Return Sequences',
+        value: false,
+        type: 'checkbox',
+        required: false
+      },
+      activation: { // Only Keras
+        name: 'Activation',
+        value: 'None',
+        type: 'select',
+        options: ['softmax', 'elu', 'selu', 'softplus', 'softsign', 'relu', 'tanh', 'sigmoid', 'hard_sigmoid', 'linear'],
         required: false
       },
       caffe: {
@@ -1833,6 +1859,13 @@ export default {
         name: 'Return Sequences',
         value: false,
         type: 'checkbox',
+        required: false
+      },
+      activation: { // Only Keras
+        name: 'Activation',
+        value: 'None',
+        type: 'select',
+        options: ['softmax', 'elu', 'selu', 'softplus', 'softsign', 'relu', 'tanh', 'sigmoid', 'hard_sigmoid', 'linear'],
         required: false
       },
       caffe: {

@@ -12,21 +12,35 @@ from urlparse import urlparse
 # map from operation name(tensorflow) to layer name(caffe)
 op_layer_map = {'Placeholder': 'Input', 'Conv2D': 'Convolution', 'Conv3D': 'Convolution',
                 'MaxPool': 'Pooling', 'MaxPool3D': 'Pooling', 'AvgPool3D': 'Pooling',
-                'DepthwiseConv2dNative': 'DepthwiseConv', 'MatMul': 'InnerProduct',
-                'Prod': 'InnerProduct', 'LRN': 'LRN', 'Concat': 'Concat',
-                'AvgPool': 'Pooling', 'Reshape': 'Flatten', 'FusedBatchNorm': 'BatchNorm',
-                'Conv2DBackpropInput': 'Deconvolution'}
+                'AvgPool': 'Pooling', 'DepthwiseConv2dNative': 'DepthwiseConv', 'Reshape': 'Flatten',
+                'MatMul': 'InnerProduct', 'Prod': 'InnerProduct', 'FusedBatchNorm': 'BatchNorm',
+                'LRN': 'LRN', 'Concat': 'Concat', 'Conv2DBackpropInput': 'Deconvolution',
+                'ResizeNearestNeighbor': 'Upsample', 'Elu': 'ELU', 'Relu': 'ReLU', 'SELU': 'SELU',
+                'LeakyRelu': 'ReLU', 'Softsign': 'Softsign', 'Tanh': 'TanH', 'Sigmoid': 'Sigmoid',
+                'Softmax': 'Softmax', 'Softplus': 'Softplus'}
 
-activation_map = {'Sigmoid': 'Sigmoid', 'Softplus': 'Softplus', 'Softsign': 'Softsign',
-                  'Elu': 'ELU', 'LeakyRelu': 'ReLU', 'Softmax': 'Softmax',
-                  'Relu': 'ReLU', 'Tanh': 'TanH', 'SELU': 'SELU'}
+name_map = {'flatten': 'Flatten', 'dropout': 'Dropout', 'batch': 'BatchNorm',
+            'add': 'Eltwise', 'mul': 'Eltwise', 'dense': 'InnerProduct',
+            'BasicLSTMCell': 'LSTM', 'LSTMCell': 'LSTM', 'BasicRNNCell': 'RNN',
+            'RNNCell': 'RNN', 'GRUCell': 'GRU', 'lstm': 'LSTM', 'simple': 'RNN',
+            'gru': 'GRU', 'concatenate': 'Concat', 'lrn': 'LRN'}
 
-name_map = {'flatten': 'Flatten', 'dropout': 'Dropout', 'lrn': 'LRN', 'concatenate': 'Concat',
-            'batch': 'BatchNorm', 'add': 'Eltwise', 'mul': 'Eltwise'}
-
+# weights and bias intializer map more initializer need to be added
 initializer_map = {'random_uniform': 'RandomUniform', 'random_normal': 'RandomNormal',
                    'Const': 'Constant', 'zeros': 'Zeros', 'ones': 'Ones',
                    'eye': 'Identity', 'truncated_normal': 'TruncatedNormal'}
+
+# separate activation map for rnn layers
+activation_map = {'Relu': 'relu', 'Elu': 'elu', 'Softsign': 'softsign',
+                  'Softplus': 'softplus', 'Sigmoid': 'sigmoid', 'Tanh': 'tanh',
+                  'Softmax': 'softmax'}
+
+
+def check_rnn(node_name):
+    # check if an op is of rnn layer
+    if str(node_name).split('/')[0] == 'rnn':
+        return True
+    return False
 
 
 def get_layer_name(node_name):
@@ -42,7 +56,9 @@ def get_layer_name(node_name):
 
 def get_layer_type(node_name):
     i = node_name.find('_')
-    if i == -1:
+    if check_rnn(node_name):
+        name = 'rnn'
+    elif i == -1:
         name = str(node_name)
     else:
         name = str(node_name[:i])
@@ -166,24 +182,34 @@ def import_graph_def(request):
         graph = tf.get_default_graph()
         session = tf.Session(graph=graph)
 
+        # to hold name of most recent rnn layer
+        rnn_input_flag = False
+
         for node in graph.get_operations():
             name = get_layer_name(node.name)
+            layer_type = get_layer_type(node.name)
             if node.type == 'NoOp':
                 # if init ops is found initialize graph_def
                 init_op = session.graph.get_operation_by_name(node.name)
                 session.run(init_op)
                 continue
+            # separate case for a rnn layer
             if name not in d:
                 d[name] = {'type': [], 'input': [], 'output': [], 'params': {}}
                 order.append(name)
             if node.type in op_layer_map:
-                if (node.type == "FusedBatchNorm"):
+                if (node.type in ["FusedBatchNorm", "Softmax"]):
                     d[name]['type'] = []
-                d[name]['type'].append(op_layer_map[node.type])
-            elif node.type in activation_map:
-                d[name]['type'].append(activation_map[node.type])
+                # not allowing redundant ops in layer type
+                if (op_layer_map[node.type] not in d[name]['type']):
+                    d[name]['type'].append(op_layer_map[node.type])
             else:  # For cases where the ops are composed of only basic ops
-                layer_type = get_layer_type(node.name)
+                if layer_type == 'rnn':
+                    node_name = str(node.name).split('/')
+                    if re.match('.*CellZeroState.*', node_name[1]):
+                        layer_type = node_name[1].split('ZeroState')[0]
+                        # reset layer type of rnn layer to remove basic ops
+                        d[name]['type'] = []
                 if layer_type in name_map:
                     if name_map[layer_type] not in d[name]['type']:
                         d[name]['type'].append(name_map[layer_type])
@@ -218,7 +244,7 @@ def import_graph_def(request):
                 continue
             name = get_layer_name(node.name)
             layer = d[name]
-
+            print(node.name)
             if layer['type'][0] == 'Input':
                 input_dim = [int(dim.size) for dim in node.get_attr('shape').dim]
                 # Swapping channel value to convert NCHW/NCDHW format
@@ -227,10 +253,13 @@ def import_graph_def(request):
                 # preserving input shape to calculate deconv output shape
                 input_layer_name = node.name
                 input_layer_dim = input_dim[:]
-                temp = input_dim[1]
-                input_dim[1] = input_dim[len(input_dim) - 1]
-                input_dim[len(input_dim) - 1] = temp
-
+                for outputId in layer['output']:
+                    if (len(d[outputId]['type']) > 0 and d[outputId]['type'][0] in ['LSTM', 'RNN', 'GRU']):
+                        rnn_input_flag = True
+                if (not rnn_input_flag):
+                    temp = input_dim[1]
+                    input_dim[1] = input_dim[len(input_dim) - 1]
+                    input_dim[len(input_dim) - 1] = temp
                 layer['params']['dim'] = str(input_dim)[1:-1]
 
             elif layer['type'][0] == 'Convolution':
@@ -423,6 +452,16 @@ def import_graph_def(request):
                         return JsonResponse({'result': 'error', 'error':
                                              'Missing shape info in GraphDef'})
 
+            elif layer['type'][0] == 'Upsample':
+                layer['params']['layer_type'] = '2D'
+                # parameter identification can be improvised further
+                if str(node.name) == name + '/Const':
+                    layer['params']['size_h'] = int(
+                        node.get_attr('value').tensor_shape.dim[0].size)
+                    layer['params']['size_w'] = int(
+                        node.get_attr('value').tensor_shape.dim[0].size)
+                pass
+
             elif layer['type'][0] == 'InnerProduct':
                 # searching for weights and kernel ops to extract num_outputs
                 # of IneerProduct layer also considering repeat & stack layer
@@ -507,6 +546,9 @@ def import_graph_def(request):
             elif layer['type'][0] == 'Flatten':
                 pass
 
+            elif layer['type'][0] == 'Concat':
+                pass
+
             elif layer['type'][0] == 'Dropout':
                 if ('rate' in node.node_def.attr):
                     layer['params']['rate'] = node.get_attr('rate')
@@ -514,6 +556,80 @@ def import_graph_def(request):
                     layer['params']['seed'] = node.get_attr('seed')
                 if ('training' in node.node_def.attr):
                     layer['params']['trainable'] = node.get_attr('training')
+
+            elif layer['type'][0] == 'LSTM':
+                if re.match('.*'+name+'/Const', str(node.name)):
+                    try:
+                        layer['params']['num_output'] = node.get_attr(
+                            'value').int_val[0]
+                    except:
+                        pass
+                if re.match('.*/kernel/Initializer.*', str(node.name)):
+                    w_filler = str(node.name).split('/')[4]
+                    layer['params']['weight_filler'] = initializer_map[w_filler]
+                if re.match('.*/bias/Initializer.*', str(node.name)):
+                    b_filler = str(node.name).split('/')[4]
+                    layer['params']['bias_filler'] = initializer_map[b_filler]
+                if re.match('.*/while/.*/add/y', str(node.name)):
+                    layer['params']['unit_forget_bias'] = node.get_attr(
+                        'value').float_val[0]
+                if re.match('.*/while/.*/', str(node.name)):
+                    activation = str(node.name).split('/')
+                    if len(activation) == 4 and activation[3] in activation_map:
+                        layer['params']['recurrent_activation'] = activation_map[activation[3]]
+                if str(node.type) == "TensorArrayGatherV3":
+                    try:
+                        layer['params']['num_output'] = int(node.get_attr(
+                            'element_shape').dim[1].size)
+                    except:
+                        pass
+                layer['params']['return_sequences'] = True
+
+            elif layer['type'][0] == 'RNN':
+                if re.match('.*'+name+'/Const', str(node.name)):
+                    try:
+                        layer['params']['num_output'] = node.get_attr(
+                            'value').int_val[0]
+                    except:
+                        pass
+                if re.match('.*/kernel/Initializer.*', str(node.name)):
+                    w_filler = str(node.name).split('/')[4]
+                    layer['params']['weight_filler'] = initializer_map[w_filler]
+                if re.match('.*/bias/Initializer.*', str(node.name)):
+                    b_filler = str(node.name).split('/')[4]
+                    layer['params']['bias_filler'] = initializer_map[b_filler]
+                if str(node.type) == "TensorArrayGatherV3":
+                    try:
+                        layer['params']['num_output'] = int(node.get_attr(
+                            'element_shape').dim[1].size)
+                    except:
+                        pass
+                layer['params']['return_sequences'] = True
+
+            elif layer['type'][0] == 'GRU':
+                if re.match('.*'+name+'/Const', str(node.name)):
+                    try:
+                        layer['params']['num_output'] = node.get_attr(
+                            'value').int_val[0]
+                    except:
+                        pass
+                if re.match('.*/gates/kernel/Initializer.*', str(node.name)):
+                    w_filler = str(node.name).split('/')[5]
+                    layer['params']['weight_filler'] = initializer_map[w_filler]
+                if re.match('.*/gates/bias/Initializer.*', str(node.name)):
+                    b_filler = str(node.name).split('/')[5]
+                    layer['params']['bias_filler'] = initializer_map[b_filler]
+                if re.match('.*/while/.*/', str(node.name)):
+                    activation = str(node.name).split('/')
+                    if len(activation) == 4 and activation[3] in activation_map:
+                        layer['params']['recurrent_activation'] = activation_map[activation[3]]
+                if str(node.type) == "TensorArrayGatherV3":
+                    try:
+                        layer['params']['num_output'] = int(node.get_attr(
+                            'element_shape').dim[1].size)
+                    except:
+                        pass
+                layer['params']['return_sequences'] = True
         net = {}
         batch_norms = []
         for key in d.keys():

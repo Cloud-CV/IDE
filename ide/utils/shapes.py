@@ -161,7 +161,7 @@ def get_layer_shape(layer):
     elif(layer['info']['type'] in ['Convolution', 'Pooling', 'Deconvolution', 'DepthwiseConv']):
         return filter(layer)
 
-    elif(layer['info']['type'] in ['InnerProduct', 'Recurrent', 'RNN', 'LSTM', 'Embed']):
+    elif(layer['info']['type'] in ['InnerProduct', 'Recurrent', 'RNN', 'LSTM', 'Embed', 'GRU']):
         return output(layer)
 
     elif(layer['info']['type'] == 'Flatten'):

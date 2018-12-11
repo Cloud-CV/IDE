@@ -92,12 +92,60 @@ class DepthwiseConvLayerTest(unittest.TestCase):
         self.assertEqual(response['result'], 'success')
 
 
+class UpsampleLayerTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_tf_import(self):
+        model_file = open(os.path.join(settings.BASE_DIR, 'example/tensorflow', 'UNet.pbtxt'),
+                          'r')
+        response = self.client.post(reverse('tf-import'), {'file': model_file})
+        response = json.loads(response.content)
+        self.assertEqual(response['result'], 'success')
+
+
 class BatchNormLayerTest(unittest.TestCase):
     def setUp(self):
         self.client = Client()
 
     def test_tf_import(self):
         model_file = open(os.path.join(settings.BASE_DIR, 'example/tensorflow', 'BatchNorm.pbtxt'),
+                          'r')
+        response = self.client.post(reverse('tf-import'), {'file': model_file})
+        response = json.loads(response.content)
+        self.assertEqual(response['result'], 'success')
+
+
+class GRUCellTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_tf_import(self):
+        model_file = open(os.path.join(settings.BASE_DIR, 'example/tensorflow', 'GRUCell.pbtxt'),
+                          'r')
+        response = self.client.post(reverse('tf-import'), {'file': model_file})
+        response = json.loads(response.content)
+        self.assertEqual(response['result'], 'success')
+
+
+class LSTMCellTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_tf_import(self):
+        model_file = open(os.path.join(settings.BASE_DIR, 'example/tensorflow', 'LSTMCell.pbtxt'),
+                          'r')
+        response = self.client.post(reverse('tf-import'), {'file': model_file})
+        response = json.loads(response.content)
+        self.assertEqual(response['result'], 'success')
+
+
+class RNNCellTest(unittest.TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_tf_import(self):
+        model_file = open(os.path.join(settings.BASE_DIR, 'example/tensorflow', 'RNNCell.pbtxt'),
                           'r')
         response = self.client.post(reverse('tf-import'), {'file': model_file})
         response = json.loads(response.content)

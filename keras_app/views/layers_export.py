@@ -45,6 +45,20 @@ constraintMap = {
     'None': None
 }
 
+activationMap = {
+    'relu': 'relu',
+    'tanh': 'tanh',
+    'softmax': 'softmax',
+    'elu': 'elu',
+    'selu': 'selu',
+    'softplus': 'softplus',
+    'softsign': 'softsign',
+    'sigmoid': 'sigmoid',
+    'hard_sigmoid': 'hard_sigmoid',
+    'linear': 'linear',
+    'None': None
+}
+
 
 # ********** Data Layers **********
 def data(layer, layer_in, layerId):
@@ -488,6 +502,9 @@ def recurrent(layer, layer_in, layerId, tensor=True):
         return_sequences = layer['params']['return_sequences']
     else:
         return_sequences = False
+    activation = None
+    if ('activation' in layer['params']):
+        activation = activationMap[layer['params']['activation']]
     if (layer['info']['type'] == 'GRU'):
         recurrent_activation = layer['params']['recurrent_activation']
         out[layerId] = GRU(units, kernel_initializer=kernel_initializer,
@@ -499,7 +516,8 @@ def recurrent(layer, layer_in, layerId, tensor=True):
                            bias_regularizer=bias_regularizer, activity_regularizer=activity_regularizer,
                            kernel_constraint=kernel_constraint, recurrent_constraint=recurrent_constraint,
                            bias_constraint=bias_constraint, use_bias=use_bias, dropout=dropout,
-                           recurrent_dropout=recurrent_dropout)
+                           recurrent_dropout=recurrent_dropout, return_sequences=return_sequences,
+                           activation=activation)
     elif (layer['info']['type'] == 'LSTM'):
         recurrent_activation = layer['params']['recurrent_activation']
         unit_forget_bias = layer['params']['unit_forget_bias']
@@ -512,7 +530,8 @@ def recurrent(layer, layer_in, layerId, tensor=True):
                             bias_regularizer=bias_regularizer, activity_regularizer=activity_regularizer,
                             kernel_constraint=kernel_constraint, recurrent_constraint=recurrent_constraint,
                             bias_constraint=bias_constraint, use_bias=use_bias, dropout=dropout,
-                            recurrent_dropout=recurrent_dropout, return_sequences=return_sequences)
+                            recurrent_dropout=recurrent_dropout, return_sequences=return_sequences,
+                            activation=activation)
     else:
         out[layerId] = SimpleRNN(units, kernel_initializer=kernel_initializer,
                                  bias_initializer=bias_initializer,
@@ -525,7 +544,8 @@ def recurrent(layer, layer_in, layerId, tensor=True):
                                  recurrent_constraint=recurrent_constraint,
                                  bias_constraint=bias_constraint,
                                  use_bias=use_bias, dropout=dropout,
-                                 recurrent_dropout=recurrent_dropout)
+                                 recurrent_dropout=recurrent_dropout, return_sequences=return_sequences,
+                                 activation=activation)
     if tensor:
         out[layerId] = out[layerId](*layer_in)
     return out

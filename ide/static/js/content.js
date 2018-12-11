@@ -557,7 +557,7 @@ class Content extends React.Component {
     var bias_params = 0;
 
     var filter_layers = ["Convolution", "Deconvolution"];
-    var fc_layers = ["InnerProduct", "Embed", "Recurrent", "LSTM"];
+    var fc_layers = ["InnerProduct", "Embed", "Recurrent", "LSTM", "GRU", "RNN"];
 
     if(filter_layers.includes(layer.info.type)) {
       // if layer is Conv or DeConv calculating total parameter of the layer using:
