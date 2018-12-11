@@ -1,0 +1,14 @@
+.content {
+    background-color: white;
+    margin-top: 8vh;
+    border-radius: 5px;
+    padding: 2vw;
+}
+.body {
+    width: 100vw;
+    height: 100vh;
+    background-color: #455062;
+}
+.logo {
+    width: 25%;
+}
