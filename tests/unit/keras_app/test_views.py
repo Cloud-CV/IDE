@@ -704,7 +704,7 @@ class CapsuleLayerTest(unittest.TestCase, HelperFunctions):
 
     def test_keras_import_export(self):
         model_file = open(os.path.join(settings.BASE_DIR, 'example/keras',
-                                       'Capsnet.json'), 'r')
+                                       'capsnet.json'), 'r')
         response = self.client.post(reverse('keras-import'), {'file': model_file})
         response = json.loads(response.content)
         net = get_shapes(response['net'])
