@@ -7,6 +7,9 @@ layer {
   include {
     phase: TRAIN
   }
+  transform_param{
+    crop_size: 32
+  }
   data_param {
     # path to GCN preprocessed and ZCA whitened cifar-10 train data
     source: "cifar-10_train_lmdb"

@@ -9,6 +9,7 @@ layer {
   }
   transform_param {
     scale: 0.00390625
+    crop_size: 28
   }
   data_param {
     source: "examples/mnist/mnist_train_lmdb"
