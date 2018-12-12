@@ -11,7 +11,7 @@ Follow the guide [here](adding_new_layers.md) to add your new layer to Fabrik's 
         - Create a function name import_<layer_name> that takes one parameter, layer_ops, that is a list of all ops in the layer being imported.
         - Get layer parameters from the operations in layer_ops and build a dictionary mapping parameter names to values.
         - Get a list of input layers to the layer being processed using `get_input_layers(layer_ops)`.
-        - Create and return a json layer for your layer, calling `jsonLayer` with your layer_type, parameters, input layers and output_layers(optional).
+        - Create and return a json layer for new layer, calling `jsonLayer` with the new layer_type, parameters, input layers and output_layers(optional).
 
         ```
         def import_dropout(layer_ops):

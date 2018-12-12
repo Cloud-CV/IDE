@@ -142,17 +142,18 @@ def get_initializer_type(layer_ops):
 
 
 def get_input_layers(layer_ops):
-    ''' return the name of the layers directly preceeding the layer of layer_ops.
+    '''
+    return the name of the layers directly preceeding the layer of layer_ops.
     layer_ops is a list of all ops of the layer we want the inputs of.
     '''
-    ret = []
+    input_layer_names = []
     name = get_layer_name(layer_ops[0].name)
     for node in layer_ops:
         for input_tensor in node.inputs:
             input_layer_name = get_layer_name(input_tensor.op.name)
             if input_layer_name != name:
-                ret.append(input_layer_name)
-    return ret
+                input_layer_names.append(input_layer_name)
+    return input_layer_names
 
 
 def import_activation(layer_ops):
@@ -187,9 +188,11 @@ def import_placeholder(layer_ops):
     placeholder_op = layer_ops[0]
     layer_params = {}
     layer_dim = [int(dim.size) for dim in placeholder_op.get_attr('shape').dim]
+
     # make batch size 1 if it is -1
     if layer_dim[0] == 0:
         layer_dim[0] = 1
+
     # change tensor format from tensorflow default (NHWC/NDHWC)
     # to (NCHW/NCDHW)
     temp = layer_dim[1]
@@ -212,7 +215,6 @@ def import_conv2d(layer_ops):
     layer_params['kernel_h'] = kernel_shape[0]
     layer_params['kernel_w'] = kernel_shape[1]
     layer_params['num_output'] = kernel_shape[3]
-
     layer_params['pad_h'], layer_params['pad_w'] = get_padding(conv2d_op, kernel_shape, strides)
 
     initializers = get_initializer_type(layer_ops)
