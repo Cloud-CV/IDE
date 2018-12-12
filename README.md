@@ -86,6 +86,14 @@ To install Docker for Mac [click here](https://docs.docker.com/docker-for-mac/in
     virtualenv --system-site-packages ~/Fabrik --python=python2.7
     source ~/Fabrik/bin/activate
     ```
+    
+    **For Mac Users**
+    
+    ```
+    pip install virtualenv
+    virtualenv -p /usr/bin/python2.7 ~/Fabrik
+    source ~/Fabrik/bin/activate
+    ```
 
 2. Clone the repository via git
 
@@ -109,6 +117,12 @@ To install Docker for Mac [click here](https://docs.docker.com/docker-for-mac/in
 
     ```
     sudo apt-get install redis-server
+    ```
+    
+    **For Mac Users**
+    
+    ```
+    brew install redis
     ```
 
     * Change the hostname to ``` localhost ``` in settings/common.py line 115.
@@ -186,6 +200,18 @@ To install Docker for Mac [click here](https://docs.docker.com/docker-for-mac/in
         ALTER ROLE admin SET timezone TO 'UTC';
         ALTER USER admin CREATEDB;
         ```
+        
+     **For Mac Users**
+     * Login to postgres using ````` psql -U postgres ````` and then run the following commands.
+
+        ````
+        CREATE DATABASE fabrik;
+        CREATE USER admin WITH PASSWORD 'fabrik';
+        ALTER ROLE admin SET client_encoding TO 'utf8';
+        ALTER ROLE admin SET default_transaction_isolation TO 'read committed';
+        ALTER ROLE admin SET timezone TO 'UTC';
+        ALTER USER admin CREATEDB;
+        ````
 
     * Exit psql by typing in \q and hitting enter.
 
