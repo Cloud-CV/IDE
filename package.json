@@ -19,6 +19,7 @@
   "dependencies": {
     "babel-polyfill": "^6.9.1",
     "bootstrap": "^3.3.6",
+    "django-react-csrftoken": "^1.0.4",
     "jquery": "^3.0.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",

@@ -26,6 +26,11 @@ class Login extends React.Component {
           this.setState({ loginState: false });
           this.props.setUserId(null);
           this.props.setUserName(null);
+          localStorage.removeItem('userID');
+          localStorage.removeItem('username');
+          if (localStorage.hasOwnProperty('email')) {
+          	localStorage.removeItem('email');
+          }
         }
       }.bind(this),
       error: function () {
@@ -68,6 +73,8 @@ class Login extends React.Component {
           this.setState({ loginState: response.result });
           this.props.setUserId(response.user_id);
           this.props.setUserName(response.username);
+          localStorage.setItem("userID",response.user_id);
+          localStorage.setItem("username",response.username);
 
           if (showNotification) {
             $('#successful-login-notification')[0].style.display = 'block';
