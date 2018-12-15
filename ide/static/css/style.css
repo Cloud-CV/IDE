@@ -14,16 +14,23 @@ body {
 }
 
 #sidebar {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    bottom: 0px;
-    width: 20%;
-    background-color: #F3F3F3;
+  transition: 0.3s;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  width: 20%;
+  background-color: #F3F3F3;
 }
+
+.app-dark #sidebar {
+  background-color: #455A64;
+}
+
 #sidebar-scroll {
   height: calc(100% - 50px);
   overflow-y: auto;
+  overflow-x: hidden;
 }
 #sidebar-content{
   padding: 0 5% 0 5%;
@@ -36,10 +43,18 @@ body {
   padding: 10px 0px 10px 0px;
 }
 
+.app-dark .sidebar-heading {
+  color: white;
+}
+
 .sidebar-badge{
   padding: 10px;
   border-radius: 3px;
   margin-right: 10px;
+}
+
+.app-dark .sidebar-badge {
+  border: 1px solid #929292;
 }
 
 .sidebar-dropdown{
@@ -59,8 +74,10 @@ body {
 }
 
 #main {
+  transition: 0.3s;
+  background-color: white;
   overflow: hidden;
-  width: 80%;
+  width: calc(80% + 12px);
   display: flex;
   flex-flow: column;
   top: 0px;
@@ -69,6 +86,9 @@ body {
   position: absolute;
 }
 
+.app-dark #main {
+  background-color: #263238;
+}
 
 .topBar .btn{
   margin: 5px;
@@ -95,25 +115,35 @@ body {
 
 .topbar-col {
   flex: 1;
+  margin: 2px;
 }
 
 input#netName {
+  transition: 0.3s;
   border: none;
   position: absolute;
-  top: 0;
+  top: 15px;
   left: 0;
   right: 0;
   width: 100%;
-  max-width: 30%;
+  max-width: 20%;
   margin: auto;
   text-align: center;
-  font-size: 2.5rem;
-  padding: 1rem;
+  font-size: 17px;
+  padding: 5px 7px;
   outline: none;
   z-index: 100;
   background: transparent;
-  border-bottom: 2px solid;
+  background: #F3F3F3;
+  box-shadow: 0px 0px 11px 2px #F3F3F3;
+  // border-bottom: 2px solid;
   border-color: #cdcfd2;
+}
+
+.app-dark input#netName {
+  background: #78909C;
+  color: white;
+  box-shadow: none;
 }
 
 input#netName:focus {
@@ -182,6 +212,14 @@ input#netName.hidden {
   color: #333;
 }
 
+.app-dark .extra-buttons {
+  color: #F5F5F5;
+}
+
+.app-dark .glyphicon-menu-right {
+  color: white;
+}
+
 
 .panel-default > .panel-heading{
   padding-left: 0px;
@@ -194,6 +232,9 @@ input#netName.hidden {
 .panel-heading > a {
   text-decoration: none;
   color: #455062;
+}
+.app-dark .panel-heading > a {
+  color: white;
 }
 .panel-group{
   padding-left: 8px;
@@ -263,9 +304,14 @@ input#netName.hidden {
 }
 
 #logo_back{
+  transition: 0.3s;
   width: 100%;
   margin: 0px;
   background-color: #455062;
+}
+
+.app-dark #logo_back {
+  background-color: rgb(54, 71, 78);
 }
 
 #logo{
@@ -318,6 +364,52 @@ input#netName.hidden {
   outline: none;
 }
 
+#toggle-circle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 0px;
+  left: 0px;
+  border-radius: 100px;
+  background: white;
+  box-shadow: 0px 0px 1px 1px;
+  transition: 0.1s;
+}
+
+.app-dark #toggle-circle {
+  left: 30px;
+}
+
+.mode-toggle {
+  position: relative;
+  height: 20px;
+  margin-top: 20px;
+}
+
+.dark-mode-title {
+  text-align: left;
+  padding: 0px;
+}
+
+.btn-mode-toggle {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 50px;
+  height: 20px;
+  display: inline;
+  padding: 7px 12px;
+  margin-left: 6px;
+  line-height: 1.42857143;
+  border-radius: 100px;
+  font-size: 14px;
+  background: rgb(205, 207, 210);
+}
+
+#btn-dark {
+  background-color: #CFD8DC;
+}
+
 .canvas{
   flex: 1 1 auto;
   width: 100%;
@@ -327,6 +419,10 @@ input#netName.hidden {
   border-radius: 4px 4px 4px 4px;
 
   /*background: yellow;*/
+}
+
+.app-dark .canvas {
+  border: none;
 }
 
 .setHead{
@@ -348,6 +444,11 @@ input#netName.hidden {
   margin: 0px;
 }
 
+.app-dark .setHead {
+  color: white;
+  background-color: #455A64;
+}
+
 .paramsCheckbox label {
   cursor: pointer;
   position: absolute;
@@ -357,6 +458,10 @@ input#netName.hidden {
   left: 0;
   background: #f26091;
   border-radius: 3px;
+}
+
+.app-dark .paramsCheckbox label {
+  background: #a4dfff !important;
 }
 
 .paramsCheckbox label:after {
@@ -402,6 +507,10 @@ input#netName.hidden {
   text-align: left;
   color: #848a92;
   font-weight: bold;
+}
+
+.app-dark .drowpdown-button {
+  color: #F5F5F5;
 }
 
 .pane {
@@ -568,12 +677,12 @@ button.url-import-modal-button {
   margin-bottom: 0.5rem;
 }
 
-.setparams{
+.setparams {
   position: absolute;
   background-color: white;
   height: 100%;
   width:20%;
-  min-width:250px;
+  min-width: 275px;
   max-width: 400px;
   color: black;
   overflow: auto;
@@ -583,12 +692,21 @@ button.url-import-modal-button {
   box-shadow: -5px 0px 10px #F3F3F3;
 }
 
+.app-dark .setparams {
+  background-color: #455A64;
+  box-shadow: none;
+}
+
 .setparamsActive{
     transform: translateX(-103%);
 }
 
 .closeSign {
   cursor: pointer;
+}
+
+.app-dark .closeSign {
+  color: #a4dfff;
 }
 
 
@@ -740,7 +858,7 @@ button.url-import-modal-button {
 
 
 .layer{
-  font-size: 22px;
+  font-size: 17px;
   width: 130px;
   padding: 5px 0px 5px 0px;
   text-align: center;
@@ -750,6 +868,10 @@ button.url-import-modal-button {
   background: #e15e4f;
   color: white;
   cursor: pointer;
+}
+
+.app-dark .layer {
+  opacity: 0.9;
 }
 
 .selected{
@@ -1004,6 +1126,11 @@ input[type="file"] {
   background-color: #F5F5F5;
 }
 
+.app-dark #sidebar-scroll::-webkit-scrollbar-track {
+  background-color: #455A64;
+}
+
+
 #sidebar-scroll::-webkit-scrollbar
 {
   width: 12px;
@@ -1013,6 +1140,10 @@ input[type="file"] {
 #sidebar-scroll::-webkit-scrollbar-thumb
 {
   background-color: #455062;
+}
+
+.app-dark #sidebar-scroll::-webkit-scrollbar-thumb {
+  background-color: #455A64;
 }
 
 #panZoomContainer::-webkit-scrollbar-track
