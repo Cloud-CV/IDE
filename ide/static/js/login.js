@@ -1,4 +1,5 @@
 import React from 'react';
+import DashButton from './dashbutton';
 
 class Login extends React.Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class Login extends React.Component {
       contentType: false,
       success: function (response) {
         if (response) {
+          localStorage.removeItem("userID");
           this.setState({ loginState: false });
           this.props.setUserId(null);
           this.props.setUserName(null);
@@ -67,6 +69,7 @@ class Login extends React.Component {
         if (response.result) {
           this.setState({ loginState: response.result });
           this.props.setUserId(response.user_id);
+          localStorage.setItem("userID",response.user_id);
           this.props.setUserName(response.username);
 
           if (showNotification) {
@@ -181,12 +184,15 @@ class Login extends React.Component {
     if(this.state.loginState) {
       return (
         <div>
-          <h5 className="sidebar-heading" id="sidebar-login-button" onClick={
+        <div className="long-buttons">
+          <DashButton />
+          <h5 className="sidebar-heading" id="sidebar-logout-button" onClick={
             () => {
               this.logoutUser();
           }}>
           <div>LOGOUT</div>
           </h5>
+          </div>
           <div id="successful-login-notification">
             <i className="material-icons">done</i>
             <div id="successful-login-notification-message"></div>

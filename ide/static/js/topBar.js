@@ -4,20 +4,14 @@ import ReactTooltip from 'react-tooltip';
 class TopBar extends React.Component {
   constructor(props) {
     super(props);
-    this.checkURL = this.checkURL.bind(this);
+    this.state = {isShared: false};
   }
-  checkURL() {
-    let url = window.location.href;
-    let urlParams = url.indexOf("load");
-
-    if(urlParams != -1) {
-      return true;
-    }
-    return false;
+  componentWillReceiveProps(newProps){
+    this.setState({isShared: newProps.isShared});
   }
   render() {
     let content = null;
-    if (this.checkURL()) {
+    if (this.state.isShared == true) {
       content = (<div className="topbar-col">
                     <div className="form-group">
                       <button id="topbar-icon" className="btn btn-default dropdown-toggle form-control" data-toggle="dropdown"
@@ -105,6 +99,16 @@ class TopBar extends React.Component {
               </div>
             </div>
             {content}
+            <div className="topbar-col">
+              <div className="form-group">
+                  <div className="dropdown">
+                    <button id="topbar-icon" className="btn btn-default dropdown-toggle form-control" data-toggle="dropdown"
+                    onClick={() => this.props.saveModel()} data-tip="Save Model">
+                      <span className="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+                    </button>
+                  </div>
+              </div>
+            </div>
         </div>
       <ReactTooltip type="dark" multiline={true}/>
       </div>
@@ -116,11 +120,13 @@ TopBar.propTypes = {
   exportNet: React.PropTypes.func,
   importNet: React.PropTypes.func,
   saveDb: React.PropTypes.func,
+  saveModel: React.PropTypes.func,
   loadDb: React.PropTypes.func,
   zooModal: React.PropTypes.func,
   textboxModal: React.PropTypes.func,
   urlModal: React.PropTypes.func,
-  updateHistoryModal: React.PropTypes.func
+  updateHistoryModal: React.PropTypes.func,
+  isShared: React.PropTypes.bool
 };
 
 export default TopBar;
