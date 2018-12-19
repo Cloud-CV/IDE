@@ -98,7 +98,7 @@ class ModelZoo extends React.Component {
 
     return (
       <div className="sidebar-content">
-        <div id="wrapper" className="toggle" ref="wrapper1">
+        <div id="content-wrapper" className="toggle" ref="wrapper1">
           <div id="sidebar-wrapper">
             <ul id="sidebar-nav" className="sidebar-nav">
                 <div className="filterbar-container">
