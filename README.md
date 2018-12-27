@@ -93,16 +93,10 @@ To install Docker for Mac [click here](https://docs.docker.com/docker-for-mac/in
     git clone --recursive https://github.com/Cloud-CV/Fabrik.git && cd Fabrik
     ```
 
-3. Rename settings/dev.sample.py as settings/dev.py and change credentials in settings/dev.py
+3. Run the following script to configure settings to `localhost`
 
     ```
-    cp settings/dev.sample.py settings/dev.py
-    ```
-
-    * Change the hostname to ``` localhost ``` in settings/dev.py line 15. It should now look like this:  
-
-    ```
-    'HOST': os.environ.get("POSTGRES_HOST", 'localhost'), 
+    sh ./settings/local_setup.sh
     ```
 
 4. Install redis server  
@@ -110,28 +104,6 @@ To install Docker for Mac [click here](https://docs.docker.com/docker-for-mac/in
     ```
     sudo apt-get install redis-server
     ```
-
-    * Change the hostname to ``` localhost ``` in settings/common.py line 115.
-
-        ```
-        "CONFIG": {
-            # replace redis hostname to localhost if running on local system
-            "hosts": [("localhost", 6379)],
-            "prefix": u'fabrik:',
-            },
-        ```
-
-    * Replace celery result backend in settings/common.py line 122 with localhost.
-
-        ```
-        CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-        ```
-
-    * Change celery broker URL and result backend hostname to ``` localhost ``` in ide/celery_app.py, line 8.
-
-        ```
-        app = Celery('app', broker='redis://localhost:6379/0', backend='redis://localhost:6379/0', include=['ide.tasks'])
-        ```
 
 5. If you already have Caffe, Keras and TensorFlow installed on your computer, skip this step.
 * For Linux users
