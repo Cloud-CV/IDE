@@ -527,6 +527,10 @@ class Content extends React.Component {
 
     $.ajax({
       url: 'layer_parameter/',
+      headers: { 
+        'X-Content-Type-Options' : 'nosniff',
+        'X-XSS-Protection' : '1; mode=block' 
+      },
       dataType: 'json',
       type: 'POST',
       async: false,
@@ -623,6 +627,10 @@ class Content extends React.Component {
     const netData = JSON.parse(JSON.stringify(this.state.net));
     $.ajax({
       url: 'model_parameter/',
+      headers: { 
+        'X-Content-Type-Options' : 'nosniff',
+        'X-XSS-Protection' : '1; mode=block' 
+      },
       dataType: 'json',
       type: 'POST',
       data: {
@@ -738,6 +746,10 @@ class Content extends React.Component {
     data['Bias']['params']['filler']['options'] = fillers;
     $.ajax({
       url: url[framework],
+      headers: { 
+        'X-Content-Type-Options' : 'nosniff',
+        'X-XSS-Protection' : '1; mode=block' 
+      },
       dataType: 'json',
       type: 'POST',
       data: formData,
@@ -985,6 +997,10 @@ class Content extends React.Component {
 
     $.ajax({
       url: '/save',
+      headers: { 
+        'X-Content-Type-Options' : 'nosniff',
+        'X-XSS-Protection' : '1; mode=block' 
+      },
       dataType: 'json',
       type: 'POST',
       data: {
@@ -1061,6 +1077,10 @@ class Content extends React.Component {
     this.dismissAllErrors();
     $.ajax({
       url: '/load',
+      headers: { 
+        'X-Content-Type-Options' : 'nosniff',
+        'X-XSS-Protection' : '1; mode=block' 
+      },
       dataType: 'json',
       type: 'POST',
       data: {
@@ -1189,6 +1209,10 @@ class Content extends React.Component {
   updateHistoryModal() {
     $.ajax({
       url: '/model_history',
+      headers: { 
+        'X-Content-Type-Options' : 'nosniff',
+        'X-XSS-Protection' : '1; mode=block' 
+      },
       dataType: 'json',
       type: 'POST',
       data: {

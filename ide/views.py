@@ -12,7 +12,10 @@ from utils.shapes import get_shapes, get_layer_shape, handle_concat_layer
 
 
 def index(request):
-    return render(request, 'index.html')
+    response = render(request, "index.html", {})
+    response['X-Content-Type-Options'] = 'nosniff'
+    response['X-XSS-Protection'] = '1'
+    return response
 
 
 @csrf_exempt
