@@ -31,6 +31,17 @@ class SetParams extends React.Component {
       if(isNaN(value))
         value = 0;
     }
+    // Parsing for float parameters when new layers are added as by default all params are string
+    // In case some parameters are missed please cover them too
+    var floatParams = ["moving_average_fraction", "eps", "alpha", "theta", "power", "scale", "shift", "base", "threshold",
+                        "coeff", "l1", "l2", "mask_value", "margin", "fg_threshold", "bg_threshold", "fg_fraction",
+                        "rate", "alpha", "beta", "k"];
+    if (floatParams.includes(para)) {
+      value = parseFloat(value);
+      if (isNaN(value))
+        value = 0.0;
+    }
+
     layer.params[para] = [value, false];
     this.props.performSharedUpdate(this.props.selectedLayer, para, value, false);
     this.props.modifyLayer(this.props.adjustParameters(layer, para, value));

@@ -367,6 +367,19 @@ class Content extends React.Component {
           net[layerId].params[param][0] = 0;
       }
     });
+    // Parsing for float parameters when new layers are added as by default all params are string
+    // In case some parameters are missed please cover them too
+    var floatParams = ["moving_average_fraction", "eps", "alpha", "theta", "power", "scale", "shift", "base", "threshold",
+                        "coeff", "l1", "l2", "mask_value", "margin", "fg_threshold", "bg_threshold", "fg_fraction",
+                        "rate", "alpha", "beta", "k"];
+    Object.keys(net[layerId].params).forEach(param => {
+      if (floatParams.includes(param)){
+        net[layerId].params[param][0] = parseFloat(net[layerId].params[param][0]);
+        if (isNaN(net[layerId].params[param][0]))
+          net[layerId].params[param][0] = 0.0;
+      }
+    });
+
     this.updateLayerShape(net, layerId);
     // Check for only layers with valid shape
     if (net[layerId]['shape']['input'] != null && net[layerId]['shape']['output'] != null) {
