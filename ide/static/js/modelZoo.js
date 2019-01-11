@@ -160,6 +160,7 @@ class ModelZoo extends React.Component {
           </div>
           <div ref="retrieval">
             <ModelElement importNet={this.props.importNet} framework="caffe" id="siamese_mnist" displayName="MNIST Siamese"> </ModelElement>
+            <ModelElement importNet={this.props.importNet} framework="caffe" id="colornet" displayName="Colornet"> </ModelElement>
           </div>
           <div ref="seq2seq">
             <ModelElement importNet={this.props.importNet} framework="keras" id="textGeneration" displayName="Text Generation"> </ModelElement>
