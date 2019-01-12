@@ -75,7 +75,7 @@ To install Docker for Mac [click here](https://docs.docker.com/docker-for-mac/in
 
     * Copy and paste your ``` Client ID ``` and ``` Secret Key ``` into the apppropriate fields and Save.
 
-7. Go to ``` Sites ``` tab and update the ``` Domain name ``` to ``` 0.0.0.0:8000 ```.
+7. From the django admin home page, go to `Sites` under the `Sites` category and update ``` Domain name ``` to ``` 0.0.0.0:8000 ```.
 
 
 ### Using Virtual Environment
