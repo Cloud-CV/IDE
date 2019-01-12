@@ -13,6 +13,27 @@ body {
     margin: 0;
 }
 
+#deleteSelected {
+  margin: 0px;
+  position: fixed;
+  bottom: 15%;
+  right: 3.5%;
+}
+
+#deleteSelected > button {
+  border-radius: 15px;
+  box-shadow: 0px 0px 30px #5C5960;
+  -o-box-shadow: 0px 0px 15px #5C5960;
+  -webkit-box-shadow: 0px 0px 15px #5C5960;
+  -moz-box-shadow: 0px 0px 15px #5C5960;
+}
+
+.selected-layer {
+  -webkit-box-shadow: 0px 0px 0px 6px #4483DA;
+  -moz-box-shadow: 0px 0px 0px 6px #4483DA;
+  box-shadow: 0px 0px 0px 6px #4483DA;
+}
+
 #sidebar {
     position: fixed;
     top: 0px;
