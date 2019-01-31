@@ -1,0 +1,1216 @@
+#jsplumbContainer {
+  position: absolute;
+  transform-origin: top left;
+}
+
+html,body,#app,.app,.row-offcanvas{
+  height:100%;
+  font-family: 'ProximaNova-Regular', sans-serif;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+#sidebar {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    width: 20%;
+    background-color: #F3F3F3;
+}
+#sidebar-scroll {
+  height: calc(100% - 50px);
+  overflow-y: auto;
+}
+#sidebar-content{
+  padding: 0 5% 0 5%;
+}
+
+.sidebar-heading{
+  font-family: 'ProximaNova-Bold', sans-serif;
+  color: #9ea2a9;
+  margin: 0px;
+  padding: 10px 0px 10px 0px;
+}
+
+.sidebar-badge{
+  padding: 10px;
+  border-radius: 3px;
+  margin-right: 10px;
+}
+
+.sidebar-dropdown{
+  float: right;
+  color: #9ea2a9;
+}
+
+#menu{
+  padding: 0px;
+  margin: 5px 0px 5px 0px;
+  font-weight: bold;
+}
+
+#parent {
+    margin-left: 20%;
+    background-color: blue;
+}
+
+#main {
+  overflow: hidden;
+  width: 80%;
+  display: flex;
+  flex-flow: column;
+  top: 0px;
+  left: 20%;
+  bottom: 0px;
+  position: absolute;
+}
+
+
+.topBar .btn{
+  margin: 5px;
+  overflow: auto;
+  flex: 0 1 auto;
+}
+
+#topbar-icon{
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: #cdcfd2;
+  box-shadow:none ;
+  border: none;
+  margin: 0px;
+  z-index: auto;
+}
+
+.topbar-row {
+  width: 100%;
+  display: flex;
+  text-align: center;
+}
+
+.topbar-col {
+  flex: 1;
+}
+
+input#netName {
+  border: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 30%;
+  margin: auto;
+  text-align: center;
+  font-size: 2.5rem;
+  padding: 1rem;
+  outline: none;
+  z-index: 100;
+  background: transparent;
+  border-bottom: 2px solid;
+  border-color: #cdcfd2;
+}
+
+input#netName:focus {
+  border-color: #cdcfd2;
+}
+
+input#netName.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.canvas-icon{
+  margin: 0px;
+  position: fixed;
+  bottom: 4%;
+  right: 4%;
+}
+
+.canvas-icon > p{
+  margin: 0px;
+  color: #9ea2a9;
+}
+
+.canvas-icon > button{
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: #cdcfd2;
+  box-shadow:none ;
+  border: none;
+}
+
+#icon-plus{
+  right: 8%;
+}
+
+#modelParameter{
+  margin: 0px;
+  position: fixed;
+  bottom: 4%;
+  left: 22%;
+  width: 180px;
+}
+
+#modelParameter > p{
+  margin: 0px;
+  color: #9ea2a9;
+}
+
+#modelParameter > #content{
+  width: 100px;
+  height: 30px;
+  border-radius: 5px;
+  text-align: center;
+  background-color: #cdcfd2;
+  box-shadow:none ;
+  border: none;
+  padding: 2px 2px 2px 2px;
+}
+
+
+.extra-buttons{
+  padding-left: 0px;
+  font-weight: bold;
+  text-align: left;
+  color: #333;
+}
+
+
+.panel-default > .panel-heading{
+  padding-left: 0px;
+  padding-right: 0px;
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+  cursor: pointer;
+}
+.panel-heading > a {
+  text-decoration: none;
+  color: #455062;
+}
+.panel-group{
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.panel-default{
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.panel-default > .panel-heading + .panel-collapse > .panel-body {
+  border: none;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+#dataLayers{
+  background-color: #673ab7;
+}
+
+#visionLayers{
+  background-color: #3f51b5;
+}
+
+#recurrentLayers{
+  background-color: #3f51b5;
+}
+
+#commonLayers{
+  background-color: #ff9800;
+}
+
+#normalizationLayers{
+  background-color: #ffeb3b;
+}
+
+#noiseLayers{
+  background-color: #ff9800;
+}
+
+#activationLayers{
+  background-color: #009688;
+}
+
+#utilityLayers{
+  background-color: #03a9f4;
+}
+
+#lossLayers{
+  background-color: #f44336;
+}
+
+#wrapperLayers{
+  background-color: #f00000;
+}
+
+#pythonLayer{
+  background-color: #f44336;
+}
+
+#pythonButton{
+  background-color: transparent;
+  border: none;
+  color: white;
+}
+
+#logo_back{
+  width: 100%;
+  margin: 0px;
+  background-color: #455062;
+}
+
+#logo{
+  max-height: 50px;
+  margin: 0 auto;
+  padding: 7px 0px 7px 0px;
+  }
+
+.btn-primary{
+  background-color: #455062;
+  border-color: #455062;
+  box-shadow: none;
+  outline: none
+}
+
+.btn-primary:hover {
+  background-color: #455062;
+  border-color: #455062;
+  box-shadow: none;
+  outline: none;
+}
+
+.btn-primary:focus {
+  background-color: #455062;
+  border-color: #455062;
+  outline: none;
+}
+
+.btn-default{
+  background-color: #cdcfd2;
+  border-color: #cdcfd2;
+  box-shadow: none;
+  outline: none
+}
+
+.btn-default:hover {
+  background-color: #cdcfd2;
+  border-color: #cdcfd2;
+  box-shadow: none;
+  outline: none;
+}
+
+.btn-default:focus {
+  background-color: #cdcfd2;
+  border-color: #cdcfd2;
+  outline: none;
+}
+
+.btn:focus{
+  outline: none;
+}
+
+.canvas{
+  flex: 1 1 auto;
+  width: 100%;
+  position: relative;
+  overflow: scroll;
+  border: 1px solid #ddd;
+  border-radius: 4px 4px 4px 4px;
+
+  /*background: yellow;*/
+}
+
+.setHead{
+  color: black;
+  background-color: #F3F3F3;
+  padding: 6%;
+}
+
+.setHead > span{
+  padding: 10%;
+  font-size: 22px;
+  color: #455062;
+  position: fixed;
+  top: 1%;
+  right: 1%;
+}
+
+.setHead > h4{
+  margin: 0px;
+}
+
+.paramsCheckbox label {
+  cursor: pointer;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 0;
+  left: 0;
+  background: #f26091;
+  border-radius: 3px;
+}
+
+.paramsCheckbox label:after {
+  opacity: 0.2;
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 8px;
+  background: transparent;
+  top: 3px;
+  left: 2px;
+  border: 2px solid white;
+  border-top: none;
+  border-right: none;
+  transform: rotate(-45deg);
+}
+
+.paramsCheckbox input[type=checkbox]:checked + label:after {
+  opacity: 1;
+}
+
+.paramsCheckbox{
+  height: 20px;
+  width: 20px;
+  position: fixed;
+  right: 6%;
+  margin: 7px;
+}
+
+.deleteLayerButton{
+  background: #f26091;
+  color: white;
+  bottom: 5%;
+  width: 100%;
+  padding: 7px;
+}
+
+.dropdown {
+  z-index: auto;
+}
+
+.drowpdown-button{
+  text-align: left;
+  color: #848a92;
+  font-weight: bold;
+}
+
+.pane {
+    position: absolute;
+    left:50px;
+    top:25px;
+    z-index: 23;
+}
+
+.setContain{
+  padding: 6%;
+}
+
+
+.customTooltip {
+  padding: 5px !important;
+  min-width: 100px !important;
+  max-width: 200px;
+  color: white !important;
+  background-color: #455062 !important;
+  border-radius: 5px !important;
+}
+
+.__react_component_tooltip{
+  padding: 0px;
+}
+
+.ReactModal__Content {
+  max-height: 90%;
+  width: 65%;
+  overflow: auto;
+}
+
+.zoo-modal {
+  text-align: center;
+}
+
+.centered-zoo-modal {
+  display: inline-block;
+  text-align: left;
+}
+
+.zoo-modal-model {
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.zoo-modal-text {
+  padding-left: 12px;
+  padding-right: 12px;
+  font-weight: bold;
+}
+
+.import-textbox-tabs {
+  display: flex;
+  height: 6rem;
+  justify-content: center;
+  align-items: center;
+}
+
+button.import-textbox-tab {
+  padding: 0.75rem 1rem;
+  background: #eee;
+  font-size: 1.5rem;
+}
+
+button.import-textbox-tab:first-child {
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+
+button.import-textbox-tab:last-child {
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+button.import-textbox-tab.selected {
+  box-shadow: none;
+  background: #455062;
+  color: white;
+}
+
+.import-textbox .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.import-textbox h3 {
+  font-weight: bold;
+}
+
+textarea.import-textbox-input {
+  width: 100%;
+  height: 40rem;
+  max-height: 50vh;
+  max-height: calc(100vh - 30rem);
+  border: 2px solid #ccc;
+  outline: none;
+}
+
+button.import-textbox-button {
+  border-radius: 5px;
+  background-color: #eee;
+  box-shadow: none;
+  border: none;
+  outline: none;
+  line-height: 3rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.url-import-modal-tabs {
+  display: flex;
+  height: 6rem;
+  justify-content: center;
+  align-items: center;
+}
+
+button.url-import-modal-tab {
+  padding: 0.75rem 1rem;
+  background: #eee;
+  font-size: 1.5rem;
+}
+
+button.url-import-modal-tab:first-child {
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+
+button.url-import-modal-tab:last-child {
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+button.url-import-modal-tab.selected {
+  box-shadow: none;
+  background: #455062;
+  color: white;
+}
+
+.url-import-modal .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.url-import-modal h3 {
+  font-weight: bold;
+}
+
+textarea.url-import-modal-input {
+  width: 100%;
+  height: 5rem;
+  border: 2px solid #ccc;
+  outline: none;
+  resize: none;
+}
+
+button.url-import-modal-button {
+  border-radius: 5px;
+  background-color: #eee;
+  box-shadow: none;
+  border: none;
+  outline: none;
+  line-height: 3rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.setparams{
+  position: absolute;
+  background-color: white;
+  height: 100%;
+  width:20%;
+  min-width:250px;
+  max-width: 400px;
+  color: black;
+  overflow: auto;
+  left:101%;
+  transition: transform 0.1s;
+  transform: translateX(0px);
+  box-shadow: -5px 0px 10px #F3F3F3;
+}
+
+.setparamsActive{
+    transform: translateX(-103%);
+}
+
+.closeSign {
+  cursor: pointer;
+}
+
+
+.tooltipField{
+  border: none;
+  box-shadow: none;
+  margin: 0px;
+  background: transparent;
+  word-wrap: break-word;
+}
+
+.tooltipLabel{
+  margin-right: 5px;
+  margin-bottom: 0px;
+  font-family: 'ProximaNova-Bold', sans-serif;
+  word-wrap: break-word;
+}
+
+.tooltipData{
+  display: inline-flex;
+  min-width: 100px;
+  word-wrap: break-word;
+  line-height: 20px;
+}
+
+/* Tooltip text */
+.commentTooltiptext {
+   visibility: hidden;
+   width: 175px;
+   background-color: #555;
+   color: #fff;
+   padding: 5px 0;
+
+   /* Position the tooltip text */
+   position: absolute;
+   right: -190px;
+   margin-left: -60px;
+   z-index: 2;
+   font-size: 12px;
+
+   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+   transition: 0.3s;
+}
+
+.commentTooltiptext:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.commentTooltiptext {
+   visibility: visible;
+   opacity: 1;
+}
+
+/* Tooltip Modal */
+.commentTooltipModal {
+   visibility: hidden;
+   width: 250px;
+   background-color: #555;
+   color: #fff;
+   padding: 5px 0;
+
+   /* Position the tooltip text */
+   position: absolute;
+   right: -265px;
+   margin-left: -60px;
+   z-index: 2;
+   font-size: 12px;
+
+   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+   transition: 0.3s;
+}
+
+.commentTooltipModal:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.commentTooltipModal {
+   visibility: visible;
+   opacity: 1;
+}
+
+
+/* Tooltip text */
+.addCommentTooltiptext {
+   visibility: hidden;
+   width: 250px;
+   height: auto;
+   background-color: #555;
+   color: #fff;
+   padding: 5px 0;
+
+   /* Position the tooltip text */
+   position: absolute;
+   right: -255px;
+   z-index: 9999;
+   font-size: 12px;
+
+   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+   transition: 0.3s;
+}
+
+.addCommentTooltiptext:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+/* Tooltip arrow */
+.addCommentTooltiptext::after {
+   content: "";
+   position: absolute;
+   top: 10%;
+   left: -10px;
+   margin-left: -5px;
+   border-width: 8px;
+   border-style: solid;
+   border-color: transparent #555 transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.addCommentTooltiptext {
+   visibility: visible;
+   opacity: 1;
+}
+
+.CommentTextarea {
+      width: 90%;
+      height: 85px;
+      padding: 7px 14px;
+      box-sizing: border-box;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      background-color: #f8f8f8;
+      resize: none;
+}
+
+.CommentModalTextarea {
+      width: 90%;
+      height: 75px;
+      padding: 7px 14px;
+      box-sizing: border-box;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      background-color: #f8f8f8;
+      resize: none;
+}
+
+
+.layer{
+  font-size: 22px;
+  width: 130px;
+  padding: 5px 0px 5px 0px;
+  text-align: center;
+  position: absolute;
+  z-index: 20;
+  border-radius: 10px;
+  background: #e15e4f;
+  color: white;
+  cursor: pointer;
+}
+
+.selected{
+  box-shadow: 0px 0px 30px #aaa;
+  -o-box-shadow: 0px 0px 30px #aaa;
+  -webkit-box-shadow: 0px 0px 30px #aaa;
+  -moz-box-shadow: 0px 0px 30px #aaa;
+}
+
+.highlighted {
+  border: 3px solid black;
+  box-shadow: 0px 0px 30px #aaa;
+  -o-box-shadow: 0px 0px 30px #aaa;
+  -webkit-box-shadow: 0px 0px 30px #aaa;
+  -moz-box-shadow: 0px 0px 30px #aaa;
+}
+
+.highlight-style {
+  background: black;
+  color: white;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  font-size: 11px;
+  padding: 0px 5px 0px 0px;
+}
+
+.jsplumb-connector {
+  z-index: 21;
+}
+
+.jsplumb-endpoint, .endpointTargetLabel, .endpointSourceLabel {
+  z-index: 20;
+}
+
+.jsplumb-endpoint {
+  cursor: pointer;
+}
+
+.jsplumb-drag {
+  cursor: move;
+}
+
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Required to make elements draggable in old WebKit */
+  -khtml-user-drag: element;
+  -webkit-user-drag: element;
+}
+
+.jsplumb-connected {
+  /*border: 1px solid black;
+  box-shadow: 0px 0px 5px #aaa;
+  -o-box-shadow: 0px 0px 5px #aaa;
+  -webkit-box-shadow: 0px 0px 5px #aaa;
+  -moz-box-shadow: 0px 0px 5px #aaa;*/
+}
+
+.layer.jsplumb-drag {
+  box-shadow: 0px 0px 30px #aaa;
+  -o-box-shadow: 0px 0px 30px #aaa;
+  -webkit-box-shadow: 0px 0px 30px #aaa;
+  -moz-box-shadow: 0px 0px 30px #aaa;
+}
+
+.jsplumb-endpoint {
+  cursor: pointer;
+}
+
+.error{
+    padding: 10px;
+    width:40%;
+    padding-left: 10px;
+    color: white;
+    background-color: #f44336;
+    border: none;
+    z-index: 120;
+    position: absolute;
+    top: 3%;
+    left:30%;
+    border-radius: 5px;
+    white-space: pre-line;
+}
+
+.info{
+    padding: 10px;
+    width:40%;
+    padding-left: 10px;
+    color: white;
+    background-color: #23b827;
+    border: none;
+    z-index: 120;
+    position: absolute;
+    top: 3%;
+    left:30%;
+    border-radius: 5px;
+    white-space: pre-line;
+}
+
+.info a{
+    color: white !important;
+    text-decoration:underline;
+    cursor: default;
+}
+.info a:hover{
+    cursor: pointer;
+}
+
+.alert-dismissible .close {
+    position: relative;
+    top: -2px;
+    right: -21px;
+    color: inherit;
+}
+button.close {
+    -webkit-appearance: none;
+    padding: 0;
+    cursor: pointer;
+    background: 0 0;
+    border: 0;
+}
+
+.close {
+    float: right;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: .2;
+}
+
+#model-dropdown{
+  z-index: 999;
+}
+
+#placeholder{
+  margin-top: 30%;
+  color: #808080;
+  font-style: italic;
+}
+
+#model-dropdown:hover #addModelDropdown {
+    display: block;
+}
+
+#pane-dropdown:hover #addLayerDropdown {
+    display: block;
+}
+
+/*.nav-pills .dropdown-menu {*/
+.dropdown-menu {
+    margin-top: 0;
+    max-height: 500px;
+    min-width: 30px;
+    background-color: #455062;
+}
+
+.dropdown-menu > li > a{
+  padding: 5px;
+  color: white;
+  text-align: left;
+}
+
+.dropdown-submenu{
+  position:relative;
+}
+
+.dropdown-submenu>.dropdown-menu{
+  top:0;
+  left:100%;
+}
+
+.dropdown-submenu:hover>.dropdown-menu{
+  display:block;
+}
+
+.dropdown-submenu>a:after{
+  display:block;
+  content:" ";
+  float:right;
+  width:0;
+  height:0;
+  border-color:transparent;
+  border-style:solid;
+  border-width:5px 0 5px 5px;
+  border-left-color:#cccccc;
+  margin-top:5px;
+  margin-right:-10px;
+}
+
+#python-dropdown {
+  padding: 6px 20px;
+  text-align: left;
+}
+
+.nav-pills>li {
+    margin-right: 30px !important;
+    padding-bottom: 5px;
+}
+
+#addLayerDropdown .btn{
+    border-radius: 0px;
+    border: 1px solid transparent;
+    cursor: move;
+}
+
+#addModelDropdown .btn{
+    border-radius: 0px;
+    border: 1px solid transparent;
+}
+
+button
+{
+    border: 0;
+    padding: 0px;
+    margin: 0px;
+    /*font-size: 28px;*/
+    -webkit-appearance: none;
+    outline: none;
+    background: transparent;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    /*user-select: none;*/
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.dropdown-menu label{
+    width:100%;
+    font-weight: normal;
+    padding: 0px;
+    margin: 0px;
+}
+
+.dropdown-menu .filter{
+    width:88%;
+    font-weight: normal;
+    padding: 0px;
+    margin: 0px;
+}
+
+#sidebar-scroll::-webkit-scrollbar-track
+{
+  background-color: #F5F5F5;
+}
+
+#sidebar-scroll::-webkit-scrollbar
+{
+  width: 12px;
+  background-color: #F5F5F5;
+}
+
+#sidebar-scroll::-webkit-scrollbar-thumb
+{
+  background-color: #455062;
+}
+
+#panZoomContainer::-webkit-scrollbar-track
+{
+  background-color: #F5F5F5;
+}
+
+#panZoomContainer::-webkit-scrollbar
+{
+  width: 12px;
+  background-color: #F5F5F5;
+}
+
+#panZoomContainer::-webkit-scrollbar-thumb
+{
+  background-color: #455062;
+}
+
+.setparamsActive::-webkit-scrollbar-track
+{
+  background-color: #F5F5F5;
+}
+
+.setparamsActive::-webkit-scrollbar
+{
+  width: 12px;
+  background-color: #F5F5F5;
+}
+
+.setparamsActive::-webkit-scrollbar-thumb
+{
+  background-color: #cdcfd2;
+}
+
+.dropdown-menu::-webkit-scrollbar-track
+{
+  background-color: #F5F5F5;
+}
+
+.dropdown-menu::-webkit-scrollbar
+{
+  width: 12px;
+  background-color: #F5F5F5;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb
+{
+  background-color: #cdcfd2;
+}
+
+/* css loader*/
+.loaderOverlay {
+  background: #959393;
+  opacity: 0.3;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 5;
+}
+
+.loader:before,
+.loader:after,
+.loader {
+  border-radius: 50%;
+  width: 2.5em;
+  height: 2.5em;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation: load7 1.8s infinite ease-in-out;
+  animation: load7 1.8s infinite ease-in-out;
+}
+.loader {
+  color: #FFFFFF;
+  font-size: 10px;
+  left:40%;
+  top:45%;
+  position: absolute;
+  z-index: 5;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+  transform:scale(0.5);
+}
+.loader:before {
+  left: -3.5em;
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+.loader:after {
+  left: 3.5em;
+}
+.loader:before,
+.loader:after {
+  content: '';
+  position: absolute;
+  top: 0;
+}
+.my-models-list-item {
+  float: left;
+  color: #848a92;
+}
+.my-models-list-item:hover {
+  color: black !important;
+}
+@-webkit-keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0;
+  }
+}
+@keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0;
+  }
+}
+
+@media(max-width: 1200px) {
+  #main {
+    left: 0;
+    width: 100%;
+    z-index: 10;
+  }
+  .ReactModal__Overlay {
+    z-index: 100;
+  }
+  #sidebar {
+    width: 240px;
+    z-index: 20;
+    transform: translateX(-240px);
+    transition: transform 0.1s ease-in-out;
+  }
+
+  #sidebar.visible {
+    transform: translateX(0);
+  }
+
+  .sidebar-button {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    width: 3rem;
+    height: 3rem;
+    z-index: 30;
+    cursor: pointer;
+  }
+
+  .sidebar-button:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+    height: 0.2rem;
+    width: 1.5rem;
+    background: #333;
+    transition: all 0.1s ease-in-out;
+  }
+
+  .sidebar-button:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+    height: 1.2rem;
+    width: 1.5rem;
+    border-top: 0.2rem solid #333;
+    border-bottom: 0.2rem solid #333;
+    transition: all 0.1s ease-in-out;
+  }
+
+  .sidebar-button.close:before {
+    background: white;
+    width: 1.2rem;
+    transform: rotate(45deg)
+  }
+
+  .sidebar-button.close:after {
+    height: 0.2rem;
+    width: 1.2rem;
+    border-top: 0px solid #333;
+    border-bottom: 0px solid #333;
+    background: white;
+    transform: rotate(-45deg)
+  }
+}

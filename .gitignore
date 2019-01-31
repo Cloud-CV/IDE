@@ -1,0 +1,31 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+.Python
+env/
+
+.coverage
+.coverage.*
+.cache
+.DS_Store
+
+# Django stuff:
+*.log
+*.sqlite3
+settings/dev.py
+
+# Sphinx documentation
+docs/build/
+
+node_modules/
+
+*.pyc
+
+*/migrations/
+
+ide/static/bundle/
+
+.vscode/
+
+celerybeat-schedule

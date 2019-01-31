@@ -1,0 +1,66 @@
+.insert-layer-title {
+	position: relative;
+}
+
+#layer-search-icon {
+	position: relative;
+	left: -5px;
+	top: 0px;
+	float: left;
+}
+
+#model-search-icon {
+	position: relative;
+	left: 0px;
+	top: 0px;
+	float: left;
+}
+
+#layer-search-icon:hover {
+	cursor: pointer;
+}
+
+#layer-search-input {
+	position: relative;
+	top: 0px;
+	left: 0px;
+	width: 60%;
+	height: 25px;
+	font-size: 15px;
+	background: none;
+	border: none;
+	color: rgb(69, 80, 97);
+	outline: none;
+	opacity: 1;
+	transition: 0.3s;
+}
+
+#model-search-input {
+	position: relative;
+	top: 0px;
+	left: 0px;
+	width: 60%;
+	height: 25px;
+	font-size: 15px;
+	background: none;
+	border: none;
+	color: rgb(69, 80, 97);
+	outline: none;
+	opacity: 1;
+	transition: 0.3s;
+}
+
+.filter-button {
+	height: 24px !important;
+}
+
+.filter-glyphicon {
+	top: 0px;
+}
+.layer-search-input-selected {
+	opacity: 1 !important;
+}
+
+.matched-search-char {
+	color: rgb(69, 80, 97);
+}
