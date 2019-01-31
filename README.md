@@ -15,6 +15,8 @@ This app is presently under active development and we welcome contributions. Ple
 ## Installation Instructions
 
 Setting up Fabrik on your local machine is very easy. You can setup Fabrik using two methods:
+1. Using Docker. Instructions can be found [here](#using-docker).
+2. Using Virtual Environment. Instructions can be found [here](#using-virtual-environment).
 
 ### Using Docker
 
