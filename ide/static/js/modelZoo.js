@@ -151,7 +151,7 @@ class ModelZoo extends React.Component {
             <ModelElement importNet={this.props.importNet} framework="caffe" id="SENet" displayName="SENet"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="keras" id="imdb_cnn_lstm" displayName="IMDB CNN LSTM"> </ModelElement>
             <ModelElement importNet={this.props.importNet} framework="caffe" id="simpleNet" displayName="SimpleNet"> </ModelElement>
-            <ModelElement importNet={this.props.importNet} framework="keras" id="capsnet" displayName="CapsuleNet"> </ModelElement>
+            <ModelElement importNet={this.props.importNet} framework="keras" id="capsnet" displayName="capsnet"> </ModelElement>
           </div>
           <div ref="detection">
             <ModelElement importNet={this.props.importNet} framework="caffe" id="vanilla" displayName="Vanilla CNN"> </ModelElement>
