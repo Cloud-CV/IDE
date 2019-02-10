@@ -9,7 +9,8 @@ from urlparse import urlparse
 from layers_import import import_placeholder, import_conv2d, import_conv3d, import_deconvolution, \
                         import_depthwise_convolution, import_pooling2d, import_pooling3d, \
                         import_inner_product, import_batchnorm, import_eltwise, import_activation, \
-                        import_dropout, import_flatten, import_concat, import_lrn
+                        import_dropout, import_flatten, import_concat, import_lrn, \
+                        import_capsulelayer, import_maskcapsule, import_squash, import_length
 
 from layers_import import get_layer_name, get_layer_type, jsonLayer, activation_layers
 
@@ -24,6 +25,10 @@ layer_map = {
     'FusedBatchNorm': import_batchnorm,
     'Conv2DBackpropInput': import_deconvolution,
     'LRN': import_lrn,
+    'CapsuleLayer': import_capsulelayer,
+    'MaskCapsule': import_maskcapsule,
+    'Squash': import_squash,
+    'Length': import_length,
     'MatMul': import_inner_product,
     'Prod': import_inner_product,
     'Concat': import_concat,
@@ -35,6 +40,10 @@ name_map = {
     'flatten': import_flatten,
     'dropout': import_dropout,
     'lrn': import_lrn,
+    'capsule_layer': import_capsulelayer,
+    'mask_capsule': import_maskcapsule,
+    'squash': import_squash,
+    'length': import_length,
     'concatenate': import_concat,
     'batch': import_batchnorm,
     'BatchNorm': import_batchnorm,

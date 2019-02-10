@@ -6,6 +6,7 @@ class ModelElement extends React.Component {
   }
   render() {
     if (this.props.children){
+      console.log(this.props)
       return (
         <div id={this.props.displayName} className="col-sm-6 col-md-4">
           <div className="btn thumbnail text-center" onClick={() => this.props.importNet('sample'+this.props.framework, this.props.id)}>

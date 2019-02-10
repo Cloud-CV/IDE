@@ -161,6 +161,9 @@ class Pane extends React.Component {
                     <PaneElement setDraggingLayer={this.props.setDraggingLayer}
                       handleClick={this.props.handleClick}
                       id="DepthwiseConv_Button">Depthwise Convolution</PaneElement>
+                    <PaneElement setDraggingLayer={this.props.setDraggingLayer}
+                      handleClick={this.props.handleClick}
+                      id="CapsuleLayer_Button">Capsule Layer</PaneElement>
                   </div>
                 </div>
               </div>
@@ -252,7 +255,10 @@ class Pane extends React.Component {
                       id="Masking_Button">Masking</PaneElement>
                     <PaneElement setDraggingLayer={this.props.setDraggingLayer}
                       handleClick={this.props.handleClick}
-                      id="Slice_Button">Slice</PaneElement>
+                      id="Length_Button">Length</PaneElement>
+                    <PaneElement setDraggingLayer={this.props.setDraggingLayer}
+                      handleClick={this.props.handleClick}
+                      id="MaskCapsule_Button">Mask Capsule</PaneElement>
                   </div>
                 </div>
               </div>
@@ -324,7 +330,7 @@ class Pane extends React.Component {
                       id="Scale_Button">Scale</PaneElement>
                     <PaneElement setDraggingLayer={this.props.setDraggingLayer}
                       handleClick={this.props.handleClick}
-                      id="Linear_Button">Linear</PaneElement>
+                      id="Squash_Button">Squash</PaneElement>
                   </div>
                 </div>
               </div>

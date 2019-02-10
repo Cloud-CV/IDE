@@ -18,6 +18,10 @@ from keras.layers import Input
 from keras.layers import TimeDistributed, Bidirectional
 from keras import regularizers
 from ..custom_layers.lrn import LRN
+from ..custom_layers.capsule_layer import CapsuleLayer
+from ..custom_layers.length import Length
+from ..custom_layers.mask_capsule import MaskCapsule
+from ..custom_layers.squash import Squash
 
 fillerMap = {
     'constant': 'Constant',
@@ -130,6 +134,13 @@ def activation(layer, layer_in, layerId, tensor=True):
     return out
 
 
+def squash(layer, layer_in, layerId):
+    axis = layer['params']['axis']
+    out = {}
+    out[layerId] = Squash(axis=axis)(*layer_in)
+    return out
+
+
 def dropout(layer, layer_in, layerId, tensor=True):
     out = {layerId: Dropout(0.5)}
     if tensor:
@@ -179,6 +190,18 @@ def masking(layer, layer_in, layerId, tensor=True):
     out = {layerId: Masking(mask_value=layer['params']['mask_value'])}
     if tensor:
         out[layerId] = out[layerId](*layer_in)
+    return out
+
+
+def length(layer, layer_in, layerId):
+    out = {}
+    out[layerId] = Length()(*layer_in)
+    return out
+
+
+def mask_capsule(layer, layer_in, layerId):
+    out = {}
+    out[layerId] = MaskCapsule()(*layer_in)
     return out
 
 
@@ -365,6 +388,17 @@ def upsample(layer, layer_in, layerId, tensor=True):
     out[layerId] = upsampleMap[layer_type](size=size)
     if tensor:
         out[layerId] = out[layerId](*layer_in)
+    return out
+
+
+# ********** Capsule Layers **********
+def capsule_layer(layer, layer_in, layerId):
+    num_capsule = layer['params']['num_capsule']
+    dim_capsule = layer['params']['dim_capsule']
+    num_routing = layer['params']['num_routing']
+    out = {}
+    out[layerId] = CapsuleLayer(num_capsule=num_capsule, dim_capsule=dim_capsule,
+                                num_routing=num_routing)(*layer_in)
     return out
 
 

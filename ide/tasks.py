@@ -13,7 +13,7 @@ from keras.models import Model
 from keras_app.views.layers_export import data, convolution, deconvolution, pooling, dense, dropout, embed,\
     recurrent, batch_norm, activation, flatten, reshape, eltwise, concat, upsample, locally_connected,\
     permute, repeat_vector, regularization, masking, gaussian_noise, gaussian_dropout, alpha_dropout, \
-    bidirectional, time_distributed, lrn, depthwiseConv
+    bidirectional, time_distributed, lrn, depthwiseConv, capsule_layer, squash, length, mask_capsule
 from keras_app.custom_layers import config as custom_layers_config
 from keras.models import model_from_json
 import tensorflow as tf
@@ -111,7 +111,11 @@ def export_keras_json(net, net_name, is_tf, reply_channel):
     }
 
     custom_layers_map = {
-        'LRN': lrn
+        'LRN': lrn,
+        'CapsuleLayer': capsule_layer,
+        'Length': length,
+        'MaskCapsule': mask_capsule,
+        'Squash': squash
     }
 
     # Remove any duplicate activation layers (timedistributed and bidirectional layers)
@@ -200,7 +204,6 @@ def export_keras_json(net, net_name, is_tf, reply_channel):
             })
         })
         return
-
     while(len(stack)):
         if ('Loss' in net[layerId]['info']['type'] or
                 net[layerId]['info']['type'] == 'Accuracy'):
@@ -214,6 +217,10 @@ def export_keras_json(net, net_name, is_tf, reply_channel):
             if (net[layerId]['info']['type'] != 'Scale'):
                 layer_in = [net_out[inputId]
                             for inputId in net[layerId]['connection']['input']]
+                # Handling MaskCapsule layer seperately
+                if (net[layerId]['info']['type'] == 'MaskCapsule'):
+                    layer_in = [[net_out[inputId]
+                                 for inputId in net[layerId]['connection']['input']]]
             # Need to check if next layer is Scale
             if (net[layerId]['info']['type'] == 'BatchNorm'):
                 idNext = net[layerId]['connection']['output'][0]
@@ -310,8 +317,16 @@ def export_keras_json(net, net_name, is_tf, reply_channel):
 
         json_str = json_str.strip("'<>() ").replace('\'', '\"')
         lrnLayer = imp.load_source('LRN', BASE_DIR + '/keras_app/custom_layers/lrn.py')
+        capsuleLayer = imp.load_source('CapsuleLayer', BASE_DIR + '/keras_app/custom_layers/capsule_layer.py')
+        maskcapsuleLayer = imp.load_source('MaskCapsule',
+                                           BASE_DIR + '/keras_app/custom_layers/mask_capsule.py')
+        squashLayer = imp.load_source('Squash', BASE_DIR + '/keras_app/custom_layers/squash.py')
+        lengthLayer = imp.load_source('Length', BASE_DIR + '/keras_app/custom_layers/length.py')
 
-        model = model_from_json(json_str, {'LRN': lrnLayer.LRN})
+        model = model_from_json(json_str, {'LRN': lrnLayer.LRN, 'CapsuleLayer': capsuleLayer.CapsuleLayer,
+                                           'MaskCapsule': maskcapsuleLayer.MaskCapsule,
+                                           'Length': lengthLayer.Length,
+                                           'Squash': squashLayer.Squash})
 
         sess = K.get_session()
         tf.train.write_graph(sess.graph.as_graph_def(add_shapes=True), output_fld,

@@ -53,6 +53,12 @@ def Activation(layer):
         return jsonLayer(activationMap[layer.activation.func_name], {}, tempLayer)
 
 
+def squash(layer):
+    params = {}
+    params['axis'] = layer.axis
+    return jsonLayer('Squash', params, layer)
+
+
 def Dropout(layer):
     params = {}
     if (layer.rate is not None):
@@ -98,6 +104,16 @@ def Masking(layer):
     params = {}
     params['mask_value'] = layer.mask_value
     return jsonLayer('Masking', params, layer)
+
+
+def length(layer):
+    params = {}
+    return jsonLayer('Length', params, layer)
+
+
+def mask_capsule(layer):
+    params = {}
+    return jsonLayer('MaskCapsule', params, layer)
 
 
 # ********** Convolutional Layers **********
@@ -224,6 +240,15 @@ def Upsample(layer):
         params['size_w'], params['size_h'], params['size_d'] = layer.size
         params['layer_type'] = '3D'
     return jsonLayer('Upsample', params, layer)
+
+
+# ********** Capsule Layers **********
+def capsule_layer(layer):
+    params = {}
+    params['num_capsule'] = layer.num_capsule
+    params['dim_capsule'] = layer.dim_capsule
+    params['num_routing'] = layer.num_routing
+    return jsonLayer('CapsuleLayer', params, layer)
 
 
 # ********** Pooling Layers **********

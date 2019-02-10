@@ -28,7 +28,14 @@ with open(output_fld + input_file, 'r') as f:
 
 json_str = json_str.strip("'<>() ").replace('\'', '\"')
 lrn = imp.load_source('LRN', BASE_DIR + '/keras_app/custom_layers/lrn.py')
-model = model_from_json(json_str, {'LRN': lrn.LRN})
+capsule_layer = imp.load_source('CapsuleLayer', BASE_DIR + '/keras_app/custom_layers/capsule_layer.py')
+mask_capsule = imp.load_source('MaskCapsule', BASE_DIR + '/keras_app/custom_layers/mask_capsule.py')
+length = imp.load_source('Length', BASE_DIR + '/keras_app/custom_layers/length.py')
+squash = imp.load_source('Squash', BASE_DIR + '/keras_app/custom_layers/squash.py')
+model = model_from_json(json_str, {'LRN': lrn.LRN, 'CapsuleLayer': capsule_layer.CapsuleLayer,
+                                   'Length': length.Length,
+                                   'MaskCapsule': mask_capsule.MaskCapsule,
+                                   'Squash': squash.Squash})
 
 sess = K.get_session()
 tf.train.write_graph(sess.graph.as_graph_def(add_shapes=True), output_fld,

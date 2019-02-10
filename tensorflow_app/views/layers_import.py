@@ -458,6 +458,36 @@ def import_lrn(layer_ops):
     return jsonLayer('LRN', layer_params, get_input_layers(layer_ops), [])
 
 
+def import_capsulelayer(layer_ops):
+    layer_params = {}
+    for node in layer_ops:
+        if ('num_capsule' in node.node_def.attr):
+            layer_params['num_capsule'] = node.get_attr('num_capsule')
+        if ('dim_capsule' in node.node_def.attr):
+            layer_params['dim_capsule'] = node.get_attr('dim_capsule')
+        if ('num_routing' in node.node_def.attr):
+            layer_params['num_routing'] = node.get_attr('num_routing')
+
+    return jsonLayer('CapsuleLayer', layer_params, get_input_layers(layer_ops), [])
+
+
+def import_squash(layer_ops):
+    layer_params = {}
+    for node in layer_ops:
+        if ('axis' in node.node_def.attr):
+            layer_params['axis'] = node.get_attr('axis')
+
+    return jsonLayer('Squash', layer_params, get_input_layers(layer_ops), [])
+
+
+def import_maskcapsule(layer_ops):
+    return jsonLayer('MaskCapsule', [], get_input_layers(layer_ops), [])
+
+
+def import_length(layer_ops):
+    return jsonLayer('Length', [], get_input_layers(layer_ops), [])
+
+
 def jsonLayer(layer_type, layer_params={}, inputs=[], outputs=[]):
     layer = {
         'info': {

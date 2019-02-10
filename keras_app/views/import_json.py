@@ -10,10 +10,14 @@ from layers_import import Input, Convolution, Deconvolution, Pooling, Dense, Dro
     Recurrent, BatchNorm, Activation, LeakyReLU, PReLU, ELU, Scale, Flatten, Reshape, Concat, \
     Eltwise, Padding, Upsample, LocallyConnected, ThresholdedReLU, Permute, RepeatVector,\
     ActivityRegularization, Masking, GaussianNoise, GaussianDropout, AlphaDropout, \
-    TimeDistributed, Bidirectional, DepthwiseConv, lrn
+    TimeDistributed, Bidirectional, DepthwiseConv, lrn, capsule_layer, length, mask_capsule, squash
 from keras.models import model_from_json, Sequential
 from keras.layers import deserialize
 from ..custom_layers.lrn import LRN
+from ..custom_layers.capsule_layer import CapsuleLayer
+from ..custom_layers.length import Length
+from ..custom_layers.mask_capsule import MaskCapsule
+from ..custom_layers.squash import Squash
 
 
 @csrf_exempt
@@ -49,7 +53,9 @@ def import_json(request):
         except Exception:
             return JsonResponse({'result': 'error', 'error': 'Invalid JSON'})
 
-    model = model_from_json(json.dumps(model), custom_objects={'LRN': LRN})
+    model = model_from_json(json.dumps(model),
+                            custom_objects={'LRN': LRN, 'Length': Length, 'MaskCapsule': MaskCapsule,
+                                            'Squash': Squash, 'CapsuleLayer': CapsuleLayer})
     layer_map = {
         'InputLayer': Input,
         'Dense': Dense,
@@ -114,7 +120,11 @@ def import_json(request):
         'AlphaDropout': AlphaDropout,
         'TimeDistributed': TimeDistributed,
         'Bidirectional': Bidirectional,
-        'LRN': lrn
+        'LRN': lrn,
+        'CapsuleLayer': capsule_layer,
+        'Length': length,
+        'MaskCapsule': mask_capsule,
+        'Squash': squash
     }
 
     hasActivation = ['Conv1D', 'Conv2D', 'Conv3D', 'Conv2DTranspose', 'Dense', 'LocallyConnected1D',
