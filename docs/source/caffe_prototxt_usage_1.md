@@ -1,4 +1,4 @@
-### Using an Exported Caffe Model
+### Loading an Exported Caffe Model
 
 In order to export a Caffe Model from Fabrik:
 

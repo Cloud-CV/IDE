@@ -1,4 +1,4 @@
-## Basics of Using the Exported Keras Model
+## Loading an exported Keras model
 
 We want to export our model for Keras from Fabrik.
 
