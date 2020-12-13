@@ -81,7 +81,7 @@ Here is an example:
 ```
 
  ### Example JSON Model File: 
-* [AllCNN.json](https://github.com/rpalakkal/Fabrik/blob/rpalakkal-internalModel/sample/internalModels/allCNN.json)
-* [LeNet.json](https://github.com/rpalakkal/Fabrik/blob/rpalakkal-internalModel/sample/internalModels/lenet.json)
-* [Cifar10CNN](https://github.com/rpalakkal/Fabrik/blob/rpalakkal-internalModel/sample/internalModels/cifar10cnn.json)
+* [Resnet50.json](https://github.com/Cloud-CV/Fabrik/blob/master/example/keras/resnet50.json)
+* [AlexNet.json](https://github.com/Cloud-CV/Fabrik/blob/master/example/keras/AlexNet.json)
+* [vgg16.json](https://github.com/Cloud-CV/Fabrik/blob/master/example/keras/vgg16.json)
 
